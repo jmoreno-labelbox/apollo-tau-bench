@@ -1,0 +1,306 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "res_01",
+        "actions": [
+          {
+            "name": "SearchEmployees",
+            "kwargs": {
+              "filters": {
+                "first_name": "Daniel",
+                "last_name": "Kim"
+              }
+            }
+          },
+          {
+            "name": "GetEmployee",
+            "kwargs": {
+              "employee_id": "E10002"
+            }
+          },
+          {
+            "name": "SetEmployeeBenefits",
+            "kwargs": {
+              "employee_id": "E10002",
+              "benefit_plan_ids": [
+                "BEN4001"
+              ]
+            }
+          },
+          {
+            "name": "GetEmployee",
+            "kwargs": {
+              "employee_id": "E10002"
+            }
+          }
+        ],
+        "instruction": "Delete the Dental Plan (BEN4002) from Michael Park's benefits with immediate effect and document the change.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.001755,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "8aa479028d6d5f02dcf2f1f67f1787249b697e78a07c86fe24ca8acfb36260f5"
+        },
+        "actions": [
+          {
+            "name": "SearchEmployees",
+            "kwargs": {
+              "filters": {
+                "first_name": "Daniel",
+                "last_name": "Kim"
+              }
+            }
+          },
+          {
+            "name": "GetEmployee",
+            "kwargs": {
+              "employee_id": "E10002"
+            }
+          },
+          {
+            "name": "SetEmployeeBenefits",
+            "kwargs": {
+              "employee_id": "E10002",
+              "benefit_plan_ids": [
+                "BEN4001"
+              ]
+            }
+          },
+          {
+            "name": "GetEmployee",
+            "kwargs": {
+              "employee_id": "E10002"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"As a smart HR assistant, you have the capability to manipulate this company's HR data, which includes details about employees, departments, benefits, performance reviews, leaves, and other HR-related information.\",\n    \"Your responsibility is to receive the user's request and modify the HR database state accordingly.\",\n    \"You are required to review your available tools IND order to identify the optimal method for modifying the state of the HR database.\",\n    \"The method for altering the state of the HR database involves utilizing your available tools, specifically by invoking the APIs.\",\n    \"You must never fabricate any information or knowledge that has not been supplied by the user or obtained from the tools.\",\n    \"You may make no more than one tool call at any given time, and when a tool call is made, you must not provide a response to the user simultaneously.\",\n    \"Any modification to an employee's permanent work location requires updating their record and officially recording the change with a performance review note.\",\n    \"To process equity adjustments, a new compensation record must be created. The value of the new equity grant is determined by adding the refresh amount to the employee's existing grant.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I need to make a change to one of the benefits for Michael Park. Can you help with that?"
+      },
+      {
+        "content": "Please provide me with the specific details of the change you would like to make to Michael Park's benefits, such as which benefit you want to change and what the new details should be.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I need to remove a specific benefit from his plan. The benefit code is BEN4002. Can you do that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"employee_id\":\"Michael Park\"}",
+              "name": "list_employee_documents"
+            },
+            "id": "call_ZDDxShGWBKuBJsuxIkWMUqXI",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ZDDxShGWBKuBJsuxIkWMUqXI",
+        "name": "list_employee_documents",
+        "content": "{\n  \"count\": 0,\n  \"results\": []\n}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "search_employees"
+            },
+            "id": "call_MizyqNqFXPNP0UoDuxbipnRt",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_MizyqNqFXPNP0UoDuxbipnRt",
+        "name": "search_employees",
+        "content": "Error: search_employees.invoke() missing 1 required positional argument: 'filters'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "search_employees"
+            },
+            "id": "call_BYqNn1oH4Y5rNmY0UpRyKP2J",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_BYqNn1oH4Y5rNmY0UpRyKP2J",
+        "name": "search_employees",
+        "content": "Error: search_employees.invoke() missing 1 required positional argument: 'filters'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"employee_id\":\"Michael Park\"}",
+              "name": "get_employee"
+            },
+            "id": "call_LqU5WyKmalx4NO6bYGa22OhY",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_LqU5WyKmalx4NO6bYGa22OhY",
+        "name": "get_employee",
+        "content": "{\n  \"error\": \"employee_id Michael Park not found\"\n}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "search_employees"
+            },
+            "id": "call_rMfnQdUbg9ou3v2t4tOX6xRZ",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_rMfnQdUbg9ou3v2t4tOX6xRZ",
+        "name": "search_employees",
+        "content": "Error: search_employees.invoke() missing 1 required positional argument: 'filters'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "get_unused_employee_id"
+            },
+            "id": "call_NCf6eiIlCNecNDmOhsv1JnPG",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_NCf6eiIlCNecNDmOhsv1JnPG",
+        "name": "get_unused_employee_id",
+        "content": "\"E10000\""
+      },
+      {
+        "content": "It seems that I need to find Michael Park's employee ID to proceed with the benefit removal. However, I am currently unable to retrieve his information. \n\nCould you please provide me with Michael Park's employee ID or any other details that might help me locate his record?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I don't have his employee ID handy, but is there another way you could locate his record?"
+      },
+      {
+        "content": "I can search for Michael Park using his name. Let me do that to find his employee record. Please hold on for a moment.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"filters\":{\"first_name\":\"Michael\",\"last_name\":\"Park\"}}",
+              "name": "search_employees"
+            },
+            "id": "call_hoPqxZUoRfVhHZQktQw2Bdyr",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_hoPqxZUoRfVhHZQktQw2Bdyr",
+        "name": "search_employees",
+        "content": "{\n  \"count\": 0,\n  \"results\": []\n}"
+      },
+      {
+        "content": "It appears that I am unable to locate Michael Park's record using his name. This could be due to a variety of reasons, such as a different spelling or format of his name in the database.\n\nIf you have any additional information, such as his department or position, that could help narrow down the search, please provide that. Otherwise, I may need to explore other options to assist you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm afraid I don't have more information like his department or position. Is there any other way we can proceed with the request?"
+      },
+      {
+        "content": "Unfortunately, without more information to locate Michael Park's employee record, I'm unable to proceed with the benefit removal request at this time. \n\nIf you can obtain his employee ID or any additional details later, please let me know, and I'll be happy to assist you with the change. Alternatively, you may want to check with your HR department for assistance in retrieving his information.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, I'll check with HR and get back to you. Thanks for your help!"
+      },
+      {
+        "content": "You're welcome! If you have any other questions or need further assistance in the future, feel free to reach out. Good luck with your inquiry to HR!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll do that. Have a great day! \n\n###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

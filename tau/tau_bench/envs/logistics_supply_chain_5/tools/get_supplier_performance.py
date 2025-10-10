@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetSupplierPerformance(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], supplier_id: str) -> str:
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
 
         supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
 

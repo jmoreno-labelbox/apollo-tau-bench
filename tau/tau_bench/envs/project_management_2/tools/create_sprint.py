@@ -20,8 +20,8 @@ class CreateSprint(Tool):
                 {"error": "sprint_name, start_date, end_date, and team_id are required"}
             )
 
-        sprints = data.get("sprints", [])
-        teams = data.get("teams", [])
+        sprints = list(data.get("sprints", {}).values())
+        teams = list(data.get("teams", {}).values())
 
         team = next((t for t in teams if t.get("team_id") == team_id), None)
         if not team:

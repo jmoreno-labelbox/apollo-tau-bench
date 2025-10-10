@@ -9,7 +9,7 @@ class AnalyzeInventoryByCategory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str) -> str:
         inventory = list(data.get("inventory", {}).values())
-        product_master = data.get("product_master", [])
+        product_master = list(data.get("product_master", {}).values())
 
         warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
 

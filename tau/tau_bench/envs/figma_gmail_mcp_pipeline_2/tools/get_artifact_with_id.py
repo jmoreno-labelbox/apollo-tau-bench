@@ -12,7 +12,7 @@ class GetArtifactWithId(Tool):
             return json.dumps({"error": "Missing required field: artifact_id"}, indent=2)
 
         artifact_id = kwargs.get("artifact_id")
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = list(data.get("figma_artifacts", {}).values())
         for row in artifacts:
             if row.get("artifact_id") == artifact_id:
                 return json.dumps(row, indent=2)

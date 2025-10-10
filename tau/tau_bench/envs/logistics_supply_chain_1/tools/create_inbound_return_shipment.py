@@ -17,7 +17,7 @@ class CreateInboundReturnShipment(Tool):
         if not all([rma_id, from_customer_id, to_warehouse_id, carrier_scac]):
             return json.dumps({"error": "rma_id, from_customer_id, to_warehouse_id, and carrier_scac are required."}, indent=2)
 
-        inbound_shipments = data.get('inbound_shipments', [])
+        inbound_shipments = list(data.get('inbound_shipments', {}).values())
         max_ship_id = max((int(s.get('shipment_id', 'SHIP-0').split('-')[1]) for s in inbound_shipments), default=0)
         new_shipment_id = f"SHIP-{max_ship_id + 1:04d}"
 

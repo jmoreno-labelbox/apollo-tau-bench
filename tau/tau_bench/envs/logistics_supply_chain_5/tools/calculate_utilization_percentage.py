@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class CalculateUtilizationPercentage(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str) -> str:
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
 
         if not warehouse:

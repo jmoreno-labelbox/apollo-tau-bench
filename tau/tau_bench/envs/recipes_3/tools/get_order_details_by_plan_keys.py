@@ -18,7 +18,7 @@ class GetOrderDetailsByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return json({"order": None, "items": []})
+            return json.dumps({"order": None, "items": []})
         gl = next(
             (
                 lt
@@ -28,7 +28,7 @@ class GetOrderDetailsByPlanKeys(Tool):
             None,
         )
         if not gl:
-            return json({"order": None, "items": []})
+            return json.dumps({"order": None, "items": []})
         orders = [
             o
             for o in list(data.get("orders", {}).values())
@@ -37,14 +37,14 @@ class GetOrderDetailsByPlanKeys(Tool):
             and int(o.get("list_id")) == int(gl.get("list_id"))
         ]
         if not orders:
-            return json({"order": None, "items": []})
+            return json.dumps({"order": None, "items": []})
         order = sorted(orders, key=lambda o: int(o.get("order_id", 0)), reverse=True)[0]
         items = [
             i
             for i in data.get("order_items", [])
             if int(i.get("order_id")) == int(order.get("order_id"))
         ]
-        return json({"order": order, "items": items})
+        return json.dumps({"order": order, "items": items})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

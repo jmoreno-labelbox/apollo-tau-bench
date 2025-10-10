@@ -12,7 +12,7 @@ class SearchInboundShipments(Tool):
         destination_warehouse_id = kwargs.get("destination_warehouse_id")
         status = kwargs.get("status")
 
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = list(data.get("inbound_shipments", {}).values())
         inventory = list(data.get("inventory", {}).values())
 
         # Find current inventory for the SKU/warehouse

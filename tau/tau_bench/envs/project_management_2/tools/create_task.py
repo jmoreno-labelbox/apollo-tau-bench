@@ -22,7 +22,7 @@ class CreateTask(Tool):
 
         tasks = list(data.get("tasks", {}).values())
         employees = list(data.get("employees", {}).values())
-        sprints = data.get("sprints", [])
+        sprints = list(data.get("sprints", {}).values())
 
         assignee = next(
             (emp for emp in employees if emp.get("employee_id") == assignee_id), None

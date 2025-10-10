@@ -24,7 +24,7 @@ class UpdateOrderStatusByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return json({"error": "meal_plan not found for keys"})
+            return json.dumps({"error": "meal_plan not found for keys"})
         gl = next(
             (
                 lt
@@ -34,7 +34,7 @@ class UpdateOrderStatusByPlanKeys(Tool):
             None,
         )
         if not gl:
-            return json({"error": "grocery_list not found for plan"})
+            return json.dumps({"error": "grocery_list not found for plan"})
         orders = [
             o
             for o in list(data.get("orders", {}).values())
@@ -43,11 +43,11 @@ class UpdateOrderStatusByPlanKeys(Tool):
             and int(o.get("list_id")) == int(gl.get("list_id"))
         ]
         if not orders:
-            return json({"error": "order not found for keys"})
+            return json.dumps({"error": "order not found for keys"})
         order = sorted(orders, key=lambda o: int(o.get("order_id", 0)), reverse=True)[0]
         order["status_enum"] = str(new_status)
         order["last_status_update_at"] = "2025-01-02T11:05:00"
-        return json({"order": order})
+        return json.dumps({"order": order})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

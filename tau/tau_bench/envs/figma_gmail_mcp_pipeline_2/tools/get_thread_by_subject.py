@@ -15,7 +15,7 @@ class GetThreadBySubject(Tool):
         sender_id: Optional[str] = kwargs.get("sender_id")
         label: Optional[str] = kwargs.get("label")
 
-        threads: List[Dict[str, Any]] = data.get("gmail_threads", [])
+        threads: List[Dict[str, Any]] = list(data.get("gmail_threads", {}).values())
         results: List[Dict[str, Any]] = []
         for row in threads:
             if row.get("subject") != subject:

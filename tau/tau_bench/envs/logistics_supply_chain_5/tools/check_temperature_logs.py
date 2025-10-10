@@ -9,7 +9,7 @@ class CheckTemperatureLogs(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         shipment_id = kwargs.get("shipment_id")
-        shipments = data.get("inbound_shipments", [])
+        shipments = list(data.get("inbound_shipments", {}).values())
         required_temp_range = kwargs.get("required_temp_range")
         shipment = next((s for s in shipments if s.get("shipment_id") == shipment_id), None)
         excursions_flag = kwargs.get("excursions_flag", False)

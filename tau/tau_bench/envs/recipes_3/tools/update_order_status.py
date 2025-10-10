@@ -10,11 +10,11 @@ class UpdateOrderStatus(Tool):
     def invoke(data: Dict[str, Any], order_id: int, new_status: str) -> str:
         row = _require(data, "orders", "order_id", int(order_id))
         if not row:
-            return json({"error": f"order_id {order_id} not found"})
+            return json.dumps({"error": f"order_id {order_id} not found"})
         row["status_enum"] = str(new_status)
         # Deterministic field to ensure write semantics even if status unchanged
         row["last_status_update_at"] = "2025-01-02T11:05:00"
-        return json({"order": row})
+        return json.dumps({"order": row})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

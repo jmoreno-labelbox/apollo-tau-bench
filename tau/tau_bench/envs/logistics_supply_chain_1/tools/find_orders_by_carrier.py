@@ -13,7 +13,7 @@ class FindOrdersByCarrier(Tool):
         status = kwargs.get('status')
         if not carrier_name:
             return json.dumps({"error": "carrier_name is a required argument."}, indent=2)
-        orders = data.get('outbound_orders', [])
+        orders = list(data.get('outbound_orders', {}).values())
         results = [o for o in orders if o.get('carrier_name') == carrier_name and (not status or o.get('status') == status)]
         return json.dumps(results, indent=2)
 

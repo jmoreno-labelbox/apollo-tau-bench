@@ -15,7 +15,7 @@ class MarkChecklistItemsReminded(Tool):
         updated_ts = _fixed_ts(kwargs.get("updated_ts"))
 
         updated = 0
-        for it in data.get("checklist_items", []):
+        for it in list(data.get("checklist_items", {}).values()):
             if it.get("item_id") in item_ids:
                 it["status"] = "Reminder Sent"
                 it["reminder_sent_flag"] = True

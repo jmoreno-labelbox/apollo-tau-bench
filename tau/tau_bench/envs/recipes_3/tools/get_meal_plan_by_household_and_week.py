@@ -17,7 +17,7 @@ class GetMealPlanByHouseholdAndWeek(Tool):
             ),
             None,
         )
-        return json({"meal_plan": row})
+        return json.dumps({"meal_plan": row})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

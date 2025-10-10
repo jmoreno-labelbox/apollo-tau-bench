@@ -20,7 +20,7 @@ class UpdateTaskPriority(Tool):
             )
 
         tasks = list(data.get("tasks", {}).values())
-        task_history = data.get("task_history", [])
+        task_history = list(data.get("task_history", {}).values())
         employees = list(data.get("employees", {}).values())
 
         task = next((t for t in tasks if t.get("task_id") == task_id), None)

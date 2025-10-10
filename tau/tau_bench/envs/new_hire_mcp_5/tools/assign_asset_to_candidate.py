@@ -24,7 +24,7 @@ class AssignAssetToCandidate(Tool):
 
         row["assigned_candidate_id_nullable"] = cand_id
         row["status"] = "allocated"
-        for c in data.get("candidates", []):
+        for c in list(data.get("candidates", {}).values()):
             if c.get("candidate_id") == cand_id:
                 c["allocated_asset_tag_nullable"] = asset_tag
         return json.dumps({"asset_tag": asset_tag, "assigned_to": cand_id}, indent=2)

@@ -40,7 +40,7 @@ class UpsertGroceryListItemsFromRecipes(Tool):
         gl = _require(data, "grocery_lists", "list_id", int(list_id))
         if gl is not None:
             gl["last_upserted_at"] = "2025-01-01T12:05:00"
-        return json({"created_item_ids": created_ids})
+        return json.dumps({"created_item_ids": created_ids})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

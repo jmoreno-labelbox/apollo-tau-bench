@@ -13,7 +13,7 @@ class GetSprintDetails(Tool):
         if not sprint_id:
             return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", [])
+        sprints = list(data.get("sprints", {}).values())
 
         for sprint in sprints:
             if sprint.get("sprint_id") == sprint_id:

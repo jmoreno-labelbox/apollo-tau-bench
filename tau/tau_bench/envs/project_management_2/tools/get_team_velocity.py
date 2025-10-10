@@ -14,7 +14,7 @@ class GetTeamVelocity(Tool):
         if not team_id:
             return json.dumps({"error": "team_id is required"})
 
-        sprints = data.get("sprints", [])
+        sprints = list(data.get("sprints", {}).values())
 
         team_sprints = [
             s

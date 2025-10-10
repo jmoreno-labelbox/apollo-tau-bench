@@ -13,7 +13,7 @@ class ListRecipeIngredients(Tool):
             for r in data.get("recipe_ingredients", [])
             if int(r.get("recipe_id")) == int(recipe_id)
         ]
-        return json({"recipe_ingredients": rows})
+        return json.dumps({"recipe_ingredients": rows})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -14,7 +14,7 @@ class SearchChecklistItems(Tool):
         status = kwargs.get("status")
         due_lte = kwargs.get("due_date_lte")
         rows = []
-        for it in data.get("checklist_items", []):
+        for it in list(data.get("checklist_items", {}).values()):
             if it.get("candidate_id") != cand_id:
                 continue
             if status and it.get("status") != status:

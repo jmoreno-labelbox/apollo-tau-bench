@@ -10,7 +10,7 @@ class GetOrderDetails(Tool):
     def invoke(data: Dict[str, Any], order_id: int) -> str:
         order = _require(data, "orders", "order_id", int(order_id))
         items = [i for i in data.get("order_items", []) if int(i.get("order_id")) == int(order_id)]
-        return json({"order": order, "items": items})
+        return json.dumps({"order": order, "items": items})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

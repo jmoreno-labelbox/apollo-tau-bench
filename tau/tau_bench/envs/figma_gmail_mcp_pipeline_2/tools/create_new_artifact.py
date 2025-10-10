@@ -16,7 +16,7 @@ class CreateNewArtifact(Tool):
         if kwargs.get("artifact_type") == "FRAME" and not kwargs.get("frame_id_nullable"):
             return json.dumps({"error": "frame_id_nullable is required for FRAME artifacts"}, indent=2)
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = list(data.get("figma_artifacts", {}).values())
         artifact_id = get_next_art_id(data)
         created_ts = get_now_timestamp()
         current_tags = kwargs.get("current_tags") or []

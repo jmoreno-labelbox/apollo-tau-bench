@@ -12,7 +12,7 @@ class GetProductDetails(Tool):
         product_name = kwargs.get('product_name')
         if not product_name:
             return json.dumps({"error": "product_name is a required argument."}, indent=2)
-        product_master = data.get('product_master', [])
+        product_master = list(data.get('product_master', {}).values())
         product = next((p for p in product_master if p.get('product_name') == product_name), None)
         if product:
             return json.dumps(product, indent=2)

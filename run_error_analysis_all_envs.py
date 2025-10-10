@@ -322,6 +322,36 @@ def main():
     
     print(f"📄 Comprehensive report: {report_file}")
     print("=" * 80)
+    print()
+    
+    # Run detailed error analysis if we have results
+    if summaries and not args.skip_analysis:
+        print()
+        print("=" * 80)
+        print("Running detailed error analysis...")
+        print("=" * 80)
+        print()
+        
+        try:
+            # Import the analyzer
+            sys.path.insert(0, str(Path(__file__).parent))
+            from analyze_error_results import ErrorAnalyzer
+            
+            # Run analysis
+            analyzer = ErrorAnalyzer(output_dir, verbose=False)
+            analysis_results = analyzer.analyze()
+            
+            # Save detailed results
+            if analysis_results:
+                detailed_report = output_dir / "detailed_error_analysis.json"
+                with open(detailed_report, 'w') as f:
+                    json.dump(analysis_results, f, indent=2)
+                print()
+                print(f"💾 Detailed analysis saved to: {detailed_report}")
+        
+        except Exception as e:
+            print(f"⚠️  Warning: Could not run detailed analysis: {e}")
+            print(f"   You can run it manually: python3 analyze_error_results.py")
 
 
 if __name__ == "__main__":

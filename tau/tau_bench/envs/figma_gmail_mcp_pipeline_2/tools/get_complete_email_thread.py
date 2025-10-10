@@ -12,8 +12,8 @@ class GetCompleteEmailThread(Tool):
             return json.dumps({"error": "Missing required field: thread_id"}, indent=2)
 
         thread_id = kwargs.get("thread_id")
-        threads: List[Dict[str, Any]] = data.get("gmail_threads", [])
-        messages: List[Dict[str, Any]] = data.get("gmail_messages", [])
+        threads: List[Dict[str, Any]] = list(data.get("gmail_threads", {}).values())
+        messages: List[Dict[str, Any]] = list(data.get("gmail_messages", {}).values())
 
         thread = None
         for row in threads:

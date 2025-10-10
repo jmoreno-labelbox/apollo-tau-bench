@@ -15,7 +15,7 @@ class GetAllArtifactsOfTypeWithTagsAndEmail(Tool):
         tags = kwargs.get("tags")
         owner_email = kwargs.get("owner_email")
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = list(data.get("figma_artifacts", {}).values())
         results = []
         for row in artifacts:
             if row.get("artifact_type") != artifact_type:

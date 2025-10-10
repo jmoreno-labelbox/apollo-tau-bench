@@ -12,7 +12,7 @@ class CreateSupplierImprovementPlan(Tool):
         review_cycle_days = kwargs.get("review_cycle_days", 90)
         recommendation = kwargs.get("recommendation", "maintain_active")
 
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
         supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
 
         if not supplier:

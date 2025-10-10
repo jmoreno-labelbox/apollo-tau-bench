@@ -16,8 +16,8 @@ class ReassignTask(Tool):
 
         tasks = list(data.get("tasks", {}).values())
         employees = list(data.get("employees", {}).values())
-        task_history = data.get("task_history", [])
-        sprints = data.get("sprints", [])
+        task_history = list(data.get("task_history", {}).values())
+        sprints = list(data.get("sprints", {}).values())
 
         new_assignee = next(
             (emp for emp in employees if emp.get("employee_id") == new_assignee_id),

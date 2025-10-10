@@ -16,7 +16,7 @@ class ListCuratedInsights(Tool):
         pid = kwargs.get("player_id")
         rid = kwargs.get("report_id")
         min_val = kwargs.get("min_supporting_stat_value")
-        rows = data["curated_insights"]
+        rows = list(data.get("curated_insights", {}).values())
         if pid is not None:
             rows = [r for r in rows if r.get("player_id")==pid]
         if rid is not None:

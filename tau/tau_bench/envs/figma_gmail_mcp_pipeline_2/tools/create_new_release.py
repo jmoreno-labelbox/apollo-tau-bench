@@ -13,7 +13,7 @@ class CreateNewRelease(Tool):
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        releases: List[Dict[str, Any]] = data.get("releases", [])
+        releases: List[Dict[str, Any]] = list(data.get("releases", {}).values())
         release_id = get_next_release_id(data)
         created_ts = get_now_timestamp()
         thread_id = kwargs.get("thread_id")

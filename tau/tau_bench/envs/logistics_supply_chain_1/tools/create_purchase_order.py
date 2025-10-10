@@ -20,7 +20,7 @@ class CreatePurchaseOrder(Tool):
         if not supplier:
             return json.dumps({"error": f"Supplier '{supplier_id}' not found."}, indent=2)
 
-        inbound_shipments = data.get('inbound_shipments', [])
+        inbound_shipments = list(data.get('inbound_shipments', {}).values())
 
         current_year_str = str(get_current_year())
 

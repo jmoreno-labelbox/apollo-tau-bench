@@ -15,7 +15,7 @@ class MarkSprintAsReviewed(Tool):
                 {"error": "sprint_id is a required parameter"}
             )
 
-        sprints = data.get("sprints", [])
+        sprints = list(data.get("sprints", {}).values())
 
         for sprint in sprints:
             if sprint.get("sprint_id") == sprint_id:

@@ -13,8 +13,8 @@ class StartEmailThread(Tool):
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        threads: List[Dict[str, Any]] = data.get("gmail_threads", [])
-        messages: List[Dict[str, Any]] = data.get("gmail_messages", [])
+        threads: List[Dict[str, Any]] = list(data.get("gmail_threads", {}).values())
+        messages: List[Dict[str, Any]] = list(data.get("gmail_messages", {}).values())
 
         thread_id = get_next_thread_id(data)
         message_id = get_next_message_id(data)

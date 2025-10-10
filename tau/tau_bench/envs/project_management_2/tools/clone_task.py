@@ -19,7 +19,7 @@ class CloneTask(Tool):
 
         tasks = list(data.get("tasks", {}).values())
         employees = list(data.get("employees", {}).values())
-        sprints = data.get("sprints", [])
+        sprints = list(data.get("sprints", {}).values())
 
         source_task = next(
             (t for t in tasks if t.get("task_id") == source_task_id), None

@@ -18,8 +18,8 @@ class SendEmailInThread(Tool):
         body_html = kwargs.get("body_html")
         attachments_asset_ids: Optional[List[str]] = kwargs.get("attachments_asset_ids") or []
 
-        threads: List[Dict[str, Any]] = data.get("gmail_threads", [])
-        messages: List[Dict[str, Any]] = data.get("gmail_messages", [])
+        threads: List[Dict[str, Any]] = list(data.get("gmail_threads", {}).values())
+        messages: List[Dict[str, Any]] = list(data.get("gmail_messages", {}).values())
 
         thread = None
         for row in threads:

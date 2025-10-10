@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateShipmentStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str, status: str) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = list(data.get("inbound_shipments", {}).values())
 
         shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
         if not shipment:

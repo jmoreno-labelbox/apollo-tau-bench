@@ -15,7 +15,7 @@ class CreateOutboundOrder(Tool):
         line_items = kwargs.get('line_items')
         if not all([customer_name, destination_city, priority_level, line_items]):
             return json.dumps({"error": "customer_name, destination_city, priority_level, and line_items are required."}, indent=2)
-        outbound_orders = data.get('outbound_orders', [])
+        outbound_orders = list(data.get('outbound_orders', {}).values())
         max_id = max((int(o.get('order_id', 'ORD-0').split('-')[1]) for o in outbound_orders), default=0)
         new_order_id = f"ORD-{max_id + 1:04d}"
         customer_details = next((o for o in outbound_orders if o.get('customer_name') == customer_name), {})

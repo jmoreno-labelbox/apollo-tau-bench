@@ -29,7 +29,7 @@ class LogAuditEvent(Tool):
             "created_at": "2025-01-03T10:00:00",
         }
         tbl.append(row)
-        return json({"audit_id": next_id})
+        return json.dumps({"audit_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

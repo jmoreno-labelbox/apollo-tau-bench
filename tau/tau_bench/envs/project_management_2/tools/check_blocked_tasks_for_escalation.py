@@ -11,7 +11,7 @@ class CheckBlockedTasksForEscalation(Tool):
         check_all_sprints = kwargs.get("check_all_sprints", True)
 
         tasks = list(data.get("tasks", {}).values())
-        task_history = data.get("task_history", [])
+        task_history = list(data.get("task_history", {}).values())
 
         if sprint_id := kwargs.get("sprint_id"):
             tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]

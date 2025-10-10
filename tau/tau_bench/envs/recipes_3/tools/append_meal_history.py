@@ -26,7 +26,7 @@ class AppendMealHistory(Tool):
             "rating_int": int(rating_int) if rating_int is not None else None,
         }
         tbl.append(row)
-        return json({"history_id": next_id})
+        return json.dumps({"history_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

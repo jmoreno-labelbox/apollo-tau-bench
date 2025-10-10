@@ -12,7 +12,7 @@ class ListCarriersByMode(Tool):
         mode = kwargs.get('mode')
         if not mode:
             return json.dumps({"error": "mode is a required argument."}, indent=2)
-        carriers = data.get('carriers', [])
+        carriers = list(data.get('carriers', {}).values())
         matching_carriers = [c for c in carriers if c.get('active_status') is True and mode.title() in c.get('supported_modes', [])]
         return json.dumps(matching_carriers, indent=2)
 

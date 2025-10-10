@@ -11,7 +11,7 @@ class SearchAttachmentsByFilename(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         filename = kwargs["filename"]
-        matches = [a for a in data.get("attachments", []) if a.get("filename") == filename]
+        matches = [a for a in list(data.get("attachments", {}).values()) if a.get("filename") == filename]
         return json.dumps({"matches": matches}, indent=2)
 
     @staticmethod

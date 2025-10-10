@@ -14,7 +14,7 @@ class FindInboundShipment(Tool):
         status = kwargs.get('status')
         if not all([supplier_name, origin_city]):
             return json.dumps({"error": "supplier_name and origin_city are required arguments."}, indent=2)
-        shipments = data.get('inbound_shipments', [])
+        shipments = list(data.get('inbound_shipments', {}).values())
         results = [s for s in shipments if s.get('supplier_name') == supplier_name and s.get('origin_city') == origin_city and (not status or s.get('status') == status)]
         return json.dumps(results, indent=2)
 

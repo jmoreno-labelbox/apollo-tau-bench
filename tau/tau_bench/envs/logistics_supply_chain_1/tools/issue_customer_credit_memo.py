@@ -21,7 +21,7 @@ class IssueCustomerCreditMemo(Tool):
         credit_memo_id = f"CM-{order_id_num}"
 
         total_credit_value = 0
-        product_master = data.get('product_master', [])
+        product_master = list(data.get('product_master', {}).values())
         for item in returned_items:
             product = next((p for p in product_master if p.get('sku') == item['sku']), None)
             if product:

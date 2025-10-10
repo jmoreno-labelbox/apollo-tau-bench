@@ -40,7 +40,7 @@ class CheckStoreInventoryForList(Tool):
                     "price_cents": int(best.get("price_cents", 0)) if best else None,
                 }
             )
-        return json({"store_check": results})
+        return json.dumps({"store_check": results})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

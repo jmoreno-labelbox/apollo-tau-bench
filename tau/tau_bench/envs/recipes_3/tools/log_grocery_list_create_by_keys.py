@@ -18,7 +18,7 @@ class LogGroceryListCreateByKeys(Tool):
             None,
         )
         if not plan:
-            return json({"error": "meal_plan not found for keys"})
+            return json.dumps({"error": "meal_plan not found for keys"})
         gl = next(
             (
                 lt
@@ -28,7 +28,7 @@ class LogGroceryListCreateByKeys(Tool):
             None,
         )
         if not gl:
-            return json({"error": "grocery_list not found for keys"})
+            return json.dumps({"error": "grocery_list not found for keys"})
         tbl = _tbl(data, "audit_logs")
         next_id = _max_id(tbl, "audit_id", 12000) + 1
         row = {
@@ -42,7 +42,7 @@ class LogGroceryListCreateByKeys(Tool):
             "created_at": "2025-01-03T10:00:00",
         }
         tbl.append(row)
-        return json({"audit_id": next_id})
+        return json.dumps({"audit_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

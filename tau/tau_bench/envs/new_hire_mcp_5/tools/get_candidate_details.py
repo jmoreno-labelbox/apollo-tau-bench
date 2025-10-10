@@ -11,7 +11,7 @@ class GetCandidateDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cand_id = kwargs["candidate_id"]
-        for row in data.get("candidates", []):
+        for row in list(data.get("candidates", {}).values()):
             if row.get("candidate_id") == cand_id:
                 return json.dumps({"candidate": row}, indent=2)
         return json.dumps({"error": f"candidate_id {cand_id} not found"}, indent=2)

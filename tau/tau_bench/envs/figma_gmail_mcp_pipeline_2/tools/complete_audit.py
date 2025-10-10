@@ -16,7 +16,7 @@ class CompleteAudit(Tool):
         audit_id = kwargs.get("audit_id")
         report_asset_id = kwargs.get("report_asset_id")
 
-        audits: List[Dict[str, Any]] = data.get("audits", [])
+        audits: List[Dict[str, Any]] = list(data.get("audits", {}).values())
         for row in audits:
             if row.get("audit_id") == audit_id:
                 row["status"] = "COMPLETED"

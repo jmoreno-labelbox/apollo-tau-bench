@@ -14,7 +14,7 @@ class LogTimeOnTask(Tool):
         notes = kwargs.get("notes", "")
 
         tasks = list(data.get("tasks", {}).values())
-        time_logs = data.get("time_logs", [])
+        time_logs = list(data.get("time_logs", {}).values())
 
         task = next((t for t in tasks if t.get("task_id") == task_id), None)
         if not task:

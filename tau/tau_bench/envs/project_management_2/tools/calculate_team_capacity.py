@@ -13,7 +13,7 @@ class CalculateTeamCapacity(Tool):
         if not team_id:
             return json.dumps({"error": "team_id is required"})
 
-        teams = data.get("teams", [])
+        teams = list(data.get("teams", {}).values())
         employees = list(data.get("employees", {}).values())
         tasks = list(data.get("tasks", {}).values())
 

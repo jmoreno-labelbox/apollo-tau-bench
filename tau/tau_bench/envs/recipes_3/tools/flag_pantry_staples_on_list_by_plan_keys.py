@@ -18,7 +18,7 @@ class FlagPantryStaplesOnListByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return json({"updated_items": 0})
+            return json.dumps({"updated_items": 0})
         gl = next(
             (
                 lt
@@ -28,7 +28,7 @@ class FlagPantryStaplesOnListByPlanKeys(Tool):
             None,
         )
         if not gl:
-            return json({"updated_items": 0})
+            return json.dumps({"updated_items": 0})
         updated = 0
         for it in data.get("grocery_list_items", []):
             if int(it.get("list_id")) != int(gl.get("list_id")):
@@ -37,7 +37,7 @@ class FlagPantryStaplesOnListByPlanKeys(Tool):
             it["pantry_staple_flag"] = bool((ing or {}).get("pantry_staple_flag", False))
             updated += 1
         gl["last_staples_flagged_at"] = "2025-01-01T12:15:00"
-        return json({"updated_items": updated})
+        return json.dumps({"updated_items": updated})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

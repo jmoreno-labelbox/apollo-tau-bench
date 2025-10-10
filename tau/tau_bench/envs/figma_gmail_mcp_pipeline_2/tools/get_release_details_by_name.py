@@ -12,7 +12,7 @@ class GetReleaseDetailsByName(Tool):
             return json.dumps({"error": "Missing required field: release_name"}, indent=2)
 
         release_name = kwargs.get("release_name")
-        releases: List[Dict[str, Any]] = data.get("releases", [])
+        releases: List[Dict[str, Any]] = list(data.get("releases", {}).values())
 
         results: List[Dict[str, Any]] = [r for r in releases if r.get("release_name") == release_name]
         results.sort(key=lambda r: (str(r.get("created_ts")), str(r.get("release_id"))))

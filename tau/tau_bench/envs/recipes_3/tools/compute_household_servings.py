@@ -13,7 +13,7 @@ class ComputeHouseholdServings(Tool):
         ]
         adults = sum(1 for m in members if not bool(m.get("is_child", False)))
         children = sum(1 for m in members if bool(m.get("is_child", False)))
-        return json({"servings_adult": adults, "servings_child": children})
+        return json.dumps({"servings_adult": adults, "servings_child": children})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

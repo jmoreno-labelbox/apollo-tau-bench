@@ -16,11 +16,11 @@ class RenderOnboardingWelcome(Tool):
 
     @staticmethod
     def _candidate_exists(data: Dict[str, Any], cand_id: str) -> bool:
-        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", []))
+        return any(r.get("candidate_id") == cand_id for r in list(data.get("candidates", {}).values()))
 
     @staticmethod
     def _get_template_text(data: Dict[str, Any]) -> str:
-        for f in data.get("onboarding_files", []):
+        for f in list(data.get("onboarding_files", {}).values()):
             if f.get("file_path") == TEMPLATE_WELCOME_PATH:
                 return f.get("content_text", "")
         return ""

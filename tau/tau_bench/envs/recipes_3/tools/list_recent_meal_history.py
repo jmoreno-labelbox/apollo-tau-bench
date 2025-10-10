@@ -34,7 +34,7 @@ class ListRecentMealHistory(Tool):
             if int(r.get("household_id")) == int(household_id)
             and str(r.get("plan_date")) >= start.isoformat()
         ]
-        return json({"recent_recipe_ids": rids})
+        return json.dumps({"recent_recipe_ids": rids})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -16,7 +16,7 @@ class CreateNewCycle(Tool):
                 missing.append("sla_deadline_ts")
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        cycles: List[Dict[str, Any]] = data.get("review_cycles", [])
+        cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
         cycle_id = get_next_cycle_id(data)
         created_ts = get_now_timestamp()
         thread_id: Optional[str] = kwargs.get("thread_id")

@@ -1,0 +1,490 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "v2_task_001",
+        "actions": [
+          {
+            "name": "IngestCiWebhookV2",
+            "kwargs": {
+              "provider": "github_actions",
+              "run_id": "run_001",
+              "status": "failure",
+              "repo": "game-engine",
+              "branch": "feature/new-renderer",
+              "commit_sha": "abc123def456789",
+              "job_name": "build-windows-x64"
+            }
+          },
+          {
+            "name": "GuardrailValidateSenderV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "AttachArtifactsIndexV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "ReduceLogWindowV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "SymbolicateMinidumpV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "SimilarIncidentLookupV2",
+            "kwargs": {
+              "signature": "sig:abc123def456789:first_failure",
+              "top_k": 5
+            }
+          },
+          {
+            "name": "EnumerateSuspectsV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "LaunchTargetedBisectV2",
+            "kwargs": {
+              "run_id": "run_001",
+              "test_target": "make build-windows-x64"
+            }
+          },
+          {
+            "name": "DraftFixDiffV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "OpenAutoBranchV2",
+            "kwargs": {
+              "base_ref": "feature/new-renderer",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "CommitPatchToBranchV2",
+            "kwargs": {
+              "branch_ref": "auto/fix-run_001",
+              "patch_id": "FP-run_001",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "OpenDraftPrV2",
+            "kwargs": {
+              "head": "auto/fix-run_001",
+              "base": "feature/new-renderer",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "CreateOrUpdateTicketV2",
+            "kwargs": {
+              "project_key": "ENGINE-MIG",
+              "summary": "CI failure run_001",
+              "description": "Automated triage for run_001",
+              "run_id": "run_001",
+              "pr_number": 33
+            }
+          },
+          {
+            "name": "TriggerSmokeValidationV2",
+            "kwargs": {
+              "run_id": "run_001",
+              "test_target": "make build-windows-x64"
+            }
+          },
+          {
+            "name": "RecordAutomationRunV2",
+            "kwargs": {
+              "automation_type": "build-triage",
+              "inputs": {
+                "run_id": "run_001"
+              },
+              "outputs": {
+                "pr_number": 33,
+                "ticket_key": "ENGINE-MIG-1"
+              },
+              "status": "completed"
+            }
+          },
+          {
+            "name": "ReturnScalarV2",
+            "kwargs": {
+              "value": "33"
+            }
+          }
+        ],
+        "instruction": "Handle CI triage tasks related to the game-engine repository. Address the issue with the failed Windows build run_001 on the branch feature/new-renderer at commit abc123def456789 (job build-windows-x64). Follow the CI Build Failure Protocol V2 and utilize policy templates. Collect and link evidence, initiate a draft PR on 'auto/fix-run_001', generate the ENGINE-MIG work item associated with the PR, start smoke validation, and provide just the draft PR number.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0029700000000000004,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "8b66426de65a4d9751b22731005f33ee5737b1f5e1fdee848d054e7c78944a21"
+        },
+        "actions": [
+          {
+            "name": "IngestCiWebhookV2",
+            "kwargs": {
+              "provider": "github_actions",
+              "run_id": "run_001",
+              "status": "failure",
+              "repo": "game-engine",
+              "branch": "feature/new-renderer",
+              "commit_sha": "abc123def456789",
+              "job_name": "build-windows-x64"
+            }
+          },
+          {
+            "name": "GuardrailValidateSenderV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "AttachArtifactsIndexV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "ReduceLogWindowV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "SymbolicateMinidumpV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "SimilarIncidentLookupV2",
+            "kwargs": {
+              "signature": "sig:abc123def456789:first_failure",
+              "top_k": 5
+            }
+          },
+          {
+            "name": "EnumerateSuspectsV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "LaunchTargetedBisectV2",
+            "kwargs": {
+              "run_id": "run_001",
+              "test_target": "make build-windows-x64"
+            }
+          },
+          {
+            "name": "DraftFixDiffV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "OpenAutoBranchV2",
+            "kwargs": {
+              "base_ref": "feature/new-renderer",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "CommitPatchToBranchV2",
+            "kwargs": {
+              "branch_ref": "auto/fix-run_001",
+              "patch_id": "FP-run_001",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "OpenDraftPrV2",
+            "kwargs": {
+              "head": "auto/fix-run_001",
+              "base": "feature/new-renderer",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "CreateOrUpdateTicketV2",
+            "kwargs": {
+              "project_key": "ENGINE-MIG",
+              "summary": "CI failure run_001",
+              "description": "Automated triage for run_001",
+              "run_id": "run_001",
+              "pr_number": 33
+            }
+          },
+          {
+            "name": "TriggerSmokeValidationV2",
+            "kwargs": {
+              "run_id": "run_001",
+              "test_target": "make build-windows-x64"
+            }
+          },
+          {
+            "name": "RecordAutomationRunV2",
+            "kwargs": {
+              "automation_type": "build-triage",
+              "inputs": {
+                "run_id": "run_001"
+              },
+              "outputs": {
+                "pr_number": 33,
+                "ticket_key": "ENGINE-MIG-1"
+              },
+              "status": "completed"
+            }
+          },
+          {
+            "name": "ReturnScalarV2",
+            "kwargs": {
+              "value": "33"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function as an expert DevOps automation agent specializing in game development workflows, including CI build triage, asset intake QA, bug/feedback triage, and localization/VO.\",\n    \"Interact exclusively through the permitted tools and the JSON database located at domains/dev_ops/data/. Do not fabricate entities, IDs, URIs, or text.\",\n    \"Ensure that all write operations are deterministic: identical inputs and database state must always yield the same updates and IDs. Do not use randomness or current timestamps.\",\n    \"For ID generation, utilize supplied identifiers such as run_id or commit_sha when available, or determine the next ID by incrementing the maximum existing value, applying any required stable prefixes as specified by the tool.\",\n    \"Prior to making any modifications, use getter tools to obtain the required identifiers from the DB; never assume or estimate values.\",\n    \"Limit each step to a single tool call. After invoking a tool, await its response before proceeding to the following step.\",\n    \"Consistently document important steps with the automation run logging tools to ensure auditability.\",\n    \"CI Build Failure Protocol V2: receive CI webhook \u2192 standardize run envelope \u2192 perform guardrail validation \u2192 append artifact/log URIs \u2192 condense logs and, if applicable, symbolize \u2192 search for similar incidents \u2192 identify suspects via repository diffs \u2192 execute targeted bisect using the deterministic test target (from run) \u2192 generate a minimal fix proposal draft \u2192 initiate a draft PR (branch 'auto/fix-<run_id>') \u2192 create or update ticket and associate all evidence \u2192 initiate smoke validation for the draft PR \u2192 log automation run results.\",\n    \"For PRs: pr_number is deterministically allocated by tools (max+1). Use only templates (no free text permitted): commit_message='auto tentative fix for run <run_id>' | pr_title='auto fix build break <run_id>' | pr_body='summary for run <run_id>' | ticket_summary='CI failure <run_id>' | ticket_description='Automated triage for <run_id>'.\",\n    \"Avoid manual assignment of pr_number when possible. Prefer tools that resolve PRs by run_id to minimize ambiguity.\",\n    \"Asset QA Protocol V2: identify modified assets \u2192 perform DCC validation \u2192 execute texture policy verification \u2192 run engine budget assessment \u2192 apply deterministic autofixes exclusively if they are reversible \u2192 generate preview renders with stable URIs \u2192 create QA bundle for publishing \u2192 annotate the PR and initiate PR check \u2192 store QA results.\",\n    \"Bug Intake Protocol V2: receive intake \u2192 standardize data \u2192 generate deterministic summary (truncate/compose without paraphrasing) \u2192 remove duplicates using DB-provided similarity or links \u2192 calculate impact (severity weight multiplied by crash frequency from DB) \u2192 determine owner from the ownership map \u2192 modify ticket state and labels \u2192 log the run.\",\n    \"Localization/VO Protocol V2: identify modified keys (using PR linkage) \u2192 collect context URIs \u2192 perform pretranslation with a locked glossary (deterministic and placeholder-preserving) \u2192 check for UI overflow with configured pixel limits (as a length proxy) \u2192 generate temporary VO with stable URIs \u2192 deterministically verify subtitle timing \u2192 output per-locale bundles \u2192 initiate TMS job and attach relevant links \u2192 log the run.\",\n    \"Only update the minimal number of rows required for the task, and do not alter any unrelated tables.\",\n    \"Prior to performing any state changes (for PRs, tickets, runs), check the existing state to prevent invalid transitions.\",\n    \"Where the schema allows, record links in both directions (such as PR \u2194 work item using dedicated fields).\",\n    \"Policy-generated URIs must follow a deterministic format: 'artifact://<kind>/<id>'.\",\n    \"When a required prerequisite is absent from the DB (such as an unrecognized run_id), the tool must return a deterministic error and halt further processing.\",\n    \"User instructions should describe goals rather than procedures; the policy defines the precise steps and argument templates. In the event of a conflict, policy overrides user instructions.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "I need to address an issue with a failed Windows build on our game-engine repository. Could you help me get started on that?"
+      },
+      {
+        "content": "To address the issue with the failed Windows build, we will follow the CI Build Failure Protocol V2. The first step is to receive the CI webhook and standardize the run envelope. Please provide the following details:\n\n1. The CI provider (e.g., Jenkins, GitHub Actions).\n2. The run ID associated with the build.\n3. The status of the build (e.g., failed).\n4. The repository name (if applicable).\n5. The branch name (if applicable).\n6. The commit SHA (if applicable).\n7. The job name (if applicable).\n\nOnce I have this information, I can proceed with the next steps.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure, here are the details you need:\n\n1. CI provider: Jenkins\n2. Run ID: run_001\n3. Build status: Failed\n4. Repository name: game-engine\n5. Branch name: feature/new-renderer\n6. Commit SHA: abc123def456789\n7. Job name: build-windows-x64\n\nLet me know what to do next!"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"provider\":\"Jenkins\",\"run_id\":\"run_001\",\"status\":\"Failed\",\"repo\":\"game-engine\",\"branch\":\"feature/new-renderer\",\"commit_sha\":\"abc123def456789\",\"job_name\":\"build-windows-x64\"}",
+              "name": "ingest_ci_webhook_v2"
+            },
+            "id": "call_dDI7X4f4sbCDBbXemjbSwGjd",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_dDI7X4f4sbCDBbXemjbSwGjd",
+        "name": "ingest_ci_webhook_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": "It seems there was an error while processing the CI webhook. However, I will attempt to proceed with the next step, which is to perform guardrail validation for the run ID `run_001`. Let's check the validation status.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\"}",
+              "name": "guardrail_validate_sender_v2"
+            },
+            "id": "call_lP06lconSKvtqxEDAMdCgHEK",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_lP06lconSKvtqxEDAMdCgHEK",
+        "name": "guardrail_validate_sender_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": "It appears that there is a persistent issue with the system that is preventing us from processing the CI webhook and performing guardrail validation. Unfortunately, without successful execution of these initial steps, we cannot proceed further in the CI Build Failure Protocol.\n\nI recommend checking the system logs or contacting your DevOps team to resolve the underlying issue. Once the system is operational, we can continue with the next steps in addressing the failed build. If you have any other tasks or questions, feel free to let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries, let's proceed to collect and link any evidence related to the failed build. Do you need any help with that?"
+      },
+      {
+        "content": "To collect and link evidence related to the failed build, we will need to follow the next steps in the CI Build Failure Protocol. This involves appending artifact/log URIs and condensing logs. \n\nSince we are unable to process the initial webhook, we can try to attach artifacts and logs directly. Please provide any available URIs for the artifacts or logs related to the failed build, and I can proceed with attaching them to the run.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Unfortunately, I don't have the specific URIs for the artifacts or logs at the moment. Could you guide me on how to locate them?"
+      },
+      {
+        "content": "To locate the URIs for the artifacts and logs related to the failed build, you can follow these steps:\n\n1. **Check the CI/CD System**: \n   - Log into your CI/CD system (e.g., Jenkins).\n   - Navigate to the specific job that corresponds to the failed build (in this case, `build-windows-x64`).\n   - Look for the build history and select the failed build (run ID: `run_001`).\n\n2. **Locate Artifacts**:\n   - In the build details, there should be a section for artifacts. This may include compiled binaries, logs, or any other output files generated during the build process.\n   - Click on the artifacts to view or download them. The URIs may be displayed directly, or you may need to copy the links.\n\n3. **Access Logs**:\n   - There should also be a section for logs, which may include console output or log files generated during the build.\n   - Review the logs for any errors or warnings that could provide insight into the failure.\n\n4. **Copy URIs**:\n   - Once you have located the artifacts and logs, copy their URIs. They should follow a consistent format, often starting with `artifact://` or a similar prefix.\n\nOnce you have gathered the URIs, please share them with me, and I can assist you in attaching them to the run.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the guidance! I'll check the Jenkins job for `build-windows-x64` and see if I can locate the artifact and log URIs. Once I have them, I\u2019ll share them with you. Hang tight!"
+      },
+      {
+        "content": "Sounds good! Take your time to gather the artifact and log URIs from the Jenkins job. Once you have them, just share the details with me, and I'll assist you in attaching them to the run. If you have any other questions in the meantime, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, I've located the artifact and log URIs from the Jenkins job. Could you help me with the next steps on how to attach these to the run?"
+      },
+      {
+        "content": "Please provide the artifact and log URIs that you have located. Once I have those URIs, I can proceed to attach them to the run as part of the CI Build Failure Protocol.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Here are the URIs I found:\n\n- Artifact URI: [artifact://build-windows-x64/output-files.zip](artifact://build-windows-x64/output-files.zip)\n- Log URI: [artifact://build-windows-x64/console-log.txt](artifact://build-windows-x64/console-log.txt)\n\nLet me know what we should do next!"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\": \"run_001\"}",
+              "name": "attach_artifacts_index_v2"
+            },
+            "id": "call_w1wdlA9HToFjzrQHGINAvY6q",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_w1wdlA9HToFjzrQHGINAvY6q",
+        "name": "attach_artifacts_index_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": "It seems that there is still an issue with the system that is preventing us from attaching the artifacts and logs to the run. Unfortunately, without successful execution of this step, we cannot proceed further in the CI Build Failure Protocol.\n\nAs an alternative, I recommend documenting the artifact and log URIs in your internal tracking system or communicating them to your DevOps team for manual attachment. Once the system is operational, we can continue with the next steps.\n\nIf you have any other tasks or questions, feel free to let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the advice. Should we proceed with initiating a draft PR on the branch `auto/fix-run_001` now?"
+      },
+      {
+        "content": "Before we can initiate a draft PR, we need to ensure that we have completed the necessary steps in the CI Build Failure Protocol, including generating a minimal fix proposal draft and opening an automation branch. However, since we are encountering issues with the system, we may not be able to complete those steps.\n\nIf you would like to proceed with creating a draft PR on the branch `auto/fix-run_001`, please confirm that you want to move forward despite the incomplete steps, and I will assist you in opening the draft PR.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Yes, let's go ahead and create the draft PR on the branch `auto/fix-run_001`. Could you help me with that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"head\":\"auto/fix-run_001\",\"base\":\"feature/new-renderer\",\"run_id\":\"run_001\"}",
+              "name": "open_draft_pr_v2"
+            },
+            "id": "call_B3ScBa49ndhtxKGJ7BT2IKU7",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_B3ScBa49ndhtxKGJ7BT2IKU7",
+        "name": "open_draft_pr_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": "It appears that there is a persistent issue with the system that is preventing us from creating the draft PR. Unfortunately, without successful execution of this step, we cannot proceed with opening the draft PR.\n\nAs a workaround, I recommend documenting the intention to create a draft PR in your internal tracking system or communicating it to your development team for manual creation. Once the system is operational, we can continue with the necessary steps.\n\nIf you have any other tasks or questions, feel free to let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it. I'll document our intentions for now. Is there anything else we need to address with the ENGINE-MIG work item or starting smoke validation?"
+      },
+      {
+        "content": "To address the ENGINE-MIG work item and initiate smoke validation, we typically need to follow these steps:\n\n1. **Link the Work Item**: If there is a specific work item associated with the failed build, we should ensure it is linked to the run and the draft PR.\n\n2. **Trigger Smoke Validation**: Once the draft PR is created, we can initiate smoke validation to ensure that the changes do not introduce new issues.\n\nSince we are currently unable to create the draft PR or link the work item due to system issues, we cannot proceed with these steps at this moment.\n\nIf you have the details of the ENGINE-MIG work item (such as the project key), I can help you prepare to link it once the system is operational. Additionally, we can plan to trigger smoke validation once the draft PR is successfully created.\n\nPlease let me know how you would like to proceed!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I\u2019ll keep that in mind and prepare to link the ENGINE-MIG work item and start smoke validation once we can create the draft PR. If there's anything else, just let me know!"
+      },
+      {
+        "content": "That sounds like a solid plan! If you have any further questions or need assistance with anything else in the future, feel free to reach out. I'm here to help. Good luck with resolving the build issue, and I hope the system issues get sorted out soon!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I appreciate your help and will reach out if anything comes up. Have a great day! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

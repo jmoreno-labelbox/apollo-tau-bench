@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetHouseholdById(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id: int) -> str:
-        return json({"household": _require(data, "households", "household_id", int(household_id))})
+        return json.dumps({"household": _require(data, "households", "household_id", int(household_id))})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

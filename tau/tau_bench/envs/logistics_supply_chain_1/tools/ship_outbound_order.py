@@ -22,7 +22,7 @@ class ShipOutboundOrder(Tool):
         # --- NEW LOGIC START ---
         total_weight_kg = 0
         line_items = order_to_update.get("line_items", [])
-        product_master = data.get('product_master', [])
+        product_master = list(data.get('product_master', {}).values())
         for item in line_items:
             product = next((p for p in product_master if p.get('sku') == item['sku']), None)
             if product:

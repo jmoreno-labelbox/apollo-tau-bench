@@ -18,7 +18,7 @@ class CreateAutoBookmarkEvent(Tool):
             return json.dumps({"error": need}, indent=2)
         if float(kwargs["leverage_index"]) <= 1.5:
             return json.dumps({"error":"auto-bookmarks require leverage_index > 1.5"}, indent=2)
-        events = data["game_day_events"]
+        events = list(data.get("game_day_events", {}).values())
         new_id = _next_id(events, "event_id")
         row = {
             "event_id": new_id,

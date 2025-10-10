@@ -16,8 +16,8 @@ class GetTaskDetails(Tool):
         if not task:
             return json.dumps({"error": f"Task '{task_id}' not found"})
 
-        time_logs = data.get("time_logs", [])
-        task_history = data.get("task_history", [])
+        time_logs = list(data.get("time_logs", {}).values())
+        task_history = list(data.get("task_history", {}).values())
 
         task_time_logs = [log for log in time_logs if log.get("task_id") == task_id]
         # total_hours_logged = sum(log.get("hours", 0) for log in task_time_logs)

@@ -14,9 +14,9 @@ class UpdateSprintStatus(Tool):
         if not all([sprint_id, new_status]):
             return json.dumps({"error": "sprint_id and new_status are required"})
 
-        sprints = data.get("sprints", [])
+        sprints = list(data.get("sprints", {}).values())
         tasks = list(data.get("tasks", {}).values())
-        teams = data.get("teams", [])
+        teams = list(data.get("teams", {}).values())
 
         sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
         if not sprint:

@@ -11,7 +11,7 @@ class UpdateAlertState(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         alert_id = kwargs.get("id")
         new_state = kwargs.get("state")
-        alerts = data.get("alerts", [])
+        alerts = list(data.get("alerts", {}).values())
         for alert in alerts:
             if alert.get("id") == alert_id:
                 alert["state"] = new_state

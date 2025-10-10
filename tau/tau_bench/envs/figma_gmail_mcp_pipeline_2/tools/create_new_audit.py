@@ -13,7 +13,7 @@ class CreateNewAudit(Tool):
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        audits: List[Dict[str, Any]] = data.get("audits", [])
+        audits: List[Dict[str, Any]] = list(data.get("audits", {}).values())
         audit_id = get_next_audit_id(data)
         created_ts = get_now_timestamp()
 

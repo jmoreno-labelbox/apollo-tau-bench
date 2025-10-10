@@ -49,7 +49,7 @@ class FlagOverlapLastMonthOnList(Tool):
         gl = _require(data, "grocery_lists", "list_id", int(list_id))
         if gl is not None:
             gl["last_overlap_check_at"] = "2025-01-01T12:20:00"
-        return json({"updated_items": updated})
+        return json.dumps({"updated_items": updated})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

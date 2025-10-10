@@ -21,9 +21,9 @@ class CreatePurchaseOrder(Tool):
                 "error": "supplier_id, sku, quantity, and destination_warehouse are required"
             })
 
-        suppliers = data.get("supplier_master", [])
-        products = data.get("product_master", [])
-        warehouses = data.get("warehouses", [])
+        suppliers = list(data.get("supplier_master", {}).values())
+        products = list(data.get("product_master", {}).values())
+        warehouses = list(data.get("warehouses", {}).values())
 
         supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
         if not supplier:

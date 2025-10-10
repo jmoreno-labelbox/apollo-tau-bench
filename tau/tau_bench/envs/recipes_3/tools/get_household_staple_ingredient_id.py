@@ -32,7 +32,7 @@ class GetHouseholdStapleIngredientId(Tool):
             if inv_staples
             else (staple_ids[0] if staple_ids else 0)
         )
-        return json({"staple_ingredient_id": chosen})
+        return json.dumps({"staple_ingredient_id": chosen})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -11,7 +11,7 @@ class GetMortgageRates(Tool):
         loan_type = kwargs.get('loan_type', 'conventional')
         term_years = kwargs.get('term_years', 30)
         
-        rates = data.get('mortgage_rates', [])
+        rates = list(data.get('mortgage_rates', {}).values())
         filtered_rates = []
         
         for rate in rates:

@@ -12,7 +12,7 @@ class GetCycleById(Tool):
             return json.dumps({"error": "Missing required field: cycle_id"}, indent=2)
 
         cycle_id = kwargs.get("cycle_id")
-        cycles: List[Dict[str, Any]] = data.get("review_cycles", [])
+        cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
         for row in cycles:
             if row.get("cycle_id") == cycle_id:
                 return json.dumps(row, indent=2)

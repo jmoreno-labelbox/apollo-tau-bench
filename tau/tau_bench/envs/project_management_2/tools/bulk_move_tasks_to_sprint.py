@@ -15,8 +15,8 @@ class BulkMoveTasksToSprint(Tool):
             return json.dumps({"error": "task_ids and target_sprint_id are required"})
 
         tasks = list(data.get("tasks", {}).values())
-        sprints = data.get("sprints", [])
-        teams = data.get("teams", [])
+        sprints = list(data.get("sprints", {}).values())
+        teams = list(data.get("teams", {}).values())
 
         sprint = next(
             (s for s in sprints if s.get("sprint_id") == target_sprint_id), None

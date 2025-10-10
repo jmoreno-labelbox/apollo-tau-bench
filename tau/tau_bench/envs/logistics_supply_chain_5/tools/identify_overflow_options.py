@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class IdentifyOverflowOptions(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, required_capacity: int) -> str:
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         current_warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
 
         if not current_warehouse:

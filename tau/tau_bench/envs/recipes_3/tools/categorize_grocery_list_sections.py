@@ -19,7 +19,7 @@ class CategorizeGroceryListSections(Tool):
         gl = _require(data, "grocery_lists", "list_id", int(list_id))
         if gl is not None:
             gl["last_categorized_at"] = "2025-01-01T12:10:00"
-        return json({"updated_items": updated})
+        return json.dumps({"updated_items": updated})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

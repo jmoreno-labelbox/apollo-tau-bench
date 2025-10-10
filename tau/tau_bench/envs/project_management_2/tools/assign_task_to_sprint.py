@@ -15,8 +15,8 @@ class AssignTaskToSprint(Tool):
             return json.dumps({"error": "task_id and sprint_id are required"})
 
         tasks = list(data.get("tasks", {}).values())
-        sprints = data.get("sprints", [])
-        teams = data.get("teams", [])
+        sprints = list(data.get("sprints", {}).values())
+        teams = list(data.get("teams", {}).values())
 
         task = next((t for t in tasks if t.get("task_id") == task_id), None)
         sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)

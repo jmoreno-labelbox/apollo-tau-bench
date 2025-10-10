@@ -1,0 +1,16 @@
+{
+    "fault_assignment_analysis": [
+        {
+            "task_id": 0,
+            "author": "agent",
+            "description": "----- start trajectory -----\nUser: Hi, I'm Emma Martinez from Human Resources. I'm here to onboard Olivia Martin as a contractor in the Finance department.\n\nAgent: Hello Emma, I can help you with that. Could you please provide Olivia's user ID?\n\nUser: Sure, her user ID is U-034.\n\nAgent: Thank you. I will set Olivia's status to ACTIVE and assign her the necessary roles.\n\nUser: Great, she needs the 'finance-read' and 'finance-invoice-processor' roles, with access set to expire in 90 days.\n\nAgent: Understood. I have assigned the 'finance-read' and 'finance-invoice-processor' roles to Olivia. Is there anything else you need?\n\nUser: No, that's all. Thank you!\n\nAgent: You're welcome! Have a great day.\n----- end trajectory -----\n\nThe agent is responsible for the fault because it failed to include the 'finance-base' role in the roles assigned to Olivia Martin. The required outputs specify that Olivia should have the roles [\"finance-base\", \"finance-read\", \"finance-invoice-processor\"], but the agent only assigned 'finance-read' and 'finance-invoice-processor'."
+        }
+    ],
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to include the 'finance-base' role in the list of roles assigned to Olivia Martin. The required outputs specify that the roles should include \"finance-base\", \"finance-read\", and \"finance-invoice-processor\", but the trajectory only includes \"finance-read\" and \"finance-invoice-processor\"."
+        }
+    ]
+}

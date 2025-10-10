@@ -34,7 +34,7 @@ class LogMealHistoryCreateByKeys(Tool):
                 and str(h.get("plan_date")) == str(plan_date)
             ]
             if not cands:
-                return json({"error": "meal_history not found for keys"})
+                return json.dumps({"error": "meal_history not found for keys"})
             hist = sorted(cands, key=lambda h: int(h.get("history_id", 0)), reverse=True)[0]
         tbl = _tbl(data, "audit_logs")
         next_id = _max_id(tbl, "audit_id", 12000) + 1
@@ -52,7 +52,7 @@ class LogMealHistoryCreateByKeys(Tool):
             "created_at": "2025-01-03T10:00:00",
         }
         tbl.append(row)
-        return json({"audit_id": next_id})
+        return json.dumps({"audit_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

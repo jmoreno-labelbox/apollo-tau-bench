@@ -16,7 +16,7 @@ class CreatePlayerDevGoal(Tool):
         need = _check_required(kwargs, ["dev_report_id","player_id","goal_text","coach_id","target_review_date"])
         if need:
             return json.dumps({"error": need}, indent=2)
-        rows = data["player_dev_goals"]
+        rows = list(data.get("player_dev_goals", {}).values())
         new_id = _next_id(rows, "goal_id")
         row = {
             "goal_id": new_id,

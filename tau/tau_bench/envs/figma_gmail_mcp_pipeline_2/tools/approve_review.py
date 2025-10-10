@@ -18,7 +18,7 @@ class ApproveReview(Tool):
         approval_comment_ref: Optional[str] = kwargs.get("approval_comment_ref")
 
         approvals: List[Dict[str, Any]] = data.get("review_approvals", [])
-        cycles: List[Dict[str, Any]] = data.get("review_cycles", [])
+        cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
 
         cycle = None
         for row in cycles:

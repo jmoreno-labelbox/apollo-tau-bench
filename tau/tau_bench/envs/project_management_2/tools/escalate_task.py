@@ -17,7 +17,7 @@ class EscalateTask(Tool):
             )
 
         tasks = list(data.get("tasks", {}).values())
-        escalations = data.get("escalations", [])
+        escalations = list(data.get("escalations", {}).values())
 
         task = next((t for t in tasks if t.get("task_id") == task_id), None)
         if not task:

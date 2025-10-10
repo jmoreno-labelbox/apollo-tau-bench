@@ -16,7 +16,7 @@ class CompareBeforeAfterVisuals(Tool):
                 missing.append("after_release_id")
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        release_diffs: List[Dict[str, Any]] = data.get("release_diffs", [])
+        release_diffs: List[Dict[str, Any]] = list(data.get("release_diffs", {}).values())
         diff_by_id = {d.get("release_id"): d for d in release_diffs}
 
         def lineage(rid: str) -> List[str]:

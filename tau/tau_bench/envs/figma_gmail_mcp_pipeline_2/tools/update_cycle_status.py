@@ -18,7 +18,7 @@ class UpdateCycleStatus(Tool):
         escalated_ts: Optional[str] = kwargs.get("escalated_ts")
         thread_id: Optional[str] = kwargs.get("thread_id")
 
-        cycles: List[Dict[str, Any]] = data.get("review_cycles", [])
+        cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
         for row in cycles:
             if row.get("cycle_id") == cycle_id:
                 row["status"] = new_status

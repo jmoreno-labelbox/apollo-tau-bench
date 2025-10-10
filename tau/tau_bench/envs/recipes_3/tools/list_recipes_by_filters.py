@@ -16,7 +16,7 @@ class ListRecipesByFilters(Tool):
             ex = parts[4][2:] if len(parts) > 4 else ""
             excluded = set([c for c in ex.split(",") if c])
         except Exception:
-            return json({"error": "invalid filter_token"})
+            return json.dumps({"error": "invalid filter_token"})
         ids: List[int] = []
         for r in list(data.get("recipes", {}).values()):
             if str(r.get("meal_type")) != meal_type:
@@ -28,7 +28,7 @@ class ListRecipesByFilters(Tool):
             if excluded and str(r.get("cuisine")) in excluded:
                 continue
             ids.append(int(r.get("recipe_id")))
-        return json({"candidate_recipe_ids": ids})
+        return json.dumps({"candidate_recipe_ids": ids})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

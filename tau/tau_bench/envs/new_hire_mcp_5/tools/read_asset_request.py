@@ -9,7 +9,7 @@ class ReadAssetRequest(Tool):
     @staticmethod
     def invoke(data, **kwargs) -> str:
         rid = kwargs["request_id"]
-        row = next((r for r in data.get("asset_requests", []) if r.get("request_id") == rid), None)
+        row = next((r for r in list(data.get("asset_requests", {}).values()) if r.get("request_id") == rid), None)
         return json.dumps({"asset_request": row} if row else {"error": f"request_id {rid} not found"}, indent=2)
 
     @staticmethod

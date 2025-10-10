@@ -16,7 +16,7 @@ class CreateSprintRetrospective(Tool):
         if not sprint_id:
             return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", [])
+        sprints = list(data.get("sprints", {}).values())
         retrospectives = data.get("retrospectives", [])
 
         sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)

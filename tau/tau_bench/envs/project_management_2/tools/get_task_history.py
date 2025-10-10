@@ -13,7 +13,7 @@ class GetTaskHistory(Tool):
         if not task_id:
             return json.dumps({"error": "task_id is required"})
 
-        task_history = data.get("task_history", [])
+        task_history = list(data.get("task_history", {}).values())
 
         history_entries = [h for h in task_history if h.get("task_id") == task_id]
 

@@ -16,7 +16,7 @@ class GetArtifactsWithFileId(Tool):
         page_id = kwargs.get("page_id")
         frame_id = kwargs.get("frame_id")
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = list(data.get("figma_artifacts", {}).values())
         results = []
         for row in artifacts:
             if row.get("figma_file_id") != figma_file_id:

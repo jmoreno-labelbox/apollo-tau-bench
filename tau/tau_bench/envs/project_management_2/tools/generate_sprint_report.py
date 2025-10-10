@@ -13,9 +13,9 @@ class GenerateSprintReport(Tool):
         if not sprint_id:
             return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", [])
+        sprints = list(data.get("sprints", {}).values())
         tasks = list(data.get("tasks", {}).values())
-        time_logs = data.get("time_logs", [])
+        time_logs = list(data.get("time_logs", {}).values())
 
         sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
         if not sprint:

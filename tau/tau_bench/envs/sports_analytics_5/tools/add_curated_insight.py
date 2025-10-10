@@ -25,7 +25,7 @@ class AddCuratedInsight(Tool):
         if not re.match(pattern, kwargs.get("insight_text")):
             return json.dumps({"error":"insight_text must match '{category}_{metric}_{bucket}' using lowercase letters/digits."}, indent=2)
 
-        rows = data["curated_insights"]
+        rows = list(data.get("curated_insights", {}).values())
         new_id = _next_id(rows, "insight_id")
         row = {
             "insight_id": new_id,

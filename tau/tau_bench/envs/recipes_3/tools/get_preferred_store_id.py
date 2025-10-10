@@ -14,7 +14,7 @@ class GetPreferredStoreId(Tool):
         sid = (
             int(native[0]["store_id"]) if native else (int(stores[0]["store_id"]) if stores else 0)
         )
-        return json({"preferred_store_id": sid})
+        return json.dumps({"preferred_store_id": sid})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

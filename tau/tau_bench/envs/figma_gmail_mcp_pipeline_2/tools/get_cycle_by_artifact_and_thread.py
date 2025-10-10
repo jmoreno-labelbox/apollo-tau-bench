@@ -14,7 +14,7 @@ class GetCycleByArtifactAndThread(Tool):
         thread_id = kwargs.get("thread_id")
         artifact_id: Optional[str] = kwargs.get("artifact_id")
 
-        cycles: List[Dict[str, Any]] = data.get("review_cycles", [])
+        cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
         results: List[Dict[str, Any]] = []
         for row in cycles:
             if row.get("thread_id_nullable") != thread_id:

@@ -17,7 +17,7 @@ class GenerateChildModifications(Tool):
             rrow = _recipe_by_id(data, int(rid))
             if rrow is not None:
                 rrow["child_mod_last_generated_at"] = "2025-01-01T00:00:00"
-        return json({"child_mod_notes": notes})
+        return json.dumps({"child_mod_notes": notes})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

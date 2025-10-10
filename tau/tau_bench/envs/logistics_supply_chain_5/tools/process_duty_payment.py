@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ProcessDutyPayment(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str, duty_amount: float) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = list(data.get("inbound_shipments", {}).values())
 
         shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
         if not shipment:

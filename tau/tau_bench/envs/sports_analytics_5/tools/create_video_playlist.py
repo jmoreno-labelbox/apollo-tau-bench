@@ -29,7 +29,7 @@ class CreateVideoPlaylist(Tool):
             if not (rng[0] <= cc_int <= rng[1]):
                 return json.dumps({"error":f"{name} requires clip_count in {rng}."}, indent=2)
 
-        rows = data["video_playlists"]
+        rows = list(data.get("video_playlists", {}).values())
         new_id = _next_id(rows, "playlist_id")
         link = kwargs.get("internal_portal_link", f"https://portal.internal/videos/report/{kwargs.get('report_id')}/playlist/{new_id}")
         row = {

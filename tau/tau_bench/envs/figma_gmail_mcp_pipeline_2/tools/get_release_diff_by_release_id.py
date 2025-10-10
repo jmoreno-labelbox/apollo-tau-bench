@@ -12,7 +12,7 @@ class GetReleaseDiffByReleaseId(Tool):
             return json.dumps({"error": "Missing required field: release_id"}, indent=2)
 
         release_id = kwargs.get("release_id")
-        release_diffs: List[Dict[str, Any]] = data.get("release_diffs", [])
+        release_diffs: List[Dict[str, Any]] = list(data.get("release_diffs", {}).values())
         for row in release_diffs:
             if row.get("release_id") == release_id:
                 return json.dumps(row, indent=2)

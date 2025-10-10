@@ -13,7 +13,7 @@ class SearchPurchaseOrders(Tool):
 
         # Since we don't have purchase_orders data, we'll search inbound_shipments
         # which represent orders that have been placed and are being fulfilled
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = list(data.get("inbound_shipments", {}).values())
         results = []
 
         for shipment in inbound_shipments:

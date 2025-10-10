@@ -12,7 +12,7 @@ class ListWarehousesByCapability(Tool):
         certification = kwargs.get('certification')
         if not certification:
             return json.dumps({"error": "certification is a required argument."}, indent=2)
-        warehouses = data.get('warehouses', [])
+        warehouses = list(data.get('warehouses', {}).values())
         matching_warehouses = [wh for wh in warehouses if certification in wh.get('certifications', [])]
         return json.dumps(matching_warehouses, indent=2)
 

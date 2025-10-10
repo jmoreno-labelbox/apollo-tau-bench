@@ -26,7 +26,7 @@ class CreateOrderForPlanListByKeys(Tool):
             None,
         )
         if not plan:
-            return json({"error": "meal_plan not found for keys"})
+            return json.dumps({"error": "meal_plan not found for keys"})
         gl = next(
             (
                 lt
@@ -36,7 +36,7 @@ class CreateOrderForPlanListByKeys(Tool):
             None,
         )
         if not gl:
-            return json({"error": "grocery_list not found for plan"})
+            return json.dumps({"error": "grocery_list not found for plan"})
         tbl = _tbl(data, "orders")
         next_id = _max_id(tbl, "order_id", 10000) + 1
         row = {
@@ -52,7 +52,7 @@ class CreateOrderForPlanListByKeys(Tool):
             "scheduled_slot_end_ts": str(scheduled_slot_end_ts),
         }
         tbl.append(row)
-        return json({"order_id": next_id})
+        return json.dumps({"order_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

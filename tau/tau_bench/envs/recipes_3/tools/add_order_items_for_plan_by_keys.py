@@ -19,7 +19,7 @@ class AddOrderItemsForPlanByKeys(Tool):
             None,
         )
         if not plan:
-            return json({"error": "meal_plan not found for keys"})
+            return json.dumps({"error": "meal_plan not found for keys"})
         gl = next(
             (
                 lt
@@ -29,7 +29,7 @@ class AddOrderItemsForPlanByKeys(Tool):
             None,
         )
         if not gl:
-            return json({"error": "grocery_list not found for plan"})
+            return json.dumps({"error": "grocery_list not found for plan"})
         orders = [
             o
             for o in list(data.get("orders", {}).values())
@@ -38,7 +38,7 @@ class AddOrderItemsForPlanByKeys(Tool):
             and int(o.get("list_id")) == int(gl.get("list_id"))
         ]
         if not orders:
-            return json({"error": "order not found for keys"})
+            return json.dumps({"error": "order not found for keys"})
         order = sorted(orders, key=lambda o: int(o.get("order_id", 0)), reverse=True)[0]
         # Reuse AddOrderItemsFromList logic deterministically
         list_id = int(order.get("list_id"))
@@ -76,7 +76,7 @@ class AddOrderItemsForPlanByKeys(Tool):
         order["subtotal_cents"] = subtotal
         order["total_cents"] = subtotal
         order["items_populated_at"] = "2025-01-02T11:00:00"
-        return json({"subtotal_cents": subtotal, "total_cents": subtotal})
+        return json.dumps({"subtotal_cents": subtotal, "total_cents": subtotal})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

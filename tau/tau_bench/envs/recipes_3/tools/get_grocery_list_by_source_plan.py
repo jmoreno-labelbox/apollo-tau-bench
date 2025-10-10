@@ -16,7 +16,7 @@ class GetGroceryListBySourcePlan(Tool):
             ),
             None,
         )
-        return json({"grocery_list": row})
+        return json.dumps({"grocery_list": row})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -10,7 +10,7 @@ class GetAlertById(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         alert_id = kwargs.get("id")
-        alerts = data.get("alerts", [])
+        alerts = list(data.get("alerts", {}).values())
         for alert in alerts:
             if alert.get("id") == alert_id:
                 return json.dumps(alert)

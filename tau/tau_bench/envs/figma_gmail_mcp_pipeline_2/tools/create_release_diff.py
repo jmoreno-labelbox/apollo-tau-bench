@@ -13,7 +13,7 @@ class CreateReleaseDiff(Tool):
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        release_diffs: List[Dict[str, Any]] = data.get("release_diffs", [])
+        release_diffs: List[Dict[str, Any]] = list(data.get("release_diffs", {}).values())
         diff_id = get_next_diff_id(data)
         created_ts = get_now_timestamp()
 

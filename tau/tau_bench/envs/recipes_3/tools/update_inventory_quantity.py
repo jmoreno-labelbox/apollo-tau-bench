@@ -28,10 +28,10 @@ class UpdateInventoryQuantity(Tool):
                 "quantity": qty,
             }
             tbl.append(row)
-            return json({"inv_item_id": next_id, "quantity": qty})
+            return json.dumps({"inv_item_id": next_id, "quantity": qty})
         qty = float(row.get("quantity", 0)) + float(delta)
         row["quantity"] = qty
-        return json({"inv_item_id": int(row.get("inv_item_id")), "quantity": qty})
+        return json.dumps({"inv_item_id": int(row.get("inv_item_id")), "quantity": qty})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

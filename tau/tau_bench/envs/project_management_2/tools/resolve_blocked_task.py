@@ -16,7 +16,7 @@ class ResolveBlockedTask(Tool):
             return json.dumps({"error": "task_id and resolution are required"})
 
         tasks = list(data.get("tasks", {}).values())
-        task_history = data.get("task_history", [])
+        task_history = list(data.get("task_history", {}).values())
 
         task = next((t for t in tasks if t.get("task_id") == task_id), None)
         if not task:
@@ -58,7 +58,7 @@ class ResolveBlockedTask(Tool):
         task["updated_date"] = datetime.now().isoformat()
 
         if task.get("escalated"):
-            escalations = data.get("escalations", [])
+            escalations = list(data.get("escalations", {}).values())
             for esc in escalations:
                 if esc.get("task_id") == task_id and not esc.get("resolved"):
                     esc["resolved"] = True

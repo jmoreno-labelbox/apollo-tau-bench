@@ -16,7 +16,7 @@ class WriteUmpireGameModel(Tool):
         need = _check_required(kwargs, ["game_pk","umpire_id","zone_shift_x","zone_shift_z","calibration_error_pct","confidence_interval"])
         if need:
             return json.dumps({"error": need}, indent=2)
-        rows = data["umpire_game_models"]
+        rows = list(data.get("umpire_game_models", {}).values())
         new_id = _next_id(rows, "umpire_game_id")
         row = {
             "umpire_game_id": new_id,

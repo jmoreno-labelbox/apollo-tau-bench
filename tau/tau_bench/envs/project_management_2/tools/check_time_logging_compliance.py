@@ -12,7 +12,7 @@ class CheckTimeLoggingCompliance(Tool):
         check_all = kwargs.get("check_all", False)
 
         tasks = list(data.get("tasks", {}).values())
-        time_logs = data.get("time_logs", [])
+        time_logs = list(data.get("time_logs", {}).values())
 
         if sprint_id:
             tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]

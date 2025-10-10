@@ -20,7 +20,7 @@ class ApplyCuisineCap(Tool):
                 selected.append(int(rid))
                 counts[cz] = c + 1
         # Read-only behavior: return selection without mutating database
-        return json({"cuisine_limited_ids": selected})
+        return json.dumps({"cuisine_limited_ids": selected})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
