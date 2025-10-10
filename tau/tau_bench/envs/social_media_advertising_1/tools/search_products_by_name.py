@@ -11,7 +11,7 @@ class SearchProductsByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         name_query = kwargs.get("name_query")
-        products = data.get("dim_product", [])
+        products = list(data.get("dim_product", {}).values())
         matching_products = []
         
         for product in products:

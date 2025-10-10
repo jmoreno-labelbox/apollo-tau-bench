@@ -10,7 +10,7 @@ class CalculateExpectedArrivalDate(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
         supplier_id = kwargs.get("supplier_id")
         current_date = kwargs.get("current_date")
 

@@ -31,7 +31,7 @@ class GetNextGame(Tool):
             return json.dumps({"error": "Missing required field: current_date (YYYY-MM-DD)"}, indent=2)
 
         # 2) Get DB
-        games: List[Dict[str, Any]] = data.get("games", [])
+        games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
         # 3) Filter eligible future games
         def is_eligible(g: Dict[str, Any]) -> bool:

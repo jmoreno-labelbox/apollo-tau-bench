@@ -15,7 +15,7 @@ class GetComparableProperties(Tool):
             return json.dumps({"error": "property_id is required"}, indent=2)
         
         # Get comparables for property
-        comparables = data.get('comparables', [])
+        comparables = list(data.get('comparables', {}).values())
         property_comps = [c for c in comparables if c.get('property_id') == property_id]
         
         return json.dumps({

@@ -10,7 +10,7 @@ class AssignAsset(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         asset_tag = kwargs.get("asset_tag")
         candidate_id = kwargs.get("candidate_id")
-        assets = data.get("inventory_assets", [])
+        assets = list(data.get("inventory_assets", {}).values())
         for a in assets:
             if a.get("asset_tag") == asset_tag:
                 a["assigned_candidate_id_nullable"] = candidate_id

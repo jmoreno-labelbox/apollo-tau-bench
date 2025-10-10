@@ -13,7 +13,7 @@ class UpdateCaseStatus(Tool):
         case_id = case_id
         if not case_id or not status:
             return json.dumps({"error": "Missing required fields: case_id and/or status"}, indent=2)
-        cases = data.get("cases", [])
+        cases = list(data.get("cases", {}).values())
         for case in cases:
             if case.get("case_id") == case_id:
                 case["status"] = status

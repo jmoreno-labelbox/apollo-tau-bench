@@ -15,7 +15,7 @@ class GetEmailsForClient(Tool):
             return json.dumps({"error": "client_id is required"}, indent=2)
         
         # Get emails for client (from database or mock data)
-        emails = data.get('emails', [])
+        emails = list(data.get('emails', {}).values())
         client_emails = [e for e in emails if e.get('client_id') == client_id]
         
         return json.dumps({

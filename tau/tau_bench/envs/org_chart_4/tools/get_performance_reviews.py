@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class get_performance_reviews(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], employee_id: str) -> str:
-        reviews = data.get("performance_reviews", [])
+        reviews = list(data.get("performance_reviews", {}).values())
         filtered = [r for r in reviews if r.get("employee_id") == employee_id]
         return json.dumps(filtered, indent=2)
 

@@ -38,7 +38,7 @@ class UpdateGameDetails(Tool):
             )
 
         # 2) Get DB
-        games: List[Dict[str, Any]] = data.get("games", [])
+        games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
         # 3) Find the game
         target = None

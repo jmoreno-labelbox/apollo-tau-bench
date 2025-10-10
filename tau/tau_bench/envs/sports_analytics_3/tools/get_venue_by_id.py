@@ -17,7 +17,7 @@ class GetVenueById(Tool):
             return json.dumps({"error": "Missing required field: venue_id"}, indent=2)
 
         # 2) Get DB from passed-in data
-        venues: List[Dict[str, Any]] = data.get("venues", [])
+        venues: List[Dict[str, Any]] = list(data.get("venues", {}).values())
 
         # 3) Exact match lookup
         for venue in venues:

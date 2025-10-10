@@ -9,7 +9,7 @@ class DeleteMember(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], member_id: str) -> str:
-        members = data.get("members", [])
+        members = list(data.get("members", {}).values())
         new_members = [m for m in members if m["id"] != member_id]
         if len(new_members) == len(members):
             return json.dumps({"error": "Member not found"}, indent=2)

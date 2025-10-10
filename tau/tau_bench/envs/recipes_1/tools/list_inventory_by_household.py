@@ -13,7 +13,7 @@ class ListInventoryByHousehold(Tool):
         location_enum = kwargs.get("location_enum")
         if household_id is None:
             return _json_dump({"error": "household_id is required"})
-        rows = [i for i in data.get("inventory_items", []) if int(i.get("household_id")) == int(household_id)]
+        rows = [i for i in list(data.get("inventory_items", {}).values()) if int(i.get("household_id")) == int(household_id)]
         if location_enum:
             rows = [r for r in rows if str(r.get("location_enum")) == str(location_enum)]
         return _json_dump({"household_id": household_id, "inventory_items": rows})

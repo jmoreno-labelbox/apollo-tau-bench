@@ -10,7 +10,7 @@ class GetAllWarehouses(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         filters = kwargs.get("filters")
 
         if not warehouses:

@@ -37,7 +37,7 @@ class GetGameByHomeAway(Tool):
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
         # 2) Access DB
-        games: List[Dict[str, Any]] = data.get("games", [])
+        games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
         # 3) Filter by exact match
         matches = [

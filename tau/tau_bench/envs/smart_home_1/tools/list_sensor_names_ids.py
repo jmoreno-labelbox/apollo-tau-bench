@@ -9,7 +9,7 @@ class ListSensorNamesIds(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any]) -> str:
-        return json.dumps([{"name": s["name"], "sensor_id": s["id"]} for s in data.get("sensors", [])], indent=2)
+        return json.dumps([{"name": s["name"], "sensor_id": s["id"]} for s in list(data.get("sensors", {}).values())], indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

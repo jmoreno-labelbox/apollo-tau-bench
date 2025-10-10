@@ -12,7 +12,7 @@ class CalculateCPAForAdSetForDay(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         adset_id = kwargs.get("adset_id")
         date = kwargs.get("date")
-        insights = data.get("f_insights", [])
+        insights = list(data.get("f_insights", {}).values())
         
         for insight in insights:
             if insight.get("adset_id") == adset_id and insight.get("date") == date:

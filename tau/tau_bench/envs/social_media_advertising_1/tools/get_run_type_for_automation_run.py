@@ -11,7 +11,7 @@ class GetRunTypeForAutomationRun(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         run_id = kwargs.get("run_id")
-        runs = data.get("automation_runs", [])
+        runs = list(data.get("automation_runs", {}).values())
         
         for run in runs:
             if run.get("run_id") == run_id:

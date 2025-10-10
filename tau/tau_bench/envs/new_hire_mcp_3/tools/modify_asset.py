@@ -10,7 +10,7 @@ class ModifyAsset(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         asset_tag = kwargs.get("asset_tag")
-        assets = data.get("inventory_assets", [])
+        assets = list(data.get("inventory_assets", {}).values())
         for a in assets:
             if a.get("asset_tag") == asset_tag:
                 a.update(updates)

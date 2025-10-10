@@ -40,7 +40,7 @@ class CreateNewInsight(Tool):
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
         # 2) Get DB
-        insights: List[Dict[str, Any]] = data.get("curated_insights", [])
+        insights: List[Dict[str, Any]] = list(data.get("curated_insights", {}).values())
 
         # 3) Generate new insight_id deterministically
         new_id = get_next_insight_id(data)

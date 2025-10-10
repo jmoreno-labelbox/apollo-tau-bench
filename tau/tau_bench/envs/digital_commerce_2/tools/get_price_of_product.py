@@ -16,7 +16,7 @@ class GetPriceOfProduct(Tool):
                 },
                 indent=2,
             )
-        pricebook_entries = data.get("pricebook_entries", [])
+        pricebook_entries = list(data.get("pricebook_entries", {}).values())
         results = []
         for item in items:
             product_id = item.get("product_id")

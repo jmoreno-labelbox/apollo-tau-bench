@@ -20,7 +20,7 @@ class GetUmpiresByExperience(Tool):
             return json.dumps({"error": "Missing required field: experience"}, indent=2)
 
         # 2) Get DB
-        umpires: List[Dict[str, Any]] = data.get("umpires", [])
+        umpires: List[Dict[str, Any]] = list(data.get("umpires", {}).values())
 
         # 3) Filter for those with experience > threshold
         filtered = [

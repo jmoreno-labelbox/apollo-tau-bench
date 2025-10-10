@@ -14,7 +14,7 @@ class DeleteProduct(Tool):
         if not product_id:
             return json.dumps({"error": "product_id is a required parameter."})
 
-        products = data.get("dim_product", [])
+        products = list(data.get("dim_product", {}).values())
         for product in products:
             if product.get("product_id") == product_id:
                 data['dim_product'] = [d for d in data['dim_product'] if d['product_id'] != product_id]

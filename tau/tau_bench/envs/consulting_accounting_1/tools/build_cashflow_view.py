@@ -11,11 +11,11 @@ class BuildCashflowView(Tool):
         horizon = int(kwargs.get("horizon_months", 3))
         gran = kwargs.get("granularity", "monthly")
         opening = 0.0
-        for a in data.get("bank_accounts", []):
+        for a in list(data.get("bank_accounts", {}).values()):
             opening += float(a.get("current_balance", 0.0))
         import datetime as _dt
         today = _dt.datetime.fromisoformat("2024-11-30")
-        inv_ids = [i.get("invoice_id") for i in data.get("invoices", []) if i.get("invoice_id") in ("INV008","INV009","INV010")]
+        inv_ids = [i.get("invoice_id") for i in list(data.get("invoices", {}).values()) if i.get("invoice_id") in ("INV008","INV009","INV010")]
         inflows_tool = ForecastInflows()
         infl = json.loads(inflows_tool.invoke(data,invoices=inv_ids,probability_rule="overdue_60=0.3"))
         outflows_tool = ForecastOutflows()

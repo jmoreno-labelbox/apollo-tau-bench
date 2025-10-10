@@ -31,7 +31,7 @@ class GetBullpenSessionInfoForPlayer(Tool):
             return json.dumps({"error": "Missing required field: playerid"}, indent=2)
 
         # 2) Access DB
-        sessions: List[Dict[str, Any]] = data.get("bullpen_sessions", [])
+        sessions: List[Dict[str, Any]] = list(data.get("bullpen_sessions", {}).values())
 
         # 3) Filter by exact fields
         def match(session: Dict[str, Any]) -> bool:

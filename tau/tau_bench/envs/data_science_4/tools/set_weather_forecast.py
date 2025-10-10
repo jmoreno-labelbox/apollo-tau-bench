@@ -14,7 +14,7 @@ class SetWeatherForecast(Tool):
             "forecast_id": id,
             "raw_json_path_nullable": f"/data/raw/weather_forecast_{id}.json",
         }
-        data.get("weather_forecasts", []).append(weather_forecast_json)
+        list(data.get("weather_forecasts", {}).values()).append(weather_forecast_json)
         return json.dumps(weather_forecast_json)
 
     @staticmethod

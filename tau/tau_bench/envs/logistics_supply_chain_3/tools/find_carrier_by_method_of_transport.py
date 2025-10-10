@@ -10,7 +10,7 @@ class FindCarrierByMethodOfTransport(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carriers = data.get("carriers", [])
+        carriers = list(data.get("carriers", {}).values())
         method_of_transport = kwargs.get("method_of_transport")
         if not method_of_transport:
             return json.dumps({"error": "Method of transport is required"})

@@ -9,7 +9,7 @@ class ReadWeatherForecast(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         city = kwargs.get("city")
-        rows = data.get("weather_forecasts", []) or []
+        rows = list(data.get("weather_forecasts", {}).values()) or []
         if city:
             rows = [r for r in rows if r.get("city") == city]
         return json.dumps({"rows": rows}, indent=2)

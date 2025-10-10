@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class RecordStakeholderArtifact(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        outs = data.get("stakeholder_outputs", [])
+        outs = list(data.get("stakeholder_outputs", {}).values())
         max_id = 0
         for o in outs:
             try:

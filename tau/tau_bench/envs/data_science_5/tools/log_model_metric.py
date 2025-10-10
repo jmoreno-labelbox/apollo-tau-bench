@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogModelMetric(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        metrics = data.get("metrics", [])
+        metrics = list(data.get("metrics", {}).values())
         max_id = 0
         for m in metrics:
             try:

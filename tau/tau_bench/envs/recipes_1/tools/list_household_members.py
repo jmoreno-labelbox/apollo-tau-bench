@@ -12,7 +12,7 @@ class ListHouseholdMembers(Tool):
         household_id = kwargs.get("household_id")
         if household_id is None:
             return _json_dump({"error": "household_id is required"})
-        rows = [m for m in data.get("members", []) if int(m.get("household_id")) == int(household_id)]
+        rows = [m for m in list(data.get("members", {}).values()) if int(m.get("household_id")) == int(household_id)]
         return _json_dump(rows)
 
     @staticmethod

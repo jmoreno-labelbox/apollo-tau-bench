@@ -10,7 +10,7 @@ class ListRooms(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any]) -> str:  # no extra args
-        return json.dumps(data.get("rooms", []), indent=2)
+        return json.dumps(list(data.get("rooms", {}).values()), indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

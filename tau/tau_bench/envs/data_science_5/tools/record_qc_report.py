@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class RecordQcReport(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        figs = data.get("qc_figures", [])
+        figs = list(data.get("qc_figures", {}).values())
         max_id = 0
         for f in figs:
             try:

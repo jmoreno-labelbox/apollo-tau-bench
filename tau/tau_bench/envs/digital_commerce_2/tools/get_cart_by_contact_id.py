@@ -13,7 +13,7 @@ class GetCartByContactId(Tool):
         contact_id = _idstr(contact_id)
         if not contact_id:
             return json.dumps({"error": "Missing required field: contact_id"}, indent=2)
-        carts = data.get("carts", [])
+        carts = list(data.get("carts", {}).values())
         for cart in carts:
             if cart.get("contact_id") == contact_id:
                 return json.dumps(cart, indent=2)

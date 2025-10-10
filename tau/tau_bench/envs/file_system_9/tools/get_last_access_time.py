@@ -12,7 +12,7 @@ class GetLastAccessTime(Tool):
         filepath = kwargs.get("filepath")
         server_hostname = kwargs.get("server_hostname")
 
-        for server in data.get("file_system", []):
+        for server in list(data.get("file_system", {}).values()):
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):

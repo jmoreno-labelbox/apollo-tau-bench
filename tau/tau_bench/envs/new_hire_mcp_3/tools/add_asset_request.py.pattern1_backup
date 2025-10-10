@@ -1,0 +1,23 @@
+# Copyright Sierra
+
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class AddAssetRequest(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        new_request = kwargs.get("request") or {}
+        requests = data.get("asset_requests", [])
+        requests.append(new_request)
+        data["asset_requests"] = requests
+        return json.dumps({"added_request": new_request}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"add_asset_request",
+            "description":"Add a new asset request.",
+            "parameters":{"type":"object","properties":{"request":{"type":"object"}},"required":["request"]}
+        }}

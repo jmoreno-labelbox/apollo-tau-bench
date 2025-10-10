@@ -10,7 +10,7 @@ class ModifyEmailLabel(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         label_id = kwargs.get("label_id")
-        labels = data.get("email_labels", [])
+        labels = list(data.get("email_labels", {}).values())
         for l in labels:
             if l.get("label_id") == label_id:
                 l.update(updates)

@@ -11,7 +11,7 @@ class FindSupplierByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         supplier_name = kwargs.get("supplier_name")
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
         for supplier in suppliers:
             if supplier.get("supplier_name") == supplier_name:
                 return json.dumps(

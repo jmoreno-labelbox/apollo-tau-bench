@@ -33,7 +33,7 @@ class CreateNewReport(Tool):
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
         # 2) Get DB
-        reports: List[Dict[str, Any]] = data.get("player_dev_reports", [])
+        reports: List[Dict[str, Any]] = list(data.get("player_dev_reports", {}).values())
 
         new_id = get_next_dev_report_goal_id(data)
 

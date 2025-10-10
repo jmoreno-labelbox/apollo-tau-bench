@@ -10,7 +10,7 @@ class GetPlans(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        plans = data.get("plans", [])
+        plans = list(data.get("plans", {}).values())
         ids_ = []
         for i in plans:
             ids_ += [i.get("plan_id")]

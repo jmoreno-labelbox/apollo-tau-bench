@@ -1,5 +1,13 @@
 # Copyright Sierra
 
+
+# Helper function
+import uuid
+
+def generate_unique_id():
+    """Generate a unique ID."""
+    return uuid.uuid4().hex[:8]
+
 from .find_customer_by_name_tool import FindCustomerByNameTool
 from .get_customer_accounts_tool import GetCustomerAccountsTool
 from .get_account_transactions_tool import GetAccountTransactionsTool

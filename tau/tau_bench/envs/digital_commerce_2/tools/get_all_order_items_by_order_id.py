@@ -13,7 +13,7 @@ class GetAllOrderItemsByOrderId(Tool):
         order_id = _idstr(order_id)
         if not order_id:
             return json.dumps({"error": "Missing required field: order_id"}, indent=2)
-        order_items: List[Dict[str, Any]] = data.get("order_items", [])
+        order_items: List[Dict[str, Any]] = list(data.get("order_items", {}).values())
         items = [item for item in order_items if item.get("order_id") == order_id]
         return json.dumps(items, indent=2)
 

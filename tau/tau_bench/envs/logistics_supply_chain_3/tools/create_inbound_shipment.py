@@ -35,7 +35,7 @@ class CreateInboundShipment(Tool):
         ):
             return json.dumps({"error": "One or more required arguments are missing."})
 
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = list(data.get("inbound_shipments", {}).values())
 
         # --- Auto-increment unique IDs ---
         max_ship_num = 0
@@ -56,7 +56,7 @@ class CreateInboundShipment(Tool):
         new_po_number = f"PO-2024-{max_po_num + 1:04d}"
 
         # --- Look up related data for defaults ---
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         destination_warehouse_details = next(
             (
                 wh
@@ -66,7 +66,7 @@ class CreateInboundShipment(Tool):
             {},
         )
 
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
         supplier_details = next(
             (sup for sup in suppliers if sup.get("supplier_id") == supplier_id), {}
         )

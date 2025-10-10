@@ -22,7 +22,7 @@ class SetAdsetBudget(Tool):
         new_budget = float(kwargs["new_budget"])
         reason = kwargs["reason"]
 
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         target = next((a for a in adsets if str(a.get("adset_id") or a.get("id")) == adset_id), None)
         if target is None:
             return json.dumps({"ok": False, "error": f"adset '{adset_id}' not found"}, indent=2)

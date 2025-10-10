@@ -9,7 +9,7 @@ class ListRecurringSchedules(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         horizon = int(kwargs.get("horizon_months", 3))
-        schedules = [s for s in data.get("recurring_schedules", []) if s.get("is_active", False)]
+        schedules = [s for s in list(data.get("recurring_schedules", {}).values()) if s.get("is_active", False)]
         return json.dumps({"horizon_months": horizon,"active_schedules": schedules}, indent=2)
 
     @staticmethod

@@ -10,7 +10,7 @@ class ModifyAttachment(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         attach_id = kwargs.get("attachment_id")
-        attachments = data.get("attachments", [])
+        attachments = list(data.get("attachments", {}).values())
         for a in attachments:
             if a.get("attachment_id") == attach_id:
                 a.update(updates)

@@ -20,7 +20,7 @@ class GetGradesByPitchIds(Tool):
             return json.dumps({"error": "Missing required field: pitch_ids (non-empty list of integers)"}, indent=2)
 
         # 2) Get DB
-        grades: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
         # 3) Collect matches
         id_set = set(pitch_ids)

@@ -27,7 +27,7 @@ class CreateNewCase(Tool):
                 {"error": "Missing required fields: contact_id, account_id, subject, priority"},
                 indent=2,
             )
-        cases = data.get("cases", [])
+        cases = list(data.get("cases", {}).values())
         case_id = get_next_case_id(data)
         new_case = {
             "case_id": case_id,

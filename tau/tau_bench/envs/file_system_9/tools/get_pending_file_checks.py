@@ -9,7 +9,7 @@ class GetPendingFileChecks(Tool):
     """Retrieves pending file check tasks."""
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pending_tasks = [task for task in data.get("file_check_db", []) if not task.get("completed")]
+        pending_tasks = [task for task in list(data.get("file_check_db", {}).values()) if not task.get("completed")]
         return json.dumps({"pending_tasks": pending_tasks})
 
     @staticmethod

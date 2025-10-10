@@ -28,7 +28,7 @@ class UpdateAdsetStrategy(Tool):
         if bid_strategy in ("cost_cap", "bid_cap") and bid_amount is None:
             return json.dumps({"ok": False, "error": "bid_amount is required for cost_cap or bid_cap"}, indent=2)
 
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         target = next((a for a in adsets if str(a.get("adset_id") or a.get("id")) == adset_id), None)
         if target is None:
             return json.dumps({"ok": False, "error": f"adset '{adset_id}' not found"}, indent=2)

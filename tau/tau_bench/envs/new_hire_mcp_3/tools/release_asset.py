@@ -9,7 +9,7 @@ class ReleaseAsset(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         asset_tag = kwargs.get("asset_tag")
-        assets = data.get("inventory_assets", [])
+        assets = list(data.get("inventory_assets", {}).values())
         for a in assets:
             if a.get("asset_tag") == asset_tag:
                 a["assigned_candidate_id_nullable"] = None

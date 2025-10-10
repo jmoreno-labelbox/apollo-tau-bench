@@ -19,7 +19,7 @@ class ListRecentMealHistory(Tool):
             y, m, d = [int(x) for x in str(anchor_date).split("-")]
             end = date(y, m, d)
         else:
-            hh = [h for h in data.get("meal_history", []) if int(h.get("household_id")) == int(household_id)]
+            hh = [h for h in list(data.get("meal_history", {}).values()) if int(h.get("household_id")) == int(household_id)]
             if hh:
                 md = max(str(h["plan_date"]) for h in hh)
                 y, m, d = [int(x) for x in md.split("-")]
@@ -29,7 +29,7 @@ class ListRecentMealHistory(Tool):
         start = end - timedelta(days=int(days_back))
         out = [
             int(r.get("recipe_id"))
-            for r in data.get("meal_history", [])
+            for r in list(data.get("meal_history", {}).values())
             if int(r.get("household_id")) == int(household_id) and str(r.get("plan_date")) >= start.isoformat()
         ]
         return _json_dump({"household_id": household_id, "days_back": days_back, "recent_recipe_ids": out})

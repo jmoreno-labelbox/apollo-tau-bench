@@ -14,11 +14,11 @@ class CalculateCampaignROASForPeriod(Tool):
         start_date = kwargs.get("start_date")
         end_date = kwargs.get("end_date")
         
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         campaign_adsets = [adset for adset in adsets if adset.get("campaign_id") == campaign_id]
         adset_ids = [adset.get("adset_id") for adset in campaign_adsets]
         
-        insights = data.get("f_insights", [])
+        insights = list(data.get("f_insights", {}).values())
         total_revenue = 0
         total_spend = 0
         

@@ -11,7 +11,7 @@ class GetFeaturesByCsvPath(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], csv_path: str) -> str:
-        rows = data.get("features", [])
+        rows = list(data.get("features", {}).values())
         for row in rows:
             if row.get("csv_path") == csv_path:
                 return json.dumps(row)

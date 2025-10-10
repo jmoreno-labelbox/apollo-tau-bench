@@ -11,7 +11,7 @@ class CreateFileList(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         operation_id = kwargs.get("operation_id")
         filepaths = kwargs.get("filepaths", [])
-        file_lists = data.get("file_lists", [])
+        file_lists = list(data.get("file_lists", {}).values())
         
         max_id = 0
         if file_lists:
@@ -28,7 +28,7 @@ class CreateFileList(Tool):
             found_size = "0"
             found_checksum = 'a1f2e3d4c5b6789012345678901234567890abcd' # Default checksum
             file_found = False
-            for server in data.get("file_system", []):
+            for server in list(data.get("file_system", {}).values()):
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         current_path = f"{directory.get('path')}/{file.get('filename')}"

@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class get_position(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], position_id: str) -> str:
-        positions = data.get("positions", [])
+        positions = list(data.get("positions", {}).values())
         for p in positions:
             if p["position_id"] == position_id:
                 return json.dumps(p, indent=2)

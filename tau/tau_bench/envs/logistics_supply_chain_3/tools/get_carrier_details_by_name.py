@@ -11,7 +11,7 @@ class GetCarrierDetailsByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         carrier_name = kwargs.get("carrier_name")
-        carriers = data.get("carriers", [])
+        carriers = list(data.get("carriers", {}).values())
         for carrier in carriers:
             if carrier.get("carrier_name") == carrier_name:
                 return json.dumps(carrier)

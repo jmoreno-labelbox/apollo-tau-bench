@@ -1,5 +1,19 @@
 # Copyright Sierra
 
+
+
+# Helper functions
+def _params(data, kwargs):
+    """Merge data and kwargs into params dict."""
+    return {**data, **kwargs}
+
+def _require(params, keys):
+    """Check if required keys exist in params."""
+    missing = [k for k in keys if k not in params or params[k] is None]
+    if missing:
+        return f"Error: Missing required parameters: {', '.join(missing)}"
+    return None
+
 from .find_gmail_threads import find_gmail_threads
 from .get_gmail_thread import get_gmail_thread
 from .list_gmail_messages import list_gmail_messages

@@ -11,7 +11,7 @@ class GetGmailMessageBySubject(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], subject: str) -> str:
-        rows = data.get("gmail_messages", [])
+        rows = list(data.get("gmail_messages", {}).values())
         for row in rows:
             if row.get("subject") == subject:
                 return json.dumps(row)

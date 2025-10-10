@@ -11,7 +11,7 @@ class GetInvoiceDetails(Tool):
         invoice_id = kwargs.get("invoice_id")
         if not invoice_id:
             return json.dumps({"error": "invoice_id is required"}, indent=2)
-        invoices = data.get("invoices", [])
+        invoices = list(data.get("invoices", {}).values())
         inv = next((i for i in invoices if i.get("invoice_id") == invoice_id), None)
         return json.dumps(inv or {"error": f"Invoice {invoice_id} not found"}, indent=2)
 

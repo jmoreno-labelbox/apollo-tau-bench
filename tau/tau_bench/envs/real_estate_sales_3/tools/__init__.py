@@ -1,5 +1,25 @@
 # Copyright Sierra
 
+
+
+# Helper function
+def _next_int_id(items, id_key='id', prefix=''):
+    """Generate next integer ID based on existing items."""
+    if not items:
+        return f"{prefix}1"
+    max_id = 0
+    for item in items:
+        item_id = str(item.get(id_key, ''))
+        # Extract number from ID
+        if prefix:
+            item_id = item_id.replace(prefix, '')
+        try:
+            num = int(item_id)
+            max_id = max(max_id, num)
+        except (ValueError, AttributeError):
+            pass
+    return f"{prefix}{max_id + 1}"
+
 from .get_client_preferences import GetClientPreferences
 from .get_mortgage_profile import GetMortgageProfile
 from .get_property_and_listing import GetPropertyAndListing

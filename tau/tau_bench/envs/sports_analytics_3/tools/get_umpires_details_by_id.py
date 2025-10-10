@@ -17,7 +17,7 @@ class GetUmpiresDetailsById(Tool):
             return json.dumps({"error": "Missing required field: umpire_id"}, indent=2)
 
         # 2) Get DB
-        umpires: List[Dict[str, Any]] = data.get("umpires", [])
+        umpires: List[Dict[str, Any]] = list(data.get("umpires", {}).values())
 
         # 3) Exact match
         for ump in umpires:

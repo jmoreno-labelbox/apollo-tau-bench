@@ -10,7 +10,7 @@ class ModifyOnboardingFile(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         file_path = kwargs.get("file_path")
-        files = data.get("onboarding_files", [])
+        files = list(data.get("onboarding_files", {}).values())
         for f in files:
             if f.get("file_path") == file_path:
                 f.update(updates)

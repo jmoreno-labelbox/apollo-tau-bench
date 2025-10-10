@@ -15,7 +15,7 @@ class GetDailyAdsetInsights(Tool):
         if not aid or not date:
             return json.dumps({"success": False, "error": "adset_id and date are required"}, indent=2)
 
-        hits = [i for i in data.get("insights", []) if i.get("adset_id") == aid and i.get("date") == date]
+        hits = [i for i in list(data.get("insights", {}).values()) if i.get("adset_id") == aid and i.get("date") == date]
         if not hits:
             return json.dumps({"success": True, "adset_id": aid, "date": date, "rows": [], "count": 0}, indent=2)
 

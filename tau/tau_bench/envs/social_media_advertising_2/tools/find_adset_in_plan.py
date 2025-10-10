@@ -12,7 +12,7 @@ class FindAdsetInPlan(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         plan_id = kwargs.get("plan_id")
         adset_id = kwargs.get("adset_id")
-        for plan in data.get("plans", []):
+        for plan in list(data.get("plans", {}).values()):
             if plan.get("plan_id") == plan_id:
                 for a in plan.get("allocations", []):
                     if a.get("adset_id") == adset_id:

@@ -11,7 +11,7 @@ class ComputePaymentBehavior(Tool):
         pub_id = kwargs.get("publisher_id")
         if not pub_id:
             return json.dumps({"error": "publisher_id is required"}, indent=2)
-        pb = next((p for p in data.get("payment_behavior", []) if p.get("publisher_id") == pub_id), None)
+        pb = next((p for p in list(data.get("payment_behavior", {}).values()) if p.get("publisher_id") == pub_id), None)
         return json.dumps(pb or {"error": f"payment_behavior for {pub_id} not found"}, indent=2)
 
     @staticmethod

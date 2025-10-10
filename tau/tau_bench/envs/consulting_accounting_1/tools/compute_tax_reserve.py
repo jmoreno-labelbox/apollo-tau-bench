@@ -12,7 +12,7 @@ class ComputeTaxReserve(Tool):
         revenue = kwargs.get("ytd_revenue")
         if year is None or revenue is None:
             return json.dumps({"error": "tax_year and ytd_revenue are required"}, indent=2)
-        rate = next((t["rate_percent"] for t in data.get("tax_rates", []) if t.get("tax_year") == year), None)
+        rate = next((t["rate_percent"] for t in list(data.get("tax_rates", {}).values()) if t.get("tax_year") == year), None)
         if rate is None:
             return json.dumps({"error": f"No tax rate for {year}"}, indent=2)
         reserve = round(float(revenue) * (float(rate) / 100.0), 2)

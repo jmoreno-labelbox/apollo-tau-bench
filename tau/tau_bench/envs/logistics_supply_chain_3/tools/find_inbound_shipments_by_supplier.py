@@ -11,7 +11,7 @@ class FindInboundShipmentsBySupplier(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         supplier_id = kwargs.get("supplier_id")
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = list(data.get("inbound_shipments", {}).values())
         found_shipments = []
         for shipment in inbound_shipments:
             if shipment.get("supplier_id") == supplier_id:

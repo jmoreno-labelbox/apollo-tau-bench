@@ -17,7 +17,7 @@ class GetPlayerDetailsById(Tool):
             return json.dumps({"error": "Missing required field: player_id"}, indent=2)
 
         # 2) Get DB from passed-in data
-        players = data.get("players", [])
+        players = list(data.get("players", {}).values())
 
         # 3) Exact match lookup
         for player in players:

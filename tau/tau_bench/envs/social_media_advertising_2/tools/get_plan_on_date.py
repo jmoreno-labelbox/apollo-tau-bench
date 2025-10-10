@@ -11,7 +11,7 @@ class GetPlanOnDate(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         target_date = kwargs.get("date")
-        for plan in data.get("plans", []):
+        for plan in list(data.get("plans", {}).values()):
             if plan.get("date") == target_date:
                 return json.dumps(plan)
         return json.dumps({"error": f"No plan found for {target_date}"})

@@ -19,7 +19,7 @@ class AddItemsToCartBatch(Tool):
                 },
                 indent=2,
             )
-        cart_items = data.get("cart_items", [])
+        cart_items = list(data.get("cart_items", {}).values())
         created = []
         next_num = len(cart_items) + 1
         for it in items:

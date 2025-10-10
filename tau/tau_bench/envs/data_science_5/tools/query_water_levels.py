@@ -12,7 +12,7 @@ class QueryWaterLevels(Tool):
         start = kwargs.get("start")
         end = kwargs.get("end")
         out = []
-        for r in data.get("water_levels", []) or []:
+        for r in list(data.get("water_levels", {}).values()) or []:
             if station and r.get("station_id") != station:
                 continue
             ts = r.get("timestamp", "")

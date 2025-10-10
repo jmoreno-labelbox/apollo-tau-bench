@@ -11,15 +11,15 @@ class UpdateTaskStatus(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         task_id = kwargs.get("task_id")
         new_status = kwargs.get("new_status")
-        for task in data.get("task_logs", []):
+        for task in list(data.get("task_logs", {}).values()):
             if task.get("task_id") == task_id:
                 task["result"] = new_status
                 return json.dumps({"status": "success", "message": f"Task {task_id} status updated to {new_status}."})
-        for task in data.get("archive_instructions", []):
+        for task in list(data.get("archive_instructions", {}).values()):
             if task.get("archive_id") == task_id:
                 task["status"] = new_status
                 return json.dumps({"status": "success", "message": f"Task {task_id} status updated to {new_status}."})
-        for task in data.get("directories", []):
+        for task in list(data.get("directories", {}).values()):
              if task.get("operation_id") == task_id:
                 return json.dumps({"status": "success", "message": f"Task {task_id} status noted as {new_status}."})
         return json.dumps({"error": f"Task not found: {task_id}"})

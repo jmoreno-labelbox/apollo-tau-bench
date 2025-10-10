@@ -11,7 +11,7 @@ class FindProductByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         product_name = kwargs.get("product_name")
-        products = data.get("product_master", [])
+        products = list(data.get("product_master", {}).values())
         for product in products:
             if product.get("product_name") == product_name:
                 return json.dumps(

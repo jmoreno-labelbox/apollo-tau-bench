@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class WriteProcessedSeries(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        table = data.get("processed_timeseries", [])
+        table = list(data.get("processed_timeseries", {}).values())
         series_name = kwargs.get("series_name")
         items = kwargs.get("items") or []
         inserted = []

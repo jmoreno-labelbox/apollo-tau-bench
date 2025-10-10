@@ -11,7 +11,7 @@ class UpdateSubnetGroupDescription(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], subnet_group_id: Any, new_description: Any) -> str:
         subnet_group_id = _idstr(subnet_group_id)
-        groups = data.get("aws_subnet_groups", [])
+        groups = list(data.get("aws_subnet_groups", {}).values())
         for g in groups:
             if g.get("subnet_group_id") == subnet_group_id:
                 g["description"] = new_description

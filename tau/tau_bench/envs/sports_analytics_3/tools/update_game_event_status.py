@@ -26,7 +26,7 @@ class UpdateGameEventStatus(Tool):
             return json.dumps({"error": "Missing required field: draft_status"}, indent=2)
 
         # 2) Get DB
-        events: List[Dict[str, Any]] = data.get("game_day_events", [])
+        events: List[Dict[str, Any]] = list(data.get("game_day_events", {}).values())
 
         # 3) Find and update
         for event in events:

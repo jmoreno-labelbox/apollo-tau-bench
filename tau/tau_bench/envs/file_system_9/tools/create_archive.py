@@ -10,7 +10,7 @@ class CreateArchive(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         # Part 1: Create the instruction in archive_instructions.json
-        archive_instructions = data.get("archive_instructions", [])
+        archive_instructions = list(data.get("archive_instructions", {}).values())
         max_id = 0
         if archive_instructions:
             for instruction in archive_instructions:
@@ -48,7 +48,7 @@ class CreateArchive(Tool):
         total_size = 0
         for path in filepaths:
             file_found = False
-            for server in data.get("file_system", []):
+            for server in list(data.get("file_system", {}).values()):
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         if f"{directory.get('path')}/{file.get('filename')}" == path:

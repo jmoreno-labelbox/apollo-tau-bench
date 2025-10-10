@@ -10,7 +10,7 @@ class CreateAdset(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        all_adsets = data.get("adsets", [])
+        all_adsets = list(data.get("adsets", {}).values())
         new_id = str(max((int(a["adset_id"]) for a in all_adsets), default=100) + 1)
         new = {
             "adset_id": new_id,

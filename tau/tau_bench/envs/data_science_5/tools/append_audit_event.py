@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class AppendAuditEvent(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        logs = data.get("terminal_log", [])
+        logs = list(data.get("terminal_log", {}).values())
         max_id = 0
         for l in logs:
             try:

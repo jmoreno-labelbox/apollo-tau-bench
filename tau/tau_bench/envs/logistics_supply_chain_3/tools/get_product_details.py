@@ -11,7 +11,7 @@ class GetProductDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         sku = kwargs.get("sku")
-        products = data.get("product_master", [])
+        products = list(data.get("product_master", {}).values())
         for product in products:
             if product.get("sku") == sku:
                 return json.dumps(product)

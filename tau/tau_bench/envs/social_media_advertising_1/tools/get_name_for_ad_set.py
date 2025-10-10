@@ -11,7 +11,7 @@ class GetNameForAdSet(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         adset_id = kwargs.get("adset_id")
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         
         for adset in adsets:
             if adset.get("adset_id") == adset_id:

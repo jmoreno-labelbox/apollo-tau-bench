@@ -11,7 +11,7 @@ class GetAdSetIdForBudgetChange(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         change_id = kwargs.get("change_id")
-        changes = data.get("budget_changes", [])
+        changes = list(data.get("budget_changes", {}).values())
         
         for change in changes:
             if change.get("change_id") == change_id:

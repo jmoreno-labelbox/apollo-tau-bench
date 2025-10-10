@@ -11,7 +11,7 @@ class GetSecurityGroupRuleById(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], rule_id: Any) -> str:
         rule_id = _idstr(rule_id)
-        rules = data.get("aws_security_group_rules", [])
+        rules = list(data.get("aws_security_group_rules", {}).values())
         for r in rules:
             if r.get("rule_id") == rule_id:
                 return json.dumps(r, indent=2)

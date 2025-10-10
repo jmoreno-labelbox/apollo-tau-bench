@@ -14,7 +14,7 @@ class UpdatePolicyParam(Tool):
         param_value = kwargs.get("param_value")
         updated_at = kwargs.get("updated_at")
         
-        policy_params = data.get("policy_params", [])
+        policy_params = list(data.get("policy_params", {}).values())
         for param in policy_params:
             if param.get("param_name") == param_name:
                 old_value = param['param_value']

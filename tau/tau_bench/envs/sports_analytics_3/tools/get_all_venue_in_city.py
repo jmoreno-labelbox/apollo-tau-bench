@@ -17,7 +17,7 @@ class GetAllVenueInCity(Tool):
             return json.dumps({"error": "Missing required field: city"}, indent=2)
 
         # 2) Get DB
-        venues: List[Dict[str, Any]] = data.get("venues", [])
+        venues: List[Dict[str, Any]] = list(data.get("venues", {}).values())
 
         # 3) Filter by exact city
         matching = [v for v in venues if v.get("city") == city]

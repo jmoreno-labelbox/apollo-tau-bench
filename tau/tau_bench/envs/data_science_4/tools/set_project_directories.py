@@ -15,7 +15,7 @@ class SetProjectDirectories(Tool):
             "paths": files,
             "project_dir_id": project_dir_id,
         }
-        data.get("file_directory", []).append(file_dir)
+        list(data.get("file_directory", {}).values()).append(file_dir)
         return json.dumps({"status": "success", "project_dir_id": project_dir_id})
 
     @staticmethod

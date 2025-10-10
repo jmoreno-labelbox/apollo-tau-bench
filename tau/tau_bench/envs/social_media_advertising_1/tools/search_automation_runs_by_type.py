@@ -11,7 +11,7 @@ class SearchAutomationRunsByType(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         run_type = kwargs.get("run_type")
-        runs = data.get("automation_runs", [])
+        runs = list(data.get("automation_runs", {}).values())
         matching_runs = []
         
         for run in runs:

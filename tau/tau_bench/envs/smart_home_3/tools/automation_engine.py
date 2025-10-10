@@ -77,7 +77,7 @@ class AutomationEngine(Tool):
                 elif trigger_type == 'sensor_threshold':
                     sensor_id = trigger.get('sensor_id')
                     threshold = trigger.get('threshold', {})
-                    for sensor in data.get('sensors', []):
+                    for sensor in list(data.get('sensors', {}).values()):
                         if sensor['id'] == sensor_id:
                             for param, limit in threshold.items():
                                 current_value = sensor['state'].get(param)

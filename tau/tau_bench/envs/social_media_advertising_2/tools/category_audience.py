@@ -11,7 +11,7 @@ class CategoryAudience(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cat, date = kwargs.get("category"), kwargs.get("date")
-        for v in data.get("f_viewership", []):
+        for v in list(data.get("f_viewership", {}).values()):
             if v.get("category") == cat and v.get("date") == date:
                 return json.dumps(v)
         return json.dumps({"error": "Viewership not found"})

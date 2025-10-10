@@ -9,7 +9,7 @@ class RemoveAccessCheck(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         check_id = kwargs.get("check_id")
-        checks = data.get("access_checks", [])
+        checks = list(data.get("access_checks", {}).values())
         data["access_checks"] = [c for c in checks if c.get("check_id") != check_id]
         return json.dumps({"removed_check_id": check_id}, indent=2)
 

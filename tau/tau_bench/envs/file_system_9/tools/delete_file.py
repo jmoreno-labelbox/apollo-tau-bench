@@ -10,7 +10,7 @@ class DeleteFile(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         filepath = kwargs.get("filepath")
-        for server in data.get("file_system", []):
+        for server in list(data.get("file_system", {}).values()):
             for directory in server.get("directories", []):
                 original_len = len(directory.get("files", []))
                 directory["files"] = [f for f in directory.get("files", []) if f"{directory.get('path')}/{f.get('filename')}" != filepath]

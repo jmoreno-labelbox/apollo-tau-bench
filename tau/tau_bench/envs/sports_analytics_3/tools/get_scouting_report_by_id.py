@@ -17,7 +17,7 @@ class GetScoutingReportById(Tool):
             return json.dumps({"error": "Missing required field: report_id"}, indent=2)
 
         # 2) Get DB from passed-in data
-        reports: List[Dict[str, Any]] = data.get("scouting_reports", [])
+        reports: List[Dict[str, Any]] = list(data.get("scouting_reports", {}).values())
 
         # 3) Exact match lookup
         for report in reports:

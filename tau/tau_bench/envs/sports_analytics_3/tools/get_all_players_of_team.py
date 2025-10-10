@@ -17,7 +17,7 @@ class GetAllPlayersOfTeam(Tool):
             return json.dumps({"error": "Missing required field: team_id"}, indent=2)
 
         # 2) Get DB from passed-in data
-        players: List[Dict[str, Any]] = data.get("players", [])
+        players: List[Dict[str, Any]] = list(data.get("players", {}).values())
 
         # 3) Filter players by exact team_id
         matching_players = [

@@ -9,7 +9,7 @@ class AddAttachment(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         new_attach = kwargs.get("attachment") or {}
-        attachments = data.get("attachments", [])
+        attachments = list(data.get("attachments", {}).values())
         attachments.append(new_attach)
         data["attachments"] = attachments
         return json.dumps({"added_attachment": new_attach}, indent=2)

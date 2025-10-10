@@ -10,7 +10,7 @@ class BuildInvoiceLines(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         time_entries_ids = kwargs.get("time_entries", [])
         hourly_rate = float(kwargs.get("hourly_rate", 0.0))
-        entries_index = {t["time_entry_id"]: t for t in data.get("time_entries", [])}
+        entries_index = {t["time_entry_id"]: t for t in list(data.get("time_entries", {}).values())}
         lines = []
         subtotal = 0.0
         for idx, tid in enumerate(time_entries_ids, start=1):

@@ -32,7 +32,7 @@ class GetPlayerInsightsByPlayeridAndType(Tool):
             return json.dumps({"error": "Missing required field: type"}, indent=2)
 
         # 2) Get DB
-        insights: List[Dict[str, Any]] = data.get("curated_insights", [])
+        insights: List[Dict[str, Any]] = list(data.get("curated_insights", {}).values())
 
         # 3) Filter by player_id
         player_insights = [i for i in insights if i.get("player_id") == player_id]

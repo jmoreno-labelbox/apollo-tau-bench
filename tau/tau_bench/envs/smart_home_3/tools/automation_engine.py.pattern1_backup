@@ -1,0 +1,122 @@
+# Copyright Sierra
+
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class AutomationEngine(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        action = kwargs.get('action', 'get')
+        rule_id = kwargs.get('rule_id')
+        trigger_type = kwargs.get('trigger_type')
+        rule_data = kwargs.get('rule_data', {})
+
+        if 'automation_rules' not in data:
+            data['automation_rules'] = []
+
+        rules = data['automation_rules']
+
+        if action == 'get':
+            result = [r for r in rules if (not rule_id or r.get('id') == rule_id) and
+                     (not trigger_type or r.get('trigger', {}).get('type') == trigger_type)]
+            return json.dumps(result, indent=2)
+
+        elif action == 'create':
+            if not rule_data:
+                return json.dumps({"error": "rule_data required"}, indent=2)
+            rules.append(rule_data)
+            return json.dumps({"success": f"Created automation rule {rule_data.get('id')}"}, indent=2)
+
+        elif action == 'execute':
+            if not rule_id:
+                return json.dumps({"error": "rule_id required for execution"}, indent=2)
+            for rule in rules:
+                if rule.get('id') == rule_id:
+                    executed_actions = []
+                    for action_item in rule.get('actions', []):
+                        if action_item.get('type') == 'device_control':
+                            device_id = action_item.get('device_id')
+                            updates = action_item.get('updates', {})
+                            for device in list(data.get('devices', {}).values()):
+                                if device['id'] == device_id:
+                                    device['state'].update(updates)
+                                    device['state']['last_updated'] = _now_iso()
+                                    executed_actions.append(f"Updated {device_id}")
+                        elif action_item.get('type') == 'scene_execute':
+                            scene_id = action_item.get('scene_id')
+                            for scene in list(data.get('scenes', {}).values()):
+                                if scene['id'] == scene_id:
+                                    executed_actions.append(f"Executed scene {scene_id}")
+                        elif action_item.get('type') == 'notification':
+                            executed_actions.append(f"Sent notification: {action_item.get('message')}")
+
+                    return json.dumps({"success": f"Executed rule {rule_id}", "actions": executed_actions}, indent=2)
+
+            return json.dumps({"error": "Rule not found"}, indent=2)
+
+        elif action == 'evaluate_triggers':
+            triggered_rules = []
+            for rule in rules:
+                trigger = rule.get('trigger', {})
+                trigger_type = trigger.get('type')
+
+                if trigger_type == 'device_state':
+                    device_id = trigger.get('device_id')
+                    condition = trigger.get('condition', {})
+                    for device in list(data.get('devices', {}).values()):
+                        if device['id'] == device_id:
+                            state_matches = all(
+                                device['state'].get(key) == value
+                                for key, value in condition.items()
+                            )
+                            if state_matches:
+                                triggered_rules.append(rule['id'])
+
+                elif trigger_type == 'sensor_threshold':
+                    sensor_id = trigger.get('sensor_id')
+                    threshold = trigger.get('threshold', {})
+                    for sensor in data.get('sensors', []):
+                        if sensor['id'] == sensor_id:
+                            for param, limit in threshold.items():
+                                current_value = sensor['state'].get(param)
+                                if (limit.get('operator') == 'gt' and current_value > limit.get('value')) or \
+                                   (limit.get('operator') == 'lt' and current_value < limit.get('value')):
+                                    triggered_rules.append(rule['id'])
+
+                elif trigger_type == 'member_presence':
+                    member_id = trigger.get('member_id')
+                    presence_state = trigger.get('presence_state')
+                    triggered_rules.append(f"Would trigger on {member_id} {presence_state}")
+
+            return json.dumps({"triggered_rules": triggered_rules}, indent=2)
+
+        elif action == 'delete':
+            if not rule_id:
+                return json.dumps({"error": "rule_id required"}, indent=2)
+            rules[:] = [r for r in rules if r.get('id') != rule_id]
+            return json.dumps({"success": f"Deleted automation rule {rule_id}"}, indent=2)
+
+        return json.dumps({"error": "Invalid action"}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "automation_engine",
+                "description": "Advanced automation rules and cross-entity interactions",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "action": {"type": "string", "enum": ["get", "create", "execute", "evaluate_triggers", "delete"]},
+                        "rule_id": {"type": "string", "description": "Automation rule ID"},
+                        "trigger_type": {"type": "string", "enum": ["device_state", "sensor_threshold", "time_based", "member_presence"], "description": "Filter by trigger type"},
+                        "rule_data": {"type": "object", "description": "Complete automation rule data for creation"}
+                    },
+                    "required": ["action"],
+                    "additionalProperties": False
+                }
+            }
+        }

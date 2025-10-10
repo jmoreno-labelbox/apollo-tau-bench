@@ -10,7 +10,7 @@ class ModifyAccessCheck(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         check_id = kwargs.get("check_id")
-        checks = data.get("access_checks", [])
+        checks = list(data.get("access_checks", {}).values())
         for c in checks:
             if c.get("check_id") == check_id:
                 c.update(updates)

@@ -29,7 +29,7 @@ class GetScoutingReportByGamepkAndType(Tool):
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
         # 2) Get DB
-        reports: List[Dict[str, Any]] = data.get("scouting_reports", [])
+        reports: List[Dict[str, Any]] = list(data.get("scouting_reports", {}).values())
 
         # 3) Filter
         matches = [r for r in reports if r.get("game_pk") == game_pk]

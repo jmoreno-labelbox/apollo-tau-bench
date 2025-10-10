@@ -17,7 +17,7 @@ class GetVenueByName(Tool):
             return json.dumps({"error": "Missing required field: name"}, indent=2)
 
         # 2) Get DB
-        venues: List[Dict[str, Any]] = data.get("venues", [])
+        venues: List[Dict[str, Any]] = list(data.get("venues", {}).values())
 
         # 3) Exact match (no normalization)
         for venue in venues:

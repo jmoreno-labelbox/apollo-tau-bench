@@ -13,7 +13,7 @@ class FindFiles(Tool):
         search_path = kwargs.get("search_path")
         
         found_files = []
-        for server in data.get("file_system", []):
+        for server in list(data.get("file_system", {}).values()):
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     if directory.get("path").startswith(search_path):

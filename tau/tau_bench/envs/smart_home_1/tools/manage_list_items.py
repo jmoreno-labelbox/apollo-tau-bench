@@ -9,7 +9,7 @@ class ManageListItems(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], list_id: str, action: str, items: List[str], quantities: Dict[str, int]) -> str:
-        target = next((l for l in data.get("custom_lists", []) if l["list_id"] == list_id), None)
+        target = next((l for l in list(data.get("custom_lists", {}).values()) if l["list_id"] == list_id), None)
         if not target:
             return json.dumps({"error": "List not found"}, indent=2)
         if action == "list":

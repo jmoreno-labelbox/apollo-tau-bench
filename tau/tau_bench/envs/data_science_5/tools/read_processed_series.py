@@ -12,7 +12,7 @@ class ReadProcessedSeries(Tool):
         start = kwargs.get("start")
         end = kwargs.get("end")
         rows = []
-        for r in data.get("processed_timeseries", []) or []:
+        for r in list(data.get("processed_timeseries", {}).values()) or []:
             if name and r.get("series_name") != name:
                 continue
             ts = r.get("timestamp", "")

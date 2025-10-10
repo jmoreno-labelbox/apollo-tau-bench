@@ -11,7 +11,7 @@ class GetDateForPlan(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         plan_id = kwargs.get("plan_id")
-        plans = data.get("plans", [])
+        plans = list(data.get("plans", {}).values())
         
         for plan in plans:
             if plan.get("plan_id") == plan_id:

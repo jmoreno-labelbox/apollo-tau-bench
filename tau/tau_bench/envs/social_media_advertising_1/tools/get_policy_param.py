@@ -11,7 +11,7 @@ class GetPolicyParam(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         param_name = kwargs.get("param_name")
-        policy_params = data.get("policy_params", [])
+        policy_params = list(data.get("policy_params", {}).values())
         
         for param in policy_params:
             if param.get("param_name") == param_name:

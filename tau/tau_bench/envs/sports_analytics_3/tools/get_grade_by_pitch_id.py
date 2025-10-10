@@ -17,7 +17,7 @@ class GetGradeByPitchId(Tool):
             return json.dumps({"error": "Missing required field: pitch_id"}, indent=2)
 
         # 2) Get DB
-        grades: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
         # 3) Exact match
         for rec in grades:

@@ -1,5 +1,13 @@
 # Copyright Sierra
 
+from datetime import datetime
+
+def _fixed_now_iso():
+    """Return current time in ISO format."""
+    return datetime.now().isoformat()
+
+
+
 from .fetch_project_config import FetchProjectConfig
 from .modify_project_config import ModifyProjectConfig
 from .fetch_environment import FetchEnvironment
@@ -30,13 +38,6 @@ from .fetch_stakeholder_output import FetchStakeholderOutput
 from .dispatch_results_email import DispatchResultsEmail
 from .write_terminal_log import WriteTerminalLog
 from .browse_terminal_log import BrowseTerminalLog
-
-from datetime import datetime
-
-def _fixed_now_iso():
-    """Return current time in ISO format."""
-    return datetime.now().isoformat()
-
 
 ALL_TOOLS = [
     FetchProjectConfig,

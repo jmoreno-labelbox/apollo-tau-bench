@@ -41,7 +41,7 @@ class CreateIngestionLog(Tool):
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
         # 2) Access DB
-        logs: List[Dict[str, Any]] = data.get("ingestion_logs", [])
+        logs: List[Dict[str, Any]] = list(data.get("ingestion_logs", {}).values())
 
         # 3) Generate new ingestion_id deterministically
         new_id = get_next_ingestion_id(data)

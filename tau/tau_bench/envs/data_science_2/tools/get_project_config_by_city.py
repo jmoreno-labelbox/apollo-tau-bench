@@ -11,7 +11,7 @@ class GetProjectConfigByCity(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], target_city: str) -> str:
-        rows = data.get("project_config", [])
+        rows = list(data.get("project_config", {}).values())
         for row in rows:
             if row.get("target_city") == target_city:
                 return json.dumps(row)

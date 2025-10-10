@@ -1,5 +1,15 @@
 # Copyright Sierra
 
+
+
+# Helper function
+def _find(items, predicate):
+    """Find first item matching predicate."""
+    for item in items:
+        if predicate(item):
+            return item
+    return None
+
 from .get_entity import GetEntity
 from .query_entities import QueryEntities
 from .upsert_device import UpsertDevice

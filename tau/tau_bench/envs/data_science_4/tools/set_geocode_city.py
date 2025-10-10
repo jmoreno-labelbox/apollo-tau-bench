@@ -10,7 +10,7 @@ class SetGeocodeCity(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         city_name = kwargs.get("city_name")
 
-        results = data.get("geocoding_results", [])
+        results = list(data.get("geocoding_results", {}).values())
         for result in results:
             if result.get("query_city") == city_name:
                 return json.dumps(result)
@@ -22,7 +22,7 @@ class SetGeocodeCity(Tool):
             "longitude": LONG,
             "raw_json_path_nullable": f"/data/raw/geocoding_{json_city_path}.json",
         }
-        data.get("geocoding_results", []).append(result)
+        list(data.get("geocoding_results", {}).values()).append(result)
         return json.dumps(result)
 
     @staticmethod

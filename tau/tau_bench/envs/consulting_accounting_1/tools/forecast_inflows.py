@@ -18,7 +18,7 @@ class ForecastInflows(Tool):
             discount = 0.3
         import datetime as _dt
         today = _dt.datetime.fromisoformat("2024-11-30")
-        invoices = data.get("invoices", [])
+        invoices = list(data.get("invoices", {}).values())
         total_expected = 0.0
         breakdown = []
         for inv_id in invoices_ids:

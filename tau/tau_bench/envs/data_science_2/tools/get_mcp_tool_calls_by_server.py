@@ -11,7 +11,7 @@ class GetMcpToolCallsByServer(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], server_name: str) -> str:
-        rows = data.get("mcp_tool_calls", [])
+        rows = list(data.get("mcp_tool_calls", {}).values())
         out: List[Dict[str, Any]] = []
         for row in rows:
             servers = row.get("server_names", [])

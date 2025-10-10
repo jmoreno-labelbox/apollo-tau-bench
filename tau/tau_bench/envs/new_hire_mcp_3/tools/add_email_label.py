@@ -9,7 +9,7 @@ class AddEmailLabel(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         new_label = kwargs.get("label") or {}
-        labels = data.get("email_labels", [])
+        labels = list(data.get("email_labels", {}).values())
         labels.append(new_label)
         data["email_labels"] = labels
         return json.dumps({"added_label": new_label}, indent=2)

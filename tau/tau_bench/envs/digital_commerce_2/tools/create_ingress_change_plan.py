@@ -17,7 +17,7 @@ class CreateIngressChangePlan(Tool):
         final_description: Any = None,
         env_tag: Any = None,
     ) -> Dict[str, Any]:
-        rules = data.get("aws_security_group_rules", [])
+        rules = list(data.get("aws_security_group_rules", {}).values())
 
         def find_rule(rid):
             if isinstance(rules, dict):

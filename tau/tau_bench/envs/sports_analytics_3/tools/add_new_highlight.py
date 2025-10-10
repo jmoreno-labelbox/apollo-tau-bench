@@ -38,7 +38,7 @@ class AddNewHighlight(Tool):
         full_name = f"Game Highlights - {name}"
 
         # 2) Get DB
-        playlists: List[Dict[str, Any]] = data.get("video_playlists", [])
+        playlists: List[Dict[str, Any]] = list(data.get("video_playlists", {}).values())
 
         # 3) Try to find existing
         target = None

@@ -18,6 +18,15 @@ def _first_user_id(data):
     return None
 
 
+
+
+# Helper function
+import json
+
+def _json_dump(obj):
+    """Dump object to JSON string."""
+    return json.dumps(obj, indent=2)
+
 from .get_user_by_email import GetUserByEmail
 from .get_household_by_user_id import GetHouseholdByUserId
 from .list_household_members import ListHouseholdMembers

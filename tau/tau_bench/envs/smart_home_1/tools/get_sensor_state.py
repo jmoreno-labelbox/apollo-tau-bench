@@ -9,7 +9,7 @@ class GetSensorState(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], sensor_id: str) -> str:
-        for sen in data.get("sensors", []):
+        for sen in list(data.get("sensors", {}).values()):
             if sen["id"] == sensor_id:
                 return json.dumps({"state": sen["state"]}, indent=2)
         return json.dumps({"error": "Sensor not found"}, indent=2)

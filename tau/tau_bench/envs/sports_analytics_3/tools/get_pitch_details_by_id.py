@@ -17,7 +17,7 @@ class GetPitchDetailsById(Tool):
             return json.dumps({"error": "Missing required field: pitch_id"}, indent=2)
 
         # 2) Get DB
-        pitches: List[Dict[str, Any]] = data.get("pitches", [])
+        pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
         # 3) Exact match
         for p in pitches:

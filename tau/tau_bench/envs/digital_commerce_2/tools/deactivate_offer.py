@@ -13,7 +13,7 @@ class DeactivateOffer(Tool):
         offer_code = offer_code
         if not offer_code:
             return json.dumps({"error": "Missing required field: offer_code"}, indent=2)
-        offers = data.get("offers", [])
+        offers = list(data.get("offers", {}).values())
         for offer in offers:
             if offer.get("offer_code") == offer_code:
                 offer["is_active"] = False

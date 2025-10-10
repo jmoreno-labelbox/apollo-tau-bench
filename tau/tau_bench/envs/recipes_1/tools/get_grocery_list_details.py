@@ -3,6 +3,7 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
+from . import _require
 
 
 class GetGroceryListDetails(Tool):
@@ -15,7 +16,7 @@ class GetGroceryListDetails(Tool):
         header = _require(data, "grocery_lists", "list_id", int(list_id))
         if not header:
             return _json_dump({"error": f"list_id {list_id} not found"})
-        items = [i for i in data.get("grocery_list_items", []) if int(i.get("list_id")) == int(list_id)]
+        items = [i for i in list(data.get("grocery_list_items", {}).values()) if int(i.get("list_id")) == int(list_id)]
         return _json_dump({"grocery_list": header, "items": items})
 
     @staticmethod

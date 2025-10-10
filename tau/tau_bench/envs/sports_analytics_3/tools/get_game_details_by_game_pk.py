@@ -17,7 +17,7 @@ class GetGameDetailsByGamePk(Tool):
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
         # 2) Get DB
-        games: List[Dict[str, Any]] = data.get("games", [])
+        games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
         # 3) Exact match lookup
         for game in games:

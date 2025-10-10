@@ -32,7 +32,7 @@ class GetGradesByGradeForGame(Tool):
             return json.dumps({"error": "Missing required field: grades (non-empty list of strings)"}, indent=2)
 
         # 2) Get DB
-        records: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
+        records: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
         # 3) Filter (exact, case-sensitive)
         allowed = set(grades_filter)

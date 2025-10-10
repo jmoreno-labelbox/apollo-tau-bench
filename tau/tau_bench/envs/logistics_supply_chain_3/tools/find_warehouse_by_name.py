@@ -11,7 +11,7 @@ class FindWarehouseByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         warehouse_name = kwargs.get("warehouse_name")
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         for warehouse in warehouses:
             if warehouse.get("warehouse_name") == warehouse_name:
                 return json.dumps({"warehouse_id": warehouse.get("warehouse_id")})

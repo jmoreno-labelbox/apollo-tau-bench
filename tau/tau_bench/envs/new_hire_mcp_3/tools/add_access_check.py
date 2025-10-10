@@ -9,7 +9,7 @@ class AddAccessCheck(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         new_check = kwargs.get("check") or {}
-        checks = data.get("access_checks", [])
+        checks = list(data.get("access_checks", {}).values())
         checks.append(new_check)
         data["access_checks"] = checks
         return json.dumps({"added_check": new_check}, indent=2)

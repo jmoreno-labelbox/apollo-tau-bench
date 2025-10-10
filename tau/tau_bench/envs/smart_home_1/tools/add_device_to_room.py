@@ -10,7 +10,7 @@ class AddDeviceToRoom(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], room_id: str, device_id: str) -> str:
-        rooms_doc: List[Dict[str, Any]] = data.get("rooms", [])
+        rooms_doc: List[Dict[str, Any]] = list(data.get("rooms", {}).values())
         target_room = next(
             (room for room in rooms_doc if room["id"] == room_id),
             None,

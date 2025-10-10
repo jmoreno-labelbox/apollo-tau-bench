@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class FetchEtlExecution(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        runs = data.get("etl_runs", []) or []
+        runs = list(data.get("etl_runs", {}).values()) or []
         rid = kwargs.get("run_id")
         rname = kwargs.get("run_name")
         row = None

@@ -9,7 +9,7 @@ class RemoveAttachment(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         attach_id = kwargs.get("attachment_id")
-        attachments = data.get("attachments", [])
+        attachments = list(data.get("attachments", {}).values())
         data["attachments"] = [a for a in attachments if a.get("attachment_id") != attach_id]
         return json.dumps({"removed_attachment_id": attach_id}, indent=2)
 

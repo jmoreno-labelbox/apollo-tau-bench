@@ -42,7 +42,7 @@ class CreateNewGoal(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        goals: List[Dict[str, Any]] = data.get("player_dev_goals", [])
+        goals: List[Dict[str, Any]] = list(data.get("player_dev_goals", {}).values())
 
 
         new_goal = {

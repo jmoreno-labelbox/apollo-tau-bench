@@ -9,7 +9,7 @@ class RemoveEmailLabel(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         label_id = kwargs.get("label_id")
-        labels = data.get("email_labels", [])
+        labels = list(data.get("email_labels", {}).values())
         data["email_labels"] = [l for l in labels if l.get("label_id") != label_id]
         return json.dumps({"removed_label_id": label_id}, indent=2)
 

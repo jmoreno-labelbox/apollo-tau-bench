@@ -12,7 +12,7 @@ class CreateDirectory(Tool):
         server_hostname = kwargs.get("server_hostname")
         new_directory_path = kwargs.get("new_directory_path")
 
-        for server in data.get("file_system", []):
+        for server in list(data.get("file_system", {}).values()):
             if server.get("hostname") == server_hostname:
                 server["directories"].append({"path": new_directory_path, "files": []})
                 return json.dumps({"status": "success", "message": f"Directory '{new_directory_path}' created on '{server_hostname}'."})

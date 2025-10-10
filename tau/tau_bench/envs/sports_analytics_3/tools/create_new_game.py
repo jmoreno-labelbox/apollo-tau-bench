@@ -41,7 +41,7 @@ class CreateNewGame(Tool):
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
         # 2) Get DB from passed-in data
-        games: List[Dict[str, Any]] = data.get("games", [])
+        games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
         # 3) Generate a new unique game_pk deterministically from DB state
         

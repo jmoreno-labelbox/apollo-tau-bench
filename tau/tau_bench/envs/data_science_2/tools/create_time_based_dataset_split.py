@@ -11,7 +11,7 @@ class CreateTimeBasedDatasetSplit(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], processed_csv_path: str, test_fraction: float, split_summary_json_path: str, split_ts: str) -> str:
-        pts = data.get("processed_timeseries", [])
+        pts = list(data.get("processed_timeseries", {}).values())
         row = None
         for r in pts:
             if r.get("csv_path") == processed_csv_path:

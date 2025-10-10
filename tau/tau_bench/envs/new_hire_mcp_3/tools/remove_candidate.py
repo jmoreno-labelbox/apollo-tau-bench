@@ -9,7 +9,7 @@ class RemoveCandidate(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         candidate_id = kwargs.get("candidate_id")
-        candidates = data.get("candidates", [])
+        candidates = list(data.get("candidates", {}).values())
         data["candidates"] = [c for c in candidates if c.get("candidate_id") != candidate_id]
         return json.dumps({"removed_candidate_id": candidate_id}, indent=2)
 

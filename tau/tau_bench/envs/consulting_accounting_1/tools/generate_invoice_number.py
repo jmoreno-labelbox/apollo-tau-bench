@@ -11,7 +11,7 @@ class GenerateInvoiceNumber(Tool):
         year = kwargs.get("year")
         if not year:
             return json.dumps({"error": "year is required"}, indent=2)
-        existing = [i.get("invoice_number") for i in data.get("invoices", []) if str(i.get("invoice_number", "")).startswith(f"{year}-")]
+        existing = [i.get("invoice_number") for i in list(data.get("invoices", {}).values()) if str(i.get("invoice_number", "")).startswith(f"{year}-")]
         seqs = []
         for num in existing:
             try:

@@ -27,7 +27,7 @@ class SetCoastalMeteorology(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/coastal_meteorology_{station_id}.json",
         }
-        data.get("coastal_meteorology_data", []).append(coastal_meteorology_data)
+        list(data.get("coastal_meteorology_data", {}).values()).append(coastal_meteorology_data)
         return json.dumps(coastal_meteorology_data)
 
     @staticmethod

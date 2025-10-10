@@ -15,7 +15,7 @@ class TransferFile(Tool):
         source_file_details = None
         file_found = False
         source_server_hostname = None
-        for server in data.get("file_system", []):
+        for server in list(data.get("file_system", {}).values()):
             for directory in server.get("directories", []):
                 for file in directory.get("files", []):
                     if f"{directory.get('path')}/{file.get('filename')}" == source_path:
@@ -30,7 +30,7 @@ class TransferFile(Tool):
              # Check if the source path includes a server name (for inter-server transfers)
             try:
                 source_hostname, path = source_path.split(":", 1)
-                for server in data.get("file_system", []):
+                for server in list(data.get("file_system", {}).values()):
                     if server.get("hostname") == source_hostname:
                          for directory in server.get("directories", []):
                             for file in directory.get("files", []):

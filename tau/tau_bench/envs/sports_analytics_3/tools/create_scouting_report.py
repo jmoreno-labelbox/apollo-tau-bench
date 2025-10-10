@@ -37,7 +37,7 @@ class CreateScoutingReport(Tool):
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
         # 2) Get DB
-        reports: List[Dict[str, Any]] = data.get("scouting_reports", [])
+        reports: List[Dict[str, Any]] = list(data.get("scouting_reports", {}).values())
 
         # 3) Generate new id
         new_id = get_next_scouting_report_id(data)

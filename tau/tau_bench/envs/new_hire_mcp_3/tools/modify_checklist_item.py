@@ -10,7 +10,7 @@ class ModifyChecklistItem(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         item_id = kwargs.get("item_id")
-        items = data.get("checklist_items", [])
+        items = list(data.get("checklist_items", {}).values())
         for i in items:
             if i.get("item_id") == item_id:
                 i.update(updates)

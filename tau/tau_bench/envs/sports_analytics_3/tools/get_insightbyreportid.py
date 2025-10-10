@@ -17,7 +17,7 @@ class GetInsightbyreportid(Tool):
             return json.dumps({"error": "Missing required field: report_id"}, indent=2)
 
         # 2) Get DB
-        insights: List[Dict[str, Any]] = data.get("curated_insights", [])
+        insights: List[Dict[str, Any]] = list(data.get("curated_insights", {}).values())
 
         # 3) Exact match lookup (no normalization)
         matches = [i for i in insights if i.get("report_id") == report_id]

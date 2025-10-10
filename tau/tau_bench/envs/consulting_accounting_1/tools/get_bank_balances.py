@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetBankBalances(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        accts = data.get("bank_accounts", [])
+        accts = list(data.get("bank_accounts", {}).values())
         total = 0.0
         details: List[Dict[str, Any]] = []
         for a in accts:

@@ -19,7 +19,7 @@ class SetWaterLevels(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/water_levels_{station_id}.json",
         }
-        data.get("water_level_data", []).append(water_level_data)
+        list(data.get("water_level_data", {}).values()).append(water_level_data)
         return json.dumps(water_level_data)
 
     @staticmethod

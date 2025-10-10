@@ -13,7 +13,7 @@ class ListStoreProducts(Tool):
         ingredient_id = kwargs.get("ingredient_id")
         if store_id is None:
             return _json_dump({"error": "store_id is required"})
-        rows = [p for p in data.get("store_products", []) if int(p.get("store_id")) == int(store_id)]
+        rows = [p for p in list(data.get("store_products", {}).values()) if int(p.get("store_id")) == int(store_id)]
         if ingredient_id is not None:
             rows = [p for p in rows if int(p.get("ingredient_id")) == int(ingredient_id)]
         return _json_dump(rows)

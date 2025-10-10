@@ -14,7 +14,7 @@ class SearchNeighborhoods(Tool):
         min_avg_price = kwargs.get('min_avg_price', 0)
         max_avg_price = kwargs.get('max_avg_price', float('inf'))
         
-        neighborhoods = data.get('neighborhoods', [])
+        neighborhoods = list(data.get('neighborhoods', {}).values())
         results = []
         
         for neighborhood in neighborhoods:

@@ -10,7 +10,7 @@ class FindCheapestCarrierByService(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carriers = data.get("carriers", [])
+        carriers = list(data.get("carriers", {}).values())
         mode_of_transport = kwargs.get("mode_of_transport")
         service_level = kwargs.get("service_level")
 

@@ -17,7 +17,7 @@ class GetAllPitchesForGame(Tool):
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
         # 2) Get DB
-        pitches: List[Dict[str, Any]] = data.get("pitches", [])
+        pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
         # 3) Filter and deterministic order within game
         result = [p for p in pitches if p.get("game_pk") == game_pk]

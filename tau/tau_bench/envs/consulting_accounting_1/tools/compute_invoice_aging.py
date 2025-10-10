@@ -13,7 +13,7 @@ class ComputeInvoiceAging(Tool):
         today_str = kwargs.get("today")
         if not invoice_id or not today_str:
             return json.dumps({"error": "invoice_id and today are required"}, indent=2)
-        invoices = data.get("invoices", [])
+        invoices = list(data.get("invoices", {}).values())
         inv = next((i for i in invoices if i.get("invoice_id") == invoice_id), None)
         if not inv:
             return json.dumps({"error": f"Invoice {invoice_id} not found"}, indent=2)

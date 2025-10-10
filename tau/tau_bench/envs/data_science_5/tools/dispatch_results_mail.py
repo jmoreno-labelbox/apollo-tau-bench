@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class DispatchResultsMail(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inbox = data.get("gmail_messages", [])
+        inbox = list(data.get("gmail_messages", {}).values())
         max_id = 0
         for m in inbox:
             try:

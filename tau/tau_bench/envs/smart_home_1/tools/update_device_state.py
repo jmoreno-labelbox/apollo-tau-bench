@@ -28,7 +28,7 @@ class UpdateDeviceState(Tool):
                     indent=2,
                 )
         # try sensors if not found in devices
-        sensors: List[Dict[str, Any]] = data.get("sensors", [])
+        sensors: List[Dict[str, Any]] = list(data.get("sensors", {}).values())
         for sensor in sensors:
             if sensor.get("id") == device_id:
                 allowed = set(sensor.get("state_params", []))

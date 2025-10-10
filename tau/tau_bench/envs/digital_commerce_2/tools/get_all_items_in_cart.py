@@ -13,7 +13,7 @@ class GetAllItemsInCart(Tool):
         cart_id = _idstr(cart_id)
         if not cart_id:
             return json.dumps({"error": "Missing required field: cart_id"}, indent=2)
-        cart_items = data.get("cart_items", [])
+        cart_items = list(data.get("cart_items", {}).values())
         items_list = []
         for item in cart_items:
             if item.get("cart_id") == cart_id:

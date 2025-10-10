@@ -15,7 +15,7 @@ class ApplyIngressPlanStep(Tool):
         plan_id: Any,
         step_index: Any,
     ) -> Dict[str, Any]:
-        rules = data.get("aws_security_group_rules", [])
+        rules = list(data.get("aws_security_group_rules", {}).values())
 
         def find_rule(rid):
             if isinstance(rules, dict):

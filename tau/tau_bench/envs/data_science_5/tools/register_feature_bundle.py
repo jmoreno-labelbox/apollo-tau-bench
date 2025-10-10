@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class RegisterFeatureBundle(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        feats = data.get("features", [])
+        feats = list(data.get("features", {}).values())
         max_id = 0
         for f in feats:
             try:

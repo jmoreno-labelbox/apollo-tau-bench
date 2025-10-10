@@ -11,7 +11,7 @@ class GetStationsByLocation(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], query_latitude: float, query_longitude: float, radius_km: float) -> str:
-        rows = data.get("noaa_station_searches", [])
+        rows = list(data.get("noaa_station_searches", {}).values())
         for row in rows:
             if row.get("query_latitude") == query_latitude and row.get("query_longitude") == query_longitude and row.get("radius_km") == radius_km:
                 return json.dumps(row)

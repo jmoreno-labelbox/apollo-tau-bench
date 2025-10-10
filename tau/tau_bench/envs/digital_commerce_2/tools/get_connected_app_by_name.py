@@ -12,7 +12,7 @@ class GetConnectedAppByName(Tool):
     def invoke(data: Dict[str, Any], org_id: Any, app_name: Any) -> str:
         if not org_id or not app_name:
             return json.dumps({"error": "Missing required field: org_id and/or app_name"}, indent=2)
-        apps = data.get("connected_apps", [])
+        apps = list(data.get("connected_apps", {}).values())
         for app in apps:
             if app.get("org_id") == org_id and app.get("app_name") == app_name:
                 return json.dumps(app, indent=2)

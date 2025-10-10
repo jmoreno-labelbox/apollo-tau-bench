@@ -11,7 +11,7 @@ class GetWeatherForecastByCity(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], city: str, horizon_days: int) -> str:
-        rows = data.get("weather_forecasts", [])
+        rows = list(data.get("weather_forecasts", {}).values())
         for row in rows:
             if row.get("city") == city and row.get("horizon_days") == horizon_days:
                 return json.dumps(row)

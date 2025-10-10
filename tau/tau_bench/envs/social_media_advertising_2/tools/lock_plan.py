@@ -17,10 +17,10 @@ class LockPlan(Tool):
         checksum: str = kwargs.get("checksum")
 
         if envelope is None:
-            plan = next((p for p in data.get("plans", []) if p.get("date") == date), None)
+            plan = next((p for p in list(data.get("plans", {}).values()) if p.get("date") == date), None)
             if plan is None:
                 pid = f"plan_{date}"
-                plan = next((p for p in data.get("plans", []) if p.get("plan_id") == pid), None)
+                plan = next((p for p in list(data.get("plans", {}).values()) if p.get("plan_id") == pid), None)
 
             raw_rows = []
             if plan is not None:

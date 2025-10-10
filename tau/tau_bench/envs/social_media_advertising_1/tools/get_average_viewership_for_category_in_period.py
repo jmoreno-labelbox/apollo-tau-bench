@@ -13,7 +13,7 @@ class GetAverageViewershipForCategoryInPeriod(Tool):
         category = kwargs.get("category")
         start_date = kwargs.get("start_date")
         end_date = kwargs.get("end_date")
-        viewership_data = data.get("f_viewership", [])
+        viewership_data = list(data.get("f_viewership", {}).values())
         
         # Calculate the number of days in the period
         start = datetime.strptime(start_date, "%Y-%m-%d")

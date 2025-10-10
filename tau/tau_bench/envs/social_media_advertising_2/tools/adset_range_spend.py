@@ -14,7 +14,7 @@ class AdsetRangeSpend(Tool):
         s, e = datetime.strptime(start, "%Y-%m-%d").date(), datetime.strptime(end, "%Y-%m-%d").date()
         total = sum(
             i.get("spend", 0)
-            for i in data.get("insights", [])
+            for i in list(data.get("insights", {}).values())
             if i.get("adset_id") == aid and s <= datetime.strptime(i["date"], "%Y-%m-%d").date() <= e
         )
         return json.dumps({"adset_id": aid, "total_spend": total, "range": [start, end]})

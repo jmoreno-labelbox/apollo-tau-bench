@@ -12,7 +12,7 @@ class GetOrgByName(Tool):
     def invoke(data: Dict[str, Any], org_name: Any) -> str:
         if not org_name:
             return json.dumps({"error": "Missing required field: org_name"}, indent=2)
-        orgs = data.get("salesforce_orgs", [])
+        orgs = list(data.get("salesforce_orgs", {}).values())
         for org in orgs:
             if org.get("org_name") == org_name:
                 return json.dumps(org, indent=2)

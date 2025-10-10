@@ -11,7 +11,7 @@ class GenerateFeaturesFromProcessed(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], processed_csv_path: str, features_csv_path: str, generated_ts: str) -> str:
-        rows = data.get("processed_timeseries", [])
+        rows = list(data.get("processed_timeseries", {}).values())
         target = None
         for row in rows:
             if row.get("csv_path") == processed_csv_path:

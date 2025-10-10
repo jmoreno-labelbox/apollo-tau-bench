@@ -10,7 +10,7 @@ class ModifyEmail(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         message_id = kwargs.get("message_id")
-        emails = data.get("emails", [])
+        emails = list(data.get("emails", {}).values())
         for e in emails:
             if e.get("message_id") == message_id:
                 e.update(updates)

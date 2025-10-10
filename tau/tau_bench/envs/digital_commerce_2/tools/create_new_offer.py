@@ -21,7 +21,7 @@ class CreateNewOffer(Tool):
                 {"error": "Missing required fields: offer_code, discount_type, discount_value"},
                 indent=2,
             )
-        offers = data.get("offers", [])
+        offers = list(data.get("offers", {}).values())
         offer_id = get_next_offer_id(data)
         new_offer = {
             "offer_id": offer_id,

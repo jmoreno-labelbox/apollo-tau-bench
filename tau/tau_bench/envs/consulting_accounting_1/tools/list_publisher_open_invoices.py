@@ -11,7 +11,7 @@ class ListPublisherOpenInvoices(Tool):
         pub_id = kwargs.get("publisher_id")
         if not pub_id:
             return json.dumps({"error": "publisher_id is required"}, indent=2)
-        invoices = data.get("invoices", [])
+        invoices = list(data.get("invoices", {}).values())
         open_invs = [i for i in invoices if i.get("publisher_id") == pub_id and not i.get("paid_at")]
         return json.dumps({"publisher_id": pub_id,"invoice_ids": [i["invoice_id"] for i in open_invs]}, indent=2)
 

@@ -9,7 +9,7 @@ class ManageCustomList(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], action: str, list_id: str,  tags: List[str], name: str = None) -> str:
-        lists_doc: List[Dict[str, Any]] = data.get("custom_lists", [])
+        lists_doc: List[Dict[str, Any]] = list(data.get("custom_lists", {}).values())
         if action == "list_all_names_ids":
             return json.dumps({"lists": [{"name": l["name"], "list_id": l["list_id"]} for l in lists_doc]}, indent=2)
         if action == "get":

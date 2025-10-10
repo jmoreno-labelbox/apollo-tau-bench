@@ -33,8 +33,8 @@ class PriceAndApplyOfferByNames(Tool):
             return _err("Missing required fields: pricebook_id, items_by_name (list), offer_code")
 
         products = list(data.get("products", {}).values())
-        price_entries = data.get("pricebook_entries", []) or data.get("prices", [])
-        offers = data.get("offers", [])
+        price_entries = list(data.get("pricebook_entries", {}).values()) or list(data.get("prices", {}).values())
+        offers = list(data.get("offers", {}).values())
 
         name_to_product = {p.get("name"): p for p in products if p.get("name")}
 

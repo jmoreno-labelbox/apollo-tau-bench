@@ -17,7 +17,7 @@ class FindGamesOnDate(Tool):
             return json.dumps({"error": "Missing required field: date (YYYY-MM-DD)"}, indent=2)
 
         # 2) Get DB
-        games: List[Dict[str, Any]] = data.get("games", [])
+        games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
         # 3) Exact match on game_date (no normalization)
         matching = [g for g in games if g.get("game_date") == date]

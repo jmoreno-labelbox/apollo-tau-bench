@@ -16,7 +16,7 @@ class FindNoaaStation(Tool):
             "station_ids": station_id,
             "raw_json_path_nullable": f"/data/raw/noaa_station_{station_id}.json",
         }
-        data.get("noaa_station_searches", []).append(noaa_station_json)
+        list(data.get("noaa_station_searches", {}).values()).append(noaa_station_json)
         return json.dumps(noaa_station_json)
 
     @staticmethod

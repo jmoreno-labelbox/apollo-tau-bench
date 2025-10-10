@@ -9,7 +9,7 @@ class AddChecklistItem(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         new_item = kwargs.get("item") or {}
-        items = data.get("checklist_items", [])
+        items = list(data.get("checklist_items", {}).values())
         items.append(new_item)
         data["checklist_items"] = items
         return json.dumps({"added_item": new_item}, indent=2)

@@ -13,7 +13,7 @@ class CalculateROASForAdSetForPeriod(Tool):
         adset_id = kwargs.get("adset_id")
         start_date = kwargs.get("start_date")
         end_date = kwargs.get("end_date")
-        insights = data.get("f_insights", [])
+        insights = list(data.get("f_insights", {}).values())
         total_revenue = 0
         total_spend = 0
         

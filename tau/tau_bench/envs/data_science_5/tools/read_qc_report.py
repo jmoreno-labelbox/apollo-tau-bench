@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReadQcReport(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        figs = data.get("qc_figures", []) or []
+        figs = list(data.get("qc_figures", {}).values()) or []
         fid = kwargs.get("figure_id")
         label = kwargs.get("figure_label")
         row = None

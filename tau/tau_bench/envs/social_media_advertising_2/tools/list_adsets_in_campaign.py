@@ -11,7 +11,7 @@ class ListAdsetsInCampaign(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cid = kwargs.get("campaign_id")
-        adsets = [a for a in data.get("adsets", []) if a.get("campaign_id") == cid]
+        adsets = [a for a in list(data.get("adsets", {}).values()) if a.get("campaign_id") == cid]
         return json.dumps({"adsets": adsets})
 
     @staticmethod

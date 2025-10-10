@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReminderManager(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        reminders = data.get('reminders', [])
+        reminders = list(data.get('reminders', {}).values())
         action = kwargs.get('action', 'get')
         reminder_id = kwargs.get('reminder_id')
         status = kwargs.get('status')

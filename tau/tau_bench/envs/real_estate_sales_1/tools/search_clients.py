@@ -10,7 +10,7 @@ class SearchClients(Tool):
     
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        clients = data.get('client_preferences', [])
+        clients = list(data.get('client_preferences', {}).values())
         if not clients:
             return json.dumps({"error": "No client data available"}, indent=2)
         

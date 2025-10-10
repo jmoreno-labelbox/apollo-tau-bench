@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class get_positions(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], department_id: str = None) -> str:
-        positions = data.get("positions", [])
+        positions = list(data.get("positions", {}).values())
         filtered = [
             p
             for p in positions

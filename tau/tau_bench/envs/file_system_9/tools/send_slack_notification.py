@@ -13,7 +13,7 @@ class SendSlackNotification(Tool):
         message = kwargs.get("message")
         
         channel_id = None
-        for channel in data.get("slack_channels", []):
+        for channel in list(data.get("slack_channels", {}).values()):
             if channel.get("name") == channel_name:
                 channel_id = channel.get("channel_id")
                 break
@@ -21,7 +21,7 @@ class SendSlackNotification(Tool):
         if not channel_id:
             return json.dumps({"error": f"Channel '{channel_name}' not found."})
 
-        slack_messages = data.get("slack_messages", [])
+        slack_messages = list(data.get("slack_messages", {}).values())
         max_id = 0
         if slack_messages:
             for msg in slack_messages:

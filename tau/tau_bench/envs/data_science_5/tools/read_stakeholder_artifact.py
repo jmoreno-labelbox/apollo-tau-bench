@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReadStakeholderArtifact(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        outs = data.get("stakeholder_outputs", []) or []
+        outs = list(data.get("stakeholder_outputs", {}).values()) or []
         oid = kwargs.get("output_id")
         label = kwargs.get("output_label")
         row = None

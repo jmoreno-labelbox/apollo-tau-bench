@@ -11,7 +11,7 @@ class GetFileTextByPath(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], path: str) -> str:
-        rows = data.get("file_store", [])
+        rows = list(data.get("file_store", {}).values())
         for row in rows:
             paths = row.get("paths", [])
             if path in paths:

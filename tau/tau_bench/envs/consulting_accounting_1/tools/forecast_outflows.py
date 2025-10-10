@@ -14,7 +14,7 @@ class ForecastOutflows(Tool):
         total = 0.0
         lines: List[Dict[str, Any]] = []
         if include_sched:
-            for s in data.get("recurring_schedules", []):
+            for s in list(data.get("recurring_schedules", {}).values()):
                 if not s.get("is_active", False):
                     continue
                 freq = s.get("frequency")
@@ -32,7 +32,7 @@ class ForecastOutflows(Tool):
                 total += amt * count
                 lines.append({"schedule_id": s.get("schedule_id"),"frequency": freq,"instances": count,"amount_per_instance": amt,"total": round(amt * count, 2)})
         if include_taxes:
-            taxes = [s for s in data.get("recurring_schedules", []) if s.get("schedule_type") in ("tax_payment",)]
+            taxes = [s for s in list(data.get("recurring_schedules", {}).values()) if s.get("schedule_type") in ("tax_payment",)]
             for t in taxes:
                 amt = float(t.get("amount", 0.0))
                 total += amt

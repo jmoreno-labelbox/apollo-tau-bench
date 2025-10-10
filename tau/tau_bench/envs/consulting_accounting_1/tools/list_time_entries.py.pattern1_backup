@@ -1,0 +1,20 @@
+# Copyright Sierra
+
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class ListTimeEntries(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pid = kwargs.get("project_id")
+        month = kwargs.get("month")
+        entries = [t for t in data.get("time_entries", []) if t.get("project_id") == pid]
+        if month:
+            entries = [t for t in entries if str(t.get("entry_date", "")).startswith(month)]
+        return json.dumps({"project_id": pid,"month": month,"time_entries": entries}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "list_time_entries","description": "List time entries filtered by project and optional month.","parameters": {"type": "object","properties": {"project_id": {"type": "string"},"month": {"type": "string"}},"required": ["project_id"]}}}

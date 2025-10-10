@@ -13,7 +13,7 @@ class UpdateDailyBudgetForAdSet(Tool):
         adset_id = kwargs.get("adset_id")
         new_budget = kwargs.get("new_budget")
         
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         for adset in adsets:
             if adset.get("adset_id") == adset_id:
                 old_budget = adset['daily_budget']

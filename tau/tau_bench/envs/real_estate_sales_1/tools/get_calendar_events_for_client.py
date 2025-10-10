@@ -15,7 +15,7 @@ class GetCalendarEventsForClient(Tool):
             return json.dumps({"error": "client_id is required"}, indent=2)
         
         # Get calendar events for client
-        events = data.get('calendar_events', [])
+        events = list(data.get('calendar_events', {}).values())
         client_events = [e for e in events if e.get('client_id') == client_id]
         
         return json.dumps({

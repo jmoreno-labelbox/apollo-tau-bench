@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class RoomManager(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rooms = data.get('rooms', [])
+        rooms = list(data.get('rooms', {}).values())
         action = kwargs.get('action', 'get')
         room_id = kwargs.get('room_id')
         device_id = kwargs.get('device_id')

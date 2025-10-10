@@ -17,7 +17,7 @@ class GetAllTeamsInLeague(Tool):
             return json.dumps({"error": "Missing required field: league"}, indent=2)
 
         # 2) Get DB from passed-in data
-        teams: List[Dict[str, Any]] = data.get("teams", [])
+        teams: List[Dict[str, Any]] = list(data.get("teams", {}).values())
 
         # 3) Filter teams by exact league
         matching_teams = [

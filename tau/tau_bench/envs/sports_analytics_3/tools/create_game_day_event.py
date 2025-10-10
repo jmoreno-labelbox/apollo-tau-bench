@@ -42,7 +42,7 @@ class CreateGameDayEvent(Tool):
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
         # 2) Get DB
-        events: List[Dict[str, Any]] = data.get("game_day_events", [])
+        events: List[Dict[str, Any]] = list(data.get("game_day_events", {}).values())
 
         # 4) Create new event row
         new_event = {

@@ -13,7 +13,7 @@ class ClearCart(Tool):
         cart_id = _idstr(cart_id)
         if not cart_id:
             return json.dumps({"error": "Missing required field: cart_id"}, indent=2)
-        cart_items = data.get("cart_items", [])
+        cart_items = list(data.get("cart_items", {}).values())
         removed_count = 0
         for item in list(cart_items):
             if item.get("cart_id") == cart_id:

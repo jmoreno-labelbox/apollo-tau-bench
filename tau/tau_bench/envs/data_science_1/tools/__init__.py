@@ -1,5 +1,14 @@
 # Copyright Sierra
 
+
+
+# Helper function
+def _require(data, key, error_msg=None):
+    """Require a key to exist in data."""
+    if key not in data or data[key] is None:
+        raise ValueError(error_msg or f"Required key '{key}' not found or is None")
+    return data[key]
+
 from .set_project_config import SetProjectConfig
 from .create_directory import CreateDirectory
 from .write_file_text import WriteFileText

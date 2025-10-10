@@ -14,7 +14,7 @@ class DeleteAutomationRun(Tool):
         if not run_id:
             return json.dumps({"error": "run_id is a required parameter."})
 
-        runs = data.get("automation_runs", [])
+        runs = list(data.get("automation_runs", {}).values())
         original_count = len(runs)
         data['automation_runs'] = [r for r in runs if r.get("run_id") != run_id]
 

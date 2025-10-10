@@ -17,7 +17,7 @@ class GetHighlightByReportId(Tool):
             return json.dumps({"error": "Missing required field: report_id"}, indent=2)
 
         # 2) Get DB from passed-in data
-        playlists: List[Dict[str, Any]] = data.get("video_playlists", [])
+        playlists: List[Dict[str, Any]] = list(data.get("video_playlists", {}).values())
 
         # 3) Exact match lookup (no normalization)
         matches = [p for p in playlists if p.get("report_id") == report_id]

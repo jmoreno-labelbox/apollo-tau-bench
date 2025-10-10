@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class WritePredictionLot(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        preds = data.get("predictions", [])
+        preds = list(data.get("predictions", {}).values())
         max_id = 0
         for p in preds:
             try:

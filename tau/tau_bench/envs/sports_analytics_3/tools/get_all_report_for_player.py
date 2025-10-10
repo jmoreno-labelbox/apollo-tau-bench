@@ -20,7 +20,7 @@ class GetAllReportForPlayer(Tool):
             return json.dumps({"error": "Missing required field: player_id"}, indent=2)
 
         # 2) Get DB
-        reports: List[Dict[str, Any]] = data.get("player_dev_reports", [])
+        reports: List[Dict[str, Any]] = list(data.get("player_dev_reports", {}).values())
 
         # 3) Filter and sort
         matching = [r for r in reports if r.get("player_id") == player_id]

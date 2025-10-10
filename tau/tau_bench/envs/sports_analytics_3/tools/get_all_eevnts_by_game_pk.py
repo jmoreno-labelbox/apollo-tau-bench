@@ -24,7 +24,7 @@ class GetAllEevntsByGamePk(Tool):
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
         # 2) Get DB from passed-in data
-        events: List[Dict[str, Any]] = data.get("game_day_events", [])
+        events: List[Dict[str, Any]] = list(data.get("game_day_events", {}).values())
 
         # 3) Filter by exact game_pk
         matching = [e for e in events if e.get("game_pk") == game_pk]

@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReadNoaaStationSearches(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rows = data.get("noaa_station_searches", []) or []
+        rows = list(data.get("noaa_station_searches", {}).values()) or []
         return json.dumps({"rows": rows}, indent=2)
 
     @staticmethod

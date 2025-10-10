@@ -11,7 +11,7 @@ class FindInboundShipmentsByWarehouse(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         warehouse_id = kwargs.get("warehouse_id")
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = list(data.get("inbound_shipments", {}).values())
         found_shipments = []
         for shipment in inbound_shipments:
             # Handle potential key errors for destination_warehouse_id

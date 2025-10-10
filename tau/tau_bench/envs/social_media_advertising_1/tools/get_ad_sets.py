@@ -10,7 +10,7 @@ class GetAdSets(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         ids_ = []
         for i in adsets:
             ids_ += [i.get("adset_id")]

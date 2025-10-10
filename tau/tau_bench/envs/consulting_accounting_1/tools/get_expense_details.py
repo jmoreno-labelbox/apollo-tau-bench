@@ -11,7 +11,7 @@ class GetExpenseDetails(Tool):
         expense_id = kwargs.get("expense_id")
         if not expense_id:
             return json.dumps({"error": "expense_id is required"}, indent=2)
-        expenses = data.get("expenses", [])
+        expenses = list(data.get("expenses", {}).values())
         exp = next((e for e in expenses if e.get("expense_id") == expense_id), None)
         return json.dumps(exp or {"error": f"Expense {expense_id} not found"}, indent=2)
 

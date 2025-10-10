@@ -10,7 +10,7 @@ class ModifyAssetRequest(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         request_id = kwargs.get("request_id")
-        requests = data.get("asset_requests", [])
+        requests = list(data.get("asset_requests", {}).values())
         for r in requests:
             if r.get("request_id") == request_id:
                 r.update(updates)

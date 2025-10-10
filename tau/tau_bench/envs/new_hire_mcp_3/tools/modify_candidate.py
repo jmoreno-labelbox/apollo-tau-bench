@@ -10,7 +10,7 @@ class ModifyCandidate(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         candidate_id = kwargs.get("candidate_id")
-        candidates = data.get("candidates", [])
+        candidates = list(data.get("candidates", {}).values())
 
         # Find the candidate in the list and update
         for c in candidates:

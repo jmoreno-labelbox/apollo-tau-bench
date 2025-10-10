@@ -24,7 +24,7 @@ class GeneratePropertyReport(Tool):
             }, indent=2)
         
         # Get comparables
-        comparables = data.get('comparables', [])
+        comparables = list(data.get('comparables', {}).values())
         property_comparables = [c for c in comparables if c.get('property_id') == property_id]
         
         # Calculate market analysis

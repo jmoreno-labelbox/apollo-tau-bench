@@ -11,7 +11,7 @@ class FindOutboundOrderBySO(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         so_number = kwargs.get("sales_order_number")
-        outbound_orders = data.get("outbound_orders", [])
+        outbound_orders = list(data.get("outbound_orders", {}).values())
         for order in outbound_orders:
             if order.get("sales_order_number") == so_number:
                 return json.dumps(order)

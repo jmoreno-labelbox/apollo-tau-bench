@@ -28,14 +28,14 @@ class CreateInventoryRecord(Tool):
 
         # Get product and warehouse details to populate the new record
         product_details = {}
-        products = data.get("product_master", [])
+        products = list(data.get("product_master", {}).values())
         for p in products:
             if p.get("sku") == sku:
                 product_details = p
                 break
 
         warehouse_details = {}
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         warehouse_details = next(
             (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}
         )

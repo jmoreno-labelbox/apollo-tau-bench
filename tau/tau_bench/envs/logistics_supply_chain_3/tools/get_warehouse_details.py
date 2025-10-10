@@ -11,7 +11,7 @@ class GetWarehouseDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         warehouse_id = kwargs.get("warehouse_id")
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         for warehouse in warehouses:
             if warehouse.get("warehouse_id") == warehouse_id:
                 return json.dumps(warehouse)

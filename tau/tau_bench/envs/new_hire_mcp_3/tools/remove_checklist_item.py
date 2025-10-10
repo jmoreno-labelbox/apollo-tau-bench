@@ -9,7 +9,7 @@ class RemoveChecklistItem(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         item_id = kwargs.get("item_id")
-        items = data.get("checklist_items", [])
+        items = list(data.get("checklist_items", {}).values())
         data["checklist_items"] = [i for i in items if i.get("item_id") != item_id]
         return json.dumps({"removed_item_id": item_id}, indent=2)
 

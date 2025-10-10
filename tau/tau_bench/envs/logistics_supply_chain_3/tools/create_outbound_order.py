@@ -10,8 +10,8 @@ class CreateOutboundOrder(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        outbound_orders = data.get("outbound_orders", [])
-        warehouses = data.get("warehouses", [])
+        outbound_orders = list(data.get("outbound_orders", {}).values())
+        warehouses = list(data.get("warehouses", {}).values())
 
         # --- Auto-increment unique ID ---
         max_order_num = 0

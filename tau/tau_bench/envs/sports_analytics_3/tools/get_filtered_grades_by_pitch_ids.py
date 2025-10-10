@@ -41,7 +41,7 @@ class GetFilteredGradesByPitchIds(Tool):
             )
 
         # ---- 2) Get DB
-        grades: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
         # ---- 3) Collect matches by pitch_ids
         id_set = set(pitch_ids)

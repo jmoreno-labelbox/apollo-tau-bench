@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class RetrieveFileEntry(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        files = data.get("file_store", []) or []
+        files = list(data.get("file_store", {}).values()) or []
         fid = kwargs.get("file_id")
         path = kwargs.get("path")
         row = None

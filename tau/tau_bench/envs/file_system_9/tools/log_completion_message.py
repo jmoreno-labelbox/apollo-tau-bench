@@ -9,7 +9,7 @@ class LogCompletionMessage(Tool):
     """Logs a completion message and returns the generated msg_id."""
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        completion_messages = data.get("completion_messages", [])
+        completion_messages = list(data.get("completion_messages", {}).values())
         max_id = 0
         if completion_messages:
             for msg in completion_messages:

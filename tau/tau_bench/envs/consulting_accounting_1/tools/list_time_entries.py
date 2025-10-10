@@ -10,7 +10,7 @@ class ListTimeEntries(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         pid = kwargs.get("project_id")
         month = kwargs.get("month")
-        entries = [t for t in data.get("time_entries", []) if t.get("project_id") == pid]
+        entries = [t for t in list(data.get("time_entries", {}).values()) if t.get("project_id") == pid]
         if month:
             entries = [t for t in entries if str(t.get("entry_date", "")).startswith(month)]
         return json.dumps({"project_id": pid,"month": month,"time_entries": entries}, indent=2)

@@ -9,7 +9,7 @@ class AddAssetRequest(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         new_request = kwargs.get("request") or {}
-        requests = data.get("asset_requests", [])
+        requests = list(data.get("asset_requests", {}).values())
         requests.append(new_request)
         data["asset_requests"] = requests
         return json.dumps({"added_request": new_request}, indent=2)

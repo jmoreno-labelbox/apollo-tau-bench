@@ -30,13 +30,13 @@ class StatusMonitor(Tool):
                     status['devices']['powered_on'] += 1
 
             status['scenes'] = {'total': len(list(data.get('scenes', {}).values()))}
-            status['lists'] = {'total': len(data.get('custom_lists', []))}
+            status['lists'] = {'total': len(list(data.get('custom_lists', {}).values()))}
             status['reminders'] = {
-                'total': len(data.get('reminders', [])),
+                'total': len(list(data.get('reminders', {}).values())),
                 'active': len([r for r in list(data.get('reminders', {}).values()) if r.get('status') == 'active'])
             }
             status['members'] = {
-                'total': len(data.get('members', [])),
+                'total': len(list(data.get('members', {}).values())),
                 'residents': len([m for m in list(data.get('members', {}).values()) if m.get('residence', {}).get('lives_in_house')])
             }
 

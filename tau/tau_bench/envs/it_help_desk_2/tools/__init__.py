@@ -1,5 +1,12 @@
 # Copyright Sierra
 
+
+
+# Helper function
+def _find_all(items, predicate):
+    """Find all items matching predicate."""
+    return [item for item in items if predicate(item)]
+
 from .ingest_hr_memo import IngestHrMemo
 from .find_employees import FindEmployees
 from .add_user_to_groups import AddUserToGroups

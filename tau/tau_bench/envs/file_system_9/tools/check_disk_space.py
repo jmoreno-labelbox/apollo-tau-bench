@@ -10,7 +10,7 @@ class CheckDiskSpace(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         server_hostname = kwargs.get("server_hostname")
-        for server in data.get("system_resources", []):
+        for server in list(data.get("system_resources", {}).values()):
             if server.get("hostname") == server_hostname:
                 return json.dumps(server.get("disk"))
         return json.dumps({"error": f"Server not found: {server_hostname}"})

@@ -11,7 +11,7 @@ class ComputeRoas(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         aid, date = kwargs.get("adset_id"), kwargs.get("date")
-        for i in data.get("f_insights", []):
+        for i in list(data.get("f_insights", {}).values()):
             if i.get("adset_id") == aid and i.get("date") == date:
                 s, r = i.get("spend", 0), i.get("revenue", 0)
                 return json.dumps({"adset_id": aid, "roas": round(r / s, 2) if s > 0 else 0})

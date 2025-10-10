@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogEtlExecution(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        runs = data.get("etl_runs", [])
+        runs = list(data.get("etl_runs", {}).values())
         max_id = 0
         for r in runs:
             try:

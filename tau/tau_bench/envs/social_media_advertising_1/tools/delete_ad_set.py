@@ -14,7 +14,7 @@ class DeleteAdSet(Tool):
         if not adset_id:
             return json.dumps({"error": "adset_id is a required parameter."})
 
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         for adset in adsets:
             if adset.get("adset_id") == adset_id:
                 data['adsets'] = [d for d in data['adsets'] if d['adset_id'] != adset_id]

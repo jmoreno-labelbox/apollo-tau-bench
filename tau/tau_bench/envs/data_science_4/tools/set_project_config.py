@@ -11,7 +11,7 @@ class SetProjectConfig(Tool):
         target_city = kwargs.get("target_city")
         horizon = kwargs.get("forecast_horizon_days")
         max_radius = kwargs.get("max_station_distance_km_nullable")
-        configs = data.get("project_config", [])
+        configs = list(data.get("project_config", {}).values())
 
         timezone = "America/New_York"
         for config in configs:
@@ -25,7 +25,7 @@ class SetProjectConfig(Tool):
             "forecast_horizon_days": horizon,
             "max_station_distance_km_nullable": max_radius,
         }
-        data.get("project_config", []).append(config)
+        list(data.get("project_config", {}).values()).append(config)
         return json.dumps({"config_id": "CONFIG_001", **config})
 
     @staticmethod

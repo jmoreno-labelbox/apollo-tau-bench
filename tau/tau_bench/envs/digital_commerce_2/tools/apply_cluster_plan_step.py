@@ -15,8 +15,8 @@ class ApplyClusterPlanStep(Tool):
         plan_id: Any,
         step_index: Any,
     ) -> Dict[str, Any]:
-        clusters = data.get("aws_clusters", [])
-        rules = data.get("aws_security_group_rules", [])
+        clusters = list(data.get("aws_clusters", {}).values())
+        rules = list(data.get("aws_security_group_rules", {}).values())
 
         def find_cluster(cid):
             if isinstance(clusters, dict):

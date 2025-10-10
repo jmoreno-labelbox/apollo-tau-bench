@@ -11,7 +11,7 @@ class GetTidePredictionsWindow(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], station_id: str, window_start_ts: str, window_end_ts: str) -> str:
-        rows = data.get("tide_predictions", [])
+        rows = list(data.get("tide_predictions", {}).values())
         for row in rows:
             if row.get("station_id") == station_id and row.get("start_ts") <= window_start_ts and row.get("end_ts") >= window_end_ts:
                 ts = row.get("timestamps", [])

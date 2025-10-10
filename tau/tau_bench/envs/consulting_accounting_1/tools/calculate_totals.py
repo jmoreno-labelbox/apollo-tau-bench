@@ -14,7 +14,7 @@ class CalculateTotals(Tool):
             subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines)
         else:
             subtotal = 0.0
-            lines_index = {l["invoice_line_id"]: l for l in data.get("invoice_lines", [])}
+            lines_index = {l["invoice_line_id"]: l for l in list(data.get("invoice_lines", {}).values())}
             for lid in invoice_lines:
                 line = lines_index.get(lid)
                 if line:

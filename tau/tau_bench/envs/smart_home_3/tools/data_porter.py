@@ -19,13 +19,13 @@ class DataPorter(Tool):
             if 'all' in data_types or 'scenes' in data_types:
                 export_result['scenes'] = list(data.get('scenes', {}).values())
             if 'all' in data_types or 'lists' in data_types:
-                export_result['custom_lists'] = data.get('custom_lists', [])
+                export_result['custom_lists'] = list(data.get('custom_lists', {}).values())
             if 'all' in data_types or 'reminders' in data_types:
-                export_result['reminders'] = data.get('reminders', [])
+                export_result['reminders'] = list(data.get('reminders', {}).values())
             if 'all' in data_types or 'members' in data_types:
-                export_result['members'] = data.get('members', [])
+                export_result['members'] = list(data.get('members', {}).values())
             if 'all' in data_types or 'rooms' in data_types:
-                export_result['rooms'] = data.get('rooms', [])
+                export_result['rooms'] = list(data.get('rooms', {}).values())
 
             return json.dumps(export_result, indent=2)
 

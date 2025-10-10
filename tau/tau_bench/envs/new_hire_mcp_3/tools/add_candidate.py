@@ -9,7 +9,7 @@ class AddCandidate(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         new_candidate = kwargs.get("candidate") or {}
-        candidates = data.get("candidates", [])
+        candidates = list(data.get("candidates", {}).values())
         candidates.append(new_candidate)
         data["candidates"] = candidates
         return json.dumps({"added_candidate": new_candidate}, indent=2)

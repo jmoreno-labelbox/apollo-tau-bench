@@ -1,5 +1,14 @@
 # Copyright Sierra
 
+
+
+# Helper function
+def _ensure_table(data, table_name):
+    """Ensure table exists in data, create if missing."""
+    if table_name not in data:
+        data[table_name] = {}
+    return data[table_name]
+
 from .get_environment_network_defaults import GetEnvironmentNetworkDefaults
 from .get_service_security_group import GetServiceSecurityGroup
 from .update_security_group_ruleset import UpdateSecurityGroupRuleset

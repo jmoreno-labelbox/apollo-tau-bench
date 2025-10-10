@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReadModelMetrics(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        metrics = data.get("metrics", []) or []
+        metrics = list(data.get("metrics", {}).values()) or []
         model_name = kwargs.get("model_name")
         metric_name = kwargs.get("metric_name")
         dataset_split = kwargs.get("dataset_split")

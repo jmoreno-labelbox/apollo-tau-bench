@@ -15,7 +15,7 @@ class GetLastAccessedFile(Tool):
         latest_timestamp = "1970-01-01T00:00:00Z" # Initialize with a very old timestamp
 
         server_found = False
-        for server in data.get("file_system", []):
+        for server in list(data.get("file_system", {}).values()):
             if server.get("hostname") == server_hostname:
                 server_found = True
                 for directory in server.get("directories", []):

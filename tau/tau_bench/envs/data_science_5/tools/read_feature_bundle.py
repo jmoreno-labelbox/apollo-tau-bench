@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReadFeatureBundle(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        feats = data.get("features", []) or []
+        feats = list(data.get("features", {}).values()) or []
         fid = kwargs.get("feature_set_id")
         fname = kwargs.get("feature_set_name")
         row = None

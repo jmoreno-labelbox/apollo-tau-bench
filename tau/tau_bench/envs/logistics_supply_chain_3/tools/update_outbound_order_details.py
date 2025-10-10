@@ -14,7 +14,7 @@ class UpdateOutboundOrderDetails(Tool):
         if not order_id:
             return json.dumps({"error": "order_id is a required argument."})
 
-        outbound_orders = data.get("outbound_orders", [])
+        outbound_orders = list(data.get("outbound_orders", {}).values())
         order_to_update = next(
             (o for o in outbound_orders if o.get("order_id") == order_id), None
         )

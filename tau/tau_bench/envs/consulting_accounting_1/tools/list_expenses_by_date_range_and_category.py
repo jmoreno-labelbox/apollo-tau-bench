@@ -14,7 +14,7 @@ class ListExpensesByDateRangeAndCategory(Tool):
         if not start or not end or not cats:
             return json.dumps({"error":"start_date, end_date, categories are required"}, indent=2)
         exp = []
-        for e in data.get("expenses", []):
+        for e in list(data.get("expenses", {}).values()):
             d = str(e.get("expense_date",""))
             if start <= d <= end and e.get("category_code") in cats:
                 exp.append(e)

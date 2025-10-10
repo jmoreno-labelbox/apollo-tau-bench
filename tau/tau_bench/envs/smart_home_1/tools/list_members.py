@@ -9,7 +9,7 @@ class ListMembers(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any]) -> str:
-        return json.dumps(data.get("members", []), indent=2)
+        return json.dumps(list(data.get("members", {}).values()), indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

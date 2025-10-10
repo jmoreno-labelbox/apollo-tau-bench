@@ -9,7 +9,7 @@ class GetDashboardSnapshot(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         sid = kwargs.get("snapshot_id")
-        snaps = data.get("dashboard_snapshots", [])
+        snaps = list(data.get("dashboard_snapshots", {}).values())
         snap = next((s for s in snaps if s.get("snapshot_id") == sid), None)
         return json.dumps(snap or {"error": f"Snapshot {sid} not found"}, indent=2)
 

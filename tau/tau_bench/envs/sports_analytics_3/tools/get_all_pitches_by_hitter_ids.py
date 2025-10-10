@@ -20,7 +20,7 @@ class GetAllPitchesByHitterIds(Tool):
             )
 
         # 2) Get DB
-        pitches: List[Dict[str, Any]] = data.get("pitches", [])
+        pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
         # 3) Filter
         id_set = set(hitter_ids)

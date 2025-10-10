@@ -27,7 +27,7 @@ class GetModelDetailByGame(Tool):
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
         # 2) Get DB
-        models: List[Dict[str, Any]] = data.get("umpire_game_models", [])
+        models: List[Dict[str, Any]] = list(data.get("umpire_game_models", {}).values())
 
         # 3) Collect matches
         matches = [row for row in models if row.get("game_pk") == game_pk]

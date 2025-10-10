@@ -16,7 +16,7 @@ class RemoveItemsFromCartBatch(Tool):
             return json.dumps(
                 {"error": "Missing required fields: cart_id and list 'product_ids'."}, indent=2
             )
-        cart_items = data.get("cart_items", [])
+        cart_items = list(data.get("cart_items", {}).values())
         before = len(cart_items)
         cart_items[:] = [
             r

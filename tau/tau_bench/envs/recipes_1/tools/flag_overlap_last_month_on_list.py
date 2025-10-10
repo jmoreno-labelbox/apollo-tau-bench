@@ -18,7 +18,7 @@ class FlagOverlapLastMonthOnList(Tool):
         recent = [int(x) for x in lr.get("recent_recipe_ids", [])]
         ingr_recent = set(int(r["ingredient_id"]) for r in _collect_recipe_ingredients(data, recent))
         updated = 0
-        for item in data.get("grocery_list_items", []):
+        for item in list(data.get("grocery_list_items", {}).values()):
             if int(item.get("list_id")) != int(list_id):
                 continue
             item["overlap_last_month_flag"] = int(item.get("ingredient_id")) in ingr_recent

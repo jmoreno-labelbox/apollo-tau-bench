@@ -11,7 +11,7 @@ class GetGeocodingResultByCity(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], query_city: str) -> str:
-        rows = data.get("geocoding_results", [])
+        rows = list(data.get("geocoding_results", {}).values())
         for row in rows:
             if row.get("query_city") == query_city:
                 return json.dumps(row)

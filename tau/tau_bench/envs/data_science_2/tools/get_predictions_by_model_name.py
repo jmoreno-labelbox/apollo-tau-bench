@@ -11,7 +11,7 @@ class GetPredictionsByModelName(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], model_name: str) -> str:
-        rows = data.get("predictions", [])
+        rows = list(data.get("predictions", {}).values())
         for row in rows:
             if row.get("model_name") == model_name:
                 return json.dumps(row)

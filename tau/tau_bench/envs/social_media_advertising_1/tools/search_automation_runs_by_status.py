@@ -11,7 +11,7 @@ class SearchAutomationRunsByStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         status = kwargs.get("status")
-        runs = data.get("automation_runs", [])
+        runs = list(data.get("automation_runs", {}).values())
         matching_runs = []
         
         for run in runs:

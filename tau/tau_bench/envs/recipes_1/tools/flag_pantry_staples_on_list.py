@@ -13,7 +13,7 @@ class FlagPantryStaplesOnList(Tool):
         if list_id is None:
             return _json_dump({"error": "list_id is required"})
         updated = 0
-        for item in data.get("grocery_list_items", []):
+        for item in list(data.get("grocery_list_items", {}).values()):
             if int(item.get("list_id")) != int(list_id):
                 continue
             ing = _ingredient_by_id(data, int(item.get("ingredient_id")))

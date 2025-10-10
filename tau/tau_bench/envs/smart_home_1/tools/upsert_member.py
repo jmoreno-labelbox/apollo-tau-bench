@@ -9,7 +9,7 @@ class UpsertMember(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], id: str, profile: Dict[str, Any]) -> str:
-        members = data.get("members", [])
+        members = list(data.get("members", {}).values())
         for m in members:
             if m["id"] == id:
                 m.update(profile)

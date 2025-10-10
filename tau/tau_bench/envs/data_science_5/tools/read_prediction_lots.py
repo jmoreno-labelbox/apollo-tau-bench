@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReadPredictionLots(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        preds = data.get("predictions", []) or []
+        preds = list(data.get("predictions", {}).values()) or []
         batch_name = kwargs.get("batch_name")
         model_name = kwargs.get("model_name")
         rows = [

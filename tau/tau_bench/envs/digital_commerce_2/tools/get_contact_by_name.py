@@ -16,7 +16,7 @@ class GetContactByName(Tool):
             return json.dumps(
                 {"error": "Missing required field: first_name and/or last_name"}, indent=2
             )
-        contacts = data.get("contacts", [])
+        contacts = list(data.get("contacts", {}).values())
         for contact in contacts:
             if contact.get("first_name") == first_name and contact.get("last_name") == last_name:
                 return json.dumps(contact, indent=2)

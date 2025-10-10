@@ -14,7 +14,7 @@ class MinimizeNewIngredients(Tool):
         ids = _parse_json_list_ids(recipe_ids_json)
         kept: List[int] = []
         for rid in ids:
-            rows = [r for r in data.get("recipe_ingredients", []) if int(r.get("recipe_id")) == rid]
+            rows = [r for r in list(data.get("recipe_ingredients", {}).values()) if int(r.get("recipe_id")) == rid]
             non_staples = 0
             for ri in rows:
                 ing = _ingredient_by_id(data, int(ri["ingredient_id"]))

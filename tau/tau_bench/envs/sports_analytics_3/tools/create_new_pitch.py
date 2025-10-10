@@ -41,7 +41,7 @@ class CreateNewPitch(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        pitches: List[Dict[str, Any]] = data.get("pitches", [])
+        pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
         # Generate new pitch_id deterministically
         new_id = get_next_pitch_id(data)

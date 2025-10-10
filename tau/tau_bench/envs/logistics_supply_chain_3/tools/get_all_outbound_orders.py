@@ -10,7 +10,7 @@ class GetAllOutboundOrders(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        outbound_orders = data.get("outbound_orders", [])
+        outbound_orders = list(data.get("outbound_orders", {}).values())
         filters = kwargs.get("filters")
 
         if not outbound_orders:

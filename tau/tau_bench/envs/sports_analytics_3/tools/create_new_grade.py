@@ -40,7 +40,7 @@ class CreateNewGrade(Tool):
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
         # 2) Get DB
-        grades: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
         # 3) Generate new grade_id
         new_id = get_next_grade_id(data)

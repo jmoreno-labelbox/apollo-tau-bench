@@ -10,7 +10,7 @@ class GetAutomationRuns(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        runs = data.get("automation_runs", [])
+        runs = list(data.get("automation_runs", {}).values())
         ids_ = []
         for i in runs:
             ids_ += [i.get("run_id")]

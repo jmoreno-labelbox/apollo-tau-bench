@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReadModelProfiles(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cfgs = data.get("model_config", []) or []
+        cfgs = list(data.get("model_config", {}).values()) or []
         model_name = kwargs.get("model_name")
         config_name = kwargs.get("config_name")
         rows = [

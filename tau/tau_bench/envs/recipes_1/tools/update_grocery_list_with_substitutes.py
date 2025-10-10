@@ -16,7 +16,7 @@ class UpdateGroceryListWithSubstitutes(Tool):
         mapping = {int(s["ingredient_id"]): int(s["substitute_ingredient_id"])
                    for s in substitutions if "ingredient_id" in s and "substitute_ingredient_id" in s}
         updated = 0
-        for it in data.get("grocery_list_items", []):
+        for it in list(data.get("grocery_list_items", {}).values()):
             if int(it.get("list_id")) != int(list_id):
                 continue
             old = int(it.get("ingredient_id"))

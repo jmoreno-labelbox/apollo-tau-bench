@@ -13,7 +13,7 @@ class VerifyChecksum(Tool):
         filepath = kwargs.get("filepath")
         
         original_checksum = None
-        for record in data.get("file_lists", []):
+        for record in list(data.get("file_lists", {}).values()):
             if record.get("file_id") == file_id:
                 original_checksum = record.get("checksum")
                 break
@@ -28,7 +28,7 @@ class VerifyChecksum(Tool):
 
         actual_checksum = None
         file_found = False
-        for server in data.get("file_system", []):
+        for server in list(data.get("file_system", {}).values()):
             if server.get("hostname") == dest_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):

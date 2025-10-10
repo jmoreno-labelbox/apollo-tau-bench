@@ -19,7 +19,7 @@ class SetTidePredictions(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/tide_predictions_{station_id}.json",
         }
-        data.get("tide_predictions", []).append(tide_prediction_data)
+        list(data.get("tide_predictions", {}).values()).append(tide_prediction_data)
         return json.dumps(tide_prediction_data)
 
     @staticmethod

@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class MemberManager(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        members = data.get('members', [])
+        members = list(data.get('members', {}).values())
         action = kwargs.get('action', 'get')
         member_id = kwargs.get('member_id')
         relation = kwargs.get('relation')

@@ -25,7 +25,7 @@ class UpdatePlayerDetails(Tool):
             return json.dumps({"error": "At least one of primary_position, current_team_id, or roster_status must be provided"}, indent=2)
 
         # 2) Get DB from passed-in data
-        players = data.get("players", [])
+        players = list(data.get("players", {}).values())
 
         # 3) Find and update player
         for player in players:

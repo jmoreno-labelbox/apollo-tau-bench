@@ -13,7 +13,7 @@ class GetTotalViewershipForCategoryInPeriod(Tool):
         category = kwargs.get("category")
         start_date = kwargs.get("start_date")
         end_date = kwargs.get("end_date")
-        viewership_data = data.get("f_viewership", [])
+        viewership_data = list(data.get("f_viewership", {}).values())
         
         total_sessions = 0
         total_active_users = 0

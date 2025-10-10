@@ -10,7 +10,7 @@ class GetProducts(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        products = data.get("dim_product", [])
+        products = list(data.get("dim_product", {}).values())
         ids_ = []
         for i in products:
             ids_ += [i.get("product_id")]

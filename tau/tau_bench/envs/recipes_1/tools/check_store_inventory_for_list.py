@@ -13,7 +13,7 @@ class CheckStoreInventoryForList(Tool):
         store_id = kwargs.get("store_id")
         if list_id is None or store_id is None:
             return _json_dump({"error": "list_id and store_id are required"})
-        gl_items = [i for i in data.get("grocery_list_items", []) if int(i.get("list_id")) == int(list_id)]
+        gl_items = [i for i in list(data.get("grocery_list_items", {}).values()) if int(i.get("list_id")) == int(list_id)]
         results = []
         for it in gl_items:
             iid = int(it["ingredient_id"])

@@ -9,7 +9,7 @@ class SendEmail(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         new_email = kwargs.get("email") or {}
-        emails = data.get("emails", [])
+        emails = list(data.get("emails", {}).values())
         emails.append(new_email)
         data["emails"] = emails
         return json.dumps({"sent_email": new_email}, indent=2)

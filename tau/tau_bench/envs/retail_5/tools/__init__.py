@@ -1,5 +1,13 @@
 # Copyright Sierra
 
+
+# Helper function
+import uuid
+
+def generate_unique_id():
+    """Generate a unique ID."""
+    return uuid.uuid4().hex[:8]
+
 from .search_products_by_category import SearchProductsByCategory
 from .get_order_details import GetOrderDetails
 from .get_user_orders import GetUserOrders

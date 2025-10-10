@@ -16,7 +16,7 @@ class CalcPlanChecksum(Tool):
         date = kwargs.get("date")
 
         if envelope is None and date is not None:
-            plan = next((p for p in data.get("plans", []) if p.get("date") == date), None)
+            plan = next((p for p in list(data.get("plans", {}).values()) if p.get("date") == date), None)
             if not plan:
                 empty_sig = hashlib.sha256(f"{date}|empty".encode("utf-8")).hexdigest()
                 return json.dumps({"success": True, "date": date, "checksum": empty_sig}, indent=2)

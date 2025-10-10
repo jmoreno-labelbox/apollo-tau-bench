@@ -21,7 +21,7 @@ class FetchCreativeRotation(Tool):
             return json.dumps("no rotation")
 
         rows = []
-        for r in data.get("creative_rotations", []):
+        for r in list(data.get("creative_rotations", {}).values()):
             if rotation_id and str(r.get("rotation_id")) == str(rotation_id):
                 rows.append(r)
             elif adset_id and str(r.get("adset_id")) == str(adset_id):

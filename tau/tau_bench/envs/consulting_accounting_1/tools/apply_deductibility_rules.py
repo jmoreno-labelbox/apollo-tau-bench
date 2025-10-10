@@ -11,11 +11,11 @@ class ApplyDeductibilityRules(Tool):
         expense_id = kwargs.get("expense_id")
         if not expense_id:
             return json.dumps({"error": "expense_id is required"}, indent=2)
-        exp = next((e for e in data.get("expenses", []) if e.get("expense_id") == expense_id), None)
+        exp = next((e for e in list(data.get("expenses", {}).values()) if e.get("expense_id") == expense_id), None)
         if not exp:
             return json.dumps({"error": f"Expense {expense_id} not found"}, indent=2)
         cat = exp.get("category_code")
-        cat_obj = next((c for c in data.get("expense_categories", []) if c.get("category_code") == cat), None)
+        cat_obj = next((c for c in list(data.get("expense_categories", {}).values()) if c.get("category_code") == cat), None)
         if not cat_obj:
             return json.dumps({"error": f"Category {cat} not found"}, indent=2)
         pct = float(cat_obj.get("deductible_percent", 100)) / 100.0

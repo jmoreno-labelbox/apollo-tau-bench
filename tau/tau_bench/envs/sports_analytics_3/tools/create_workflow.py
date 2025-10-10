@@ -30,7 +30,7 @@ class CreateWorkflow(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        workflows = data.get("workflow_runs", [])
+        workflows = list(data.get("workflow_runs", {}).values())
         run_id = get_next_workflow_run_id(data)
         start_time = get_log_start_timestamp()
         end_time = get_log_end_timestamp()

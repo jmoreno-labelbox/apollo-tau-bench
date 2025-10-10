@@ -17,7 +17,7 @@ class GetAllGoalsByForPlayer(Tool):
             return json.dumps({"error": "Missing required field: player_id"}, indent=2)
 
         # 2) Get DB
-        goals: List[Dict[str, Any]] = data.get("player_dev_goals", [])
+        goals: List[Dict[str, Any]] = list(data.get("player_dev_goals", {}).values())
 
         # 3) Filter goals for player
         matching = [g for g in goals if g.get("player_id") == player_id]

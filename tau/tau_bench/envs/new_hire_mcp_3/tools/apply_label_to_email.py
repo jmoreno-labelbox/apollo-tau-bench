@@ -10,7 +10,7 @@ class ApplyLabelToEmail(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         email_id = kwargs.get("email_id")
         label_id = kwargs.get("label_id")
-        email_labels = data.get("email_labels", [])
+        email_labels = list(data.get("email_labels", {}).values())
 
         # Find the email in the list and apply the label
         for e in email_labels:

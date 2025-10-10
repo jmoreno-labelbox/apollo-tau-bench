@@ -25,15 +25,15 @@ class SearchEngine(Tool):
             results['scenes'] = [s for s in scenes if search_term in str(s).lower()]
 
         if search_type in ['all', 'lists']:
-            lists = data.get('custom_lists', [])
+            lists = list(data.get('custom_lists', {}).values())
             results['lists'] = [l for l in lists if search_term in str(l).lower()]
 
         if search_type in ['all', 'reminders']:
-            reminders = data.get('reminders', [])
+            reminders = list(data.get('reminders', {}).values())
             results['reminders'] = [r for r in reminders if search_term in str(r).lower()]
 
         if search_type in ['all', 'members']:
-            members = data.get('members', [])
+            members = list(data.get('members', {}).values())
             results['members'] = [m for m in members if search_term in str(m).lower()]
 
         return json.dumps(results, indent=2)

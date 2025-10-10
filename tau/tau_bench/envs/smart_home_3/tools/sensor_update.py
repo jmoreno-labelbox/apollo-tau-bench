@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class SensorUpdate(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sensors = data.get('sensors', [])
+        sensors = list(data.get('sensors', {}).values())
         sensor_id = kwargs.get('sensor_id')
         sensor_type = kwargs.get('type')
         location = kwargs.get('location')

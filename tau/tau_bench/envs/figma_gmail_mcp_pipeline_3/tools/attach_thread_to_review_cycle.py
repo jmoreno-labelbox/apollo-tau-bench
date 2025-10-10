@@ -3,6 +3,7 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
+from . import _params, _require
 
 
 class attach_thread_to_review_cycle(Tool):

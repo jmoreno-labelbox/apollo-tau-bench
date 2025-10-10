@@ -12,7 +12,7 @@ class ListRecipeIngredients(Tool):
         recipe_id = kwargs.get("recipe_id")
         if recipe_id is None:
             return _json_dump({"error": "recipe_id is required"})
-        rows = [r for r in data.get("recipe_ingredients", []) if int(r.get("recipe_id")) == int(recipe_id)]
+        rows = [r for r in list(data.get("recipe_ingredients", {}).values()) if int(r.get("recipe_id")) == int(recipe_id)]
         ingr_ix = _index_by(list(data.get("ingredients", {}).values()), "ingredient_id")
         out = []
         for ri in rows:

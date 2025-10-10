@@ -11,7 +11,7 @@ class GetTerminalLogCommandResult(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], command: str) -> str:
-        rows = data.get("terminal_log", [])
+        rows = list(data.get("terminal_log", {}).values())
         for row in rows:
             cmds = row.get("commands", [])
             if command in cmds:

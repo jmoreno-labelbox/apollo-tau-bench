@@ -9,7 +9,7 @@ class ListStores(Tool):
     """Return all stores."""
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        return _json_dump(data.get("stores", []))
+        return _json_dump(list(data.get("stores", {}).values()))
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

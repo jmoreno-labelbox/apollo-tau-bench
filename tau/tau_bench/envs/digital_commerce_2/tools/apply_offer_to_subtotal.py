@@ -17,7 +17,7 @@ class ApplyOfferToSubtotal(Tool):
         except Exception:
             return json.dumps({"error": "subtotal must be numeric"}, indent=2)
 
-        offers = data.get("offers", [])
+        offers = list(data.get("offers", {}).values())
         match = next((o for o in offers if o.get("offer_code") == offer_code), None)
         if not match:
             return json.dumps({"valid": False, "reason": "Offer not found"}, indent=2)

@@ -10,7 +10,7 @@ class InventorySecurityGroupRules(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any]) -> str:
-        rules = data.get("aws_security_group_rules", [])
+        rules = list(data.get("aws_security_group_rules", {}).values())
         return json.dumps({"rule_ids": [r.get("rule_id") for r in rules]}, indent=2)
 
     @staticmethod

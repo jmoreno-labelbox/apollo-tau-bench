@@ -12,7 +12,7 @@ class GetViewershipForDateAndCategory(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         date = kwargs.get("date")
         category = kwargs.get("category")
-        viewership_data = data.get("f_viewership", [])
+        viewership_data = list(data.get("f_viewership", {}).values())
         
         for entry in viewership_data:
             if entry.get("date") == date and entry.get("category") == category:

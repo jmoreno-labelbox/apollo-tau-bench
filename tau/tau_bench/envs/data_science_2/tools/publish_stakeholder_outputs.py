@@ -12,12 +12,12 @@ class PublishStakeholderOutputs(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], predictions_final_csv_path: str, metrics_summary_csv_path: str, generated_ts: str) -> str:
         preds_ok = False
-        for r in data.get("predictions", []):
+        for r in list(data.get("predictions", {}).values()):
             if r.get("predictions_csv_path") == predictions_final_csv_path:
                 preds_ok = True
                 break
         metrics_ok = False
-        for r in data.get("metrics", []):
+        for r in list(data.get("metrics", {}).values()):
             if r.get("metrics_csv_path") == metrics_summary_csv_path:
                 metrics_ok = True
                 break

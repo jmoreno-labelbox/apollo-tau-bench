@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class RegisterFileEntry(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        files = data.get("file_store", [])
+        files = list(data.get("file_store", {}).values())
         max_id = 0
         for f in files:
             try:

@@ -9,7 +9,7 @@ class GetConsultantProfile(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cid = kwargs.get("consultant_id")
-        cons = next((c for c in data.get("consultants", []) if c.get("consultant_id") == cid), None)
+        cons = next((c for c in list(data.get("consultants", {}).values()) if c.get("consultant_id") == cid), None)
         return json.dumps(cons or {"error": f"Consultant {cid} not found"}, indent=2)
 
     @staticmethod

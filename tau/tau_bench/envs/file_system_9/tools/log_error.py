@@ -9,7 +9,7 @@ class LogError(Tool):
     """Logs an error message and returns the generated msg_id."""
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        error_messages = data.get("error_messages", [])
+        error_messages = list(data.get("error_messages", {}).values())
         max_id = 0
         if error_messages:
             for msg in error_messages:

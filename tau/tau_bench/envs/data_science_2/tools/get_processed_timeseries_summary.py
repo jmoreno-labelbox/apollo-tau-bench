@@ -11,7 +11,7 @@ class GetProcessedTimeseriesSummary(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], csv_path: str) -> str:
-        rows = data.get("processed_timeseries", [])
+        rows = list(data.get("processed_timeseries", {}).values())
         for row in rows:
             if row.get("csv_path") == csv_path:
                 return json.dumps(row)

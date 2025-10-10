@@ -19,7 +19,7 @@ class UpdateItemsInCartBatch(Tool):
                 },
                 indent=2,
             )
-        cart_items = data.get("cart_items", [])
+        cart_items = list(data.get("cart_items", {}).values())
         updated = []
         for it in items:
             pid = it.get("product_id")

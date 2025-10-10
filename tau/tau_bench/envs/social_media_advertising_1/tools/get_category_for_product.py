@@ -11,7 +11,7 @@ class GetCategoryForProduct(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         product_id = kwargs.get("product_id")
-        products = data.get("dim_product", [])
+        products = list(data.get("dim_product", {}).values())
         
         for product in products:
             if product.get("product_id") == product_id:

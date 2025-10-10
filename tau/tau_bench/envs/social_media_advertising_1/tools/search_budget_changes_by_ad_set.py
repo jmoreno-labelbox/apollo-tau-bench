@@ -11,7 +11,7 @@ class SearchBudgetChangesByAdSet(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         adset_id = kwargs.get("adset_id")
-        changes = data.get("budget_changes", [])
+        changes = list(data.get("budget_changes", {}).values())
         matching_changes = []
         
         for change in changes:

@@ -9,7 +9,7 @@ class ManageReminders(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], action: str, reminder_id: Optional[str] = None, reminder: Optional[Dict[str, Any]] = None, updates: Optional[Dict[str, Any]] = None) -> str:
-        reminders = data.get("reminders", [])
+        reminders = list(data.get("reminders", {}).values())
         if action == "list_all_names_ids":
             return json.dumps({"reminders": [{"name": r["name"], "reminder_id": r["reminder_id"]} for r in reminders]}, indent=2)
         if action == "get":

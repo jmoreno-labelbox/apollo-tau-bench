@@ -11,7 +11,7 @@ class SearchAdSetsByStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         status = kwargs.get("status")
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         matching_adsets = []
         
         for adset in adsets:

@@ -10,7 +10,7 @@ class RemoveDeviceFromRoom(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], room_id: str, device_id: str) -> str:
-        rooms_doc: List[Dict[str, Any]] = data.get("rooms", [])
+        rooms_doc: List[Dict[str, Any]] = list(data.get("rooms", {}).values())
         for room in rooms_doc:
             if room["id"] == room_id:
                 room_devices = room.get("devices", [])

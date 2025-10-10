@@ -3,6 +3,7 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
+from . import _require
 
 
 class AddOrderItemsFromList(Tool):
@@ -18,7 +19,7 @@ class AddOrderItemsFromList(Tool):
         if not order:
             return _json_dump({"error": f"order_id {order_id} not found"})
         list_id = int(order["list_id"])
-        items = [i for i in data.get("grocery_list_items", []) if int(i.get("list_id")) == list_id]
+        items = [i for i in list(data.get("grocery_list_items", {}).values()) if int(i.get("list_id")) == list_id]
         oi_tbl = data.setdefault("order_items", [])
         next_oi = _max_id(oi_tbl, "order_item_id", 10100)
         subtotal = 0
@@ -28,7 +29,7 @@ class AddOrderItemsFromList(Tool):
             override_pid = product_overrides.get(str(ingr_id)) or product_overrides.get(ingr_id)
             product = None
             if override_pid is not None:
-                product = next((p for p in data.get("store_products", []) if int(p.get("product_id")) == int(override_pid)), None)
+                product = next((p for p in list(data.get("store_products", {}).values()) if int(p.get("product_id")) == int(override_pid)), None)
             if product is None:
                 prods = _store_products_for_ingredient(data, int(store_id), ingr_id)
                 prods = [p for p in prods if p.get("stock_status_enum") in ("in_stock","low")]

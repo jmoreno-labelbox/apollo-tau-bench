@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReadAuditEvents(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        logs = data.get("terminal_log", []) or []
+        logs = list(data.get("terminal_log", {}).values()) or []
         event_type = kwargs.get("event_type")
         rows = [l for l in logs if (not event_type or l.get("event_type") == event_type)]
         return json.dumps({"logs": rows}, indent=2)

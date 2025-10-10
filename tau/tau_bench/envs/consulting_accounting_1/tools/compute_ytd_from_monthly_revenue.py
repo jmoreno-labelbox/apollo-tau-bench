@@ -12,7 +12,7 @@ class ComputeYtdFromMonthlyRevenue(Tool):
         through = kwargs.get("through_month")
         if not year or not through:
             return json.dumps({"error":"year and through_month are required"}, indent=2)
-        rows = [r for r in data.get("monthly_revenue", []) if str(r.get("month_year","")).startswith(f"{year}-")]
+        rows = [r for r in list(data.get("monthly_revenue", {}).values()) if str(r.get("month_year","")).startswith(f"{year}-")]
         total = 0.0
         for r in rows:
             try:

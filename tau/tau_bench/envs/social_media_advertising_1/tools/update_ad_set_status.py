@@ -13,7 +13,7 @@ class UpdateAdSetStatus(Tool):
         adset_id = kwargs.get("adset_id")
         new_status = kwargs.get("new_status")
         
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         for adset in adsets:
             if adset.get("adset_id") == adset_id:
                 old_status = adset['status']

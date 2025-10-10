@@ -13,7 +13,7 @@ class GetOfferDetails(Tool):
         offer_id = _idstr(offer_id)
         if not offer_id:
             return json.dumps({"error": "Missing required field: offer_id"}, indent=2)
-        offers = data.get("offers", [])
+        offers = list(data.get("offers", {}).values())
         for offer in offers:
             if offer.get("offer_id") == offer_id:
                 return json.dumps(offer, indent=2)
