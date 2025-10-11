@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly invoke the `CreateGmailThread` action. The agent repeatedly attempted to call `CreateGmailThread` without providing the required `workflow_type` argument, which is necessary for the action to succeed. This resulted in a series of errors and prevented the creation of the email thread needed to notify stakeholders, as specified in the ground truth action sequence."
+            "description": "The agent is responsible for the fault because it failed to correctly invoke the `CreateGmailThread` action. The errors indicate that the agent did not provide the required `workflow_type` argument, which is necessary for the action to execute successfully. This omission prevented the creation of the email thread, which is a critical step in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `CreateGmailThread` tool was invoked with incorrect arguments. Specifically, the tool was called with an unexpected keyword argument 'subject' and was missing the required positional argument 'workflow_type'. In the ground truth action sequence, the `CreateGmailThread` tool is correctly invoked with the 'workflow_type' argument set to \"review\", and no 'subject' argument is used. This discrepancy in the arguments led to repeated errors in the trajectory."
+            "description": "The fault in the trajectory is due to the incorrect use of the `CreateGmailThread` tool. The trajectory attempts to invoke `CreateGmailThread` with an unexpected keyword argument 'subject' and fails to provide the required 'workflow_type' argument. In the ground truth, the `CreateGmailThread` action correctly includes the 'workflow_type' argument set to \"review\", which is necessary for the tool to function properly. The absence of this required argument in the trajectory leads to repeated errors, preventing the successful creation of the email thread."
         }
     ]
 }

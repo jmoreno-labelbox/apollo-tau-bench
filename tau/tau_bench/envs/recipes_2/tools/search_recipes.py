@@ -9,7 +9,7 @@ class SearchRecipes(Tool):
     """Searches for recipes based on various criteria."""
     @staticmethod
     def invoke(data: Dict[str, Any], cuisine, is_peanut_free, meal_type) -> str:
-        recipes = list(data.get("recipes", {}).values())
+        recipes = data.get("recipes", [])
         results = []
         for recipe in recipes:
             match = True

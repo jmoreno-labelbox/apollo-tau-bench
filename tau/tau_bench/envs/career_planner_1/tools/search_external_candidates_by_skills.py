@@ -27,7 +27,7 @@ class SearchExternalCandidatesBySkills(Tool):
             return out
 
         matches = []
-        for c in talent_network.values():
+        for c in talent_network:
             # Extract skill names from candidate skills to support both formats.
             candidate_skills = set()
             cand_skills = c.get("skills", [])

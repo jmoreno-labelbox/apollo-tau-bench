@@ -10,11 +10,11 @@ class AddItemToGroceryList(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], ingredient_id, list_id, quantity, unit) -> str:
         
-        items = list(data.get("grocery_list_items", {}).values())
+        items = data.get("grocery_list_items", [])
         # Auto-generate the subsequent item_id.
         new_id = max([item.get("item_id", 0) for item in items]) + 1 if items else 8101
         
-        ingredients = list(data.get("ingredients", {}).values())
+        ingredients = data.get("ingredients", [])
         ingredient_info = next((ing for ing in ingredients if ing["ingredient_id"] == ingredient_id), None)
         if not ingredient_info:
             return json.dumps({"error": f"Ingredient {ingredient_id} not found."})

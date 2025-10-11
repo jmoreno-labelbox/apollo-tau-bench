@@ -9,7 +9,7 @@ class AddMember(Tool):
     """Adds a new member to a household."""
     @staticmethod
     def invoke(data: Dict[str, Any], birthdate, full_name, household_id, is_child) -> str:
-        members = list(data.get("members", {}).values())
+        members = data.get("members", [])
         new_id = max([m.get("member_id", 0) for m in members]) + 1 if members else 301
         new_member = {
             "member_id": new_id, "household_id": household_id, "full_name": full_name,

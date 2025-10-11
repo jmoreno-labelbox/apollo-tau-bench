@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it returned an incorrect response format after the \"GetUserByFullName\" action. Instead of returning a structured object that the assistant could parse, it returned a string, leading to repeated errors ('str' object has no attribute 'get') when the assistant attempted to access attributes of the expected object. This prevented the assistant from proceeding with the subsequent actions required to fulfill the user instruction."
+            "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: `'str' object has no attribute 'get'`. This suggests that the environment is attempting to access a method or attribute on a string object that does not exist, likely due to a misconfiguration or incorrect handling of data types within the environment. This prevents the execution of any actions, leading to a failure in progressing through the necessary steps to achieve the user's goal."
         }
     ],
     "fault_type_analysis": []

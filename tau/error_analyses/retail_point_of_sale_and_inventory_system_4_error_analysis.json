@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `GetCustomersInfoByParam` action without providing the required `filter_params` argument. This resulted in a series of errors, preventing the agent from retrieving Emma Wilson's customer information and proceeding with the subsequent steps necessary to process the refund and apply the discount. In contrast, the ground truth action sequence correctly specifies the `filter_params` with Emma Wilson's name to retrieve the necessary customer information."
+            "description": "The agent is responsible for the fault because it repeatedly attempted to invoke the `GetCustomersInfoByParam` action without providing the required `filter_params` argument. This resulted in continuous errors and prevented the agent from retrieving Emma Wilson's customer ID, which was necessary to proceed with the refund process. The agent failed to correct this mistake, leading to an inability to execute the subsequent steps in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `GetCustomersInfoByParam` tool was invoked without providing the required `filter_params` argument. In the ground truth action sequence, `filter_params` is correctly specified with `{\"name\": \"Emma Wilson\"}` to retrieve the necessary customer information. The absence of this argument in the trajectory leads to repeated errors, preventing the agent from proceeding with the refund process."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `GetCustomersInfoByParam` tool was invoked without the required `filter_params` argument. In the ground truth action sequence, `filter_params` is correctly provided with the value `{\"name\": \"Emma Wilson\"}` to retrieve Emma Wilson's customer information. The absence of this argument in the trajectory led to repeated errors, preventing the successful execution of the intended action."
         }
     ]
 }

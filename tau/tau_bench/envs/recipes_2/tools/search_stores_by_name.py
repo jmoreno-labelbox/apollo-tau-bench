@@ -13,7 +13,7 @@ class SearchStoresByName(Tool):
         if not name_query:
             return json.dumps({"error": "name_query parameter is required."})
 
-        stores = list(data.get("stores", {}).values())
+        stores = data.get("stores", [])
         
         matching_stores = [
             store for store in stores 

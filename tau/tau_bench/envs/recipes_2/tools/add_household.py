@@ -9,7 +9,7 @@ class AddHousehold(Tool):
     """Adds a new household."""
     @staticmethod
     def invoke(data: Dict[str, Any], household_name, primary_user_id, timezone) -> str:
-        households = list(data.get("households", {}).values())
+        households = data.get("households", [])
         new_id = max([h.get("household_id", 0) for h in households]) + 1 if households else 201
         new_household = {
             "household_id": new_id, "household_name": household_name,

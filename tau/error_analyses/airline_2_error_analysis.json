@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to execute the `CreateOperationalEvent` action, which is necessary to log the SIGMET impacting LAX operations. Additionally, the agent did not send user notifications for the delays of flights HAT170 and HAT124, which are required steps in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **Incorrect Airport Code**: The agent incorrectly logged the operational event for DFW instead of LAX, which is the correct airport code as per the user instruction.\n\n2. **Incorrect Delay Duration**: Initially, the agent applied a 30-minute delay instead of the required 120-minute delay for both flights HAT170 and HAT124.\n\n3. **Notification Failure**: The agent failed to send the user notifications for the updated delay times for both flights, which is a crucial part of the protocol.\n\nThese discrepancies between the ground truth action sequence and the trajectory led to the failure in executing the correct protocol as instructed."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant incorrectly used the date \"2023-10-05\" instead of the correct date \"2024-05-22\" when attempting to retrieve flight details and update flight statuses. This discrepancy led to errors and the failure to execute the intended actions correctly."
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to complete the notification step for the updated 120-minute delay for flights HAT170 and HAT124. In the ground truth action sequence, after updating the flight statuses and applying the delays, the agent is supposed to send notifications to the passengers of both flights about the 120-minute delay. However, in the trajectory, the agent encounters errors and fails to send these notifications, leaving the task partially completed."
         }
     ]
 }

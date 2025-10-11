@@ -3,11 +3,28 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
+import os
+
+# Note: DATA_DIR and load_json are no longer used by the invoke methods,
+# which is the correct architecture. They are left here in case they are
+# used by other parts of the framework not provided.
+DATA_DIR = os.path.join(os.path.dirname(__file__), '../data')
+
+def get_current_timestamp() -> str:
+    # Deterministic timestamp as per requirements
+    return "2025-08-12T12:00:00.000000"
+
+def generate_unique_id() -> str:
+    # Deterministic ID as per requirements
+    return 'fd520c73'
 
 
 class UpdateOrderStatus(Tool):
+
     @staticmethod
-    def invoke(data: Dict[str, Any], new_status, order_id) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get('order_id')
+        new_status = kwargs.get('new_status')
 
         if not order_id or not new_status:
             return json.dumps({'error': 'order_id and new_status are required'})

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the necessary actions in the correct order and with the required parameters. Specifically, the agent did not perform the `QueryInvoices`, `DeriveCollectionKpis`, and `RenderAccountsReceivableReport` actions, which are essential steps in the ground truth action sequence. Additionally, the agent attempted to create a dashboard snapshot without providing the required parameters (`ytd_revenue` and `ytd_tax_reserve`), which were not necessary according to the ground truth. The agent also failed to fetch the dashboard snapshot correctly due to missing parameters. These errors prevented the successful completion of the task as outlined in the ground truth action sequence."
+            "description": "The agent is responsible for the fault because it failed to execute the necessary actions in the correct order to achieve the goal state. Specifically, the agent did not perform the initial steps of querying open invoices up to the specified date and deriving collection KPIs over a 12-month period, which are essential for generating the Accounts Receivable report. Instead, the agent attempted to create a dashboard snapshot without having the required data, leading to errors. Additionally, the agent did not use the correct snapshot date of \"2025-08-23\" as specified in the user instruction, and it failed to provide the correct parameters for creating the dashboard snapshot, resulting in repeated errors."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `CreateDashboardSnapshot` action was attempted with incorrect arguments. The ground truth specifies that the `CreateDashboardSnapshot` action should be invoked with the arguments `snapshot_date` and `pdf_path`. However, the trajectory shows errors indicating missing arguments `ytd_revenue` and `ytd_tax_reserve`, which are not required according to the ground truth. This discrepancy in the expected arguments for the `CreateDashboardSnapshot` action led to the fault."
+            "description": "The fault in the trajectory is that the `CreateDashboardSnapshot` action was attempted with the wrong tool arguments. The ground truth specifies that the `CreateDashboardSnapshot` action should be executed with the arguments `snapshot_date` set to \"2025-08-23\" and `pdf_path` set to \"https://test.storage.com/reports/accounts_receivable_2025-08.pdf\". However, in the trajectory, the assistant attempts to create the snapshot with `snapshot_date` set to \"2025-08-01\" and fails to provide the correct `pdf_path` and other necessary parameters (`ytd_revenue` and `ytd_tax_reserve`). This discrepancy in the tool arguments leads to the failure of the action."
         }
     ]
 }

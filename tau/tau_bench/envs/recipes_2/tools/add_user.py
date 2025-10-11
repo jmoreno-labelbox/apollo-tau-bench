@@ -9,7 +9,7 @@ class AddUser(Tool):
     """Adds a new user."""
     @staticmethod
     def invoke(data: Dict[str, Any], email, full_name) -> str:
-        users = list(data.get("users", {}).values())
+        users = data.get("users", [])
         if any(user.get("email") == email for user in users):
             return json.dumps({"error": f"User with email '{email}' already exists."})
         new_id = max([u.get("user_id", 0) for u in users]) + 1 if users else 101

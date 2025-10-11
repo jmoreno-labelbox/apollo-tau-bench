@@ -11,7 +11,7 @@ class SearchHouseholdsByName(Tool):
     def invoke(data: Dict[str, Any], name_query) -> str:
         if not name_query:
             return json.dumps({"error": "name_query parameter is required."})
-        households = list(data.get("households", {}).values())
+        households = data.get("households", [])
         matching_households = [
             household for household in households 
             if name_query.lower() in household.get("household_name", "").lower()

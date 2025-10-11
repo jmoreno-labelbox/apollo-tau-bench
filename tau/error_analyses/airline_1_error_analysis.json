@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to execute the necessary actions to apply the 3-hour delay to flights with an 'available' status heading to ATL. The agent incorrectly concluded that there were no flights with an 'available' status without performing the \"FindFlights\" action to verify this information. Consequently, it did not proceed with the \"UpdateFlightSchedule\" action to apply the delay, which was required according to the ground truth action sequence."
+            "description": "The agent is responsible for the fault because it failed to create an operational event with the correct event type \"SIGMET\" and details \"Severe Weather Protocol initiated.\" Instead, it logged a weather alert with the event type \"WEATHER_ALERT\" and incorrect details. Additionally, the agent updated the flight schedules for flights originating from ATL, whereas the instruction specified applying delays to flights destined for ATL."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to execute the necessary actions to complete the task. Specifically, the assistant did not perform the \"CreateOperationalEvent\" action to log the SIGMET event at ATL, nor did it execute the \"FindFlights\" and \"UpdateFlightSchedule\" actions to apply the 3-hour delay to the flights with status 'available'. Instead, the assistant incorrectly concluded that there were no flights to update, which is inconsistent with the ground truth action sequence that identifies specific flights needing the delay."
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is that the \"UpdateFlightSchedule\" tool was used with incorrect arguments. The ground truth specifies that the update should be applied to flights with the destination \"ATL\" and status \"available\". However, in the trajectory, the updates were applied to flights originating from \"ATL\" instead of those destined for \"ATL\". This discrepancy in the flight selection criteria led to the wrong set of flights being updated."
         }
     ]
 }

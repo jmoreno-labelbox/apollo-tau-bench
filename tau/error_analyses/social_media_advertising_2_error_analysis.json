@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to execute the necessary actions to adjust ad set 104 according to the plan for August 13, 2025. Specifically, the agent encountered errors when attempting to update the ad set's budget and strategy, which should have been set to a budget of $750 and a bid strategy of \"cost cap\" with a bid amount of $22. These adjustments were not made, and the agent did not successfully apply the changes or verify the final aligned state with the plan, as required by the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the actions to adjust the ad set 104 according to the plan for August 13, 2025. Specifically, the agent did not perform the \"SetAdsetBudget\" and \"UpdateAdsetStrategy\" actions to align the ad set with the plan, and it encountered repeated errors ('dict' object has no attribute 'append') instead of successfully updating the ad set's budget and strategy. Additionally, the agent did not verify the final state with \"AppliedStateVerifier\" to ensure it matched the intended plan."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the tool used the wrong argument when attempting to adjust the ad set to align with the plan. Specifically, the tool incorrectly reported an error with the message \"Adset 104 not in plan 3\" when trying to adjust ad set 104, even though ad set 104 was indeed part of the plan as per the ground truth action sequence. This indicates that the tool used an incorrect argument or logic to verify the presence of ad set 104 in the plan, leading to the failure to execute the necessary adjustments."
+            "description": "The fault in the trajectory is that the assistant attempted to use a tool with an incorrect argument type. Specifically, after retrieving the plan details, the assistant should have used the \"SetAdsetBudget\" and \"UpdateAdsetStrategy\" tools with the correct arguments to adjust the ad set 104 according to the plan. Instead, the assistant attempted to perform an operation on a dictionary object that does not support the 'append' method, indicating a misuse of the tool or incorrect handling of the data structure. This differs from the ground truth, where the correct tools and arguments were used to adjust the ad set budget and strategy."
         }
     ]
 }

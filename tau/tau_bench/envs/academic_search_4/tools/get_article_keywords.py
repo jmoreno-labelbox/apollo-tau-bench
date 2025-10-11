@@ -4,6 +4,7 @@ import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 import re
+from collections import Counter
 
 
 class GetArticleKeywords(Tool):

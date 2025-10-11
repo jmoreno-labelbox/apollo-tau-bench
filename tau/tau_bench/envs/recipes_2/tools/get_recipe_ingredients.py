@@ -9,7 +9,7 @@ class GetRecipeIngredients(Tool):
     """Retrieves all ingredients for a specific recipe ID."""
     @staticmethod
     def invoke(data: Dict[str, Any], recipe_id) -> str:
-        recipe_ingredients = list(data.get("recipe_ingredients", {}).values())
+        recipe_ingredients = data.get("recipe_ingredients", [])
         ingredients = [ri for ri in recipe_ingredients if ri.get("recipe_id") == recipe_id]
         return json.dumps(ingredients)
 

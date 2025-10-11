@@ -9,7 +9,7 @@ class GetUserByEmail(Tool):
     """Retrieves a user's details by their email address."""
     @staticmethod
     def invoke(data: Dict[str, Any], email) -> str:
-        users = list(data.get("users", {}).values())
+        users = data.get("users", [])
         for user in users:
             if user.get("email") == email:
                 return json.dumps(user)

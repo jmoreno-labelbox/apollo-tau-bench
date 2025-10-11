@@ -7,7 +7,7 @@ class GetJobPosting(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], job_id: str = None) -> str:
         postings = data.get("job_postings", {}).values()
-        for post in postings.values():
+        for post in postings:
             if post.get("job_id") == job_id:
                 return str(post)
         return f"Job posting with ID {job_id} not found."

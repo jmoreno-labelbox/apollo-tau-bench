@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to create the citation with the correct context as specified in the user instruction. The agent created a citation with an incorrect context: \"This citation is crucial for contextual completeness regarding the influence of dark matter on the formation of exoplanets,\" instead of the required context: \"Citation added during internal audit for contextual completeness.\" Additionally, the agent did not successfully log the required research notes for the project and Prof. James Wilson, nor did it display the details of the newly created citation as instructed."
+            "description": "The agent is responsible for the fault because it repeatedly attempted to invoke the `QueryProjects` action without providing the required `project_id` argument. Instead, the agent should have used the `project_name` argument to locate the project, as shown in the ground truth action sequence. This error prevented the agent from progressing with the task of adding the missing citation and completing the other required actions."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect context provided when creating the citation link. The ground truth specifies that the citation context should be \"Citation added during internal audit for contextual completeness.\" However, in the trajectory, the context used was \"This citation is crucial for contextual completeness regarding the influence of dark matter on the formation of exoplanets.\" This discrepancy in the citation context constitutes a \"used_wrong_tool_argument\" fault."
+            "description": "The fault in the trajectory is due to the incorrect use of the `QueryProjects` tool. The assistant attempted to invoke `QueryProjects` with a missing required argument, `project_id`, instead of using the correct argument, `project_name`, as specified in the ground truth action sequence. This resulted in repeated errors and prevented the assistant from proceeding with the task."
         }
     ]
 }

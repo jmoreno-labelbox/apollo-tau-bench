@@ -15,7 +15,7 @@ class GetRoleSkills(Tool):
             return out
 
         # Start with a precise match first.
-        for entry in catalog.values():
+        for entry in catalog:
             if entry.get("role") == role:
                 skills = entry.get("required_skills", [])
                 if not skills:
@@ -50,7 +50,7 @@ class GetRoleSkills(Tool):
 
         mapped_role = role_mapping.get(role)
         if mapped_role:
-            for entry in catalog.values():
+            for entry in catalog:
                 if entry.get("role") == mapped_role:
                     skills = entry.get("required_skills", [])
                     if not skills:

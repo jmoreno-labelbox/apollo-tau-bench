@@ -10,7 +10,7 @@ class CreateGroceryListFromMealPlan(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id, meal_plan_id, user_id) -> str:
 
-        lists = list(data.get("grocery_lists", {}).values())
+        lists = data.get("grocery_lists", [])
         # Automatically create the subsequent list_id.
         new_id = max([l.get("list_id", 0) for l in lists]) + 1 if lists else 8001
 

@@ -13,7 +13,9 @@ def load_data() -> dict[str, Any]:
         try:
             with open(path, 'r', encoding='utf-8') as f:
                 content = f.read()
-                db[name] = json.loads(content) if content else []
+                loaded = json.loads(content) if content else []
+
+                db[name] = list(loaded.values()) if isinstance(loaded, dict) else loaded
         except FileNotFoundError:
             db[name] = []
     return db

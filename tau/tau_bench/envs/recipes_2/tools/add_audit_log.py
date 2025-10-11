@@ -10,7 +10,7 @@ class AddAuditLog(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], action_enum, entity_id, entity_type, household_id, user_id, payload_json = {}) -> str:
         
-        logs = list(data.get("audit_logs", {}).values())
+        logs = data.get("audit_logs", [])
         # Auto-generate the subsequent audit_id.
         new_id = max([log.get("audit_id", 0) for log in logs]) + 1 if logs else 12001
 

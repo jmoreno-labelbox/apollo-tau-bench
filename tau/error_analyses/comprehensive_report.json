@@ -1,12 +1,21 @@
 {
   "stats": {
     "total": 122,
-    "tested": 90,
-    "analyzed": 90,
-    "skipped": 32,
+    "tested": 92,
+    "analyzed": 92,
+    "skipped": 30,
     "failed": 0
   },
   "summaries": {
+    "academic_search_3": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
     "career_planner_3": {
       "total_failures": 1,
       "user_faults": 0,
@@ -23,28 +32,48 @@
         "goal_partially_completed": 1
       }
     },
+    "career_planner_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "career_planner_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
     "banking_services_6": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "career_planner_2": {
-      "total_failures": 1,
-      "user_faults": 1,
-      "agent_faults": 0,
+      "agent_faults": 1,
       "env_faults": 0,
-      "fault_types": {}
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
     },
-    "banking_services_5": {
+    "academic_search_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "other": 1
+      }
+    },
+    "banking_services_2": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 0,
       "env_faults": 1,
       "fault_types": {}
     },
-    "academic_search_4": {
+    "career_planner_4": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -56,11 +85,56 @@
     "academic_search_5": {
       "total_failures": 1,
       "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "other": 1
+      }
+    },
+    "academic_search_4": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "banking_services_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "other": 1
+      }
+    },
+    "academic_search_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "consulting_accounting_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "goal_partially_completed": 1
+      }
+    },
+    "banking_services_5": {
+      "total_failures": 1,
+      "user_faults": 0,
       "agent_faults": 0,
       "env_faults": 1,
       "fault_types": {}
     },
-    "banking_services_2": {
+    "airline_2": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -78,71 +152,21 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "banking_services_1": {
+    "dev_ops_4": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 0,
       "env_faults": 1,
       "fault_types": {}
-    },
-    "career_planner_4": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "academic_search_2": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "career_planner_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "other": 1
-      }
-    },
-    "academic_search_3": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "academic_search_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
     },
     "airline": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "banking_services_4": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "goal_partially_completed": 1
+      }
     },
     "data_science_3": {
       "total_failures": 1,
@@ -153,86 +177,7 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "consulting_accounting_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "data_science_5": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "data_science_2": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "called_wrong_tool": 1
-      }
-    },
-    "figma_gmail_mcp_pipeline_3": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "file_system_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "goal_partially_completed": 1
-      }
-    },
-    "dev_ops_3": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "digital_commerce_5": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "other": 1
-      }
-    },
-    "dev_ops_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "other": 1
-      }
-    },
-    "airline_2": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "it_help_desk_5": {
+    "banking_services_4": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 0,
@@ -242,20 +187,39 @@
     "dev_ops_2": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
     },
-    "figma_gmail_mcp_pipeline_5": {
+    "digital_commerce_4": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 0,
       "env_faults": 1,
       "fault_types": {}
     },
-    "digital_commerce_4": {
+    "figma_gmail_mcp_pipeline_3": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "it_help_desk_5": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "dev_ops_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "data_science_2": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -273,6 +237,13 @@
         "used_wrong_tool_argument": 1
       }
     },
+    "digital_commerce_5": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
     "figma_gmail_mcp_pipeline_1": {
       "total_failures": 1,
       "user_faults": 0,
@@ -281,6 +252,38 @@
       "fault_types": {
         "used_wrong_tool_argument": 1
       }
+    },
+    "data_science_5": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "figma_gmail_mcp_pipeline_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "github_mcp_7": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "dev_ops_3": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
     },
     "figma_gmail_mcp_pipeline_4": {
       "total_failures": 1,
@@ -297,65 +300,10 @@
       "agent_faults": 1,
       "env_faults": 0,
       "fault_types": {
-        "goal_partially_completed": 1
-      }
-    },
-    "dev_ops_4": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "called_wrong_tool": 1
-      }
-    },
-    "project_management_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "file_system_8": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "figma_gmail_mcp_pipeline_2": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "called_wrong_tool": 1
-      }
-    },
-    "github_mcp_7": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "file_system_7": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
         "used_wrong_tool_argument": 1
       }
     },
-    "org_chart_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "file_system_9": {
+    "figma_gmail_mcp_pipeline_5": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -373,30 +321,7 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "real_estate_sales_7": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "org_chart_5": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "logistics_supply_chain_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "other": 1
-      }
-    },
-    "org_chart_3": {
+    "it_help_desk_6": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -405,16 +330,57 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "rbac_4": {
+    "project_management_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "file_system_8": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
       "env_faults": 0,
       "fault_types": {
-        "goal_partially_completed": 1
+        "used_wrong_tool_argument": 1
       }
     },
-    "rbac_2": {
+    "file_system_9": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "github_mcp_5": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "org_chart_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "airline_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "real_estate_sales_7": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 0,
@@ -430,15 +396,6 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "org_chart_4": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
     "logistics_supply_chain_5": {
       "total_failures": 1,
       "user_faults": 0,
@@ -446,14 +403,16 @@
       "env_faults": 1,
       "fault_types": {}
     },
-    "real_estate_sales_2": {
+    "org_chart_5": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "other": 1
+      }
     },
-    "github_mcp_5": {
+    "file_system_7": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -462,14 +421,41 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "retail_1": {
+    "org_chart_3": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "logistics_supply_chain_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "file_system_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "goal_partially_completed": 1
+      }
+    },
+    "real_estate_sales_3": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 0,
       "env_faults": 1,
       "fault_types": {}
     },
-    "retail_4": {
+    "retail_1": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 0,
@@ -485,14 +471,28 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "real_estate_sales_3": {
+    "retail_4": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "rbac_4": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
       "env_faults": 0,
       "fault_types": {
-        "used_wrong_tool_argument": 1
+        "goal_partially_completed": 1
       }
+    },
+    "real_estate_sales_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
     },
     "logistics_supply_chain_6": {
       "total_failures": 1,
@@ -503,19 +503,14 @@
         "other": 1
       }
     },
-    "recipes_5": {
+    "real_estate_sales_4": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "recipes_3": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
     },
     "retail_point_of_sale_and_inventory_system_6": {
       "total_failures": 1,
@@ -524,14 +519,25 @@
       "env_faults": 1,
       "fault_types": {}
     },
-    "project_management_2": {
+    "org_chart_4": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
     },
     "recipes_4": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "recipes_3": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 0,
@@ -541,25 +547,13 @@
     "project_management_5": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
     },
-    "it_help_desk_6": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "retail_3": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "retail_5": {
+    "rbac_2": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -577,14 +571,12 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "retail_2": {
+    "recipes_5": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "other": 1
-      }
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
     },
     "retail_point_of_sale_and_inventory_system_4": {
       "total_failures": 1,
@@ -595,7 +587,37 @@
         "used_wrong_tool_argument": 1
       }
     },
+    "retail_3": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "retail_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "smart_home_3": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
     "recipes_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "retail_point_of_sale_and_inventory_system_5": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -611,7 +633,21 @@
       "env_faults": 1,
       "fault_types": {}
     },
-    "real_estate_sales_4": {
+    "retail_5": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "project_management_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 0,
+      "env_faults": 1,
+      "fault_types": {}
+    },
+    "retail_point_of_sale_and_inventory_system_1": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -629,59 +665,7 @@
         "used_wrong_tool_argument": 1
       }
     },
-    "retail_point_of_sale_and_inventory_system_5": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "smart_home_3": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "retail_point_of_sale_and_inventory_system_1": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
     "smart_home_5": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "smart_home_2": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "smart_home_4": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 1,
-      "env_faults": 0,
-      "fault_types": {
-        "used_wrong_tool_argument": 1
-      }
-    },
-    "social_media_advertising_2": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -697,7 +681,7 @@
       "env_faults": 1,
       "fault_types": {}
     },
-    "social_media_advertising_1": {
+    "smart_home_4": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -715,7 +699,52 @@
         "goal_partially_completed": 1
       }
     },
+    "social_media_advertising_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
     "smart_home_1": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "smart_home_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "social_media_advertising_2": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "social_media_advertising_5": {
+      "total_failures": 1,
+      "user_faults": 0,
+      "agent_faults": 1,
+      "env_faults": 0,
+      "fault_types": {
+        "used_wrong_tool_argument": 1
+      }
+    },
+    "sports_analytics_4": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,
@@ -727,20 +756,13 @@
     "sports_analytics_3": {
       "total_failures": 1,
       "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
-    "sports_analytics_4": {
-      "total_failures": 1,
-      "user_faults": 0,
       "agent_faults": 1,
       "env_faults": 0,
       "fault_types": {
         "used_wrong_tool_argument": 1
       }
     },
-    "social_media_advertising_5": {
+    "sports_analytics_2": {
       "total_failures": 1,
       "user_faults": 0,
       "agent_faults": 1,

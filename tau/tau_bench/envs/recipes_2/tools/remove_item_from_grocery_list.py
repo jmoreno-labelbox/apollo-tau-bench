@@ -12,7 +12,7 @@ class RemoveItemFromGroceryList(Tool):
         if item_id is None:
             return json.dumps({"error": "item_id parameter is required."})
 
-        items = list(data.get("grocery_list_items", {}).values())
+        items = data.get("grocery_list_items", [])
         original_count = len(items)
         # Remove the item that has the corresponding ID.
         data["grocery_list_items"] = [item for item in items if item.get("item_id") != item_id]

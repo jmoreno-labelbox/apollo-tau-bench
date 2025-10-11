@@ -9,7 +9,7 @@ class GetInventoryForHousehold(Tool):
     """Retrieves all inventory items for a given household ID."""
     @staticmethod
     def invoke(data: Dict[str, Any], household_id) -> str:
-        inventory = list(data.get("inventory_items", {}).values())
+        inventory = data.get("inventory_items", [])
         household_inventory = [item for item in inventory if item.get("household_id") == household_id]
         return json.dumps(household_inventory)
 

@@ -8,11 +8,12 @@ from tau_bench.envs.tool import Tool
 class UpdateProjectDetails(Tool):
     """Updates the details of an existing research project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], project_id) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get('project_id')
         if not project_id:
             return json.dumps({"error": "project_id is required."})
 
-        project = next((p for p in list(data.get('projects', {}).values()) if p.get('project_id') == project_id), None)
+        project = next((p for p in data.get('projects', []) if p.get('project_id') == project_id), None)
         if not project:
             return json.dumps({"error": f"Project with ID '{project_id}' not found."})
 

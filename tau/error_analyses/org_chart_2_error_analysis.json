@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `search_employees` function without providing the required 'filters' argument. This resulted in a series of errors and prevented the agent from proceeding with the necessary actions to process Emma Rodriguez's promotion, such as updating her job title, creating a new compensation record, adding a performance review, and reassigning Michael Park as her direct report. The agent failed to use the correct function or provide the necessary parameters to retrieve Emma's employee information, which was a critical first step in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `search_employees` function without providing the required 'filters' argument. This resulted in continuous errors and prevented the agent from executing the necessary actions to handle Emma Rodriguez's promotion, such as retrieving her employee information, updating her position and compensation, and coordinating the reassignment of Michael Park. The agent failed to follow the ground truth action sequence due to this repeated invocation error."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant repeatedly attempts to invoke the `search_employees` tool without providing the required 'filters' argument. In the ground truth action sequence, the correct tool `GetEmployee` is used with the specific `employee_id` \"E10003\" to retrieve Emma Rodriguez's information. The trajectory fails to use the correct tool and arguments to achieve the intended action."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the tool `search_employees.invoke()` was repeatedly called without the required 'filters' argument. In the ground truth action sequence, the correct tool `GetEmployee` is used with the appropriate 'employee_id' argument to retrieve Emma Rodriguez's information. The trajectory fails to provide the necessary argument for the tool, resulting in errors and preventing the successful execution of the task."
         }
     ]
 }

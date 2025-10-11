@@ -1,9 +1,23 @@
 # Copyright Sierra
 
 import json
+import os
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import generate_unique_id
+
+# Note: DATA_DIR and load_json are no longer used by the invoke methods,
+# which is the correct architecture. They are left here in case they are
+# used by other parts of the framework not provided.
+DATA_DIR = os.path.join(os.path.dirname(__file__), '../data')
+
+def get_current_timestamp() -> str:
+    # Deterministic timestamp as per requirements
+    return "2025-08-12T12:00:00.000000"
+
+def generate_unique_id() -> str:
+    # Deterministic ID as per requirements
+    return 'fd520c73'
 
 
 class CreatePromotionalCampaign(Tool):

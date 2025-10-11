@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the `CreateArchive` action successfully. The agent encountered an error related to a data structure issue ('dict' object has no attribute 'append') and did not resolve it, which prevented the creation of the archive. This failure led to subsequent issues with transferring the archive, as the source file was not found. Additionally, the agent did not log the task start or completion messages, nor did it send the Slack notification, which were required steps in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the \"CreateArchive\" action successfully due to a persistent error ('dict' object has no attribute 'append'). This prevented the agent from proceeding with the subsequent actions of transferring the archive, logging the completion message, and sending the Slack notification, which are all part of the ground truth action sequence. Additionally, the agent did not log the task start or completion messages, nor did it send the Slack notification, which are required steps in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the `CreateArchive` action was not executed correctly due to an error, and the assistant did not use the correct tool arguments to resolve the issue. In the ground truth, the `CreateArchive` action specifies the `user_id`, `destination_directory`, `remote_address`, `archive_name`, and `filepaths` as arguments. However, in the trajectory, the assistant encountered an error related to a 'dict' object not having an 'append' attribute, indicating a misuse of the tool or incorrect handling of the arguments. The assistant failed to correctly format or pass the necessary arguments to create the archive, leading to repeated errors and an inability to proceed with the task as intended."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant failed to correctly execute the \"CreateArchive\" action. The ground truth specifies that the \"CreateArchive\" action should include the arguments \"user_id\", \"destination_directory\", \"remote_address\", \"archive_name\", and \"filepaths\". However, in the trajectory, the assistant encounters an error ('dict' object has no attribute 'append') when attempting to create the archive, indicating that the tool was not used with the correct arguments or method. This error prevents the archive from being created, which is a critical step in the task sequence."
         }
     ]
 }

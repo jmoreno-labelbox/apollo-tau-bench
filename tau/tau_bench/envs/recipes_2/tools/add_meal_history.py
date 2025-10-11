@@ -10,7 +10,7 @@ class AddMealHistory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id, plan_date, rating_int, recipe_id, was_prepared) -> str:
 
-        history = list(data.get("meal_history", {}).values())
+        history = data.get("meal_history", [])
         new_id = max([h.get("history_id", 0) for h in history]) + 1 if history else 6201
 
         new_entry = {

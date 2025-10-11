@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to execute any of the required actions to initiate the design review process. Instead of performing actions such as creating a review cycle, exporting assets, creating a Gmail thread, and linking the cycle to the thread, the agent only provided email drafts and did not perform any functional operations to achieve the user's goal. Additionally, the agent included an incorrect recipient ('growth-team@company.com') in the email drafts, which was not part of the ground truth action sequence."
+            "description": "The agent is responsible for the fault because it failed to perform several critical actions required to initiate the design review process. Specifically, the agent did not:\n1. Create a review cycle with the necessary identifiers and timestamps.\n2. Export the Figma artifact using the specified 'PNG 2x' export profile.\n3. Link the created Gmail thread to the review cycle.\n4. Append a message to the Gmail thread with the appropriate body and attachments.\n5. Update the governance tags for the artifact to include 'needs-review'.\n6. Record the automation run as completed.\n\nInstead, the agent only created a Gmail thread with an incorrect subject line ('Design/Needs-Review' instead of 'Design Review Request: 1 frames ready for review') and did not follow through with the other required actions."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to execute any of the necessary actions to initiate the design review process. The ground truth action sequence includes creating a review cycle, exporting assets, creating a Gmail thread, linking the cycle to the thread, appending a message with attachments, updating governance, and recording the automation run. However, the trajectory only involves drafting an email without performing any of these actions, leaving the design review process incomplete."
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is that the \"CreateGmailThread\" action used the wrong tool argument for the \"subject\" field. In the ground truth, the subject should be \"Design Review Request: 1 frames ready for review,\" but in the trajectory, the subject was incorrectly set to \"Design/Needs-Review.\" This discrepancy indicates that the wrong subject line was used when creating the Gmail thread."
         }
     ]
 }

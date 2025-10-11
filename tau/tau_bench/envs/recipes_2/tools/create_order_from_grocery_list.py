@@ -10,7 +10,7 @@ class CreateOrderFromGroceryList(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id, list_id, store_id, subtotal_cents, total_cents) -> str:
         
-        orders = list(data.get("orders", {}).values())
+        orders = data.get("orders", [])
         # Automatically create the subsequent order_id.
         new_id = max([order.get("order_id", 0) for order in orders]) + 1 if orders else 10001
 

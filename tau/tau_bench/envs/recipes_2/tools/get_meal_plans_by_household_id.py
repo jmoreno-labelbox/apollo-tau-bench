@@ -11,7 +11,7 @@ class GetMealPlansByHouseholdId(Tool):
     def invoke(data: Dict[str, Any], household_id) -> str:
         if household_id is None:
             return json.dumps({"error": "household_id parameter is required."})
-        meal_plans = list(data.get("meal_plans", {}).values())
+        meal_plans = data.get("meal_plans", [])
         matching_plans = [plan for plan in meal_plans if plan.get("household_id") == household_id]
         return json.dumps(matching_plans)
 

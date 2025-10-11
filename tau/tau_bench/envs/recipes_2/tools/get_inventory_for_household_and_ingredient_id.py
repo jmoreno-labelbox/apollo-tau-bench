@@ -14,7 +14,7 @@ class GetInventoryForHouseholdAndIngredientId(Tool):
         if household_id is None or ingredient_id is None:
             return json.dumps({"error": "household_id and ingredient_id parameters are required."})
 
-        inventory = list(data.get("inventory_items", {}).values())
+        inventory = data.get("inventory_items", [])
         
         household_ingredient_inventory = [
             item for item in inventory 

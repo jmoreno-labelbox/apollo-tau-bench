@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault because it failed to initialize the task or facilitate any conversation between the user and the agent. This resulted in an empty trajectory, meaning no actions were taken to find bronze membership customers, analyze their demographics and purchasing patterns, evaluate marketing opt-in rates, or update customer loyalty points, as specified in the ground truth action sequence."
+            "description": "The environment is responsible for the fault because it failed to initialize the task or facilitate any conversation, resulting in an empty trajectory. This indicates that the environment did not execute any actions or provide any responses, which prevented the agent from performing the necessary steps to conduct the customer segmentation analysis and update customer loyalty points as specified in the user instruction."
         }
     ],
     "fault_type_analysis": []

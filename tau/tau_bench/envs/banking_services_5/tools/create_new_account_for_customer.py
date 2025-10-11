@@ -1,9 +1,52 @@
 # Copyright Sierra
 
+import calendar
+from datetime import datetime
 import random
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
+
+random.seed(42)
+
+def get_next_customer_id() -> str:
+    return f"cust_1"
+
+def get_next_account_id() -> str:
+    return f"acc_1"
+
+def get_next_beneficiary_id() -> str:
+    return f"bene_1"
+
+def get_next_loan_application_id() -> str:
+    return f"app_1"
+
+def get_next_loan_id() -> str:
+    return f"loan_1"
+
+def get_next_loanacc_id() -> str:
+    return f"loanacc_1"
+
+def get_next_payment_id() -> str:
+    return f"sp_1"
+
+def get_next_support_ticket_id() -> str:
+    return f"tkt_1"
+
+def get_next_transaction_id() -> str:
+    return f"txn_1"
+
+def get_current_timestamp() -> str:
+    return "2025-07-31T12:00:00Z" # per rules
+
+def add_months(orig_date: datetime, months: int) -> datetime:
+    """Return a new datetime that is `months` after `orig_date`, capping the day to month's length."""
+    month = orig_date.month - 1 + months
+    year = orig_date.year + month // 12
+    month = month % 12 + 1
+    day = min(orig_date.day, calendar.monthrange(year, month)[1])
+    return orig_date.replace(year=year, month=month, day=day)
+
 
 
 class CreateNewAccountForCustomer(Tool):

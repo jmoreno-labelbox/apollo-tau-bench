@@ -2,9 +2,15 @@
     "fault_assignment_analysis": [
         {
             "task_id": 0,
-            "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because the conversation and actions taken in the trajectory are completely unrelated to the user instruction and the ground truth action sequence. The trajectory involves an onboarding process and risk profile retrieval for individuals unrelated to the flight booking task specified in the user instruction. This indicates that the environment provided an incorrect context or task to the agent, leading to a mismatch between the expected and actual actions."
+            "author": "agent",
+            "description": "The agent is responsible for the fault in the trajectory because it failed to account for the user's baggage requirements. The user instruction specified that the user has 3 baggages, but the agent booked the reservation with \"total_baggages\": 0. This discrepancy indicates that the agent did not include the baggage information in the booking, which is a functional difference from the ground truth action sequence."
         }
     ],
-    "fault_type_analysis": []
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the booking was completed without including the user's baggage preferences. The user instruction specified that the user has 3 baggages, but the final booking details in the trajectory show \"Total Baggages: 0\". This discrepancy indicates that the baggage requirement was not fulfilled as per the user's instruction."
+        }
+    ]
 }

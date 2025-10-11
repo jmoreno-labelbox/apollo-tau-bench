@@ -10,7 +10,7 @@ class GetMealHistoryForHousehold(Tool):
     """Retrieves the meal history for a given household ID for a specified number of past days."""
     @staticmethod
     def invoke(data: Dict[str, Any], household_id, days_ago = 14) -> str:
-        meal_history = list(data.get("meal_history", {}).values())
+        meal_history = data.get("meal_history", [])
         current_date = datetime.strptime("2025-08-20", "%Y-%m-%d")
         start_date = current_date - timedelta(days=days_ago)
         history = [

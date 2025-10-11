@@ -10,7 +10,7 @@ class AddRecipeToMealPlan(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], meal_plan_id, plan_date, recipe_id, meal_type = "Dinner", notes = "", servings_adult = 2, servings_child = 1) -> str:
 
-        entries = list(data.get("meal_plan_entries", {}).values())
+        entries = data.get("meal_plan_entries", [])
         # Automatically create the subsequent entry_id.
         new_id = max([entry.get("entry_id", 0) for entry in entries]) + 1 if entries else 6101
 

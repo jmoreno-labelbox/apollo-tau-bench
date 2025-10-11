@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory due to the following functional differences:\n\n1. **Campaign Type Error**: The agent created a campaign with the type \"general_update\" instead of \"client_onboarding\" as specified in the ground truth action sequence.\n\n2. **Calendar Event Details**: The agent scheduled the meeting with the title \"Initial Onboarding Meeting\" and location as \"Client's preferred location\" instead of the specified title \"Client onboarding session\" and location \"Office\".\n\n3. **Missing Actions**: The agent did not perform the actions to fetch listing details and get comparable properties, which are part of the comprehensive client onboarding process outlined in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly invoke the `FindClients` action with the required `client_id` argument. The repeated error messages indicate that the agent did not properly pass the `client_id` parameter, which is essential for locating the client and proceeding with the onboarding process. This failure prevented the agent from executing the subsequent actions necessary to complete the task."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the \"CreateCampaign\" action used the wrong tool argument for the \"type\" parameter. In the ground truth, the \"type\" is specified as \"client_onboarding\", whereas in the trajectory, it was incorrectly set to \"general_update\". This discrepancy indicates a functional difference in how the campaign was categorized, which could affect subsequent processes and communications related to the client onboarding."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `FindClients` tool was invoked without the required `client_id` argument. The ground truth action sequence specifies that the `FindClients` tool should be called with `client_id` set to 1, but the trajectory shows repeated errors indicating that this argument was missing. This discrepancy between the expected and actual tool usage is the cause of the fault."
         }
     ]
 }

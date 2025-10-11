@@ -13,7 +13,7 @@ class SearchIngredientsByName(Tool):
         if not name_query:
             return json.dumps({"error": "name_query parameter is required."})
 
-        ingredients = list(data.get("ingredients", {}).values())
+        ingredients = data.get("ingredients", [])
         
         matching_ingredients = [
             ingredient for ingredient in ingredients 

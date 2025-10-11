@@ -13,7 +13,7 @@ class SearchUsersByName(Tool):
         if not name_query:
             return json.dumps({"error": "name_query parameter is required."})
 
-        users = list(data.get("users", {}).values())
+        users = data.get("users", [])
         
         matching_users = [
             user for user in users 

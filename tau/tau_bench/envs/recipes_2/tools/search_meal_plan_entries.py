@@ -11,7 +11,7 @@ class SearchMealPlanEntries(Tool):
     def invoke(data: Dict[str, Any], end_date, meal_plan_id, notes_substring, start_date) -> str:
         if not all([meal_plan_id, start_date, end_date, notes_substring]):
             return json.dumps({"error": "meal_plan_id, start_date, end_date, and notes_substring are required parameters."})
-        meal_plan_entries = list(data.get("meal_plan_entries", {}).values())
+        meal_plan_entries = data.get("meal_plan_entries", [])
         matching_entries = []
         for entry in meal_plan_entries:
             if entry.get("meal_plan_id") != meal_plan_id:

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `SearchEmployees` action with the necessary filters. The agent attempted to invoke the `search_employees` function without providing the required `filters` argument, resulting in repeated errors. This prevented the agent from locating Michael Park's record and proceeding with the deletion of the Dental Plan (BEN4002) from his benefits, as specified in the user instruction."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to document the change after removing the Dental Plan (BEN4002) from Michael Park's benefits. The ground truth action sequence includes a \"GetEmployee\" action after updating the benefits to document the change, which the agent did not perform. Instead, the agent attempted to add a performance review note, which was not part of the required actions, leading to errors and failing to document the change as instructed."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `SearchEmployees` tool without providing the required `filters` argument. The ground truth action sequence correctly specifies the use of `filters` with the employee's first and last name to locate the employee, whereas the trajectory shows repeated errors due to the missing argument, preventing the assistant from proceeding with the task."
+            "description": "The fault in the trajectory is that the assistant used the wrong tool argument when attempting to document the change. The ground truth action sequence does not include any action to add a performance review note, whereas the trajectory shows the assistant attempting to use the `add_performance_review` tool, which is incorrect for documenting the change in benefits. The correct action should have been to use a tool or method specifically for documenting changes, not adding a performance review."
         }
     ]
 }

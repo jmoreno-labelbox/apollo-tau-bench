@@ -9,7 +9,7 @@ class UpdateInventoryItemQuantity(Tool):
     """Updates the quantity of an item in the household inventory."""
     @staticmethod
     def invoke(data: Dict[str, Any], inv_item_id, new_quantity) -> str:
-        inventory = list(data.get("inventory_items", {}).values())
+        inventory = data.get("inventory_items", [])
         for item in inventory:
             if item.get("inv_item_id") == inv_item_id:
                 item["quantity"] = new_quantity

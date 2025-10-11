@@ -10,7 +10,7 @@ class UpdateMealPlanEntryNotes(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], entry_id, new_notes) -> str:
 
-        entries = list(data.get("meal_plan_entries", {}).values())
+        entries = data.get("meal_plan_entries", [])
         for entry in entries:
             if entry.get("entry_id") == entry_id:
                 entry["notes"] = new_notes

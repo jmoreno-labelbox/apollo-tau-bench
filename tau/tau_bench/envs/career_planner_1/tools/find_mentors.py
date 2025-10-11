@@ -20,7 +20,7 @@ class FindMentors(Tool):
         # and who are evidently appropriate for the mentee.
         matches = []
         focus_set = set(focus_areas)
-        for mentor in mentors.values():
+        for mentor in mentors:
             if mentor.get("availability") == "Full":
                 continue
 

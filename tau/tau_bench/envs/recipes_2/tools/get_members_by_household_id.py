@@ -9,7 +9,7 @@ class GetMembersByHouseholdId(Tool):
     """Retrieves all members for a given household ID."""
     @staticmethod
     def invoke(data: Dict[str, Any], household_id) -> str:
-        members = list(data.get("members", {}).values())
+        members = data.get("members", [])
         household_members = [member for member in members if member.get("household_id") == household_id]
         return json.dumps(household_members)
 
