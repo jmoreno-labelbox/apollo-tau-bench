@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 
 
 
-def _ok(**payload) -> str:
+def _ok() -> str:
     out = {"status": "success"}
     out.update(payload)
     return json.dumps(out)

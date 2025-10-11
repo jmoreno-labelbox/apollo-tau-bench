@@ -14,10 +14,10 @@ class CloseIssue(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = (kwargs.get("owner")).strip()
-        repo_name = (kwargs.get("repo_name")).strip()
-        issue_number_raw = kwargs.get("issue_number")
+    def invoke(data: Dict[str, Any], owner, repo_name, issue_number) -> str:
+        owner = owner.strip()
+        repo_name = repo_name.strip()
+        issue_number_raw = issue_number
                 
 
         if not owner or not repo_name or issue_number_raw is None:

@@ -37,6 +37,6 @@ class ParseArchiveInstructionsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         data["archive_instruct"] = {**kwargs}
         return json.dumps({"status": "success", "instructions": kwargs})

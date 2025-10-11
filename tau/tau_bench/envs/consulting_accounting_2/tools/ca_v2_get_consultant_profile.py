@@ -14,7 +14,7 @@ class CaV2GetConsultantProfile(Tool):
     """Retrieve consultant profile information."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         consultants = data.get("consultants", [])
         if not consultants:
             return _error("No consultant profile found.")

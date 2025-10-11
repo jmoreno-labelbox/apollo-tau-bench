@@ -15,10 +15,10 @@ class DismissAlert(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = (kwargs.get("owner") or "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        alert_number_raw = kwargs.get("alert_number", kwargs.get("alertnumber", None))
+    def invoke(data: Dict[str, Any], owner, repo_name, alertnumber = None, alert_number = kwargs.get("alertnumber", None)) -> str:
+        owner = (owner or "").strip()
+        repo_name = (repo_name or repo_name or "").strip()
+        alert_number_raw = alert_number
 
         if not owner or not repo_name or alert_number_raw is None:
             return json.dumps(

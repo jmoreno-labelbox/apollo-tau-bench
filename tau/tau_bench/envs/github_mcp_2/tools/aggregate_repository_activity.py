@@ -46,7 +46,7 @@ class AggregateRepositoryActivity(Tool):
     """Returns activity summary for each repo owned by acting user — counts of PRs, issues, alerts, commits."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _auth(data)["username"]
         repos = [r for r in _repos(data) if r.get("owner") == me]
         repo_names = [r["repo_name"] for r in repos]

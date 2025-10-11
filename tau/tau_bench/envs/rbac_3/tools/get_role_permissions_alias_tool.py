@@ -11,8 +11,7 @@ class ListRolePermissionsTool(Tool):
     """list_role_permissions"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs["role_id"]
+    def invoke(data: Dict[str, Any], role_id) -> str:
         role_perms = data.get("role_permissions", [])
         perms = data.get("permissions", [])
         perm_map = {p.get("permission_id"): p for p in perms}
@@ -50,7 +49,7 @@ class GetRolePermissionsAliasTool(Tool):
     """get_role_permissions: alias for list_role_permissions."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return ListRolePermissionsTool.invoke(data, **kwargs)
 
     @staticmethod

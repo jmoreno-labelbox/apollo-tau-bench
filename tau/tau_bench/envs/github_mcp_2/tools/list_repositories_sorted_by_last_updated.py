@@ -26,7 +26,7 @@ class ListRepositoriesSortedByLastUpdated(Tool):
     """Returns all repositories owned by the acting user, sorted by last update time (descending)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _auth(data)["username"]
         repos = sorted(
             [r for r in _repos(data) if r.get("owner") == me],

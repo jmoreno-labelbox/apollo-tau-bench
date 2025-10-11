@@ -8,13 +8,9 @@ from tau_bench.envs.tool import Tool
 
 class CreatePullRequestTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get('owner')
-        repo = kwargs.get('repo')
-        title = kwargs.get('title')
-        body = kwargs.get('body')
-        head_branch = kwargs.get('head')
-        base_branch = kwargs.get('base', 'main')  # Set the default primary branch to 'main'.
+    def invoke(data: Dict[str, Any], owner, repo, title, body, head, base = 'main') -> str:
+        head_branch = head
+        base_branch = base  # Set the default primary branch to 'main'.
 
         if not all([owner, repo, title, body, head_branch, base_branch]):
             return json.dumps({

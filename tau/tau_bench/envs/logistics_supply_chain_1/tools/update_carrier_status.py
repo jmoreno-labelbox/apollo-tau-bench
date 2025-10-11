@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateCarrierStatus(Tool):
     """Updates the status of a carrier."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         carrier_name, status = map(kwargs.get, ["carrier_name", "status"])
         if not all([carrier_name, status]):
             return json.dumps({"error": "carrier_name and status are required."}, indent=2)

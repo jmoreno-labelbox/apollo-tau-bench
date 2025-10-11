@@ -23,10 +23,7 @@ def _collect_recipe_ingredients(data: Dict[str, Any], recipe_ids: List[int]) -> 
 class ListRecentMealHistory(Tool):
     """Return recipe_ids from meal_history for household within last N days (anchor_date optional)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        days_back = kwargs.get("days_back")
-        anchor_date = kwargs.get("anchor_date")  # ISO date or None
+    def invoke(data: Dict[str, Any], household_id, days_back, anchor_date) -> str:
         if household_id is None or days_back is None:
             return _json_dump({"error": "household_id and days_back are required"})
         from datetime import date, timedelta

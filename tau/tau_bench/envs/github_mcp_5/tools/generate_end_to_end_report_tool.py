@@ -117,7 +117,7 @@ class GenerateEndToEndReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         repo_name = _validate_param(kwargs, "repo_name", str)
 
         commits = list(data.get("commits", {}).values())

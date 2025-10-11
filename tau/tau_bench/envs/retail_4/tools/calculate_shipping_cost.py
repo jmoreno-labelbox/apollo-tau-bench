@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateShippingCost(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], destination_country: str, total_items: int, order_value: float, location: Dict[str, str] = None, courier_id: str = None, **kwargs) -> str:
+    def invoke(data: Dict[str, Any], destination_country: str, total_items: int, order_value: float, location: Dict[str, str] = None, courier_id: str = None, ) -> str:
         """
         Calculate shipping cost based on destination, weight, order value, optional detailed location, and specific courier selection
 

@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTotalBeneficiariesCount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         count = len(list(data.get("beneficiaries", {}).values()))
         return json.dumps({"total_beneficiaries": count})
 

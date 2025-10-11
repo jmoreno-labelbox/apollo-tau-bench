@@ -55,7 +55,7 @@ class ListRepositoriesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         repos = list(data.get("repositories", {}).values())
         result = [{**r, "report_date": CURRENT_DATE} for r in repos]
         return _response("ok", result)

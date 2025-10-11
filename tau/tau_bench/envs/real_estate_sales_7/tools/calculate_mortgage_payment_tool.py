@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 
 
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     out = {"error": msg, "code": code}
     if extra:
         out.update(extra)

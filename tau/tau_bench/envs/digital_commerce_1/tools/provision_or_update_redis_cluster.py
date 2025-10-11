@@ -28,7 +28,7 @@ def _stable_id(prefix: str, *parts: str) -> str:
 def _json(x: Any) -> str:
     return json.dumps(x, separators=(",", ":"))
 
-def _find_one(rows: List[Dict[str, Any]], **crit):
+def _find_one(rows: List[Dict[str, Any]], ):
     crit_items = sorted(crit.items(), key=lambda kv: kv[0])
     for r in rows:
         match = True

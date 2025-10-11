@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 
 
-def _find_one(collection: List[Dict[str, Any]], **filters: Any) -> Optional[Dict[str, Any]]:
+def _find_one(collection: List[Dict[str, Any]], ) -> Optional[Dict[str, Any]]:
     for row in collection:
         if all(row.get(k) == v for k, v in filters.items()):
             return row

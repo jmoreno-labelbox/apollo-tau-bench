@@ -110,7 +110,7 @@ class GetDeploymentStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         repo_name = _validate_param(kwargs, "repo_name", str)
         deploys = list(data.get("deployments", {}).values())
         repo_deploys = [d for d in deploys if d.get("repo") == repo_name]

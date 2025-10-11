@@ -89,7 +89,7 @@ def _generate_new_thread_id(emails: List[Dict[str, Any]]) -> str:
                 continue
     return f"thread_{max_id + 1}"
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     """Creates a JSON error message."""
     out = {"error": msg, "code": code}
     if extra:

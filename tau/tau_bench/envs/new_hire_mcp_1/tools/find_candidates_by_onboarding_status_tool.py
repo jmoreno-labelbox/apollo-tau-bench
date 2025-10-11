@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 
 
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     """Creates a JSON error message."""
     out = {"error": msg, "code": code}
     if extra:

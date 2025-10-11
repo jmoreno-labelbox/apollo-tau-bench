@@ -30,7 +30,7 @@ class LogTaskCompletionTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         if "task_log" not in data:
             data["task_log"] = []
         log = {**kwargs}

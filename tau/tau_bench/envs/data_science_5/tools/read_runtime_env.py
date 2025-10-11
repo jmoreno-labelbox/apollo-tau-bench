@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ReadRuntimeEnv(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         env = data.get("environment", {}) or {}
         return json.dumps(env, indent=2)
 

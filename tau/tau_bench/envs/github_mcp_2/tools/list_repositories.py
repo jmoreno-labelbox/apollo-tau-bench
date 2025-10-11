@@ -26,7 +26,7 @@ class ListRepositories(Tool):
     """Lists all repositories owned by the current user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _auth(data)["username"]
         owned = [r for r in _repos(data) if r["owner"] == me]
         return json.dumps({"repositories": owned}, indent=2)

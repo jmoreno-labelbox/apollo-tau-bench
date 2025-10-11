@@ -11,8 +11,7 @@ class ListActiveSessionsTool(Tool):
     """Return sessions with end_time == null (active sessions). Optional user_id filter. Echo user_id for chaining."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         sessions = data.get("sessions", [])
         active = [s for s in sessions if not s.get("end_time")]
         if user_id:
@@ -45,7 +44,7 @@ class GetUserSessionsTool(Tool):
     """get_user_sessions: alias to list active sessions for a user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return ListActiveSessionsTool.invoke(data, **kwargs)
 
     @staticmethod

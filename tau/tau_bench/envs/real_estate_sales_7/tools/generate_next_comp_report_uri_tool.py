@@ -17,11 +17,11 @@ class GenerateNextCompReportUriTool(Tool):
     """Generates next comp_###.pdf URI based on highest report_id in comp_reports."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        base_url = kwargs.get("base_url") or "https://storage.example.com/reports/"
-        prefix = kwargs.get("prefix") or "comp_"
-        ext = kwargs.get("ext") or ".pdf"
-        pad_width = _as_int(kwargs.get("pad_width")) or 3  # 21 is formatted as 021.
+    def invoke(data: Dict[str, Any], base_url, prefix, ext, pad_width) -> str:
+        base_url = base_url or "https://storage.example.com/reports/"
+        prefix = prefix or "comp_"
+        ext = ext or ".pdf"
+        pad_width = _as_int(pad_width) or 3  # 21 is formatted as 021.
 
         # Retrieve the latest report_id.
         max_id = 0

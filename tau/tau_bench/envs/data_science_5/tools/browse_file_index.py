@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BrowseFileIndex(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"files": list(data.get("file_store", {}).values())}, indent=2)
 
     @staticmethod

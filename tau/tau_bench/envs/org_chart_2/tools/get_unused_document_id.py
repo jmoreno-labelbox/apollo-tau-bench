@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_unused_document_id(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         documents = data.get("documents", [])
         prefix = "DOC"
         start_num = 10000

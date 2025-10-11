@@ -21,7 +21,7 @@ class CopyAndVerifyFilesTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         copied_files: List[Dict[str, Any]] = []
         if "moved_files" not in data:
             data["moved_files"] = []

@@ -22,7 +22,7 @@ def _get_network_defaults():
     }
 
 
-def _find_all(items, **filters):
+def _find_all(items, ):
     """Find all items matching filters."""
     if not filters:
         return items

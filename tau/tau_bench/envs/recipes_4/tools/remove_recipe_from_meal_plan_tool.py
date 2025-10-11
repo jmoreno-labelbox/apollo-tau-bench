@@ -60,7 +60,7 @@ def _validate_inputs(
 
     return None
 
-def _log_audit_event(data: Dict[str, Any], **kwargs: Any) -> None:
+def _log_audit_event(data: Dict[str, Any], household_id, user_id, entity_type, entity_id, action_enum = "custom_action", payload_json = {}) -> None:
     """
     Logs an action to the audit trail.
 
@@ -91,12 +91,12 @@ def _log_audit_event(data: Dict[str, Any], **kwargs: Any) -> None:
     # 3. Construct the new log entry from kwargs
     new_log_entry = {
         "audit_id": next_id,
-        "household_id": kwargs.get("household_id"),
-        "user_id": kwargs.get("user_id"),
-        "entity_type": kwargs.get("entity_type"),
-        "entity_id": kwargs.get("entity_id"),
-        "action_enum": kwargs.get("action_enum", "custom_action"),
-        "payload_json": kwargs.get("payload_json", {}),
+        "household_id": household_id,
+        "user_id": user_id,
+        "entity_type": entity_type,
+        "entity_id": entity_id,
+        "action_enum": action_enum,
+        "payload_json": payload_json,
         "created_at": timestamp
     }
 

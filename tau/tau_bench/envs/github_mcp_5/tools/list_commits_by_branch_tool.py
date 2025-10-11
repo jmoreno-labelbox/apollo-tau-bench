@@ -134,7 +134,7 @@ class ListCommitsByBranchTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         try:
             repo_name = _validate_param(kwargs, "repo_name", str)
             branch = _validate_param(kwargs, "branch", str)

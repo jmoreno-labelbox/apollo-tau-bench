@@ -21,7 +21,7 @@ def _get_client_prefs(data: Dict[str, Any], client_id: int) -> Optional[Dict[str
         None,
     )
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     out = {"error": msg, "code": code}
     if extra:
         out.update(extra)

@@ -17,10 +17,10 @@ class MarkPRasMerged(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = (kwargs.get("owner") or "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("reponame") or "").strip()
-        pr_number_raw = kwargs.get("pr_number", kwargs.get("prnumber", None))
+    def invoke(data: Dict[str, Any], owner, repo_name, reponame, prnumber = None, pr_number = kwargs.get("prnumber", None)) -> str:
+        owner = (owner or "").strip()
+        repo_name = (repo_name or reponame or "").strip()
+        pr_number_raw = pr_number
 
         if not owner or not repo_name or pr_number_raw is None:
             return json.dumps(

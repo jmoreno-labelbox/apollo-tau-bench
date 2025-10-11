@@ -20,7 +20,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class find_gmail_threads(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         p = _params(data, kwargs)
         rows = []
         threads = _ensure(data, "gmail_threads", [])

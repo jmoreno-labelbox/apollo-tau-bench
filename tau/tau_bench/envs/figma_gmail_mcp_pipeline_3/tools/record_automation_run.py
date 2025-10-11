@@ -29,7 +29,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class record_automation_run(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs)->str:
+    def invoke(data: Dict[str, Any], )->str:
         p = _params(data, kwargs)
         miss = _require(p, ["task_name","status","request_id"])
         if miss: return miss

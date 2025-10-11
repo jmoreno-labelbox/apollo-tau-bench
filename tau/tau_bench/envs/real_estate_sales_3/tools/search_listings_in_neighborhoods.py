@@ -9,16 +9,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchListings(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        neighborhood_ids = kwargs.get("neighborhood_ids") 
-        price_min = kwargs.get("price_min")
-        price_max = kwargs.get("price_max")
-        beds = kwargs.get("beds")
-        baths = kwargs.get("baths")
-        sqft_min = kwargs.get("sqft_min")
-        sqft_max = kwargs.get("sqft_max")
-        property_type = kwargs.get("property_type")
-        limit = kwargs.get("limit", 15)
+    def invoke(data: Dict[str, Any], neighborhood_ids, price_min, price_max, beds, baths, sqft_min, sqft_max, property_type, limit = 15) -> str:
 
         props = _index_by(data.get("properties", []), "property_id")
         results: List[Dict[str, Any]] = []

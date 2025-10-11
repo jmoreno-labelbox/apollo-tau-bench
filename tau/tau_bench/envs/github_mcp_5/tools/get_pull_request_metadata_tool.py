@@ -151,7 +151,7 @@ class GetPullRequestMetadataTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         try:
             repo_name = _validate_param(kwargs, "repo_name", str)
             pr_number = _validate_param(kwargs, "pr_number", int)

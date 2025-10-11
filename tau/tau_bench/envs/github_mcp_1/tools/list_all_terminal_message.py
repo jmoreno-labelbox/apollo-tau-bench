@@ -13,7 +13,7 @@ class ListAllTerminalMessage(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         # Import terminal input
         terminal = data.get("terminal", [])
         if isinstance(terminal, list):

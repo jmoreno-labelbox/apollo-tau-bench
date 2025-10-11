@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTotalSupportTicketsCount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         count = len(list(data.get("support_tickets", {}).values()))
         return json.dumps({"total_support_tickets": count})
 

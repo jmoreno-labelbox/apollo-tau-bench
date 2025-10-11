@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetInventoryDetails(Tool):
     """Retrieves a single inventory record for a SKU at a specific warehouse."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         sku, warehouse_id = map(kwargs.get, ["sku", "warehouse_id"])
         if not all([sku, warehouse_id]):
             return json.dumps({"error": "sku and warehouse_id are required."}, indent=2)

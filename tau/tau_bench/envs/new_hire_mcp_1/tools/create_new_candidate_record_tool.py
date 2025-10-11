@@ -27,7 +27,7 @@ def _next_str_id(rows: List[Dict[str, Any]], key: str, prefix: str) -> str:
 
     return f"{prefix}{max_id + 1:03d}"
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     """Creates a JSON error message."""
     out = {"error": msg, "code": code}
     if extra:

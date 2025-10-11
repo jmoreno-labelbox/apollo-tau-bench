@@ -45,7 +45,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class create_review_cycle(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         p = _params(data, kwargs)
 
         # mandatory fields

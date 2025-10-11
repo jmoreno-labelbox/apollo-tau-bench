@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FilterOpenTickets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         tickets = list(data.get("tickets", {}).values())
         open_statuses = ["New", "In Progress", "On Hold", "Open"]
         open_tickets = [t for t in tickets if t.get("status") in open_statuses]

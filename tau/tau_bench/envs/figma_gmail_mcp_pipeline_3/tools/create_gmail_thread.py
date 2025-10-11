@@ -29,7 +29,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class create_gmail_thread(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         p = _params(data, kwargs)
         miss = _require(p, ["subject","sender_email","recipients","request_id"])
         if miss: return miss

@@ -20,7 +20,7 @@ class ScanIncompleteTasksTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         db = data.get("file_check_db", [])
         for task in db:
             if not task.get("completed", True):

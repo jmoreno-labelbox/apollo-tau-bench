@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetMostCitedArticles(Tool):
     """Tool to get a list of the most cited articles."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         citations = list(data.get('citations', {}).values())
         cited_ids = [c['cited_article_id'] for c in citations]
         citation_counts = Counter(cited_ids)

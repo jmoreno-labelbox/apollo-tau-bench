@@ -54,8 +54,8 @@ def _default_household_id(data: Dict[str, Any], user_id: Optional[int] = None) -
 
 class GenerateChildModifications(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ids = _parse_json_list_ids(kwargs.get("recipe_ids_json"))
+    def invoke(data: Dict[str, Any], recipe_ids_json) -> str:
+        ids = _parse_json_list_ids(recipe_ids_json)
         if not ids:
             household_id = _default_household_id(data, _first_user_id(data))
             mp = _latest_meal_plan_for_household(data, household_id)

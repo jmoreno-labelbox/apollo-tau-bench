@@ -22,7 +22,7 @@ def _price_in_range(
         return False
     return True
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     out = {"error": msg, "code": code}
     if extra:
         out.update(extra)

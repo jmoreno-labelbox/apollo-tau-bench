@@ -9,7 +9,7 @@ class CaV2GetExpenseCategories(Tool):
     """Get all expense categories with deductibility rules."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         expense_categories = data.get("expense_categories", [])
         return json.dumps(expense_categories)
 

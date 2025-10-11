@@ -32,7 +32,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class append_gmail_message(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         p = _params(data, kwargs)
         miss = _require(p, ["thread_id","sender_email","body_html","request_id"])
         if miss: return miss

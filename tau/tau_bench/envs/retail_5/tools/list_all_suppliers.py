@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ListAllSuppliers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         suppliers = data['suppliers']
 
         # Provide fundamental supplier details excluding comprehensive inventory data.

@@ -12,11 +12,7 @@ class ReviewAccessRequestTool(Tool):
     """Approve or reject an access request with reviewer notes (deterministic decision_at + returns audit payload)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        reviewer_id = kwargs.get("reviewer_id")
-        approve = kwargs.get("approve")
-        notes = kwargs.get("notes")
+    def invoke(data: Dict[str, Any], request_id, reviewer_id, approve, notes) -> str:
 
         requests = data.get("access_requests", [])
         for req in requests:

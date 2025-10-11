@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class GetPullRequestByNumber(Tool):
     """Retrieves a pull request by its repository and number."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_id = kwargs.get("repository_id")
-        pr_number = kwargs.get("number")
+    def invoke(data: Dict[str, Any], repository_id, number) -> str:
+        repo_id = repository_id
+        pr_number = number
         prs = list(data.get("pull_requests", {}).values())
         for pr in prs:
             if pr.get("repository_id") == repo_id and pr.get("number") == pr_number:

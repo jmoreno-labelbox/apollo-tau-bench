@@ -26,7 +26,7 @@ class FindReposWithDockerCompose(Tool):
     """Returns repositories that contain a 'docker-compose.yml' file in any branch."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _auth(data)["username"]
         results = []
 

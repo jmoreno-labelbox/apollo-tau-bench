@@ -20,9 +20,7 @@ class ProcessAccessRequestE2ETool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        reviewer_id = kwargs.get("reviewer_id")
+    def invoke(data: Dict[str, Any], request_id, reviewer_id) -> str:
         if not request_id or not reviewer_id:
             return json.dumps(
                 {"error": "request_id and reviewer_id are required"}, indent=2
@@ -119,14 +117,14 @@ class CreateAccessRequestTool(Tool):
     """create_access_request"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], request_id, user_id, resource_id, requested_role_id, justification) -> str:
         req = {
-            "request_id": kwargs["request_id"],
-            "user_id": kwargs["user_id"],
-            "resource_id": kwargs["resource_id"],
-            "role": kwargs["requested_role_id"],
-            "requested_role_id": kwargs["requested_role_id"],
-            "justification": kwargs["justification"],
+            "request_id": request_id,
+            "user_id": user_id,
+            "resource_id": resource_id,
+            "role": requested_role_id,
+            "requested_role_id": requested_role_id,
+            "justification": justification,
             "submitted_at": _HARD_TS,
             "status": "PENDING",
             "reviewed_by": None,

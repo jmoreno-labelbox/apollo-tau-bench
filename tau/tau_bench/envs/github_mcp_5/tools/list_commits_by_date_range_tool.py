@@ -136,7 +136,7 @@ class ListCommitsByDateRangeTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         try:
             repo_name = _validate_param(kwargs, "repo_name", str)
             start_date = _validate_param(kwargs, "start_date", str)

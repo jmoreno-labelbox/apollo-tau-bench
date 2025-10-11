@@ -19,12 +19,12 @@ class CreateCodeScanningAlert(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = (kwargs.get("owner") or "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        severity_raw = (kwargs.get("severity") or "").strip()
-        description = (kwargs.get("description") or "").strip()
-        ref = (kwargs.get("ref") or "").strip()
+    def invoke(data: Dict[str, Any], owner, repo_name, severity, description, ref) -> str:
+        owner = (owner or "").strip()
+        repo_name = (repo_name or repo_name or "").strip()
+        severity_raw = (severity or "").strip()
+        description = (description or "").strip()
+        ref = (ref or "").strip()
 
         if not owner or not repo_name or not severity_raw or not description or not ref:
             return json.dumps(

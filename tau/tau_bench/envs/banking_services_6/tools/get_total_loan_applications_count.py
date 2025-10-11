@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTotalLoanApplicationsCount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         count = len(data.get("loan_applications", []))
         return json.dumps({"total_loan_applications": count})
 

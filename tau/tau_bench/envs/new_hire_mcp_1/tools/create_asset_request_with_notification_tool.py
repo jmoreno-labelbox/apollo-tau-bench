@@ -75,7 +75,7 @@ def _get_hardcoded_template_and_render(template_name: str, context: Dict[str, An
 
     return {"subject": subject, "body": body}
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     """Creates a JSON error message."""
     out = {"error": msg, "code": code}
     if extra:

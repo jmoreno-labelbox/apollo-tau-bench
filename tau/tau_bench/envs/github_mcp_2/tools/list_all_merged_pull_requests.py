@@ -26,7 +26,7 @@ class ListAllMergedPullRequests(Tool):
     """Returns all merged PRs across all repositories owned by acting user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _auth(data)["username"]
         prs = [
             {

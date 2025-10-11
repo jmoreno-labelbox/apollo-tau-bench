@@ -171,7 +171,7 @@ class GetIssueAgingReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         try:
             repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:

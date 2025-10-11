@@ -20,7 +20,7 @@ class FindIncompleteTasksTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         database = data.get("file_check_db", [])
 
         # Find the initial task with the completed flag set to False.

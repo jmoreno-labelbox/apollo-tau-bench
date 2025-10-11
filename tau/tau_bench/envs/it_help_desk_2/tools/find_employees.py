@@ -8,7 +8,7 @@ from . import _find_all
 
 
 
-def _find_all(collection: List[Dict[str, Any]], **filters: Any) -> List[Dict[str, Any]]:
+def _find_all(collection: List[Dict[str, Any]], ) -> List[Dict[str, Any]]:
     results = []
     for row in collection:
         ok = True

@@ -20,7 +20,7 @@ def _next_int_id(rows: List[Dict[str, Any]], key: str) -> int:
             continue
     return mx + 1
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     out = {"error": msg, "code": code}
     if extra:
         out.update(extra)

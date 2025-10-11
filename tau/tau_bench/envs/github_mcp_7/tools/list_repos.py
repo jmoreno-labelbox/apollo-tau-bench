@@ -19,7 +19,7 @@ def _actor_name(data: Dict[str, Any]) -> str:
 class ListRepos(Tool):
     """List repositories owned by the authenticated user."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _actor_name(data)
         items = [r for r in _repos(data) if r.get("owner") == me]
         return json.dumps(items)

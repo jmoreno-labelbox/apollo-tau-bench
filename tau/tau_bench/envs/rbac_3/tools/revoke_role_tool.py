@@ -19,10 +19,7 @@ class RevokeUserRoleTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
-        revoked_by = kwargs.get("revoked_by")
+    def invoke(data: Dict[str, Any], user_id, role_id, revoked_by) -> str:
 
         assignments = data.get("user_roles", [])
         removed = False
@@ -96,21 +93,20 @@ class AppendAuditLogTool(Tool):
     """append_audit_log"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], log_id, access_request, actor_id, action_type, target_id, details = "") -> str:
         # Generate log_id if not provided
-        if "log_id" not in kwargs or kwargs["log_id"] is None:
-            access_request = kwargs["access_request"]
+        if "log_id" not in kwargs or log_id is None:
             log_id = f"LOG-{access_request}-decision"
         else:
-            log_id = kwargs["log_id"]
+            pass
 
         entry = {
             "log_id": log_id,
-            "actor_id": kwargs["actor_id"],
-            "action_type": kwargs["action_type"],
-            "target_id": kwargs["target_id"],
+            "actor_id": actor_id,
+            "action_type": action_type,
+            "target_id": target_id,
             "timestamp": _HARD_TS,
-            "details": kwargs.get("details", ""),
+            "details": details,
         }
         logs = data.setdefault("audit_logs", [])
         existing = next((l for l in logs if l.get("log_id") == entry["log_id"]), None)

@@ -26,7 +26,7 @@ class CountPublicPrivateRepos(Tool):
     """Returns count of public vs private repositories owned by the acting user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _auth(data)["username"]
         repos = [r for r in _repos(data) if r.get("owner") == me]
 

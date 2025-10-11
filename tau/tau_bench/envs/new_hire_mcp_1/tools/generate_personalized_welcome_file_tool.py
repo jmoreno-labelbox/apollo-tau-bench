@@ -15,7 +15,7 @@ def _render_template(template_content: str, context: Dict[str, Any]) -> str:
         template_content = template_content.replace(f"{{{{{key}}}}}", str(value))
     return template_content
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     """Creates a JSON error message."""
     out = {"error": msg, "code": code}
     if extra:

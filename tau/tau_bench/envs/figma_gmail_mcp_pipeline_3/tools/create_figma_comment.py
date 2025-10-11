@@ -29,7 +29,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class create_figma_comment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         p = _params(data, kwargs)
         miss = _require(p, ["artifact_id","author_email","content","request_id"])
         if miss: return miss

@@ -9,7 +9,7 @@ class CaV2GetUnpaidInvoices(Tool):
     """Get all unpaid invoices."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         invoices = data.get("invoices", [])
         unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
         return json.dumps(unpaid_invoices)

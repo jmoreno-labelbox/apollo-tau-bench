@@ -31,7 +31,7 @@ def _get_mortgage_profile(
     profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
     return next((m for m in profiles if _as_int(m.get("client_id")) == client_id), None)
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     out = {"error": msg, "code": code}
     if extra:
         out.update(extra)

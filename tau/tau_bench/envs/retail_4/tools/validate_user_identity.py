@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateUserIdentity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], user_id: str = None, first_name: str = None, last_name: str = None, **kwargs) -> str:
+    def invoke(data: Dict[str, Any], user_id: str = None, first_name: str = None, last_name: str = None, ) -> str:
         """
         Simple validation to check if user exists in the system with optional name verification
         Can search by user_id OR by first_name and last_name combination

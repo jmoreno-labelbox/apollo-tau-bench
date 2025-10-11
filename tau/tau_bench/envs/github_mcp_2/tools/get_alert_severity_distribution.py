@@ -14,7 +14,7 @@ class GetAlertSeverityDistribution(Tool):
     """Returns global severity counts across all code scanning alerts."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         alerts = _alerts(data)
         counter = Counter(a.get("severity", "Unknown") for a in alerts)
         return json.dumps(dict(counter), indent=2)

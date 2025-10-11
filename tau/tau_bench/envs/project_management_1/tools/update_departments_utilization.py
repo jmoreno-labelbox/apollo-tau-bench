@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateDepartmentsUtilization(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
 
         departments = list(data.get("departments", {}).values())
         employees = list(data.get("employees", {}).values())

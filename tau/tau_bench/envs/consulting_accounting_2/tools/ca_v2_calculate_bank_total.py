@@ -9,7 +9,7 @@ class CaV2CalculateBankTotal(Tool):
     """Calculate total balance across all bank accounts."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         bank_accounts = data.get("bank_accounts", [])
 
         total_balance = 0.0

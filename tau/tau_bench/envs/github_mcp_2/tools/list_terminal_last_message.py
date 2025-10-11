@@ -14,7 +14,7 @@ class ListTerminalLastMessage(Tool):
     """Returns last terminal log entry."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         terminal_log = _terminal(data)
         # output("terminal log:", terminal_log)
         if not terminal_log:

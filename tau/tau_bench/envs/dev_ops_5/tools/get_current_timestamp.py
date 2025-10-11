@@ -9,7 +9,7 @@ class GetCurrentTimestamp(Tool):
     """Returns a hardcoded current timestamp value."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"timestamp": "2025-08-13T01:01:01Z"})
 
     @staticmethod

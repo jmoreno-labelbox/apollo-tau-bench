@@ -25,18 +25,12 @@ class ListHubspotTicketsTool(Tool):
     """list_hubspot_tickets"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status")
-        category = kwargs.get("category")
-        requester_id = kwargs.get("requester_id")
-        date_from = kwargs.get("date_from")
-        date_to = kwargs.get("date_to")
+    def invoke(data: Dict[str, Any], status, category, requester_id, date_from, date_to, ticket_id) -> str:
 
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
         tickets: List[Dict[str, Any]] = data.get("hubspot_tickets", [])
-        ticket_id = kwargs.get("ticket_id")
         out: List[Dict[str, Any]] = []
         for t in tickets:
             if ticket_id and not _eq(t.get("ticket_id"), ticket_id):

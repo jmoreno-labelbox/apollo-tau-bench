@@ -14,12 +14,7 @@ class AssignUserRoleTool(Tool):
     """assign_user_role"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_role_id = kwargs["user_role_id"]
-        user_id = kwargs["user_id"]
-        role_id = kwargs["role_id"]
-        assigned_by = kwargs["assigned_by"]
-        expires_on = kwargs.get("expires_on")
+    def invoke(data: Dict[str, Any], user_role_id, user_id, role_id, assigned_by, expires_on) -> str:
         roles = data.setdefault("user_roles", [])
         existing_active = next(
             (
@@ -94,12 +89,9 @@ class AssignRoleOnApprovalTool(Tool):
         return f"UR-{digits}"
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], request_id, assigned_by, user_role_id) -> str:
         import json as _json
-
-        request_id = kwargs.get("request_id")
-        assigned_by = kwargs.get("assigned_by")
-        provided_urid = kwargs.get("user_role_id")
+        provided_urid = user_role_id
 
         if not request_id or not assigned_by:
             return _json.dumps(

@@ -90,14 +90,12 @@ def _default_household_id(data: Dict[str, Any], user_id: Optional[int] = None) -
 
 class CreateMealPlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        created_by_user_id = kwargs.get("created_by_user_id")
+    def invoke(data: Dict[str, Any], household_id, created_by_user_id, week_start_date) -> str:
         if created_by_user_id is None:
             created_by_user_id = _first_user_id(data)
         if household_id is None:
             household_id = _default_household_id(data, created_by_user_id)
-        week_start_date = kwargs.get("week_start_date") or _next_week_start_date_for_household(data, household_id)
+        week_start_date = week_start_date or _next_week_start_date_for_household(data, household_id)
         if household_id is None or created_by_user_id is None:
             return _json_dump({"error": "unable to infer household or user"})
         meal_plans = data.get("meal_plans", [])
@@ -118,10 +116,8 @@ class CreateMealPlan(Tool):
 
 class BulkAddMealPlanEntries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
-        week_start_date = kwargs.get("week_start_date")
-        recipe_ids_json = kwargs.get("selected_recipe_ids_json")
+    def invoke(data: Dict[str, Any], meal_plan_id, week_start_date, selected_recipe_ids_json) -> str:
+        recipe_ids_json = selected_recipe_ids_json
         if meal_plan_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
             created = json.loads(CreateMealPlan.invoke(data, household_id=household_id))

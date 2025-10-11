@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetPendingFileChecks(Tool):
     """Retrieves pending file check tasks."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         pending_tasks = [task for task in list(data.get("file_check_db", {}).values()) if not task.get("completed")]
         return json.dumps({"pending_tasks": pending_tasks})
 

@@ -20,7 +20,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class list_artifacts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         p = _params(data, kwargs)
         rows = []
         for a in _ensure(data, "figma_artifacts", []):

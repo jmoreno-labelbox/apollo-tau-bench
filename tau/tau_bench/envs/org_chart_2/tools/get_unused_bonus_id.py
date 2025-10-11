@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_unused_bonus_id(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         bonuses = data.get("bonuses", [])
         prefix = "BON"
         start_num = 10000

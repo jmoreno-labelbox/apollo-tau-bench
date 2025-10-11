@@ -1,20 +1,7 @@
-#!/usr/bin/env python3
-"""
-Refactor **kwargs to explicit parameters using LibCST.
-
-This script transforms functions that accept **kwargs and use kwargs.get(...) or kwargs["..."]
-into functions with explicit parameters and direct parameter usage.
-
-Usage:
-    python refactor_kwargs.py path/to/file.py  # writes changes in-place
-    python refactor_kwargs.py --stdout path/to/file.py  # dry run to stdout
-    python refactor_kwargs.py --dir path/to/directory  # process all .py files in directory
-"""
-
+# refactor_kwargs.py
 import argparse
 import sys
-from pathlib import Path
-from typing import Dict, Optional, Set
+from typing import Dict, Optional, Set, Tuple
 
 import libcst as cst
 import libcst.matchers as m
@@ -29,7 +16,9 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
 
     def __init__(self):
         # Stack of function contexts to handle nesting correctly
-        self.func_stack = []
+        self.func_stack: list["KwargsRefactorTransformer.FunctionContext"] = []
+
+    # ---------- Utility structures ----------
 
     class ParamSpec:
         def __init__(self, name: str, default: Optional[cst.BaseExpression]):
@@ -41,11 +30,14 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
             self.func = func
             self.kwstar_name: Optional[str] = None  # "**kwargs" name
             self.existing_param_names: Set[str] = set()
-            self.new_params: Dict[str, 'KwargsRefactorTransformer.ParamSpec'] = {}
+            self.new_params: Dict[str, "KwargsRefactorTransformer.ParamSpec"] = {}
             # Track assignments like `x = kwargs.get("x", ...)`
             self.assigns_that_can_be_removed: Set[cst.CSTNode] = set()
 
-    def _add_param(self, ctx, name: str, default: Optional[cst.BaseExpression]) -> None:
+    # ---------- Helpers ----------
+
+    def _add_param(self, ctx: "KwargsRefactorTransformer.FunctionContext",
+                   name: str, default: Optional[cst.BaseExpression]) -> None:
         if name in ctx.existing_param_names:
             # Already explicitly present; do not override default
             return
@@ -58,11 +50,17 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
                 return
             if default is None:
                 prev.default = None
+            else:
+                # If different defaults are encountered, prefer the existing one
+                # (could add conflict reporting if you want)
+                pass
 
     def _is_kwargs_name(self, name: str) -> bool:
         if not self.func_stack:
             return False
         return self.func_stack[-1].kwstar_name == name
+
+    # ---------- Function scope mgmt ----------
 
     def visit_FunctionDef(self, node: cst.FunctionDef) -> Optional[bool]:
         ctx = self.FunctionContext(node)
@@ -81,7 +79,7 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
         ctx = self.func_stack.pop()
 
         # If no **kwargs, or we didn't find any kwargs usage, return as is
-        if not ctx.kwstar_name or not ctx.new_params:
+        if not ctx.kwstar_name:
             return updated_node
 
         # Build new parameter list: remove **kwargs; append new params
@@ -90,44 +88,35 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
         # Remove **kwargs
         params = params.with_changes(star_kwarg=None)
 
-        # Sort params: required (no default) first, then optional (with defaults)
-        required_params = []
-        optional_params = []
-        
-        for name, spec in sorted(ctx.new_params.items()):
+        # Append new params at the end of normal params (before kwonly to keep simple)
+        new_params_nodes = []
+        for name, spec in ctx.new_params.items():
             # Avoid collisions with existing names
             if name in ctx.existing_param_names:
                 continue
-            param_node = cst.Param(name=cst.Name(name), default=spec.default)
-            if spec.default is None:
-                required_params.append(param_node)
-            else:
-                optional_params.append(param_node)
-        
-        # Append in correct order: required first, then optional
-        new_params_nodes = required_params + optional_params
-        
+            new_params_nodes.append(cst.Param(name=cst.Name(name), default=spec.default))
+
         if new_params_nodes:
             params = params.with_changes(params=list(params.params) + new_params_nodes)
 
-        # Remove redundant assigns (like `x = kwargs.get("x", ...)`)
+        # Remove redundant assigns (like `x = kwargs.get("x", ...)`) when LHS == param name
         new_body = []
         for stmt in updated_node.body.body:
             if stmt in ctx.assigns_that_can_be_removed:
                 continue
             new_body.append(stmt)
 
-        updated_node = updated_node.with_changes(
-            params=params,
-            body=updated_node.body.with_changes(body=new_body)
-        )
+        updated_node = updated_node.with_changes(params=params,
+                                                body=updated_node.body.with_changes(body=new_body))
         return updated_node
 
-    def _match_kwargs_get(self, node: cst.Call):
-        """Match kwargs.get("key", default?) pattern."""
+    # ---------- Rewriters for expression patterns ----------
+
+    # Pattern: kwargs.get("key", default?)
+    def _match_kwargs_get(self, node: cst.Call) -> Optional[Tuple[str, Optional[cst.BaseExpression]]]:
         if not m.matches(node.func, m.Attribute(value=m.Name(), attr=m.Name("get"))):
             return None
-        attr = node.func
+        attr: cst.Attribute = node.func  # type: ignore
         obj = attr.value
         if not isinstance(obj, cst.Name):
             return None
@@ -139,15 +128,15 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
         first = node.args[0].value
         if not isinstance(first, cst.SimpleString):
             return None
-        # Extract key string literal
-        key = first.evaluated_value
+        # Extract key string literal (handles single/double/triple quotes)
+        key = first.evaluated_value  # LibCST gives the unescaped literal value
         default_expr = None
         if len(node.args) >= 2:
             default_expr = node.args[1].value
         return key, default_expr
 
-    def _match_kwargs_subscript(self, node: cst.Subscript):
-        """Match kwargs["key"] pattern."""
+    # Pattern: kwargs["key"]
+    def _match_kwargs_subscript(self, node: cst.Subscript) -> Optional[str]:
         if not isinstance(node.value, cst.Name):
             return None
         if not self._is_kwargs_name(node.value.value):
@@ -162,8 +151,8 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
             return None
         return idx.evaluated_value
 
-    def leave_Call(self, old_node: cst.Call, updated_node: cst.Call):
-        """Replace kwargs.get(...) with parameter name."""
+    # Replace kwargs.get(...) with parameter name and register param
+    def leave_Call(self, old_node: cst.Call, updated_node: cst.Call) -> cst.BaseExpression:
         if not self.func_stack:
             return updated_node
         mres = self._match_kwargs_get(old_node)
@@ -176,8 +165,8 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
         # Replace call expression with Name(key)
         return cst.Name(key)
 
-    def leave_Subscript(self, old_node: cst.Subscript, updated_node: cst.Subscript):
-        """Replace kwargs["key"] with parameter name."""
+    # Replace kwargs["key"] with parameter name and register REQUIRED param
+    def leave_Subscript(self, old_node: cst.Subscript, updated_node: cst.Subscript) -> cst.BaseExpression:
         if not self.func_stack:
             return updated_node
         key = self._match_kwargs_subscript(old_node)
@@ -187,8 +176,8 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
         self._add_param(ctx, key, default=None)
         return cst.Name(key)
 
-    def leave_Assign(self, old_node: cst.Assign, updated_node: cst.Assign):
-        """Handle assignments like: x = kwargs.get("x", 0)."""
+    # Handle assignments like: x = kwargs.get("x", 0)
+    def leave_Assign(self, old_node: cst.Assign, updated_node: cst.Assign) -> cst.BaseStatement:
         if not self.func_stack:
             return updated_node
         # Only handle simple "a = <expr>" (single target)
@@ -231,75 +220,27 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
 
 
 def refactor_code(src: str) -> str:
-    """Refactor source code to replace **kwargs with explicit parameters."""
     mod = cst.parse_module(src)
     out = mod.visit(KwargsRefactorTransformer())
     return out.code
 
 
-def process_file(file_path: Path, stdout: bool = False) -> bool:
-    """Process a single file. Returns True if successful."""
-    try:
-        text = file_path.read_text(encoding="utf-8")
-        new_text = refactor_code(text)
-
-        if stdout:
-            sys.stdout.write(new_text)
-        else:
-            file_path.write_text(new_text, encoding="utf-8")
-            print(f"Refactored: {file_path}")
-        return True
-    except Exception as e:
-        print(f"Error processing {file_path}: {e}")
-        return False
-
-
 def main():
-    ap = argparse.ArgumentParser(
-        description="Refactor **kwargs to explicit parameters where used via kwargs.get(...) or kwargs['...']."
-    )
-    ap.add_argument("path", help="Python file or directory to process")
+    ap = argparse.ArgumentParser(description="Refactor **kwargs to explicit parameters where used via kwargs.get(...) or kwargs['...'].")
+    ap.add_argument("path", help="Python file to rewrite")
     ap.add_argument("--stdout", action="store_true", help="Print to stdout instead of writing back")
-    ap.add_argument("--recursive", "-r", action="store_true", help="Process directory recursively")
     args = ap.parse_args()
 
-    path = Path(args.path)
-    
-    if not path.exists():
-        print(f"Error: Path not found: {path}")
-        sys.exit(1)
+    text = open(args.path, "r", encoding="utf-8").read()
+    new_text = refactor_code(text)
 
-    if path.is_file():
-        success = process_file(path, args.stdout)
-        sys.exit(0 if success else 1)
-    
-    elif path.is_dir():
-        if args.recursive:
-            py_files = list(path.rglob("*.py"))
-        else:
-            py_files = list(path.glob("*.py"))
-        
-        py_files = [f for f in py_files if '__pycache__' not in str(f)]
-        
-        print(f"Found {len(py_files)} Python files to process")
-        
-        processed = 0
-        failed = 0
-        
-        for py_file in py_files:
-            if process_file(py_file, args.stdout):
-                processed += 1
-            else:
-                failed += 1
-        
-        print(f"\nSummary: {processed} processed, {failed} failed")
-        sys.exit(0 if failed == 0 else 1)
-    
+    if args.stdout:
+        sys.stdout.write(new_text)
     else:
-        print(f"Error: {path} is neither a file nor a directory")
-        sys.exit(1)
+        with open(args.path, "w", encoding="utf-8") as f:
+            f.write(new_text)
+        print(f"Rewrote {args.path}")
 
 
 if __name__ == "__main__":
     main()
-

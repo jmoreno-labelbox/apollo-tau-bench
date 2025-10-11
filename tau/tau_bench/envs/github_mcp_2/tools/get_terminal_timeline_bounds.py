@@ -14,7 +14,7 @@ class GetTerminalTimelineBounds(Tool):
     """Returns first and last printed_ts from terminal log."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         logs = _terminal(data)
         timestamps = sorted([entry.get("printed_ts") for entry in logs if entry.get("printed_ts")])
         if not timestamps:

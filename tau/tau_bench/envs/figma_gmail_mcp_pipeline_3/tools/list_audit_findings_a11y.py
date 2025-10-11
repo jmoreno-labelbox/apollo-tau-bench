@@ -29,7 +29,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class list_audit_findings_a11y(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs)->str:
+    def invoke(data: Dict[str, Any], )->str:
         p = _params(data, kwargs)
         miss = _require(p, ["audit_id","violation_type"])
         if miss: return miss

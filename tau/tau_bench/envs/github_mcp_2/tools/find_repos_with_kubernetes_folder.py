@@ -26,7 +26,7 @@ class FindReposWithKubernetesFolder(Tool):
     """Returns repositories with files inside 'kubernetes/' directory."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _auth(data)["username"]
         matched = []
 

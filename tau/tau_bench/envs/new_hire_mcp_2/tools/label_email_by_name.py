@@ -22,8 +22,7 @@ def _find_by_key(rows: List[Dict[str, Any]], key: str, val: Any) -> Dict[str, An
 
 class CreateOrGetEmailLabel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
         rows = _ensure_list(data, "email_labels")
         for r in rows:
             if r.get("name") == name:
@@ -42,9 +41,7 @@ class CreateOrGetEmailLabel(Tool):
 
 class AddLabelsToEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id = kwargs.get("message_id")
-        label_ids = kwargs.get("label_ids", [])
+    def invoke(data: Dict[str, Any], message_id, label_ids = []) -> str:
         rows = _ensure_list(data, "emails")
         row = _find_by_key(rows, "message_id", message_id)
         if row is None:

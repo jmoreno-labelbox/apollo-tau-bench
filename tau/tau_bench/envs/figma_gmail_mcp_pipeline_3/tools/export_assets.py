@@ -43,7 +43,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class export_assets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         p = _params(data, kwargs)
         miss = _require(p, ["artifact_id","export_profile","request_id","timestamp"])
         if miss: return miss

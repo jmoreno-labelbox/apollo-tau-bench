@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetCurrentTime(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"current_time": NOW.strftime(DT_STR_FORMAT)})
 
     @staticmethod

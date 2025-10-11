@@ -10,7 +10,7 @@ class ModifyRecord(Tool):
     Tool to modify fields of any existing record, such as project, article, user, submission, or funding source.
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         record_type = kwargs.pop('record_type', None)
         record_id = kwargs.pop('record_id', None)
 

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetPullRequestFilesTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get('owner')
-        repo = kwargs.get('repo')
-        pr_number = kwargs.get('pr_number')
+    def invoke(data: Dict[str, Any], owner, repo, pr_number) -> str:
 
         if not all([owner, repo, pr_number]):
             return json.dumps({

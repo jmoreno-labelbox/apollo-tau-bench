@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 class InitiateWarehouseTransfer(Tool):
     """Creates a stock transfer between two warehouses, adjusting inventory levels."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         sku, quantity, from_warehouse_id, to_warehouse_id = map(kwargs.get, ["sku", "quantity", "from_warehouse_id", "to_warehouse_id"])
         if not all([sku, quantity, from_warehouse_id, to_warehouse_id]):
             return json.dumps({"error": "sku, quantity, from_warehouse_id, and to_warehouse_id are required."}, indent=2)

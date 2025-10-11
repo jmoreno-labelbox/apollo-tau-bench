@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ListProjectsCatalog(Tool):
     """List all projects."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"projects": list(data.get("projects", {}).values())}, indent=2)
 
     @staticmethod

@@ -9,7 +9,7 @@ class GetCurrentTimeTool(Tool):
     """get_current_time: returns deterministic timestamp used across writes."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"timestamp": _HARD_TS}, indent=2)
 
     @staticmethod

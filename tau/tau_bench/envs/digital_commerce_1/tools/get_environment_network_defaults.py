@@ -4,7 +4,7 @@ import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _get_network_defaults
-def _find_one(rows: List[Dict[str, Any]], **crit):
+def _find_one(rows: List[Dict[str, Any]], ):
     crit_items = sorted(crit.items(), key=lambda kv: kv[0])
     for r in rows:
         match = True

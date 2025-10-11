@@ -29,7 +29,7 @@ def _stable_id(prefix: str, *parts: str) -> str:
 def _json(x: Any) -> str:
     return json.dumps(x, separators=(",", ":"))
 
-def _find_all(rows: List[Dict[str, Any]], **crit) -> List[Dict[str, Any]]:
+def _find_all(rows: List[Dict[str, Any]], ) -> List[Dict[str, Any]]:
     out = []
     crit_items = sorted(crit.items(), key=lambda kv: kv[0])
     for r in rows:

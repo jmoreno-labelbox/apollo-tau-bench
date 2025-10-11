@@ -14,7 +14,7 @@ class ListOpenAlerts(Tool):
     """Lists all open code-scanning alerts with repo, alert ID, and severity."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         alerts = _alerts(data)
         open_alerts = [
             {

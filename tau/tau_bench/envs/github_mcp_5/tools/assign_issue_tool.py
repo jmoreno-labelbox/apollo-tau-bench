@@ -125,7 +125,7 @@ class AssignIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         try:
             repo_name = _validate_param(kwargs, "repo_name", str)
             issue_number = _validate_param(kwargs, "issue_number", int)

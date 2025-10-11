@@ -12,8 +12,7 @@ class GetAccessRequestTool(Tool):
     """Fetch a single access request record by ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
+    def invoke(data: Dict[str, Any], request_id) -> str:
         if not request_id:
             return json.dumps({"error": "request_id is required"}, indent=2)
 
@@ -65,7 +64,7 @@ class GetAccessRequestDetailsTool(Tool):
     """get_access_request_details: richer alias for getting AR details."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return GetAccessRequestTool.invoke(data, **kwargs)
 
     @staticmethod

@@ -14,7 +14,7 @@ class GetTopCommitAuthors(Tool):
     """Returns top commit authors globally across all repositories."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         commits = _commits(data)
         counter = Counter()
 

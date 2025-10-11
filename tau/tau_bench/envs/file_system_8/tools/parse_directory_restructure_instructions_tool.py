@@ -35,7 +35,7 @@ class ParseDirectoryRestructureInstructionsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         if "directories_db" not in data:
             data["directories_db"] = []
         instruction = {**kwargs}

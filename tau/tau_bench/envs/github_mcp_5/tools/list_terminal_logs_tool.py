@@ -54,7 +54,7 @@ class ListTerminalLogsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         events = data.get("terminal", [])
         deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events]
         return _response("ok", deterministic_events)

@@ -11,10 +11,10 @@ from tau_bench.envs.tool import Tool
 
 class ForecastOutflows(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        include_sched = bool(kwargs.get("recurring_schedules", True))
-        include_taxes = bool(kwargs.get("taxes", True))
-        horizon_months = int(kwargs.get("horizon_months", 3))
+    def invoke(data: Dict[str, Any], recurring_schedules = True, taxes = True, horizon_months = 3) -> str:
+        include_sched = bool(recurring_schedules)
+        include_taxes = bool(taxes)
+        horizon_months = int(horizon_months)
         total = 0.0
         lines: List[Dict[str, Any]] = []
         if include_sched:
@@ -49,9 +49,9 @@ class ForecastOutflows(Tool):
 
 class ForecastInflows(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoices_ids = kwargs.get("invoices", [])
-        prob_rule = kwargs.get("probability_rule", "overdue_60=0.3")
+    def invoke(data: Dict[str, Any], invoices = [], probability_rule = "overdue_60=0.3") -> str:
+        invoices_ids = invoices
+        prob_rule = probability_rule
         discount = 0.3
         try:
             if "overdue_60=" in prob_rule:

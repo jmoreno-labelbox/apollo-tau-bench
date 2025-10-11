@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ListRoles(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         roles = list(data.get('roles', {}).values())
         return json.dumps({"roles": roles})
 

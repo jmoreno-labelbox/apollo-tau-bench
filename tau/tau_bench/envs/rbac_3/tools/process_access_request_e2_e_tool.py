@@ -16,11 +16,7 @@ class ReviewAccessRequestTool(Tool):
     """Approve or reject an access request with reviewer notes (deterministic decision_at + returns audit payload)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        reviewer_id = kwargs.get("reviewer_id")
-        approve = kwargs.get("approve")
-        notes = kwargs.get("notes")
+    def invoke(data: Dict[str, Any], request_id, reviewer_id, approve, notes) -> str:
 
         requests = data.get("access_requests", [])
         for req in requests:
@@ -258,14 +254,11 @@ class CheckUserStatusTool(Tool):
         return False
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        mode = (kwargs.get("mode") or "access_request").lower()
+    def invoke(data: Dict[str, Any], mode, user_id, role_id, resource_id, request_id, reviewer_id) -> str:
+        mode = (mode or "access_request").lower()
 
         # Branch: revoke evaluation
         if mode in ("revoke", "revoke_evaluation"):
-            user_id = kwargs.get("user_id")
-            role_id = kwargs.get("role_id")
-            resource_id = kwargs.get("resource_id")
             if not user_id or not role_id:
                 return json.dumps(
                     {"error": "user_id and role_id are required for revoke evaluation"},
@@ -360,10 +353,6 @@ class CheckUserStatusTool(Tool):
                 },
                 indent=2,
             )
-
-        # Default branch: access request decision
-        request_id = kwargs.get("request_id")
-        reviewer_id = kwargs.get("reviewer_id")
         if not request_id:
             return json.dumps({"error": "request_id is required"}, indent=2)
         req = next(
@@ -529,12 +518,9 @@ class AssignRoleOnApprovalTool(Tool):
         return f"UR-{digits}"
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], request_id, assigned_by, user_role_id) -> str:
         import json as _json
-
-        request_id = kwargs.get("request_id")
-        assigned_by = kwargs.get("assigned_by")
-        provided_urid = kwargs.get("user_role_id")
+        provided_urid = user_role_id
 
         if not request_id or not assigned_by:
             return _json.dumps(

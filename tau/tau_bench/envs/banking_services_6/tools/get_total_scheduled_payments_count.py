@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTotalScheduledPaymentsCount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         count = len(data.get("scheduled_payments", []))
         return json.dumps({"total_scheduled_payments": count})
 

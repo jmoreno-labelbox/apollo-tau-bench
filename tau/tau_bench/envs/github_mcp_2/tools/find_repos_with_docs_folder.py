@@ -26,7 +26,7 @@ class FindReposWithDocsFolder(Tool):
     """Returns repositories containing files under the 'docs/' folder."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         me = _auth(data)["username"]
         matches = []
 

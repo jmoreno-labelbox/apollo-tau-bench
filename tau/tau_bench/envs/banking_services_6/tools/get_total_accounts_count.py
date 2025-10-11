@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTotalAccountsCount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         count = len(list(data.get("accounts", {}).values()))
         return json.dumps({"total_accounts": count})
 

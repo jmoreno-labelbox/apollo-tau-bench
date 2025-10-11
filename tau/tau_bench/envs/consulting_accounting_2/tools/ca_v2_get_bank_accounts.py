@@ -9,7 +9,7 @@ class CaV2GetBankAccounts(Tool):
     """Get all bank account information."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         bank_accounts = data.get("bank_accounts", [])
         return json.dumps(bank_accounts)
 

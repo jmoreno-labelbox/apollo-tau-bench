@@ -21,7 +21,7 @@ class PopulateChecksumsInFileListTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         if "file_list" not in data:
             return json.dumps({"error": "file_list not found."})
         for file in data["file_list"]:

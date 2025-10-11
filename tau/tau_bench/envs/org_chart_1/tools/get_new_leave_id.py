@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_new_leave_id(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         leaves = data.get("leaves", [])
         prefix = "LV"
         start_num = 10000

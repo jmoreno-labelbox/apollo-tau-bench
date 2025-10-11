@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetLastReportRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         report_runs = list(data.get("report_runs", {}).values())
         if not report_runs:
             return json.dumps({"error": "No previous report runs found."}, indent=2)

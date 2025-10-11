@@ -24,10 +24,7 @@ class ListSlackMessagesTool(Tool):
     """list_slack_messages"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        channel = kwargs.get("channel")
-        date_from = kwargs.get("date_from")
-        date_to = kwargs.get("date_to")
+    def invoke(data: Dict[str, Any], channel, date_from, date_to) -> str:
 
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)

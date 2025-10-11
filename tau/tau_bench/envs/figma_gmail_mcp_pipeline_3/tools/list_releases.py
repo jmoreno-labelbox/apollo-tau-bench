@@ -16,7 +16,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class list_releases(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs)->str:
+    def invoke(data: Dict[str, Any], )->str:
         return _ok({"rows": list(_ensure(data, "releases", []))})
 
     @staticmethod

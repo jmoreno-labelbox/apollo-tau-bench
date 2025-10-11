@@ -32,7 +32,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class upsert_fix_items(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs)->str:
+    def invoke(data: Dict[str, Any], )->str:
         p = _params(data, kwargs)
         miss = _require(p, ["plan_id","items"])
         if miss: return miss

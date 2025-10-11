@@ -27,7 +27,7 @@ def _latest(records: List[Dict[str, Any]], ts_key: str) -> Optional[Dict[str, An
         return None
     return max(records, key=lambda r: r.get(ts_key) or "")
 
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
+def _err(msg: str, code: str = "bad_request", ) -> str:
     out = {"error": msg, "code": code}
     if extra:
         out.update(extra)

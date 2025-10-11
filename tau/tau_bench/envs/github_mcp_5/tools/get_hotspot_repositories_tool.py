@@ -57,7 +57,7 @@ class GetHotspotRepositoriesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         issues = list(data.get("issues", {}).values())
         alerts = data.get("code_scanning_alerts", [])
 

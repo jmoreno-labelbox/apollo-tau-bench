@@ -20,6 +20,6 @@ class GetIdleCpuCountTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         # Provide a constant value to ensure consistent results.
         return json.dumps({"idle_cpus": 6})

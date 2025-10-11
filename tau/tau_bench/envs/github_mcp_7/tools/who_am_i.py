@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class WhoAmI(Tool):
     """Return the current user (from authentication)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         auth = data.get("authentication") or [{}]
         user = auth[0]
         return json.dumps({

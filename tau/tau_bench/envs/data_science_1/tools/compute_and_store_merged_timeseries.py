@@ -22,7 +22,7 @@ def _append(table: List[Dict[str, Any]], row: Dict[str, Any]) -> Dict[str, Any]:
 
 class ComputeAndStoreMergedTimeseries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         err = _require(kwargs, ["csv_path"])
         if err: return err
         allowed = ["csv_path", "columns", "row_count", "min_timestamp", "max_timestamp", "file_hash_sha256", "created_ts"]
