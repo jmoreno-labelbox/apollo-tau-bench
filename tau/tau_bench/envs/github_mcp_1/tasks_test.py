@@ -1734,8 +1734,8 @@ kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-s
             name="ListAllTerminalMessage",
             kwargs={}
         ),
-    ],
-    outputs=[]
+        ],
+        outputs=[]
     ),
 
     Task(
@@ -3158,36 +3158,36 @@ Task(
             Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
             Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Bug fixes - Documentation update"}),
             Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
-        Action(name="CreatePullRequest", kwargs={
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "pr_title": "Docs: Release notes 1.1.0",
-            "pr_body": "Add release notes for version 1.1.0.",
-            "head_branch_name": "release-notes-1.1.0",
-            "base_branch_name": "main",
-            "head_sha": "commit_sha_101",
-            "pr_files": ["docs/RELEASE_NOTES_1.1.0.md"]
-        }),
-        Action(name="AssignPullRequestReviewers", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 101, "reviewers": ["nathan"]}),
-        Action(name="ApprovePr", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 101}),
-        Action(name="MergeBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "source_branch_name": "release-notes-1.1.0", "target_branch_name": "main"}),
-        Action(name="MarkPrAsMerged", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 101}),
-        Action(name="DeleteBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0"}),
-        Action(
+            Action(name="CreatePullRequest", kwargs={
+                "owner": "maya-w",
+                "repo_name": "acme-webapp",
+                "pr_title": "Docs: Release notes 1.1.0",
+                "pr_body": "Add release notes for version 1.1.0.",
+                "head_branch_name": "release-notes-1.1.0",
+                "base_branch_name": "main",
+                "head_sha": "commit_sha_101",
+                "pr_files": ["docs/RELEASE_NOTES_1.1.0.md"]
+            }),
+            Action(name="AssignPullRequestReviewers", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 101, "reviewers": ["nathan"]}),
+            Action(name="ApprovePr", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 101}),
+            Action(name="MergeBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "source_branch_name": "release-notes-1.1.0", "target_branch_name": "main"}),
+            Action(name="MarkPrAsMerged", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 101}),
+            Action(name="DeleteBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0"}),
+            Action(
                 name="ListAllTerminalMessage",
                 kwargs={},
             ),
-    ],
-    outputs=[]
+        ],
+        outputs=[]
     ),
 
     Task(
         annotator="0",
         user_id="task_83",
-        instruction=(
-            "Act as 'design-team' with 'team@uidesign.co and your auth key is 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to ensure the repository 'ui-kit' culminates in a state where its default branch 'main' features the component file 'packages/alert/index.tsx' with the exact content 'export const Alert = () => <div role='alert' />'. The modification should start from the branch 'feature-alert', be executed by 'design-team' with the commit message 'Add packages/alert/index.tsx', and be featured as a pull request titled 'Add Alert component' with the body 'Introduce basic Alert component.' transitioning from 'feature-alert' to 'main' and ensuring the pr is approved."
-        ),
-        actions=[
+    instruction=(
+        "Act as 'design-team' with 'team@uidesign.co and your auth key is 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to ensure the repository 'ui-kit' culminates in a state where its default branch 'main' features the component file 'packages/alert/index.tsx' with the exact content 'export const Alert = () => <div role='alert' />'. The modification should start from the branch 'feature-alert', be executed by 'design-team' with the commit message 'Add packages/alert/index.tsx', and be featured as a pull request titled 'Add Alert component' with the body 'Introduce basic Alert component.' transitioning from 'feature-alert' to 'main' and ensuring the pr is approved."
+    ),
+    actions=[
         Action(name="AuthenticateUser", kwargs={"username": "design-team", "email": "team@uidesign.co", "auth_key": "ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s"}),
         Action(name="CreateNewBranch", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert", "base_branch": "main"}),
         Action(name="AddNewFileInRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert", "file_name": "packages/alert/index.tsx", "file_content": "export const Alert = () => <div role='alert' />"}),
@@ -3641,12 +3641,12 @@ outputs=[]
     ),
 
     Task(
-        annotator="0",
-        user_id="task_96",
-        instruction=(
-            "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' achieves a state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' exists with the contents exactly '## 1.1.0 - Small adjustments - Documentation update. This change should commence at the 'release-notes-1.1.0' line, implemented by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'."
-        ),
-        actions=[
+    annotator="0",
+    user_id="task_96",
+    instruction=(
+        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' achieves a state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' exists with the contents exactly '## 1.1.0 - Small adjustments - Documentation update. This change should commence at the 'release-notes-1.1.0' line, implemented by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'."
+    ),
+    actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
         Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation revision"}),
@@ -3766,5 +3766,4 @@ Task(
     ],
     outputs=[]
 ),
-
 ]
