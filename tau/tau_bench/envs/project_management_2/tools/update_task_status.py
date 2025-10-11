@@ -40,12 +40,12 @@ class UpdateTaskStatus(Tool):
                         )
 
                 task["status"] = new_status
-                task["updated_date"] = datetime.now().isoformat()
+                task["updated_date"] = datetime.datetime.now().isoformat()
 
                 if new_status == "blocked":
-                    task["blocked_date"] = datetime.now().isoformat()
+                    task["blocked_date"] = datetime.datetime.now().isoformat()
                 elif new_status == "done":
-                    task["completed_date"] = datetime.now().isoformat()
+                    task["completed_date"] = datetime.datetime.now().isoformat()
 
                 return json.dumps({"success": True, "task": task})
 

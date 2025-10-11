@@ -91,7 +91,7 @@ class UpdateSprintStatus(Tool):
             )
             sprint["completed_story_points"] = completed_points
             sprint["velocity"] = completed_points
-            sprint["completed_date"] = datetime.now().isoformat()
+            sprint["completed_date"] = datetime.datetime.now().isoformat()
 
         sprint["status"] = new_status
         return json.dumps({"success": True, "sprint": sprint})

@@ -28,13 +28,13 @@ class LogTimeOnTask(Tool):
             "employee_id": employee_id,
             "hours": hours_logged,
             "notes": notes,
-            "logged_date": datetime.now().isoformat(),
+            "logged_date": datetime.datetime.now().isoformat(),
         }
         time_logs.append(log_entry)
 
         task["time_logged"] = task.get("time_logged", 0) + hours_logged
-        task["updated_date"] = datetime.now().isoformat()
-        task["last_time_logged"] = datetime.now().isoformat()
+        task["updated_date"] = datetime.datetime.now().isoformat()
+        task["last_time_logged"] = datetime.datetime.now().isoformat()
 
         return json.dumps(
             {

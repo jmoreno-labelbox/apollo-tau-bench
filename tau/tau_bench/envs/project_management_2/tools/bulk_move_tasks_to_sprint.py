@@ -127,7 +127,7 @@ class BulkMoveTasksToSprint(Tool):
             )
 
             task["sprint_id"] = target_sprint_id
-            task["updated_date"] = datetime.now().isoformat()
+            task["updated_date"] = datetime.datetime.now().isoformat()
 
         sprint["planned_story_points"] = current_points + total_points_to_add
 

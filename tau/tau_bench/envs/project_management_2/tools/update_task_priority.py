@@ -70,12 +70,12 @@ class UpdateTaskPriority(Tool):
             "action": "priority_changed",
             "from_priority": old_priority,
             "to_priority": new_priority,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now().isoformat(),
         }
         task_history.append(history_entry)
 
         task["priority"] = new_priority
-        task["updated_date"] = datetime.now().isoformat()
+        task["updated_date"] = datetime.datetime.now().isoformat()
 
         return json.dumps(
             {

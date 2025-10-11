@@ -56,7 +56,7 @@ class CalculateSprintBurndown(Tool):
                 end_date = datetime.fromisoformat(
                     sprint["end_date"].replace("Z", "+00:00")
                 )
-                current_date = datetime.now()
+                current_date = datetime.datetime.now()
 
                 total_days = (end_date - start_date).days
                 elapsed_days = (current_date - start_date).days

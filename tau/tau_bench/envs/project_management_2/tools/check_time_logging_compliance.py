@@ -33,7 +33,7 @@ class CheckTimeLoggingCompliance(Tool):
                         last_logged_date = datetime.fromisoformat(
                             last_logged.replace("Z", "+00:00")
                         )
-                        days_since_logged = (datetime.now() - last_logged_date).days
+                        days_since_logged = (datetime.datetime.now() - last_logged_date).days
 
                         if days_since_logged > 2:
                             non_compliant_tasks.append(

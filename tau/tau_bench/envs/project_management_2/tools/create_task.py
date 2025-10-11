@@ -95,8 +95,8 @@ class CreateTask(Tool):
             "sprint_id": sprint_id,
             "dependencies": dependencies,
             "blocked_by": [],
-            "created_date": datetime.now().isoformat(),
-            "updated_date": datetime.now().isoformat(),
+            "created_date": datetime.datetime.now().isoformat(),
+            "updated_date": datetime.datetime.now().isoformat(),
             "completed_date": None,
             "time_logged": 0,
         }

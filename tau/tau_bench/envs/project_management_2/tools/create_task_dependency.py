@@ -59,7 +59,7 @@ class CreateTaskDependency(Tool):
             if "dependencies" not in task:
                 task["dependencies"] = []
             task["dependencies"].append(depends_on_task_id)
-            task["updated_date"] = datetime.now().isoformat()
+            task["updated_date"] = datetime.datetime.now().isoformat()
 
         if block_task or (
             task.get("status") == "in_progress"

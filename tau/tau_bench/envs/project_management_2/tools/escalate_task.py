@@ -39,7 +39,7 @@ class EscalateTask(Tool):
             "escalated_by": task.get("assignee_id"),
             "escalated_to": escalate_to,
             "previous_status": task.get("status"),
-            "created_date": datetime.now().isoformat(),
+            "created_date": datetime.datetime.now().isoformat(),
             "resolved": False,
         }
         escalations.append(escalation)
@@ -50,7 +50,7 @@ class EscalateTask(Tool):
 
         task["escalated"] = True
         task["escalation_id"] = escalation["escalation_id"]
-        task["updated_date"] = datetime.now().isoformat()
+        task["updated_date"] = datetime.datetime.now().isoformat()
 
         return json.dumps(
             {

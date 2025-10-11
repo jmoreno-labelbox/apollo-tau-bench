@@ -99,7 +99,7 @@ class AssignTaskToSprint(Tool):
                 )
 
         task["sprint_id"] = sprint_id
-        task["updated_date"] = datetime.now().isoformat()
+        task["updated_date"] = datetime.datetime.now().isoformat()
 
         sprint["planned_story_points"] = sprint.get(
             "planned_story_points", 0

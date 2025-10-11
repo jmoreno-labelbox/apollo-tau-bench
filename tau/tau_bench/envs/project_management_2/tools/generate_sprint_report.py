@@ -117,7 +117,7 @@ class GenerateSprintReport(Tool):
                 for t in blocked_tasks
             ],
             "risks": risks,
-            "report_generated": datetime.now().isoformat(),
+            "report_generated": datetime.datetime.now().isoformat(),
         }
 
         return json.dumps(report, indent=2)

@@ -103,12 +103,12 @@ class ReassignTask(Tool):
             "action": "reassigned",
             "from_assignee": old_assignee,
             "to_assignee": new_assignee_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now().isoformat(),
         }
         task_history.append(history_entry)
 
         task["assignee_id"] = new_assignee_id
-        task["updated_date"] = datetime.now().isoformat()
+        task["updated_date"] = datetime.datetime.now().isoformat()
 
         return json.dumps({"success": True, "task": task, "history": history_entry})
 

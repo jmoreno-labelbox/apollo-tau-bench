@@ -47,20 +47,20 @@ class ResolveBlockedTask(Tool):
             "task_id": task_id,
             "action": "unblocked",
             "resolution": resolution,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now().isoformat(),
         }
         task_history.append(history_entry)
 
         task["status"] = "todo"
         task["blocked_date"] = None
-        task["updated_date"] = datetime.now().isoformat()
+        task["updated_date"] = datetime.datetime.now().isoformat()
 
         if task.get("escalated"):
             escalations = list(data.get("escalations", {}).values())
             for esc in escalations:
                 if esc.get("task_id") == task_id and not esc.get("resolved"):
                     esc["resolved"] = True
-                    esc["resolution_date"] = datetime.now().isoformat()
+                    esc["resolution_date"] = datetime.datetime.now().isoformat()
                     esc["resolution"] = resolution
 
         return json.dumps({"success": True, "task": task, "resolution": resolution})

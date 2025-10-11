@@ -57,7 +57,7 @@ class CreateSprintRetrospective(Tool):
                 completed_date = datetime.fromisoformat(
                     sprint["completed_date"].replace("Z", "+00:00")
                 )
-                days_since_completion = (datetime.now() - completed_date).days
+                days_since_completion = (datetime.datetime.now() - completed_date).days
                 if days_since_completion > 2:
                     return json.dumps(
                         {
@@ -75,7 +75,7 @@ class CreateSprintRetrospective(Tool):
             "what_went_well": what_went_well,
             "what_needs_improvement": what_needs_improvement,
             "action_items": action_items,
-            "created_date": datetime.now().isoformat(),
+            "created_date": datetime.datetime.now().isoformat(),
             "team_id": sprint.get("team_id"),
         }
 
