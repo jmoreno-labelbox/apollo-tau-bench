@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _require(db: Dict[str, Any], table: str, key: str, value: Any) -> Optional[Dict[str, Any]]:
+    return next((r for r in db.get(table, []) if r.get(key) == value), None)
+
 class GetOrderDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: int) -> str:

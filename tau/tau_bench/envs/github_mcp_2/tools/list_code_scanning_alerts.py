@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _alerts(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("code_scanning_alerts", [])
+
 class ListCodeScanningAlerts(Tool):
     """Lists all code scanning alerts for a given repository and optional severity."""
 

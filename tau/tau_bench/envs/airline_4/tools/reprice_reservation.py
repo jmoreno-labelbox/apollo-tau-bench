@@ -5,6 +5,67 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+def _to_iso_day(v):
+    if v in (None, "", "null"):
+        return "9999-12-31"
+    s = str(v)
+    # Try strict ISO parse (accepts full ISO datetimes too)
+    try:
+        return datetime.fromisoformat(s).date().isoformat()
+    except Exception:
+        # Fallback: first 10 chars, if they form a valid YYYY-MM-DD
+        day = s[:10]
+        try:
+            _date.fromisoformat(day)
+            return day
+        except Exception:
+            return "9999-12-31"
+
+def _norm_status(s: str) -> str:
+    return (s or "").strip().lower()
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
+def _get_reservation(data, reservation_id):
+    res = data.get("reservations")
+    if isinstance(res, dict):
+        rec = res.get(reservation_id)
+        if isinstance(rec, dict):
+            # ensure reservation_id present for downstream
+            return rec if rec.get("reservation_id") else {**rec, "reservation_id": reservation_id}
+        # secondary scan
+        for r in res.values():
+            if isinstance(r, dict) and r.get("reservation_id") == reservation_id:
+                return r
+        return None
+    # list-shaped fallback
+    for r in (res or []):
+        if isinstance(r, dict) and r.get("reservation_id") == reservation_id:
+            return r
+    return None
+
+def _get_flight(data: Dict[str, Any], flight_number: str) -> Optional[Dict[str, Any]]:
+    for f in data.get("flights", []):
+        if f.get("flight_number") == flight_number:
+            return f
+    return None
+
+def _get_date_record(flight: Dict[str, Any], day: str) -> Optional[Dict[str, Any]]:
+    return (flight or {}).get("dates", {}).get(day)
+
 class RepriceReservation(Tool):
     """
     Reprice all legs in a reservation using a deterministic strategy.

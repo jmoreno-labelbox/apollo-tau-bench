@@ -5,6 +5,20 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _parse_iso(ts: Optional[str]) -> Optional[datetime]:
+    """Robust ISO8601 parse: supports 'Z' and offsets; returns None if missing."""
+    if not ts:
+        return None
+    ts = ts.replace("Z", "+00:00")
+    return datetime.fromisoformat(ts)
+
+def _eq(a: Optional[str], b: Optional[str]) -> bool:
+    return (a or "") == (b or "")
+
 class ListAuditLogsTool(Tool):
     """List audit logs with optional filters: action_type, user_id (actor_id), target_id, date range.
     Backward-compatible alias: filter_by == action_type.

@@ -5,6 +5,23 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _now_iso() -> str:
+    """Return current UTC timestamp in ISO format (seconds precision)."""
+    return datetime.utcnow().isoformat(timespec="seconds") + "Z"
+
+def _gen_order_id(seed: Optional[int] = None) -> str:
+    """
+    Generate a synthetic order identifier matching dataset flavor.
+
+    Note: Collisions are unlikely but not impossible; this is OK for simulation.
+    """
+    base = seed if isinstance(seed, int) else int(datetime.utcnow().timestamp())
+    return f"#W{base % 10_000_000:07d}"
+
 class DuplicateOrderTool(Tool):
     """
     Duplicate an existing order into a new one for the same user.

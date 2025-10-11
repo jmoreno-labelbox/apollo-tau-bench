@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the necessary actions to adjust the ad set according to the specified plan. Specifically, the agent did not perform the `SetAdsetBudget` and `UpdateAdsetStrategy` actions to align ad set 104 with the plan_2025-08-13, which included setting the budget to $750 and updating the bid strategy to \"cost_cap\" with a bid amount of $22. Instead, the agent encountered repeated errors ('dict' object has no attribute 'append') and did not successfully update the ad set as required. Additionally, the agent did not perform the `AppliedStateVerifier` action to ensure the final state reflected the plan accurately."
+            "description": "The agent is responsible for the fault because it failed to execute the necessary actions to adjust the ad set to align with the plan for the specified date. Specifically, the agent encountered errors when attempting to update the ad set's budget and bidding strategy, and it did not successfully execute the `SetAdsetBudget` and `UpdateAdsetStrategy` actions as outlined in the ground truth action sequence. Additionally, the agent did not perform the `AppliedStateVerifier` action to confirm the alignment with the plan, which was part of the ground truth sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "other",
-            "description": "The fault in the trajectory is that the assistant fails to execute the necessary actions to update the ad set according to the specified plan. Specifically, the assistant encounters repeated errors (\"Error: 'dict' object has no attribute 'append'\") when attempting to perform the actions to set the ad set budget and update the bid strategy. As a result, the ad set is not aligned with the plan, which requires setting the budget to $750 and the bid strategy to \"cost cap\" with a bid amount of $22. The assistant does not successfully complete the \"SetAdsetBudget\" and \"UpdateAdsetStrategy\" actions, which are crucial steps in the ground truth action sequence."
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is due to the incorrect use of the tool argument when attempting to update the ad set's budget and bidding strategy. The assistant encountered errors such as \"'dict' object has no attribute 'append'\" and \"UpdateAdsetStrategy.invoke() missing 1 required positional argument: 'new_budget'\", indicating that the tool was invoked with incorrect arguments or in an incorrect manner. In the ground truth action sequence, the `SetAdsetBudget` and `UpdateAdsetStrategy` actions are used separately with specific arguments, but the trajectory shows attempts to update these settings that resulted in errors, suggesting a misuse of tool arguments."
         }
     ]
 }

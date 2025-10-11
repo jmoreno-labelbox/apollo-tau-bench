@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_id(table: List[Dict[str, Any]], key: str, prefix: str) -> str:
+    if not table:
+        return f"{prefix}_00001"
+    max_id = 0
+    for item in table:
+        try:
+            num = int(item[key].split('_')[-1])
+            if num > max_id:
+                max_id = num
+        except (ValueError, IndexError):
+            continue
+    return f"{prefix}_{max_id + 1:05d}"
+
 class ScheduleDeviceReturn(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], asset_id, employee_id) -> str:

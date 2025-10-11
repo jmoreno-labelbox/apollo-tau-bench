@@ -5,6 +5,15 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    """Creates a JSON error message."""
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
 class GetCandidateWithFullContextTool(Tool):
     """Retrieves candidate record with all linked emails, asset requests, checklist items, and access checks for comprehensive view."""
 

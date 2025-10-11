@@ -6,6 +6,24 @@ from tau_bench.envs.tool import Tool
 from . import _max_id, _json_dump
 
 
+
+
+
+
+def _max_id(records: List[Dict[str, Any]], key: str, default: int) -> int:
+    if not records:
+        return default
+    vals = []
+    for r in records:
+        try:
+            vals.append(int(r.get(key)))
+        except Exception:
+            pass
+    return max(vals) if vals else default
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
 class CreateEmptyGroceryList(Tool):
     """Create an empty grocery_list header; returns list_id."""
     @staticmethod

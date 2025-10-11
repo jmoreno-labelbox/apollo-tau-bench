@@ -5,6 +5,31 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _parse_iso(ts: Optional[str]) -> Optional[datetime]:
+    if not ts or not isinstance(ts, str):
+        return None
+    t = ts.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(t)
+    except Exception:
+        return None
+
+def _next_id(data: Dict[str, Any], collection: str, prefix: str) -> str:
+    n = len(data.get(collection, [])) + 1
+    return f"{prefix}-{n:03d}"
+
+def _find_by_id(items: List[Dict[str, Any]], key: str, value: str) -> Optional[Dict[str, Any]]:
+    for it in items or []:
+        if it.get(key) == value:
+            return it
+    return None
+
 class CreateCertification(Tool):
     """
     Create a new certification entry with deterministic ID and default due date.

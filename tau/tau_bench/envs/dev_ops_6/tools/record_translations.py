@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _table(db: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return db.get(name, [])
+
+def _ok(payload: Dict[str, Any]) -> str:
+    return json.dumps({'ok': True, **payload}, indent=2)
+
+def _loc_table(db: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return db.get('loc_strings') or db.get('loc_strongs') or []
+
 class RecordTranslations(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], entries = [], reflect_in_loc = True) -> str:

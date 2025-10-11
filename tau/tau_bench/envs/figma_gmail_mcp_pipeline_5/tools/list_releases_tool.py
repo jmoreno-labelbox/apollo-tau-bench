@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _small_fields(row: Dict[str, Any], fields: List[str]) -> Dict[str, Any]:
+    """Return selected fields only (simple outputs)."""
+    return {k: row.get(k) for k in fields}
+
 class ListReleasesTool(Tool):
     """List releases filtered by version_tag prefix or artifact_id reference."""
 

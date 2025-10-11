@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _now_iso() -> str:
+    # return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    return "deterministic placeholder for current time"
+
 class ManageListItems(Tool):
 
     @staticmethod

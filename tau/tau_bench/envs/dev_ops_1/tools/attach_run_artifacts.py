@@ -5,6 +5,16 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _get_table(data: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return data.setdefault(name, [])
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg}, indent=2)
+
 class AttachRunArtifacts(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], run_id: str, logs_uri: Optional[str] = None, dumps_uri: Optional[str] = None, reports_uri: Optional[str] = None) -> str:

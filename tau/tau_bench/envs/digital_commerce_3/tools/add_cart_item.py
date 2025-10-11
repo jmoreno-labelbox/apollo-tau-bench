@@ -5,6 +5,23 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_numeric_id(existing: List[Dict[str, Any]], field: str) -> str:
+    max_id = 0
+    for row in existing:
+        try:
+            max_id = max(max_id, int(row.get(field)))
+        except (TypeError, ValueError):
+            continue
+    return str(max_id + 1)
+
+def _idstr(v):
+    """Coerce numeric IDs to strings; leave None/strings unchanged."""
+    return str(v) if isinstance(v, int) else v
+
 class AddCartItem(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], cart_id: Any, product_id: Any, quantity: Any) -> str:

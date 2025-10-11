@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _by_key(items: List[Dict[str, Any]], key: str) -> Dict[Any, Dict[str, Any]]:
+    return {i.get(key): i for i in (items or [])}
+
 class GatherListingsWithProperties(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], listing_ids) -> str:

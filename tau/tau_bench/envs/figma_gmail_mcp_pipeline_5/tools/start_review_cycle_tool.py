@@ -5,6 +5,52 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+
+
+def _safe_table(data: Dict[str, Any], table: str) -> List[Dict[str, Any]]:
+    """Get or create a list table."""
+    return data.setdefault(table, [])
+
+def _require_str(arg: Any, name: str) -> Optional[str]:
+    """Return arg as str if valid, else None."""
+    return arg if isinstance(arg, str) and arg.strip() else None
+
+def _index_by(table: List[Dict[str, Any]], key: str) -> Dict[str, int]:
+    """Build index map from key -> row_index (first occurrence)."""
+    idx = {}
+    for i, r in enumerate(table):
+        k = r.get(key)
+        if isinstance(k, str) and k not in idx:
+            idx[k] = i
+    return idx
+
+def _get_config_json(data: Dict[str, Any], key: str) -> Dict[str, Any]:
+    """Read a config row from system_config and parse its JSON value."""
+    rows = data.get("system_config", [])
+    for r in rows:
+        if r.get("config_key") == key:
+            try:
+                return json.loads(r.get("config_value_json") or "{}")
+            except Exception:
+                return {}
+    return {}
+
+def _det_id(prefix: str, parts: List[str], length: int = 8) -> str:
+    """
+    Deterministic ID from input parts. Stable across runs.
+    """
+    m = hashlib.md5()
+    m.update(("|".join(parts)).encode("utf-8"))
+    return f"{prefix}_{m.hexdigest()[:length]}"
+
 class StartReviewCycleTool(Tool):
     """Create or upsert a review cycle for an artifact (deterministic cycle_id from inputs)."""
 

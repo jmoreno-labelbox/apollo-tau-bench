@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import FIXED_NOW
 
 
+
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class ManageCustomerSegments(Tool):
     """Create and manage customer segments based on behavior and demographics."""
 

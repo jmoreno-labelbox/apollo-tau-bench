@@ -5,6 +5,44 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+def _next_int_id(rows: List[Dict[str, Any]], key: str) -> int:
+    mx = 0
+    for r in rows:
+        try:
+            v = int(r.get(key, 0))
+            if v > mx:
+                mx = v
+        except Exception:
+            continue
+    return mx + 1
+
+def _get_mortgage_profile(
+    data: Dict[str, Any], client_id: int
+) -> Optional[Dict[str, Any]]:
+    # tolerate schema typo: "mortage_profiles"
+    profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
+    return next((m for m in profiles if _as_int(m.get("client_id")) == client_id), None)
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
+def _as_int(x) -> Optional[int]:
+    try:
+        return int(x)
+    except Exception:
+        return None
+
 class CreateMortgageProfileTool(Tool):
     """Creates or updates a mortgage profile entry in the mortgage_profiles table."""
 

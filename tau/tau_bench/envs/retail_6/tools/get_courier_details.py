@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_courier(data, courier_id):
+    return next((c for c in data.get('couriers', []) if c.get('courier_id') == courier_id), None)
+
 class GetCourierDetails(Tool):
     """Read courier record."""
     @staticmethod

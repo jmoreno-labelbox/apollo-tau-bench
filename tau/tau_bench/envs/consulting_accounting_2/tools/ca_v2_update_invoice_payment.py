@@ -5,6 +5,26 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _ok(**payload) -> str:
+    out = {"status": "success"}
+    out.update(payload)
+    return json.dumps(out)
+
+def _find_one(lst: List[Dict[str, Any]], key: str, value: Any) -> Dict[str, Any] | None:
+    for x in lst or []:
+        if x.get(key) == value:
+            return x
+    return None
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class CaV2UpdateInvoicePayment(Tool):
     """Update invoice payment status."""
 

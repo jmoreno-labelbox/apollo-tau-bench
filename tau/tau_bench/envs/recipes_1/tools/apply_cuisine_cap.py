@@ -6,6 +6,27 @@ from tau_bench.envs.tool import Tool
 from . import _json_dump
 
 
+
+
+
+
+
+
+def _recipe_by_id(data: Dict[str, Any], recipe_id: int) -> Optional[Dict[str, Any]]:
+    return next((r for r in data.get("recipes", []) if int(r.get("recipe_id")) == recipe_id), None)
+
+def _parse_json_list_ids(json_str: str) -> List[int]:
+    try:
+        arr = json.loads(json_str)
+        if isinstance(arr, list):
+            return [int(x) for x in arr]
+    except Exception:
+        pass
+    return []
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
 class ApplyCuisineCap(Tool):
     """Limit a list of recipe_ids to at most N per cuisine."""
     @staticmethod

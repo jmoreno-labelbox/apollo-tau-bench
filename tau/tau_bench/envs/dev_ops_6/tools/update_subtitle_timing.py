@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _table(db: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return db.get(name, [])
+
+def _ok(payload: Dict[str, Any]) -> str:
+    return json.dumps({'ok': True, **payload}, indent=2)
+
+def _err(msg: str) -> str:
+    return json.dumps({'ok': False, 'error': msg}, indent=2)
+
 class UpdateSubtitleTiming(Tool):
     """Update subtitle_timing row fields (e.g., subtitle_start/end/text) with basic guards."""
 

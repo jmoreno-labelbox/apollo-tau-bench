@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _now_iso() -> str:
+    # return datetime.now(timezone.utc).isoformat()
+    return "deterministic placeholder for current time"
+
 class BulkOperator(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], operation, target_type, filters = {}, updates = {}) -> str:

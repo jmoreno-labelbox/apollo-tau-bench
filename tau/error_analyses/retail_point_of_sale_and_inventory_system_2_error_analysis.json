@@ -2,9 +2,15 @@
     "fault_assignment_analysis": [
         {
             "task_id": 0,
-            "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it incorrectly returned details for a different customer (CUST-5012) instead of the requested customer (CUST-5001) during the attempts to update the phone number and email. This discrepancy indicates an issue with the customer record system, as the environment failed to process the correct customer ID, leading to the inability to perform the necessary updates as per the user instruction."
+            "author": "agent",
+            "description": "The agent is responsible for the fault in the trajectory because it incorrectly updated the email and attempted to update the phone number for the wrong customer (CUST-5012 instead of CUST-5001). The agent's actions did not align with the ground truth action sequence, which specified updating the email and phone number for CUST-5001. Additionally, the agent failed to execute the \"GetCustomerLoyaltyPoints\" action, which was part of the ground truth sequence."
         }
     ],
-    "fault_type_analysis": []
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is that the agent used the wrong customer ID when attempting to update the email and phone number. Instead of using \"CUST-5001\" as specified in the user instruction and ground truth action sequence, the agent incorrectly used \"CUST-5012\" in the tool actions for updating the email and phone number. This resulted in the agent not performing the updates on the correct customer record."
+        }
+    ]
 }

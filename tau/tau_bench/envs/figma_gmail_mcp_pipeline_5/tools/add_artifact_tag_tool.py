@@ -5,6 +5,29 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _safe_table(data: Dict[str, Any], table: str) -> List[Dict[str, Any]]:
+    """Get or create a list table."""
+    return data.setdefault(table, [])
+
+def _require_str(arg: Any, name: str) -> Optional[str]:
+    """Return arg as str if valid, else None."""
+    return arg if isinstance(arg, str) and arg.strip() else None
+
+def _index_by(table: List[Dict[str, Any]], key: str) -> Dict[str, int]:
+    """Build index map from key -> row_index (first occurrence)."""
+    idx = {}
+    for i, r in enumerate(table):
+        k = r.get(key)
+        if isinstance(k, str) and k not in idx:
+            idx[k] = i
+    return idx
+
 class AddArtifactTagTool(Tool):
     """Add a tag to an artifact (idempotent). Requires explicit timestamp for auditability."""
 

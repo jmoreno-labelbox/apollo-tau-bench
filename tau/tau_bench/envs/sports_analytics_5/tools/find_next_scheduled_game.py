@@ -6,6 +6,14 @@ from tau_bench.envs.tool import Tool
 from . import _require_tables
 
 
+
+
+def _require_tables(data: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [t for t in required if t not in data or data.get(t) is None]
+    if missing:
+        return f"Missing required table(s): {', '.join(missing)}"
+    return None
+
 class FindNextScheduledGame(Tool):
     """Find the next scheduled game on/after current_date; tie-break on smallest game_pk."""
     @staticmethod

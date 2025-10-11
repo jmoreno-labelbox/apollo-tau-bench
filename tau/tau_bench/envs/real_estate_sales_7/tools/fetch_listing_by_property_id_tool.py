@@ -5,6 +5,49 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+
+
+def _require_property_id(pid: str) -> Optional[str]:
+    if not pid:
+        return "property_id is required"
+    if not HTX_RE.match(str(pid)):
+        return f"property_id must match HTX### format, got {pid}"
+    return None
+
+def _latest(records: List[Dict[str, Any]], ts_key: str) -> Optional[Dict[str, Any]]:
+    if not records:
+        return None
+    return max(records, key=lambda r: r.get(ts_key) or "")
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
+def _collect_sales_history(
+    data: Dict[str, Any], property_id: str
+) -> List[Dict[str, Any]]:
+    return [
+        s for s in data.get("sales", []) if str(s.get("property_id")) == property_id
+    ]
+
+def _collect_listing_by_property(
+    data: Dict[str, Any], property_id: str
+) -> Optional[Dict[str, Any]]:
+    candidates = [
+        l for l in data.get("listings", []) if str(l.get("property_id")) == property_id
+    ]
+    return _latest(candidates, "updated_at") or (candidates[0] if candidates else None)
+
 class FetchListingByPropertyIdTool(Tool):
     """Gets listing information for specific property."""
 

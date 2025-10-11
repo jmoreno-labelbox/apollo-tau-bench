@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _idstr(v):
+    return str(v) if isinstance(v, int) else v
+
 class GetOrderDetailsById(Tool):
     """Fetch full order details by order_id."""
 

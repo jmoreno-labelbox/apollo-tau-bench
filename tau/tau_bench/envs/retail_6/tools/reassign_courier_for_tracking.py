@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_tracking(data, tracking_id):
+    return next((t for t in data.get('tracking', []) if tracking_id in t.get('tracking_id', [])), None)
+
 class ReassignCourierForTracking(Tool):
     """Change the delivery_carrier for an existing tracking record."""
     @staticmethod

@@ -7,6 +7,60 @@ from . import _json_dump
 from . import _first_user_id
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+def _recent_recipe_ids(data: Dict[str, Any], household_id: Optional[int], days_back: int = 14, anchor_date: Optional[str] = None) -> List[int]:
+    if household_id is None:
+        return []
+    if anchor_date:
+        y, m, d = [int(x) for x in str(anchor_date).split("-")]
+        end = date(y, m, d)
+    else:
+        hh_rows = [h for h in data.get("meal_history", []) if h.get("household_id") == household_id]
+        if hh_rows:
+            md = max([h["plan_date"] for h in hh_rows])
+            y, m, d = [int(x) for x in md.split("-")]
+            end = date(y, m, d)
+        else:
+            end = date(2025, 1, 1)
+    start = end - timedelta(days=int(days_back))
+    return [
+        int(r.get("recipe_id"))
+        for r in data.get("meal_history", [])
+        if r.get("household_id") == household_id and str(r.get("plan_date")) >= start.isoformat()
+    ]
+
+def _latest_list_id(data: Dict[str, Any], household_id: Optional[int]) -> Optional[int]:
+    gl = _latest_list_for_household(data, household_id)
+    return int(gl["list_id"]) if gl else None
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _first_user_id(data: Dict[str, Any]) -> Optional[int]:
+    users = data.get("users", [])
+    if not users:
+        return None
+    return int(sorted(users, key=lambda u: int(u.get("user_id", 10**9)))[0]["user_id"])
+
+def _default_household_id(data: Dict[str, Any], user_id: Optional[int] = None) -> Optional[int]:
+    hh = _household_for_user(data, user_id)
+    return hh.get("household_id") if hh else None
+
+def _collect_recipe_ingredients(data: Dict[str, Any], recipe_ids: List[int]) -> List[Dict[str, Any]]:
+    ri = data.get("recipe_ingredients", [])
+    return [row for row in ri if row.get("recipe_id") in recipe_ids]
+
 class FlagOverlapLastMonthOnList(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], anchor_date, household_id, list_id) -> str:

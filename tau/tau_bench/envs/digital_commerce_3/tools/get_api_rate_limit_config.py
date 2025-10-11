@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class GetApiRateLimitConfig(Tool):
     """Fetch rate limit configuration for a given API endpoint."""
 

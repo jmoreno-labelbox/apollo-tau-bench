@@ -5,6 +5,29 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _tbl(db: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return db.setdefault(name, [])
+
+def _require(db: Dict[str, Any], table: str, key: str, value: Any) -> Optional[Dict[str, Any]]:
+    return next((r for r in db.get(table, []) if r.get(key) == value), None)
+
+def _max_id(rows: List[Dict[str, Any]], id_field: str, base: int) -> int:
+    if not rows:
+        return base
+    vals: List[int] = []
+    for r in rows:
+        try:
+            vals.append(int(r.get(id_field)))
+        except Exception:
+            pass
+    return max(vals) if vals else base
+
 class AddOrderItemsFromList(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: int, store_id: int) -> str:

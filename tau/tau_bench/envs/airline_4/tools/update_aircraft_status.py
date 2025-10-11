@@ -5,6 +5,34 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+def _norm_status(s: str) -> str:
+    return (s or "").strip().lower()
+
+def _next_change_id(data: Dict[str, Any], prefix: str = "PC") -> str:
+    seq = data.setdefault("_seq", {}).get("price_change_id", 0) + 1
+    data["_seq"]["price_change_id"] = seq
+    return f"{prefix}{seq:06d}"
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
+def _find_aircraft(data: Dict[str, Any], aircraft_id: Optional[str],
+                   tail_number: Optional[str]) -> Optional[Dict[str, Any]]:
+    for a in data.get("aircraft", []):
+        if aircraft_id and a.get("aircraft_id") == aircraft_id:
+            return a
+        if tail_number and a.get("tail_number") == tail_number:
+            return a
+    return None
+
 class UpdateAircraftStatus(Tool):
     @staticmethod
     def invoke(

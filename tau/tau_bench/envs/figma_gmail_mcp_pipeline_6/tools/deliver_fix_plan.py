@@ -5,6 +5,68 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+def _ymd(iso_ts: str) -> str:
+    # '2024-08-23T10:00:00Z' -> '2024-08-23'
+    return (iso_ts or "").split("T")[0]
+
+def _resolve_bot_email(data: Dict[str, Any]) -> str:
+        cfg = data.get("system_config", None)
+
+        # dict shape
+        if isinstance(cfg, dict):
+            val = cfg.get("bot_email")
+            if isinstance(val, str) and "@" in val:
+                return val
+
+        # list shape(s)
+        if isinstance(cfg, list):
+            for el in cfg:
+                # list/tuple pair
+                if isinstance(el, (list, tuple)) and len(el) == 2:
+                    k, v = el[0], el[1]
+                    if k == "bot_email" and isinstance(v, str) and "@" in v:
+                        return v
+                # dict element
+                if isinstance(el, dict):
+                    v = el.get("bot_email")
+                    if isinstance(v, str) and "@" in v:
+                        return v
+
+        # bare string (already an email?)
+        if isinstance(cfg, str) and "@" in cfg:
+            return cfg.strip()
+
+        # not found → fallback
+        return "bot@company.com"
+
+def _id_from_request(prefix: str, request_id: str) -> str:
+    rid = (request_id or "").strip()
+    if not rid:
+        return None
+    return f"{prefix}_{rid}"
+
+def _get_next_id(prefix: str, existing_ids: List[str]) -> str:
+    max_id_num = 0
+    seen = False
+    for s in existing_ids:
+        if isinstance(s, str) and s.startswith(prefix + "_"):
+            seen = True
+            try:
+                n = int(s.split("_")[-1])
+                if n > max_id_num:
+                    max_id_num = n
+            except Exception:
+                pass
+    return f"{prefix}_{(1 if not seen else max_id_num + 1):03d}"
+
 class deliver_fix_plan(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], plan_id: str, delivery_method: str, timestamp: str, request_id: str) -> str:

@@ -5,6 +5,13 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _ok(**payload) -> str:
+    out = {"status": "success"}
+    out.update(payload)
+    return json.dumps(out)
+
 class CaV2CalculateYtdRevenue(Tool):
     """Calculate year-to-date revenue and tax reserve."""
 

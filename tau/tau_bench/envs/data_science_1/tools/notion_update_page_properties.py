@@ -6,6 +6,14 @@ from tau_bench.envs.tool import Tool
 from . import _require
 
 
+
+
+def _require(kwargs: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [k for k in required if kwargs.get(k) is None]
+    if missing:
+        return json.dumps({"error": f"Missing required arguments: {', '.join(missing)}"}, indent=2)
+    return None
+
 class NotionUpdatePageProperties(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], page_id, properties_json, updated_ts = page.get("updated_ts")) -> str:

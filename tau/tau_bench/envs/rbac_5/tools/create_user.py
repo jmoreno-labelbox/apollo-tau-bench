@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _next_id(data: Dict[str, Any], collection: str, prefix: str) -> str:
+    n = len(data.get(collection, [])) + 1
+    return f"{prefix}-{n:03d}"
+
 class CreateUser(Tool):
     """
     Create a new user account with deterministic ID generation.

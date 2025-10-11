@@ -6,6 +6,27 @@ from tau_bench.envs.tool import Tool
 from . import _json_dump
 
 
+
+
+
+
+
+
+def _parse_json_list_ids(json_str: str) -> List[int]:
+    try:
+        arr = json.loads(json_str)
+        if isinstance(arr, list):
+            return [int(x) for x in arr]
+    except Exception:
+        pass
+    return []
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _ingredient_by_id(data: Dict[str, Any], ingredient_id: int) -> Optional[Dict[str, Any]]:
+    return next((i for i in data.get("ingredients", []) if int(i.get("ingredient_id")) == ingredient_id), None)
+
 class MinimizeNewIngredients(Tool):
     """Keep only recipes whose non-staple ingredient count ≤ cap."""
     @staticmethod

@@ -5,6 +5,18 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _ok(x):
+    return _j(x)
+
+def _ensure(data: Dict[str, Any], key: str, default):
+    if key not in data or data[key] is None:
+        data[key] = default
+    return data[key]
+
 class list_releases(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs)->str:

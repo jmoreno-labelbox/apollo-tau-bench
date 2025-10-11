@@ -5,6 +5,15 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_product_by_item(data, item_id):
+    for p in data.get('products', []):
+        variants = p.get('variants', {})
+        if item_id in variants:
+            return p, variants[item_id]
+    return None, None
+
 class SetVariantPrice(Tool):
     """Set a variant's price to a specified numeric value."""
     @staticmethod

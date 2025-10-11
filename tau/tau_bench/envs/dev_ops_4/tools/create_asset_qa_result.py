@@ -5,6 +5,16 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _sanitize(s: str) -> str:
+    return (
+        s.replace("/", "_")
+         .replace(".", "_")
+         .replace(":", "_")
+         .replace(" ", "_")
+    )
+
 class CreateAssetQaResult(Tool):
     """Create a QA result row for an asset deterministically."""
     @staticmethod

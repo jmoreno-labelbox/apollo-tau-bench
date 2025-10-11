@@ -5,6 +5,29 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _match(rows, filters):
+    # Make the row values a list if not for uniform handling
+    if not isinstance(rows, list):
+        rows = [rows]
+
+    if isinstance(filters, list):
+        # OR condition for lists; return true if any match
+        return any(_match(rows, single_filter) for single_filter in filters)
+
+    elif isinstance(filters, dict):
+        for filter_key, filter_value in filters.items():
+            # AND condition for dictionaries; any filter can return false
+            # Only if none return false does it pass and return true
+            if not any(_match(row.get(filter_key), filter_value) for row in rows):
+                return False
+
+    else:
+        if filters not in rows:
+            return False
+    return True
+
 class GetInfoFromDB(Tool): # ACCESS
     @staticmethod
     def invoke(data: Dict[str, Any], database_name:str, filter_params: Dict[str, Any], required_fields: List[str] = None) -> str:

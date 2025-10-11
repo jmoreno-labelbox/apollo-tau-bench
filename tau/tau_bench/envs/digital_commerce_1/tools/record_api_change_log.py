@@ -6,6 +6,24 @@ from tau_bench.envs.tool import Tool
 from . import _ensure_table
 
 
+
+
+
+
+
+
+def _stable_id(prefix: str, *parts: str) -> str:
+    base = "-".join(_slugify(p) for p in parts if p is not None and str(p) != "")
+    return f"{prefix}-{base}" if base else prefix
+
+def _json(x: Any) -> str:
+    return json.dumps(x, separators=(",", ":"))
+
+def _ensure_table(db: Dict[str, Any], name: str):
+    if name not in db:
+        db[name] = []
+    return db[name]
+
 class RecordApiChangeLog(Tool):
     @staticmethod
     def invoke(data, target_id: str, environment: str, change_type: str = "ops") -> str:

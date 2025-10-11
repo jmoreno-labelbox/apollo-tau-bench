@@ -5,6 +5,43 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+def _repos(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("repositories", [])
+
+def _prs(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("pull_requests", [])
+
+def _issues(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("issues", [])
+
+def _commits(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("commits", [])
+
+def _auth(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Return acting identity as {"username": "...", "email": "..."}.
+    Requires get_me(username=...) to have set data["_me"].
+    """
+    me = data.get("_me")
+    if isinstance(me, dict) and "username" in me:
+        return me
+    raise Exception("No acting identity set. Call get_me(username=...) first.")
+
+def _alerts(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("code_scanning_alerts", [])
+
 class AggregateRepositoryActivity(Tool):
     """Returns activity summary for each repo owned by acting user — counts of PRs, issues, alerts, commits."""
 

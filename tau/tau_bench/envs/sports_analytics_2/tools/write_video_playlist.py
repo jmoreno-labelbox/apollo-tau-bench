@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import _load_table
 
 
+
+
+def _load_table(data: Dict[str, Any], table: str) -> List[Dict[str, Any]]:
+    return data.get(table, [])
+
 class WriteVideoPlaylist(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], internal_portal_link, report_id, clip_count = 0) -> str:

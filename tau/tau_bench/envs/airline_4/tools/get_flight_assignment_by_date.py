@@ -5,6 +5,24 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
+def _get_flight(data: Dict[str, Any], flight_number: str) -> Optional[Dict[str, Any]]:
+    for f in data.get("flights", []):
+        if f.get("flight_number") == flight_number:
+            return f
+    return None
+
+def _get_date_record(flight: Dict[str, Any], day: str) -> Optional[Dict[str, Any]]:
+    return (flight or {}).get("dates", {}).get(day)
+
 class GetFlightAssignmentByDate(Tool):
     """
     Readback to prove aircraft assignment visibility on a dated flight.

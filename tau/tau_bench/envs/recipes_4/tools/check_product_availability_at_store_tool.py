@@ -5,6 +5,103 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _validate_inputs(
+    args: Dict[str, Any],
+    param_definitions: Dict[str, Dict[str, Any]]
+) -> Optional[Dict[str, Any]]:
+    """
+    Validates tool arguments against a set of definitions.
+
+    This helper checks for the presence of required parameters and validates the
+    data type for all provided parameters against the definitions. It's designed
+    to be the first call within any tool's `invoke` method to act as a
+    protective guard clause.
+
+    Args:
+        args: The dictionary of arguments passed to the tool (e.g., kwargs).
+        param_definitions: A dictionary where each key is a parameter name and
+            the value is another dictionary defining its rules, such as
+            'type' (e.g., int, str) and 'required' (bool).
+
+    Returns:
+        None if all validations pass.
+        A dictionary containing the 'error_code' and 'details' for the
+        first validation failure, ready to be passed to _build_error_response().
+    """
+    for param, definition in param_definitions.items():
+        is_required = definition.get("required", False)
+        expected_type = definition.get("type")
+
+        if is_required and param not in args:
+            return {
+                "error_code": "REQUIRED_PARAMETER",
+                "details": {"param": param}
+            }
+
+        if param in args and expected_type is not None:
+            value = args[param]
+            if not isinstance(value, expected_type):
+                return {
+                    "error_code": "INVALID_PARAMETER_TYPE",
+                    "details": {
+                        "param": param,
+                        "expected_type": expected_type.__name__
+                    }
+                }
+
+    return None
+
+def _build_success_response(data: Any) -> str:
+    """
+    Builds a standardized success response envelope as a JSON string.
+
+    Args:
+        data: The payload to be included in the response.
+
+    Returns:
+        A JSON string representing the successful response.
+    """
+    response_dict = {
+        "success": True,
+        "data": data
+    }
+    return json.dumps(response_dict, indent=2)
+
+def _build_error_response(error_code: str, details: Optional[Dict[str, Any]] = None) -> str:
+    """
+    Builds a standardized error response envelope as a JSON string.
+
+    Args:
+        error_code: The error code, corresponding to a key in ERROR_MESSAGES.
+        details: A dictionary with specific details to format the error message.
+
+    Returns:
+        A JSON string representing the failed response.
+    """
+    details = details or {}
+    message_template = ERROR_MESSAGES.get(error_code, "An unknown error occurred.")
+
+    try:
+        message = message_template.format(**details)
+    except KeyError:
+        message = message_template
+
+    response_dict = {
+        "success": False,
+        "error": {
+            "code": error_code,
+            "message": message,
+            "details": details
+        }
+    }
+    return json.dumps(response_dict, indent=2)
+
 class CheckProductAvailabilityAtStoreTool(Tool):
     """
     A tool to check product availability for a grocery list at a specific store.

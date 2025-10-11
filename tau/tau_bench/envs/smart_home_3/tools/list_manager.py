@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _now_iso() -> str:
+    # return datetime.now(timezone.utc).isoformat()
+    return "deterministic placeholder for current time"
+
 class ListManager(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], list_id, list_name, action = 'get', item_data = {}, list_data = {}, tags = []) -> str:

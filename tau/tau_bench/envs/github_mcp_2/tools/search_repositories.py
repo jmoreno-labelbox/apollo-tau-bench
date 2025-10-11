@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _repos(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("repositories", [])
+
 class SearchRepositories(Tool):
     """Searches repositories by name substring or owner."""
 

@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import _load_table
 
 
+
+
+def _load_table(data: Dict[str, Any], table: str) -> List[Dict[str, Any]]:
+    return data.get(table, [])
+
 class WriteReportArtifacts(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], game_pk, insights_data, report_type, s3_pdf_path, video_data = []) -> str:

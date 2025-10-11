@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to successfully execute the \"CreateOutboundOrder\" action. The agent encountered a persistent error ('dict' object has no attribute 'append') when attempting to create the order, which prevented the order from being created. As a result, subsequent actions such as assigning the carrier and updating the order status could not be performed, deviating from the ground truth action sequence where the order was successfully created and processed."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to successfully execute the \"CreateOutboundOrder\" action. The agent encountered repeated errors ('dict' object has no attribute 'append') while attempting to create the order, which prevented the completion of the task as specified in the ground truth action sequence. Consequently, the subsequent actions, such as updating the order status with the carrier and tracking number, could not be performed. This failure to create the order and update its status is a critical deviation from the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to create an outbound order using an incorrect method or tool argument. Specifically, the assistant encountered an error: `'dict' object has no attribute 'append'`, indicating that the assistant tried to use a method or function that is not applicable to the data type being handled. This error suggests that the assistant was attempting to append to a dictionary, which is not a valid operation, leading to the failure in creating the order as specified in the ground truth action sequence."
+            "fault_type": "other",
+            "description": "The fault in the trajectory is that the assistant fails to successfully create the outbound order and update the order status due to repeated errors ('dict' object has no attribute 'append' and 'str' object has no attribute 'get'). These errors prevent the assistant from completing the necessary actions to fulfill the user instruction, which includes creating the order and assigning the carrier with the tracking number. As a result, the assistant suggests manual intervention by the user, which deviates from the expected automated process outlined in the ground truth action sequence."
         }
     ]
 }

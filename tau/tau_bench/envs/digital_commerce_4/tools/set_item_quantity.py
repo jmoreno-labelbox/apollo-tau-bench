@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _err(msg: str) -> str:
+    return json.dumps({"error": msg}, indent=2)
+
 class SetItemQuantity(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], cart_item_id: Any, quantity: Any) -> str:

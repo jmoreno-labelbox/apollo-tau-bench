@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _eq(a: Optional[str], b: Optional[str]) -> bool:
+    return (a or "") == (b or "")
+
 class ListUsersByMfaTool(Tool):
     """list_users_by_mfa"""
 

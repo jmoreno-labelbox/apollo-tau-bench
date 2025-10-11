@@ -5,6 +5,17 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _parse_iso(ts: Optional[str]) -> Optional[datetime]:
+    if not ts or not isinstance(ts, str):
+        return None
+    t = ts.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(t)
+    except Exception:
+        return None
+
 class ListUsersWithAccessToResource(Tool):
     """
     Compute users who effectively have any permission on a given resource_id via their role assignments.

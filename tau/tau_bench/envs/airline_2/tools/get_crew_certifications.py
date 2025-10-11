@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _j(v):
+    return v if isinstance(v, str) else json.dumps(v, separators=(",", ":"), ensure_ascii=False)
+
 class GetCrewCertifications(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: str, certification_code: Optional[str]=None) -> str:

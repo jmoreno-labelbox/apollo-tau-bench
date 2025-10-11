@@ -5,6 +5,20 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_transaction_id(transactions_list: List[Dict[str, Any]]) -> str:
+    max_txn_num = 0
+    for txn in transactions_list:
+        if txn["transaction_id"].startswith("TXN-"):
+            try:
+                num = int(txn["transaction_id"].split("-")[1])
+                if num > max_txn_num:
+                    max_txn_num = num
+            except ValueError:
+                pass
+    return f"TXN-{max_txn_num + 1:04d}"
+
 class RecordSale(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str, items: List[Dict[str, Any]], payment_method: str) -> str:

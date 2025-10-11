@@ -7,6 +7,63 @@ from . import _json_dump
 from . import _first_user_id
 
 
+
+
+
+
+
+
+
+
+
+
+def _recent_recipe_ids(data: Dict[str, Any], household_id: Optional[int], days_back: int = 14, anchor_date: Optional[str] = None) -> List[int]:
+    if household_id is None:
+        return []
+    if anchor_date:
+        y, m, d = [int(x) for x in str(anchor_date).split("-")]
+        end = date(y, m, d)
+    else:
+        hh_rows = [h for h in data.get("meal_history", []) if h.get("household_id") == household_id]
+        if hh_rows:
+            md = max([h["plan_date"] for h in hh_rows])
+            y, m, d = [int(x) for x in md.split("-")]
+            end = date(y, m, d)
+        else:
+            end = date(2025, 1, 1)
+    start = end - timedelta(days=int(days_back))
+    return [
+        int(r.get("recipe_id"))
+        for r in data.get("meal_history", [])
+        if r.get("household_id") == household_id and str(r.get("plan_date")) >= start.isoformat()
+    ]
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _ids_from_kwargs_or_defaults(data: Dict[str, Any], kwargs: Dict[str, Any]) -> List[int]:
+    ids = _parse_json_list_ids(kwargs.get("recipe_ids_json") or kwargs.get("candidate_recipe_ids_json"))
+    if ids:
+        return ids
+    ft = kwargs.get("filter_token")
+    if ft:
+        meal, mp, pf = _decode_filter_token(ft)
+        return _all_recipe_ids_filtered(data, meal, mp, pf)
+    meal = kwargs.get("meal_type", "Dinner")
+    mp = int(kwargs.get("min_protein_g", 0))
+    pf = bool(kwargs.get("peanut_free", False))
+    return _all_recipe_ids_filtered(data, meal, mp, pf)
+
+def _first_user_id(data: Dict[str, Any]) -> Optional[int]:
+    users = data.get("users", [])
+    if not users:
+        return None
+    return int(sorted(users, key=lambda u: int(u.get("user_id", 10**9)))[0]["user_id"])
+
+def _default_household_id(data: Dict[str, Any], user_id: Optional[int] = None) -> Optional[int]:
+    hh = _household_for_user(data, user_id)
+    return hh.get("household_id") if hh else None
+
 class ExcludeRecentRecipes(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], anchor_date, household_id, recent_recipe_ids, days_back = 14) -> str:

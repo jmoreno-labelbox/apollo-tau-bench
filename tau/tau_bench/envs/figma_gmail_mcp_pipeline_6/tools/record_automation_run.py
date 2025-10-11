@@ -5,6 +5,45 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+def _ymd(iso_ts: str) -> str:
+    # '2024-08-23T10:00:00Z' -> '2024-08-23'
+    return (iso_ts or "").split("T")[0]
+
+def _table(data: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    tbl = data.get(name)
+    if not isinstance(tbl, list):
+        tbl = []
+        data[name] = tbl
+    return tbl
+
+def _id_from_request(prefix: str, request_id: str) -> str:
+    rid = (request_id or "").strip()
+    if not rid:
+        return None
+    return f"{prefix}_{rid}"
+
+def _get_next_id(prefix: str, existing_ids: List[str]) -> str:
+    max_id_num = 0
+    seen = False
+    for s in existing_ids:
+        if isinstance(s, str) and s.startswith(prefix + "_"):
+            seen = True
+            try:
+                n = int(s.split("_")[-1])
+                if n > max_id_num:
+                    max_id_num = n
+            except Exception:
+                pass
+    return f"{prefix}_{(1 if not seen else max_id_num + 1):03d}"
+
 class record_automation_run(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], task_name: str, status: str, started_at: str, ended_at: str, timestamp: str, request_id: str) -> str:

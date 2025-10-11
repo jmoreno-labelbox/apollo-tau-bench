@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_tracking(data, tracking_id):
+    return next((t for t in data.get('tracking', []) if tracking_id in t.get('tracking_id', [])), None)
+
 class AppendTrackingEvent(Tool):
     """Insert/overwrite an event timestamp in tracking_history for a tracking id (key -> timestamp)."""
     @staticmethod

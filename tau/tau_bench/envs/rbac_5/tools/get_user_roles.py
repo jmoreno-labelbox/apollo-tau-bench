@@ -5,6 +5,17 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _parse_iso(ts: Optional[str]) -> Optional[datetime]:
+    if not ts or not isinstance(ts, str):
+        return None
+    t = ts.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(t)
+    except Exception:
+        return None
+
 class GetUserRoles(Tool):
     """
     Returns the user's role assignments with optional expansion and filtering.

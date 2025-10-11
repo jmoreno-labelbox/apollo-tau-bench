@@ -6,6 +6,19 @@ from tau_bench.envs.tool import Tool
 from . import _require_tables
 
 
+
+
+
+
+def _require_tables(data: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [t for t in required if t not in data or data.get(t) is None]
+    if missing:
+        return f"Missing required table(s): {', '.join(missing)}"
+    return None
+
+def _now_utc_iso() -> str:
+    return _today_iso() + "T00:00:00Z"
+
 class UpdateEventStatus(Tool):
     """Update draft_status for a game_day_event to one of: draft|published|archived, and audit the transition."""
     @staticmethod

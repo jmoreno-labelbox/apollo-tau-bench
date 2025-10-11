@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_by_id(rows: List[Dict[str, Any]], _id: str) -> Optional[Dict[str, Any]]:
+    idx = _idx_by_id(rows, _id)
+    return rows[idx] if idx is not None else None
+
 class GetBuildRunDetails(Tool):
     """Return full details for a build run by its id."""
     @staticmethod

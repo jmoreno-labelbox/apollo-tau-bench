@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_scheduled_payment_id(data: Dict[str, Any]) -> str:
+    payment_ids = [p['payment_id'] for p in data.get('scheduled_payments', [])]
+    return _get_next_id('sp', payment_ids)
+
 class CreateScheduledInternalTransfer(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], amount, customer_id, destination_account_id, frequency, source_account_id, start_date) -> str:

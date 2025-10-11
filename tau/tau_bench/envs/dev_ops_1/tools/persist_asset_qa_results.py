@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_table(data: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return data.setdefault(name, [])
+
 class PersistAssetQaResults(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], asset_id: str, commit_sha: str, severity_max: str, errors_count: int, warnings_count: int, preview_uri: str, report_uri: str) -> str:

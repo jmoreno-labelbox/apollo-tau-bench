@@ -6,6 +6,41 @@ from tau_bench.envs.tool import Tool
 from . import _find_one
 
 
+
+
+
+
+
+
+
+
+def _idstr(v):
+    """Coerce numeric IDs to strings; leave None/strings unchanged."""
+    return str(v) if isinstance(v, int) else v
+
+def _find_one(lst: List[Dict[str, Any]], key: str, value: Any) -> Dict[str, Any] | None:
+    for x in lst or []:
+        if x.get(key) == value:
+            return x
+    return None
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
+def _append_audit(
+    data: Dict[str, Any], event_type: str, subject_id: str, details: Dict[str, Any]
+) -> None:
+    log = _ensure_audit_log(data)
+    log.append(
+        {
+            "event_type": event_type,
+            "subject_id": subject_id,
+            "details": details,
+            "timestamp": FIXED_NOW,
+            "actor": "SYSTEM",
+        }
+    )
+
 class AnalyzeCustomerBehavior(Tool):
     """Analyze customer purchasing behavior and generate insights."""
 

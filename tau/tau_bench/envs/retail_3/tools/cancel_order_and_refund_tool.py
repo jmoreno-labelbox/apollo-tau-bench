@@ -5,6 +5,26 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _now_iso() -> str:
+    """Return current UTC timestamp in ISO format (seconds precision)."""
+    return datetime.utcnow().isoformat(timespec="seconds") + "Z"
+
+def _adjust_stock(data: Dict[str, Any], product_id: str, item_id: str, quantity_change: int):
+    products = data.get("products", [])
+    for p in products:
+        if p.get("product_id") == product_id:
+            variant = (p.get("variants") or {}).get(item_id)
+            if variant:
+                stock_info = variant.get("stock", {})
+                current_stock = stock_info.get("quantity", 0)
+                stock_info["quantity"] = current_stock + quantity_change
+                variant["stock"] = stock_info
+                break
+
 class CancelOrderAndRefundTool(Tool):
     """
     Cancel an order and optionally create an automatic refund entry.

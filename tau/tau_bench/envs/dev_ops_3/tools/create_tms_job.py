@@ -5,6 +5,29 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_id(prefix: str, existing_ids: List[str]) -> str:
+    """
+    Generates the next sequential ID by finding the max existing ID for a given prefix.
+    This is more robust than assuming the list is sorted.
+    """
+    max_id_num = 0
+    for item_id in existing_ids:
+        if item_id.startswith(prefix):
+            try:
+                num_part = int(item_id.split('_')[-1])
+                if num_part > max_id_num:
+                    max_id_num = num_part
+            except (ValueError, IndexError):
+                continue
+
+    if max_id_num == 0:
+        if not any(s.startswith(prefix) for s in existing_ids):
+             return f"{prefix}_001"
+
+    return f"{prefix}_{max_id_num + 1:03d}"
+
 class create_tms_job(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], project_id: str, job_name: str, source_locale: str, target_locales: List[str], string_keys: List[str]) -> str:

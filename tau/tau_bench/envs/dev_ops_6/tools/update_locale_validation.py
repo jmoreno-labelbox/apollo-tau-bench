@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _ok(payload: Dict[str, Any]) -> str:
+    return json.dumps({'ok': True, **payload}, indent=2)
+
+def _loc_table(db: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return db.get('loc_strings') or db.get('loc_strongs') or []
+
+def _err(msg: str) -> str:
+    return json.dumps({'ok': False, 'error': msg}, indent=2)
+
 class UpdateLocaleValidation(Tool):
 
     @staticmethod

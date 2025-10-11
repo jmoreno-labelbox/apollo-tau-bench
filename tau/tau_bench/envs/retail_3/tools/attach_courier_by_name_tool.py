@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _now_iso() -> str:
+    """Return current UTC timestamp in ISO format (seconds precision)."""
+    return datetime.utcnow().isoformat(timespec="seconds") + "Z"
+
 class AttachCourierByNameTool(Tool):
     """
     Attach a specific courier (by name) to an order and create a tracking entry.

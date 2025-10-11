@@ -6,6 +6,22 @@ from tau_bench.envs.tool import Tool
 from . import _require_tables
 
 
+
+
+
+
+def _require_tables(data: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [t for t in required if t not in data or data.get(t) is None]
+    if missing:
+        return f"Missing required table(s): {', '.join(missing)}"
+    return None
+
+def _check_required(kwargs: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [k for k in required if kwargs.get(k) is None]
+    if missing:
+        return f"Missing required argument(s): {', '.join(missing)}"
+    return None
+
 class FilterTrends(Tool):
     """Applies min samples + EB shrinkage + FDR to produce deterministic trend flags (stub persists parameters for verification)."""
     @staticmethod

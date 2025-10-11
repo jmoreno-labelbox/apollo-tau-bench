@@ -5,6 +5,18 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _find_order(data, order_id):
+    return next((o for o in data.get('orders', []) if o.get('order_id') == order_id), None)
+
+def _ensure_list(dct, key):
+    if key not in dct or not isinstance(dct[key], list):
+        dct[key] = []
+    return dct[key]
+
 class LinkTrackingToOrder(Tool):
     """Add a fulfillment record linking tracking_id and item_ids to an order (idempotent by exact tuple)."""
     @staticmethod

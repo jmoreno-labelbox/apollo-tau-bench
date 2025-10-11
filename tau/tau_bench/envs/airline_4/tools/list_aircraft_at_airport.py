@@ -5,6 +5,25 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _norm_status(s: str) -> str:
+    return (s or "").strip().lower()
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
+def _get_airport_by_iata(data: Dict[str, Any], iata_code: str) -> Optional[Dict[str, Any]]:
+    iata = (iata_code or "").upper()
+    for a in data.get("airports", []):
+        if a.get("iata_code") == iata:
+            return a
+    return None
+
 class ListAircraftAtAirport(Tool):
     """
     List aircraft currently positioned at a given IATA airport, with optional filters.

@@ -5,6 +5,17 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _alerts(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("code_scanning_alerts", [])
+
+def _actor_name(data: Dict[str, Any]) -> str:
+    auth = data.get("authentication") or [{}]
+    return auth[0].get("username") or "anonymous"
+
 class ResolveAlert(Tool):
     """Resolve a code scanning alert by id."""
     @staticmethod

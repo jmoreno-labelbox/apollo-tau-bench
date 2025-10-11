@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault because it failed to initialize the task or provide the necessary data to start the conversation. The trajectory is empty, indicating that the system did not execute any actions or engage in any dialogue, which suggests a failure in setting up the task environment or accessing the required data to perform the actions specified in the user instruction."
+            "description": "The environment is responsible for the fault because it failed to initialize the task or facilitate any conversation, resulting in an empty trajectory. This indicates that the environment did not execute any actions or provide any responses, preventing the agent from performing the necessary steps to conduct the customer segmentation analysis and update customer loyalty points as specified in the user instruction."
         }
     ],
     "fault_type_analysis": []

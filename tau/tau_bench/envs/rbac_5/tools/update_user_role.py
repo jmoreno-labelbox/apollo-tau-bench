@@ -5,6 +5,30 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_user_role_id(data: Dict[str, Any], user_id: str) -> str:
+    user_roles = data.get("user_roles", [])
+    if not user_roles:
+        return "UR-001"
+    last = user_roles[-1].get("user_role_id")
+    if last and last.startswith("UR-"):
+        try:
+            n = int(last.split("-")[-1]) + 1
+        except Exception:
+            n = 1
+    else:
+        n = 1
+    return f"UR-{n:03d}"
+
+def _find_by_id(items: List[Dict[str, Any]], key: str, value: str) -> Optional[Dict[str, Any]]:
+    for it in items or []:
+        if it.get(key) == value:
+            return it
+    return None
+
 class UpdateUserRole(Tool):
     """
     Add or remove a user role assignment.

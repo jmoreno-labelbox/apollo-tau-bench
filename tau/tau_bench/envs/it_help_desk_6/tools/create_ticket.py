@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _append_row(table: List[Dict[str, Any]], row: Dict[str, Any]) -> None:
+    table.append(row)
+
 class CreateTicket(Tool):
     @staticmethod
     def invoke(

@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import _fixed_now_iso
 
 
+
+
+def _fixed_now_iso():
+    return datetime.utcnow().isoformat() + "Z"
+
 class ModifyEmailLabel(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], label_id, updates) -> str:

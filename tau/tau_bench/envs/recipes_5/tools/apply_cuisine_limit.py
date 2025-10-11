@@ -6,6 +6,31 @@ from tau_bench.envs.tool import Tool
 from . import _json_dump
 
 
+
+
+
+
+
+
+def _recipe_by_id(data: Dict[str, Any], recipe_id: int) -> Optional[Dict[str, Any]]:
+    return next((r for r in data.get("recipes", []) if r.get("recipe_id") == recipe_id), None)
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _ids_from_kwargs_or_defaults(data: Dict[str, Any], kwargs: Dict[str, Any]) -> List[int]:
+    ids = _parse_json_list_ids(kwargs.get("recipe_ids_json") or kwargs.get("candidate_recipe_ids_json"))
+    if ids:
+        return ids
+    ft = kwargs.get("filter_token")
+    if ft:
+        meal, mp, pf = _decode_filter_token(ft)
+        return _all_recipe_ids_filtered(data, meal, mp, pf)
+    meal = kwargs.get("meal_type", "Dinner")
+    mp = int(kwargs.get("min_protein_g", 0))
+    pf = bool(kwargs.get("peanut_free", False))
+    return _all_recipe_ids_filtered(data, meal, mp, pf)
+
 class ApplyCuisineLimit(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], max_per_cuisine = 2) -> str:

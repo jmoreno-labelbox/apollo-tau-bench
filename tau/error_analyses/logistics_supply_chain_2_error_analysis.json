@@ -2,9 +2,15 @@
     "fault_assignment_analysis": [
         {
             "task_id": 0,
-            "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it returned errors when the agent attempted to retrieve the shipment details and the list of active carriers. Specifically, the errors \"string indices must be integers\" and \"'str' object has no attribute 'get'\" indicate that the environment did not provide the expected data structure or response format, preventing the agent from executing the necessary actions to verify the carrier's operational status and potentially update the shipment with an alternative carrier. This discrepancy between the expected and actual environment responses led to the failure in completing the task as outlined in the ground truth action sequence."
+            "author": "agent",
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `UpdateInboundShipment` action with the required `updates` argument. Instead, the agent attempted to use an incorrect tool, `UpdateOutboundOrder`, multiple times, which resulted in errors. This prevented the shipment from being updated with the new carrier information, which was a necessary step in the ground truth action sequence."
         }
     ],
-    "fault_type_analysis": []
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is that the agent attempted to use the \"UpdateOutboundOrder\" tool instead of the correct \"UpdateInboundShipment\" tool to update the shipment details. The ground truth action sequence specifies using \"UpdateInboundShipment\" with the appropriate updates for the shipment, whereas the trajectory shows repeated incorrect attempts to use \"UpdateOutboundOrder\", which is not applicable in this context."
+        }
+    ]
 }

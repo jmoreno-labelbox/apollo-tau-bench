@@ -6,6 +6,35 @@ from tau_bench.envs.tool import Tool
 from . import FIXED_NOW, _find_one
 
 
+
+
+
+
+
+
+
+
+def _norm_ids_in_obj(obj):
+    """Walk lists/dicts and normalize any id-like fields."""
+    if isinstance(obj, list):
+        return [_norm_ids_in_obj(x) for x in obj]
+    if isinstance(obj, dict):
+        return {k: (_idstr(v) if k in ID_KEYS else _norm_ids_in_obj(v)) for k, v in obj.items()}
+    return obj
+
+def _idstr(v):
+    """Coerce numeric IDs to strings; leave None/strings unchanged."""
+    return str(v) if isinstance(v, int) else v
+
+def _find_one(lst: List[Dict[str, Any]], key: str, value: Any) -> Dict[str, Any] | None:
+    for x in lst or []:
+        if x.get(key) == value:
+            return x
+    return None
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class CreateShoppingCart(Tool):
     """Create a new shopping cart for a customer with multiple items."""
 

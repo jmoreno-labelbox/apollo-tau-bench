@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class CaV2GetConsultantProfile(Tool):
     """Retrieve consultant profile information."""
 

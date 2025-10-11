@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import _fixed_now_iso
 
 
+
+
+def _fixed_now_iso() -> str:
+    return "2025-08-20T00:00:00Z"
+
 class SaveModelConfig(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], config_name, model_name, params) -> str:

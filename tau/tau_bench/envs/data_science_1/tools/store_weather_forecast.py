@@ -6,6 +6,20 @@ from tau_bench.envs.tool import Tool
 from . import _require
 
 
+
+
+
+
+def _require(kwargs: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [k for k in required if kwargs.get(k) is None]
+    if missing:
+        return json.dumps({"error": f"Missing required arguments: {', '.join(missing)}"}, indent=2)
+    return None
+
+def _append(table: List[Dict[str, Any]], row: Dict[str, Any]) -> Dict[str, Any]:
+    table.append(row)
+    return row
+
 class StoreWeatherForecast(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], city, end_ts, fetched_ts, horizon_days, latitude, longitude, precipitation_mm_hr_nullable, raw_json_path_nullable, start_ts, temperature_2m_c_nullable, timestamps, timezone, variables, wind_speed_10m_ms_nullable) -> str:

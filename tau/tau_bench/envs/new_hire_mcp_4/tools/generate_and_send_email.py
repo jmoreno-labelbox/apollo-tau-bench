@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _fixed_ts(ts: Optional[str]) -> str:
+    return ts or "2025-09-01T00:00:00Z"
+
 class GenerateAndSendEmail(Tool):
     @staticmethod
     def invoke(db, attachment_file_paths, candidate_id, cc_emails, date_ts, in_reply_to_message_id, label_names, subject, thread_id, to_emails, body = "") -> str:

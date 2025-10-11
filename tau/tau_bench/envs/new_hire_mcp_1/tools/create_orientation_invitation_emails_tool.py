@@ -5,6 +5,76 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_str_id(rows: List[Dict[str, Any]], key: str, prefix: str) -> str:
+    """Generates the next string ID in a sequence (e.g., CAND-001)."""
+    if not rows:
+        return f"{prefix}1"
+
+    max_id = 0
+    for r in rows:
+        id_val = r.get(key)
+        if id_val and isinstance(id_val, str) and id_val.startswith(prefix):
+            try:
+                num_part = int(id_val[len(prefix):])
+                if num_part > max_id:
+                    max_id = num_part
+            except ValueError:
+                continue
+
+    return f"{prefix}{max_id + 1:03d}"
+
+def _get_hardcoded_template_and_render(template_name: str, context: Dict[str, Any]) -> Dict[str, str]:
+    """
+    Retrieves a hardcoded template by name and renders it with the given context.
+    """
+    templates = {
+        "welcome": {
+            "subject": "Welcome to the Team, {{candidate_name}}!",
+            "body": "Dear {{candidate_name}},\n\nWelcome to our team! We're thrilled to have you join us as our new {{role_title}} starting {{start_date}}.\n\nAttached you'll find your personalized welcome packet.\n\nPlease review these documents before your first day. If you have any questions, don't hesitate to reach out.\n\nBest regards,\nHR Team"
+        },
+        "asset_request_notification": {
+            "subject": "Asset Provisioning Request - {{candidate_name}}",
+            "body": "A new asset request has been submitted for {{candidate_name}}.\n\nUrgency: {{urgency_level}}\nSpecifications: {{specifications}}\n\nPlease review and process this request."
+        },
+        "overdue_task_reminder": {
+            "subject": "Onboarding Reminder for {{name}}",
+            "body": "Hi {{name}},\n\nThis is a friendly reminder to complete the following overdue onboarding tasks:\n\n{{tasks}}\n\nThanks,\nHR Team"
+        },
+        "orientation_invitation": {
+            "subject": "Orientation Invitation for {{candidate_name}}",
+            "body": "Hi {{candidate_name}},\n\nPlease join us for your new hire orientation at {{meeting_time}} in {{meeting_location}}.\n\nWe look forward to seeing you there!"
+        },
+        "manager_introduction": {
+            "subject": "Introduction: {{candidate_name}}",
+            "body": "Hi {{manager_email_nullable}},\n\nThis is an introduction to your new team member, {{candidate_name}}, who will be starting on {{start_date}}.\n\nBest regards,\nHR Team"
+        },
+        "it_support_request": {
+            "subject": "URGENT: System Access Failure for {{candidate_name}}",
+            "body": "Hi IT Support,\n\nPlease investigate and resolve the following system access failures for candidate {{candidate_name}} ({{candidate_email}}):\n\n{{failure_notes}}\n\nThank you,\nHR Onboarding"
+        },
+        "manager_access_issue_notification": {
+            "subject": "Action Required: System Access Issues for {{candidate_name}}",
+            "body": "Hi {{manager_name}},\n\nThis is an alert that your new hire, {{candidate_name}}, is experiencing system access issues that may delay their onboarding. Our IT team has been notified.\n\nThanks,\nHR Onboarding"
+        },
+        "manager_overdue_escalation": {
+            "subject": "Escalation: Overdue Onboarding Tasks for {{candidate_name}}",
+            "body": "Hi {{manager_name}},\n\nThis is an escalation regarding overdue onboarding tasks for your new hire, {{candidate_name}}. Please follow up with them to ensure their onboarding stays on track.\n\nThanks,\nHR Onboarding"
+        }
+    }
+
+    template = templates.get(template_name)
+    if not template:
+        return {"subject": "", "body": ""} # Return empty strings if template not found
+
+    subject = _render_template(template["subject"], context)
+    body = _render_template(template["body"], context)
+
+    return {"subject": subject, "body": body}
+
 class CreateOrientationInvitationEmailsTool(Tool):
     """Creates orientation and manager intro emails for candidates from templates."""
 

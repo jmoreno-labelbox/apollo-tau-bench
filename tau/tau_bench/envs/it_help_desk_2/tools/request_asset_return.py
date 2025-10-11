@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _append_row(table: List[Dict[str, Any]], row: Dict[str, Any]) -> None:
+    table.append(row)
+
 class RequestAssetReturn(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], asset_id: str, employee_id: str, due_ts: str, workflow_id: str) -> str:

@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _iso_at(date_str: str, time_suffix: str) -> str:
+    return f"{date_str}{time_suffix}"
+
 class StartAutomationRun(Tool):
     """Start a deterministic automation run; the caller provides all timestamps/refs, with plan-date defaults."""
     @staticmethod

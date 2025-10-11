@@ -5,6 +5,25 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _parse_iso(ts: Optional[str]) -> Optional[datetime]:
+    if not ts or not isinstance(ts, str):
+        return None
+    t = ts.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(t)
+    except Exception:
+        return None
+
+def _find_by_id(items: List[Dict[str, Any]], key: str, value: str) -> Optional[Dict[str, Any]]:
+    for it in items or []:
+        if it.get(key) == value:
+            return it
+    return None
+
 class DecideAccessRequest(Tool):
     """
     Approve or reject an access request with validations and deterministic timestamps.

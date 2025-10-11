@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _issues(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("issues", [])
+
 class AddLabelToIssue(Tool):
     """Adds a label to the specified issue. Supports both aggregated and flat issue shapes."""
 

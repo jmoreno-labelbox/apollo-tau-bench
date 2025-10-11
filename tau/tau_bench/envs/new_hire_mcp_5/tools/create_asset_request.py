@@ -5,6 +5,23 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_seq(rows, key, prefix):
+    mx = 0
+    pat = re.compile(rf"^{re.escape(prefix)}_(\d+)$")
+    for r in rows:
+        v = (r.get(key) or "")
+        m = pat.match(v)
+        if m:
+            mx = max(mx, int(m.group(1)))
+    return f"{prefix}_{mx+1}"
+
+def _fixed_ts(ts: Optional[str]) -> str:
+    return ts or "2025-09-01T00:00:00Z"
+
 class CreateAssetRequest(Tool):
     """Create or update an asset request for a candidate (idempotent by candidate_id+asset_type)."""
     @staticmethod

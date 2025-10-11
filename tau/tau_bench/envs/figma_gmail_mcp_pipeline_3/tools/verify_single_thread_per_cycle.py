@@ -6,6 +6,31 @@ from tau_bench.envs.tool import Tool
 from . import _params, _require
 
 
+
+
+
+
+
+
+
+
+def _require(p: Dict[str, Any], req: List[str]):
+    missing = [k for k in req if p.get(k) in (None, "")]
+    if missing:
+        return _err("missing_params", {"missing": missing})
+    return None
+
+def _params(data: Dict[str, Any], kwargs: Dict[str, Any]) -> Dict[str, Any]:
+    return kwargs or {}
+
+def _ok(x):
+    return _j(x)
+
+def _ensure(data: Dict[str, Any], key: str, default):
+    if key not in data or data[key] is None:
+        data[key] = default
+    return data[key]
+
 class verify_single_thread_per_cycle(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs)->str:

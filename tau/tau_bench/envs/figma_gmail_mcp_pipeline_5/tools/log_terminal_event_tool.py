@@ -5,6 +5,28 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _safe_table(data: Dict[str, Any], table: str) -> List[Dict[str, Any]]:
+    """Get or create a list table."""
+    return data.setdefault(table, [])
+
+def _require_str(arg: Any, name: str) -> Optional[str]:
+    """Return arg as str if valid, else None."""
+    return arg if isinstance(arg, str) and arg.strip() else None
+
+def _det_id(prefix: str, parts: List[str], length: int = 8) -> str:
+    """
+    Deterministic ID from input parts. Stable across runs.
+    """
+    m = hashlib.md5()
+    m.update(("|".join(parts)).encode("utf-8"))
+    return f"{prefix}_{m.hexdigest()[:length]}"
+
 class LogTerminalEventTool(Tool):
     """Append a log entry to terminal_logs (requires explicit log_ts)."""
 

@@ -6,6 +6,32 @@ from tau_bench.envs.tool import Tool
 from . import _ensure_table
 
 
+
+
+
+
+
+
+def _json(x: Any) -> str:
+    return json.dumps(x, separators=(",", ":"))
+
+def _find_one(rows: List[Dict[str, Any]], **crit):
+    crit_items = sorted(crit.items(), key=lambda kv: kv[0])
+    for r in rows:
+        match = True
+        for k, v in crit_items:
+            if str(r.get(k)) != str(v):
+                match = False
+                break
+        if match:
+            return r
+    return None
+
+def _ensure_table(db: Dict[str, Any], name: str):
+    if name not in db:
+        db[name] = []
+    return db[name]
+
 class SetRedisAuthAndTLS(Tool):
     @staticmethod
     def invoke(

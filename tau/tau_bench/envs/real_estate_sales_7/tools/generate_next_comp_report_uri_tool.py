@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _as_int(x) -> Optional[int]:
+    try:
+        return int(x)
+    except Exception:
+        return None
+
 class GenerateNextCompReportUriTool(Tool):
     """Generates next comp_###.pdf URI based on highest report_id in comp_reports."""
 

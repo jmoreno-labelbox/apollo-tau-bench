@@ -5,6 +5,13 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _recipe_by_id(db: Dict[str, Any], recipe_id: int) -> Optional[Dict[str, Any]]:
+    return next(
+        (r for r in db.get("recipes", []) if int(r.get("recipe_id")) == int(recipe_id)), None
+    )
+
 class ApplyCuisineCap(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], recipe_ids: List[int], max_per_cuisine: int) -> str:

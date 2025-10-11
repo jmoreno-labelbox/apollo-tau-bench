@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_order(data, order_id):
+    return next((o for o in data.get('orders', []) if o.get('order_id') == order_id), None)
+
 class UpdateOrderStatus(Tool):
     """Set order status to provided value."""
     @staticmethod

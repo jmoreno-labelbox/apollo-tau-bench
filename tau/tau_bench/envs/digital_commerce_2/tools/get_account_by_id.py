@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _idstr(v):
+    return str(v) if isinstance(v, int) else v
+
 class GetAccountById(Tool):
     """Fetch an account record by its account_id."""
 

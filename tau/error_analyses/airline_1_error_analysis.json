@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to apply a 3-hour delay to all flights to ATL with status 'available' in a single update operation. Instead, the agent attempted to update each flight individually without applying the specified delay, and encountered errors due to a missing definition for 'timedelta'. The ground truth action sequence required a single update operation to apply the delay, which the agent did not execute correctly."
+            "description": "The agent is responsible for the fault because it failed to execute the \"CreateOperationalEvent\" action to log the SIGMET event for ATL, which is a crucial step in the ground truth action sequence. Additionally, the agent incorrectly concluded that there were no available flights to ATL without performing the \"FindFlights\" action to verify the flight status, leading to the omission of the \"UpdateFlightSchedule\" action to apply the necessary delays."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to apply a 3-hour delay to all flights to ATL with status 'available' in a single update operation. Instead, the agent attempted to update the status of each flight individually without applying the 3-hour delay, and encountered errors due to a missing definition for 'timedelta'. The ground truth action sequence specifies that the delay should be applied in a single update operation, which was not achieved in the trajectory."
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to execute the \"CreateOperationalEvent\" action, which is a necessary part of the standard Severe Weather Protocol for ATL. The ground truth action sequence includes creating an operational event to document the initiation of the Severe Weather Protocol due to the SIGMET, but the trajectory does not include this action. The assistant only attempted to find flights and did not perform any updates or create the required operational event."
         }
     ]
 }

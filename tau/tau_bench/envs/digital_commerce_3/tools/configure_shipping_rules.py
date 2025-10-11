@@ -6,6 +6,17 @@ from tau_bench.envs.tool import Tool
 from . import FIXED_NOW
 
 
+
+
+
+
+def _idstr(v):
+    """Coerce numeric IDs to strings; leave None/strings unchanged."""
+    return str(v) if isinstance(v, int) else v
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class ConfigureShippingRules(Tool):
     """Configure shipping rules and delivery options."""
 

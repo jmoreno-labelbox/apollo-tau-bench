@@ -5,6 +5,16 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _now_iso_fixed() -> str:
+    return "2025-08-20T00:00:00Z"
+
+def _next_auto_id(rows: List[Dict[str, Any]], key: str) -> int:
+    return max((int(r.get(key, 0)) for r in rows), default=0) + 1
+
 class PersistViewingRoute(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], client_id, created_by_broker_id, date, map_url, stops_ordered_json) -> str:

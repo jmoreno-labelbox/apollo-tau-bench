@@ -5,6 +5,22 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
+def _as_int(x) -> Optional[int]:
+    try:
+        return int(x)
+    except Exception:
+        return None
+
 class ValidateDriveTimeConstraintsTool(Tool):
     """Validates that sequential hops between properties are within a max hop time."""
 

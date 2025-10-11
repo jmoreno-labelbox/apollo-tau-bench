@@ -5,6 +5,16 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _sanitize(s: str) -> str:
+    return (
+        s.replace("/", "_")
+         .replace(".", "_")
+         .replace(":", "_")
+         .replace(" ", "_")
+    )
+
 class AddTestResultToRun(Tool):
     """Append a test result to a test run deterministically."""
     @staticmethod

@@ -5,6 +5,23 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _render_template(template_content: str, context: Dict[str, Any]) -> str:
+    """Performs simple string replacement on a template."""
+    for key, value in context.items():
+        template_content = template_content.replace(f"{{{{{key}}}}}", str(value))
+    return template_content
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    """Creates a JSON error message."""
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
 class GeneratePersonalizedWelcomeFileTool(Tool):
     """Creates customized welcome markdown in onboarding_files table for one or more candidates."""
 

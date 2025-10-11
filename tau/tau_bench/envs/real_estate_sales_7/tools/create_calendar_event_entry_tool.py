@@ -5,6 +5,27 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_int_id(rows: List[Dict[str, Any]], key: str) -> int:
+    mx = 0
+    for r in rows:
+        try:
+            v = int(r.get(key, 0))
+            if v > mx:
+                mx = v
+        except Exception:
+            continue
+    return mx + 1
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
 class CreateCalendarEventEntryTool(Tool):
     """Creates entry in calendar_events table."""
 

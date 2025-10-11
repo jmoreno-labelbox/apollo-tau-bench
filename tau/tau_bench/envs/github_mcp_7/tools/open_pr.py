@@ -5,6 +5,25 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _prs(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("pull_requests", [])
+
+def _find_repo(data: Dict[str, Any], owner: str, repo: str) -> Optional[Dict[str, Any]]:
+    for r in _repos(data):
+        if r.get("owner") == owner and (r.get("repo_name") or r.get("name")) == repo:
+            return r
+    return None
+
+def _actor_name(data: Dict[str, Any]) -> str:
+    auth = data.get("authentication") or [{}]
+    return auth[0].get("username") or "anonymous"
+
 class OpenPR(Tool):
     """Open a pull request."""
     @staticmethod

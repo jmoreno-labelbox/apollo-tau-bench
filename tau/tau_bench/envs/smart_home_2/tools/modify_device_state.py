@@ -6,6 +6,21 @@ from tau_bench.envs.tool import Tool
 from . import _find
 
 
+
+
+
+
+def _now_iso() -> str:
+    # return datetime.now(timezone.utc).isoformat()
+    return "deterministic placeholder for current time"
+
+def _find(collection: List[Dict[str, Any]], entity_id: str):
+    for idx, item in enumerate(collection):
+        if item.get("id") == entity_id or item.get("reminder_id") == entity_id \
+           or item.get("list_id") == entity_id or item.get("member_id") == entity_id:
+            return idx, item
+    return None, None
+
 class ModifyDeviceState(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], device_id: str, update: Dict[str, Any], schedule_at: Optional[str] = None, rrule: Optional[str] = None, timestamp: Optional[str] = None) -> str:

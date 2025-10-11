@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _commits(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("commits", [])
+
 class GetTopCommitAuthors(Tool):
     """Returns top commit authors globally across all repositories."""
 

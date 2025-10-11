@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_by_id(items: List[Dict[str, Any]], key: str, value: str) -> Optional[Dict[str, Any]]:
+    for it in items or []:
+        if it.get(key) == value:
+            return it
+    return None
+
 class GetUser(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], department, first_name, last_name, mfa_enabled, role_id, status, user_id, username, allow_missing = False) -> str:

@@ -5,6 +5,53 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+def _resolve_pr_number(data: Dict[str, Any], repo_name: str, pr_number: Any) -> int:
+    """
+    Resolve PR number, handling placeholder strings by finding the most recently created PR.
+    Returns the actual PR number as an integer.
+    """
+    # If it's a placeholder string or any non-integer, find the most recent PR
+    if not isinstance(pr_number, int) or str(pr_number) == "{{PR_NUMBER}}":
+        me = _auth(data)["username"]
+        prs = data.get("pull_requests") or []
+        block = next((b for b in prs if b.get("owner") == me and b.get("repo_name") == repo_name), None)
+        if not block or not block["pr_numbers"]:
+            raise Exception("No pull requests found for this repository")
+        # Use the most recently created PR (last in the list)
+        return block["pr_numbers"][-1]
+    else:
+        # Return the actual number (should be an integer)
+        return int(pr_number)
+
+def _repos(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("repositories", [])
+
+def _prs(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("pull_requests", [])
+
+def _branch_index(repo: Dict[str, Any], branch: Optional[str]) -> int:
+    """
+    Map a branch name to the correct index for branch_files/branch_contents.
+    If branch is None, fall back to repo['default_branch'].
+    """
+    branches = repo.get("branches") or []
+    if not branches:
+        # Some repos may only carry default branch files in file_paths; treat that as index 0.
+        return 0
+    target = branch or repo.get("default_branch")
+    if target in branches:
+        return branches.index(target)
+    # If caller passed wrong branch, surface error (per RULES).
+    raise Exception(f"Branch '{target}' not found in repository '{repo.get('repo_name')}'.")
+
 class ListPullRequestFiles(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], pr_number, repo_name) -> str:

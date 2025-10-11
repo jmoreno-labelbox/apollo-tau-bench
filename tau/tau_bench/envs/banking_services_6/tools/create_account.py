@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_account_id(data: Dict[str, Any]) -> str:
+    account_ids = [a['account_id'] for a in data.get('accounts', [])]
+    return _get_next_id('acc', account_ids)
+
 class CreateAccount(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_type, currency, customer_id) -> str:

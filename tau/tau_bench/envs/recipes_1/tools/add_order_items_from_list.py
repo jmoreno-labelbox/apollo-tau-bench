@@ -7,6 +7,51 @@ from . import _max_id, _json_dump
 from . import _require
 
 
+
+
+
+
+
+
+
+
+
+
+def _store_products_for_ingredient(data: Dict[str, Any], store_id: int, ingredient_id: int) -> List[Dict[str, Any]]:
+    return [
+        p for p in data.get("store_products", [])
+        if int(p.get("store_id")) == store_id and int(p.get("ingredient_id")) == ingredient_id
+    ]
+
+def _require(data: Dict[str, Any], table: str, key: str, value: Any) -> Optional[Dict[str, Any]]:
+    row = next((r for r in data.get(table, []) if r.get(key) == value), None)
+    return row
+
+def _max_id(records: List[Dict[str, Any]], key: str, default: int) -> int:
+    if not records:
+        return default
+    vals = []
+    for r in records:
+        try:
+            vals.append(int(r.get(key)))
+        except Exception:
+            pass
+    return max(vals) if vals else default
+
+def _lowest_price_pref_stock(products: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    # Order by stock preference then price, deterministically
+    rank = {"in_stock": 0, "low": 1, "out_of_stock": 2}
+    def keyer(p: Dict[str, Any]):
+        return (
+            rank.get(p.get("stock_status_enum"), 3),
+            int(p.get("price_cents", 10**9)),
+            int(p.get("product_id", 10**9))
+        )
+    return sorted(products, key=keyer)[0] if products else None
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
 class AddOrderItemsFromList(Tool):
     """Populate order_items from a list by choosing the lowest-price in-stock product for each ingredient."""
     @staticmethod

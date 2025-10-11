@@ -5,6 +5,25 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_or_create_label_id(db: Dict[str, Any], name: str) -> str:
+    """Return label_id for `name`; create next sequential id (label_1, label_2, ...) if missing."""
+    labels = db.setdefault("email_labels", [])
+    for lab in labels:
+        if lab.get("name") == name:
+            return lab["label_id"]
+    max_n = 0
+    for lab in labels:
+        lid = lab.get("label_id") or ""
+        m = re.match(r"^label_(\d+)$", lid)
+        if m:
+            n = int(m.group(1))
+            if n > max_n: max_n = n
+    new_id = f"label_{max_n + 1}"
+    labels.append({"label_id": new_id, "name": name})
+    return new_id
+
 class GetOrCreateEmailLabel(Tool):
     """Return label_id for name, creating deterministically if missing."""
 

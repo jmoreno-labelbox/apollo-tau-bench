@@ -7,6 +7,25 @@ from . import _json_dump
 from . import _first_user_id
 
 
+
+
+
+
+
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _first_user_id(data: Dict[str, Any]) -> Optional[int]:
+    users = data.get("users", [])
+    if not users:
+        return None
+    return int(sorted(users, key=lambda u: int(u.get("user_id", 10**9)))[0]["user_id"])
+
+def _default_household_id(data: Dict[str, Any], user_id: Optional[int] = None) -> Optional[int]:
+    hh = _household_for_user(data, user_id)
+    return hh.get("household_id") if hh else None
+
 class ComputeAndSetMemberTargets(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], member_id) -> str:

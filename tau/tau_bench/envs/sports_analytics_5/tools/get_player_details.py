@@ -6,6 +6,14 @@ from tau_bench.envs.tool import Tool
 from . import _require_tables
 
 
+
+
+def _require_tables(data: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [t for t in required if t not in data or data.get(t) is None]
+    if missing:
+        return f"Missing required table(s): {', '.join(missing)}"
+    return None
+
 class GetPlayerDetails(Tool):
     """Get a player by player_id or full_name."""
     @staticmethod

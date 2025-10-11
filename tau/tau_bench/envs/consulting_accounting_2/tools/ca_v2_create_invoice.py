@@ -5,6 +5,24 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _ok(**payload) -> str:
+    out = {"status": "success"}
+    out.update(payload)
+    return json.dumps(out)
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
+def _calculate_hst(subtotal: float, rate: float = 0.13) -> float:
+    """Calculate HST (13% default for Ontario)"""
+    return round(subtotal * rate, 2)
+
 class CaV2CreateInvoice(Tool):
     """Create a new invoice."""
 

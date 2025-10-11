@@ -5,6 +5,34 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _generate_new_thread_id(emails: List[Dict[str, Any]]) -> str:
+    """Generates a new sequential thread ID."""
+    max_id = 0
+    for email in emails:
+        thread_id = email.get("thread_id_nullable")
+        if thread_id and thread_id.startswith("thread_"):
+            try:
+                num_part = int(thread_id.split('_')[1])
+                if num_part > max_id:
+                    max_id = num_part
+            except (ValueError, IndexError):
+                continue
+    return f"thread_{max_id + 1}"
+
+def _days_between(d1_str: str, d2_str: str) -> int:
+    """A deterministic way to calculate days between two ISO date strings."""
+    try:
+        # Assumes ISO format with 'Z' for UTC
+        d1 = datetime.fromisoformat(d1_str.replace("Z", "+00:00"))
+        d2 = datetime.fromisoformat(d2_str.replace("Z", "+00:00"))
+        return abs((d2 - d1).days)
+    except (ValueError, TypeError):
+        return 9999  # Return a large number for invalid formats
+
 class ConsolidateEmailThreadsAndCleanupTool(Tool):
     """Groups emails into threads and cleans up old drafts."""
 

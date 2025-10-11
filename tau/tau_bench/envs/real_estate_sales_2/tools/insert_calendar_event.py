@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _next_auto_id(rows: List[Dict[str, Any]], key: str) -> int:
+    return max((int(r.get(key, 0)) for r in rows), default=0) + 1
+
 class InsertCalendarEvent(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], broker_id, client_id, end_at, location, notes, source, start_at, title) -> str:

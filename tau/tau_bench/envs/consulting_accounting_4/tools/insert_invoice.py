@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import _fixed_now_iso
 
 
+
+
+def _fixed_now_iso() -> str:
+    return "2025-08-20T00:00:00Z"
+
 class InsertInvoice(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], hst_amount, invoice_date, invoice_number, pdf_path, period_end, period_start, publisher_id, subtotal, total_due) -> str:

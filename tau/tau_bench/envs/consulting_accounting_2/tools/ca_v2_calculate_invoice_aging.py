@@ -5,6 +5,17 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _calculate_aging_days(invoice_date: str, current_date: str = "2024-12-10") -> int:
+    """Calculate days between invoice date and current date"""
+    try:
+        invoice = datetime.fromisoformat(invoice_date.replace('Z', '+00:00') if 'T' in invoice_date else invoice_date + "T00:00:00+00:00")
+        current = datetime.fromisoformat(current_date + "T00:00:00+00:00")
+        return (current - invoice).days
+    except:
+        return 0
+
 class CaV2CalculateInvoiceAging(Tool):
     """Calculate aging buckets for unpaid invoices."""
 

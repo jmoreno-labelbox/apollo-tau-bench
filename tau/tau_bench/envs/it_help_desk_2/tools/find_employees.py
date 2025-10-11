@@ -6,6 +6,27 @@ from tau_bench.envs.tool import Tool
 from . import _find_all
 
 
+
+
+def _find_all(collection: List[Dict[str, Any]], **filters: Any) -> List[Dict[str, Any]]:
+    results = []
+    for row in collection:
+        ok = True
+        for k, v in filters.items():
+            if v is None:
+                continue
+            if isinstance(v, list):
+                if row.get(k) not in v:
+                    ok = False
+                    break
+            else:
+                if row.get(k) != v:
+                    ok = False
+                    break
+        if ok:
+            results.append(row)
+    return results
+
 class FindEmployees(Tool):
     @staticmethod
     def invoke(

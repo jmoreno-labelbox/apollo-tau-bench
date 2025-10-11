@@ -5,6 +5,32 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _recalculate_financials(order: Dict[str, Any]):
+    """Recalculates financial totals for an order based on its items."""
+    items_total = sum(item.get("price", 0) for item in order.get("items", []))
+    # Ensure floating point precision issues are handled
+    order["items_total"] = round(items_total, 2)
+
+    # Update the first payment in the history to reflect the new total
+    if order.get("payment_history"):
+        order["payment_history"][0]["amount"] = order["items_total"]
+
+def _adjust_stock(data: Dict[str, Any], product_id: str, item_id: str, quantity_change: int):
+    products = data.get("products", [])
+    for p in products:
+        if p.get("product_id") == product_id:
+            variant = (p.get("variants") or {}).get(item_id)
+            if variant:
+                stock_info = variant.get("stock", {})
+                current_stock = stock_info.get("quantity", 0)
+                stock_info["quantity"] = current_stock + quantity_change
+                variant["stock"] = stock_info
+                break
+
 class ReplaceItemVariantInOrderTool(Tool):
     """
     Replaces an item in an order, recalculates financials, and updates tracking,

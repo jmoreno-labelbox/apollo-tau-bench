@@ -5,6 +5,233 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+
+
+def _validate_inputs(
+    args: Dict[str, Any],
+    param_definitions: Dict[str, Dict[str, Any]]
+) -> Optional[Dict[str, Any]]:
+    """
+    Validates tool arguments against a set of definitions.
+
+    This helper checks for the presence of required parameters and validates the
+    data type for all provided parameters against the definitions. It's designed
+    to be the first call within any tool's `invoke` method to act as a
+    protective guard clause.
+
+    Args:
+        args: The dictionary of arguments passed to the tool (e.g., kwargs).
+        param_definitions: A dictionary where each key is a parameter name and
+            the value is another dictionary defining its rules, such as
+            'type' (e.g., int, str) and 'required' (bool).
+
+    Returns:
+        None if all validations pass.
+        A dictionary containing the 'error_code' and 'details' for the
+        first validation failure, ready to be passed to _build_error_response().
+    """
+    for param, definition in param_definitions.items():
+        is_required = definition.get("required", False)
+        expected_type = definition.get("type")
+
+        if is_required and param not in args:
+            return {
+                "error_code": "REQUIRED_PARAMETER",
+                "details": {"param": param}
+            }
+
+        if param in args and expected_type is not None:
+            value = args[param]
+            if not isinstance(value, expected_type):
+                return {
+                    "error_code": "INVALID_PARAMETER_TYPE",
+                    "details": {
+                        "param": param,
+                        "expected_type": expected_type.__name__
+                    }
+                }
+
+    return None
+
+def _normalize_domain_data(
+    entity: str,
+    data: Any,
+    context: Optional[Dict[str, Any]] = None
+) -> Any:
+    """
+    Normalizes domain-specific data, such as units and ingredient names.
+
+    This function acts as a centralized translator for various data formats
+    encountered in the domain, converting them into a canonical format that
+    the tools can reliably process.
+
+    Args:
+        entity: The type of data to normalize. Supported values are
+                'ingredient_name' and 'unit_measurement'.
+        data: The data to be normalized. The expected format depends on the
+              'entity' type.
+        context: An optional dictionary providing additional context, such as
+                 the full ingredients dataset for lookups.
+
+    Returns:
+        The normalized data. The format of the returned data depends on the
+        normalization performed.
+    """
+    if entity == "ingredient_name":
+        # Input 'data' is a string like "Tomatoes" or "flour"
+        # Output is the canonical ingredient_id (int)
+        if not isinstance(data, str):
+            return None
+
+        processed_name = data.lower().strip()
+        # Simple plural handling
+        if processed_name.endswith('s'):
+            processed_name = processed_name[:-1]
+
+        return INGREDIENT_NAME_MAP.get(processed_name)
+
+    if entity == "unit_measurement":
+        # Input 'data' is a dict: {"ingredient_id": int, "quantity": float, "unit": str}
+        # Output is a dict with quantity/unit normalized to g/ml
+        if not isinstance(data, dict) or not all(k in data for k in ["ingredient_id", "quantity", "unit"]):
+            return data # Return original data if format is incorrect
+
+        # Find the ingredient's default unit (g or ml)
+        # This requires access to the full ingredients dataset, passed in context
+        all_ingredients = (context or {}).get("ingredients", [])
+        ingredient_meta = next((i for i in all_ingredients if i["ingredient_id"] == data["ingredient_id"]), None)
+        if not ingredient_meta:
+            return data # Cannot normalize without metadata
+
+        default_unit = ingredient_meta.get("default_unit")
+        current_unit = data["unit"].lower()
+
+        # No conversion needed
+        if current_unit == default_unit:
+            return data
+
+        quantity = data["quantity"]
+        new_quantity = quantity
+
+        # Conversion logic
+        if current_unit == "cup" and default_unit == "g":
+            conversion_factor = UNIT_CONVERSION_RULES["cup_to_g"].get(data["ingredient_id"], UNIT_CONVERSION_RULES["cup_to_g"]["default"])
+            new_quantity = quantity * conversion_factor
+        elif current_unit == "tbsp" and default_unit == "ml":
+            new_quantity = quantity * UNIT_CONVERSION_RULES["tbsp_to_ml"]
+        elif current_unit == "tsp" and default_unit == "ml":
+            new_quantity = quantity * UNIT_CONVERSION_RULES["tsp_to_ml"]
+        elif current_unit == "cup" and default_unit == "ml":
+            new_quantity = quantity * UNIT_CONVERSION_RULES["cup_to_ml"]
+        else:
+            # Return original data if no rule exists
+            return data
+
+        return {
+            "ingredient_id": data["ingredient_id"],
+            "quantity": round(new_quantity, 2),
+            "unit": default_unit
+        }
+
+    # Return original data if entity type is not supported
+    return data
+
+def _log_audit_event(data: Dict[str, Any], **kwargs: Any) -> None:
+    """
+    Logs an action to the audit trail.
+
+    This helper constructs and appends a new audit log entry to the in-memory
+    'audit_logs' dataset. It automatically generates a new unique 'audit_id'
+    and a UTC timestamp for the 'created_at' field. This function modifies
+    the 'data' dictionary in place.
+
+    Args:
+        data: The main in-memory dictionary containing all datasets, which
+              will be mutated by this function.
+        **kwargs: Keyword arguments that map to the audit log schema. Expected
+            keys include 'household_id', 'user_id', 'entity_type',
+            'entity_id', 'action_enum', and 'payload_json'.
+    """
+    audit_logs_table = data.setdefault("audit_logs", [])
+
+    # 1. Generate a new unique ID based on the last entry or the default start value
+    base_id = DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["audit_logs"]
+    max_id = base_id
+    if audit_logs_table:
+        max_id = max(int(log.get("audit_id", 0)) for log in audit_logs_table)
+    next_id = max_id + 1
+
+    # 2. Get the current timestamp in ISO 8601 format (UTC)
+    timestamp = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
+
+    # 3. Construct the new log entry from kwargs
+    new_log_entry = {
+        "audit_id": next_id,
+        "household_id": kwargs.get("household_id"),
+        "user_id": kwargs.get("user_id"),
+        "entity_type": kwargs.get("entity_type"),
+        "entity_id": kwargs.get("entity_id"),
+        "action_enum": kwargs.get("action_enum", "custom_action"),
+        "payload_json": kwargs.get("payload_json", {}),
+        "created_at": timestamp
+    }
+
+    # 4. Append the new entry to the table
+    audit_logs_table.append(new_log_entry)
+
+def _build_success_response(data: Any) -> str:
+    """
+    Builds a standardized success response envelope as a JSON string.
+
+    Args:
+        data: The payload to be included in the response.
+
+    Returns:
+        A JSON string representing the successful response.
+    """
+    response_dict = {
+        "success": True,
+        "data": data
+    }
+    return json.dumps(response_dict, indent=2)
+
+def _build_error_response(error_code: str, details: Optional[Dict[str, Any]] = None) -> str:
+    """
+    Builds a standardized error response envelope as a JSON string.
+
+    Args:
+        error_code: The error code, corresponding to a key in ERROR_MESSAGES.
+        details: A dictionary with specific details to format the error message.
+
+    Returns:
+        A JSON string representing the failed response.
+    """
+    details = details or {}
+    message_template = ERROR_MESSAGES.get(error_code, "An unknown error occurred.")
+
+    try:
+        message = message_template.format(**details)
+    except KeyError:
+        message = message_template
+
+    response_dict = {
+        "success": False,
+        "error": {
+            "code": error_code,
+            "message": message,
+            "details": details
+        }
+    }
+    return json.dumps(response_dict, indent=2)
+
 class GenerateGroceryListFromMealPlanTool(Tool):
     """
     A tool to create an optimized grocery list from a meal plan and inventory.

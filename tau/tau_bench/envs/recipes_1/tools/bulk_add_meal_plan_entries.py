@@ -6,6 +6,44 @@ from tau_bench.envs.tool import Tool
 from . import _max_id, _json_dump
 
 
+
+
+
+
+
+
+
+
+def _plan_week_dates(week_start_date: str) -> List[str]:
+    # Deterministic: generate 7 consecutive ISO dates from a start date YYYY-MM-DD
+    from datetime import date, timedelta
+    y, m, d = [int(x) for x in str(week_start_date).split("-")]
+    start = date(y, m, d)
+    return [(start + timedelta(days=i)).isoformat() for i in range(7)]
+
+def _parse_json_list_ids(json_str: str) -> List[int]:
+    try:
+        arr = json.loads(json_str)
+        if isinstance(arr, list):
+            return [int(x) for x in arr]
+    except Exception:
+        pass
+    return []
+
+def _max_id(records: List[Dict[str, Any]], key: str, default: int) -> int:
+    if not records:
+        return default
+    vals = []
+    for r in records:
+        try:
+            vals.append(int(r.get(key)))
+        except Exception:
+            pass
+    return max(vals) if vals else default
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
 class BulkAddMealPlanEntries(Tool):
     """Create Dinner entries for a week using ordered recipe_ids_json; returns entry_ids."""
     @staticmethod

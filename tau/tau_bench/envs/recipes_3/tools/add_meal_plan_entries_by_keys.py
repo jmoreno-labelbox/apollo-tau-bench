@@ -5,6 +5,33 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _week_dates(week_start_date: str) -> List[str]:
+    from datetime import date, timedelta
+
+    y, m, d = [int(x) for x in str(week_start_date).split("-")]
+    start = date(y, m, d)
+    return [(start + timedelta(days=i)).isoformat() for i in range(7)]
+
+def _tbl(db: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return db.setdefault(name, [])
+
+def _max_id(rows: List[Dict[str, Any]], id_field: str, base: int) -> int:
+    if not rows:
+        return base
+    vals: List[int] = []
+    for r in rows:
+        try:
+            vals.append(int(r.get(id_field)))
+        except Exception:
+            pass
+    return max(vals) if vals else base
+
 class AddMealPlanEntriesByKeys(Tool):
     @staticmethod
     def invoke(

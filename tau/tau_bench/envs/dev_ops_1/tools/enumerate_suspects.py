@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_table(data: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return data.setdefault(name, [])
+
 class EnumerateSuspects(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], failing_sha: str, last_green_sha: Optional[str] = None) -> str:

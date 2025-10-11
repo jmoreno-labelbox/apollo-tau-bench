@@ -5,6 +5,66 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+def _similarity_score(
+    base_price: Optional[float], candidate_price: Optional[float], amenity_overlap: int
+) -> float:
+    score = 0.5
+    if base_price and candidate_price:
+        diff = abs(candidate_price - base_price) / max(base_price, 1)
+        score += max(-0.25, 0.25 - diff)  # closer is better
+    score += min(0.25, 0.05 * amenity_overlap)
+    return round(max(0.0, min(1.0, score)), 3)
+
+def _require_property_id(pid: str) -> Optional[str]:
+    if not pid:
+        return "property_id is required"
+    if not HTX_RE.match(str(pid)):
+        return f"property_id must match HTX### format, got {pid}"
+    return None
+
+def _next_int_id(rows: List[Dict[str, Any]], key: str) -> int:
+    mx = 0
+    for r in rows:
+        try:
+            v = int(r.get(key, 0))
+            if v > mx:
+                mx = v
+        except Exception:
+            continue
+    return mx + 1
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
+def _collect_listing_by_property(
+    data: Dict[str, Any], property_id: str
+) -> Optional[Dict[str, Any]]:
+    candidates = [
+        l for l in data.get("listings", []) if str(l.get("property_id")) == property_id
+    ]
+    return _latest(candidates, "updated_at") or (candidates[0] if candidates else None)
+
+def _as_int(x) -> Optional[int]:
+    try:
+        return int(x)
+    except Exception:
+        return None
+
 class SearchCompsAndCreateReportTool(Tool):
     """Runs neighborhood-first search, ranks candidates, and creates the comp report entry in a single step."""
 

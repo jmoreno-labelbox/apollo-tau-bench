@@ -5,6 +5,19 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _as_id(x: Any) -> str:
+    if x is None:
+        return x
+    if isinstance(x, str):
+        return x
+    if isinstance(x, int):
+        return str(x)
+    if isinstance(x, float) and x.is_integer():
+        return str(int(x))
+    return str(x)
+
 class ListOrderItems(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str) -> str:

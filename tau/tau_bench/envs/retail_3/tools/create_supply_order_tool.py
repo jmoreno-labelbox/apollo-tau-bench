@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _now_iso() -> str:
+    """Return current UTC timestamp in ISO format (seconds precision)."""
+    return datetime.utcnow().isoformat(timespec="seconds") + "Z"
+
+def _gen_supply_order_id(seed: Optional[int] = None) -> str:
+    """
+    Generate a synthetic supply order identifier (#SOxxxx) for simulations.
+    """
+    base = seed if isinstance(seed, int) else int(datetime.utcnow().timestamp())
+    return f"#SO{base % 10_000:04d}"
+
 class CreateSupplyOrderTool(Tool):
     """
     Create a new supply order in supply_orders.json for restocking purposes.

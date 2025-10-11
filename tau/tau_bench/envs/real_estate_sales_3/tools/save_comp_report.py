@@ -7,6 +7,21 @@ from . import _fixed_now_iso
 from . import _next_int_id
 
 
+
+
+
+
+
+
+def _next_int_id(rows: List[Dict[str, Any]], key: str) -> int:
+    return max((int(r.get(key, 0)) for r in rows), default=0) + 1
+
+def _index_by(items: List[Dict[str, Any]], key: str) -> Dict[Any, Dict[str, Any]]:
+    return {i.get(key): i for i in items or []}
+
+def _fixed_now_iso() -> str:
+    return "2025-08-20T00:00:00Z"
+
 class SaveCompReport(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], client_id, created_by_broker_id, subject_property_id, final_status = "draft") -> str:

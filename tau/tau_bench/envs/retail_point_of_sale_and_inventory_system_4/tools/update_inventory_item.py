@@ -5,6 +5,18 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _filter_db(db, filter_params):
+    def match(row):
+        for filter, value in filter_params.items():
+            if not isinstance(value, list):
+                value = [value]
+            if row.get(filter) not in value:
+                return False
+        return True
+    return [row for row in db if match(row)]
+
 class UpdateInventoryItem(Tool): # CREATE
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, store_id: str, quantity_change: int, current_time: str) -> str:

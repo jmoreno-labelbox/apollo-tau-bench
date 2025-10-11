@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _terminal(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("terminal", [])
+
 class ListTerminalLastMessage(Tool):
     """Returns last terminal log entry."""
 

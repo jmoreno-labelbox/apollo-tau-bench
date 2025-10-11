@@ -819,7 +819,7 @@ Task(
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation update"})
+        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation update"}),
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -1703,13 +1703,13 @@ Task(
 ),
 
 
-Task(
-    annotator="0",
-    user_id="task_41",
-    instruction=(
-"Act as 'design-team' with the email 'team@uidesign.co' and authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to incorporate a new security policy into the present repository 'ui-kit' (description: 'A sample demonstration repository'). Introduce this by creating a feature branch 'feature-security-policy' which adds a file titled 'SECURITY.md' at the root of the repository containing '## Security Policy. Report any vulnerabilities to security@acme.dev within 24 hours. To implement this update, submit a pull request to 'main' titled 'Add security policy' and include a description of 'Introduce SECURITY.md with coordinated disclosure guidelines.'")
-    ),
-    actions=[
+    Task(
+        annotator="0",
+        user_id="task_41",
+        instruction=(
+            "Act as 'design-team' with the email 'team@uidesign.co' and authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to incorporate a new security policy into the present repository 'ui-kit' (description: 'A sample demonstration repository'). Introduce this by creating a feature branch 'feature-security-policy' which adds a file titled 'SECURITY.md' at the root of the repository containing '## Security Policy. Report any vulnerabilities to security@acme.dev within 24 hours. To implement this update, submit a pull request to 'main' titled 'Add security policy' and include a description of 'Introduce SECURITY.md with coordinated disclosure guidelines.'"
+        ),
+        actions=[
         Action(
             name="AuthenticateUser",
             kwargs={"username": "design-team", "email": "team@uidesign.co", "auth_key": "ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s"}
@@ -1736,14 +1736,15 @@ kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-s
         ),
     ],
     outputs=[]
-]
-Task(
-    annotator="0",
-    user_id="task_42",
-    instruction=(
-"Assume the identity of 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task is to delegate the assignment of nathan to pull request# 5 in the 'acme-webapp' repository, where he remarked 'Great Work' and approved the PR."
     ),
-    actions=[
+
+    Task(
+        annotator="0",
+        user_id="task_42",
+        instruction=(
+            "Assume the identity of 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task is to delegate the assignment of nathan to pull request# 5 in the 'acme-webapp' repository, where he remarked 'Great Work' and approved the PR."
+        ),
+        actions=[
         Action(
             name="AuthenticateUser",
             kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}
@@ -3145,17 +3146,18 @@ Task(
     ],
     outputs=[]
 ),
-Task(
-    annotator="0",
-    user_id="task_82",
-    instruction=(
-"Act as 'maya-w' with 'alice.w@acme.dev' and your auth key is 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to have the repository 'acme-webapp' achieve the state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' is in place, with the exact contents '## 1.1.0 - Small corrections - Documentation update.' This change should originate from the line labeled 'release-notes-1.1.0', be authored by 'maya-w', and implemented via a pull request named 'Docs: Release notes 1.1.0' with the content 'Include release notes for version 1.1.0.' The pull request must be approved by 'nathan'."
-    )),
-    actions=[
-        Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
-        Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Bug fixes - Documentation update"})
-        Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
+
+    Task(
+        annotator="0",
+        user_id="task_82",
+        instruction=(
+            "Act as 'maya-w' with 'alice.w@acme.dev' and your auth key is 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to have the repository 'acme-webapp' achieve the state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' is in place, with the exact contents '## 1.1.0 - Small corrections - Documentation update.' This change should originate from the line labeled 'release-notes-1.1.0', be authored by 'maya-w', and implemented via a pull request named 'Docs: Release notes 1.1.0' with the content 'Include release notes for version 1.1.0.' The pull request must be approved by 'nathan'."
+        ),
+        actions=[
+            Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
+            Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
+            Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Bug fixes - Documentation update"}),
+            Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
             "repo_name": "acme-webapp",
@@ -3177,14 +3179,15 @@ Task(
             ),
     ],
     outputs=[]
-),
-Task(
-    annotator="0",
-    user_id="task_83",
-    instruction=(
-        "Act as 'design-team' with 'team@uidesign.co and your auth key is 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to ensure the repository 'ui-kit' culminates in a state where its default branch 'main' features the component file 'packages/alert/index.tsx' with the exact content 'export const Alert = () => <div role='alert' />'. The modification should start from the branch 'feature-alert', be executed by 'design-team' with the commit message 'Add packages/alert/index.tsx', and be featured as a pull request titled 'Add Alert component' with the body 'Introduce basic Alert component.' transitioning from 'feature-alert' to 'main' and ensuring the pr is approved."
     ),
-    actions=[
+
+    Task(
+        annotator="0",
+        user_id="task_83",
+        instruction=(
+            "Act as 'design-team' with 'team@uidesign.co and your auth key is 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to ensure the repository 'ui-kit' culminates in a state where its default branch 'main' features the component file 'packages/alert/index.tsx' with the exact content 'export const Alert = () => <div role='alert' />'. The modification should start from the branch 'feature-alert', be executed by 'design-team' with the commit message 'Add packages/alert/index.tsx', and be featured as a pull request titled 'Add Alert component' with the body 'Introduce basic Alert component.' transitioning from 'feature-alert' to 'main' and ensuring the pr is approved."
+        ),
+        actions=[
         Action(name="AuthenticateUser", kwargs={"username": "design-team", "email": "team@uidesign.co", "auth_key": "ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s"}),
         Action(name="CreateNewBranch", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert", "base_branch": "main"}),
         Action(name="AddNewFileInRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert", "file_name": "packages/alert/index.tsx", "file_content": "export const Alert = () => <div role='alert' />"}),
@@ -3609,40 +3612,41 @@ Action(name="ListAllTerminalMessage", kwargs={}),
 outputs=[]
 ),
 
-Task(
-annotator="0",
-user_id="task_95",
-    instruction=(
-"You are 'server-main' with 'backend@coreservices.io' and auth key as 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. Resolve the open issue # In 'payments-service' issue 15, labeled 'Timeout too aggressive': add a QA verification comment 'Confirmed 60s timeout in staging.' from 'qa-erin'.")
+    Task(
+        annotator="0",
+        user_id="task_95",
+        instruction=(
+            "You are 'server-main' with 'backend@coreservices.io' and auth key as 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. Resolve the open issue # In 'payments-service' issue 15, labeled 'Timeout too aggressive': add a QA verification comment 'Confirmed 60s timeout in staging.' from 'qa-erin'."
+        ),
+        actions=[
+            Action(name="AuthenticateUser", kwargs={
+                "username": "server-main",
+                "email": "backend@coreservices.io",
+                "auth_key": "ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h"
+            }),
+            Action(name="AddCommentToIssue", kwargs={
+                "owner": "server-main",
+                "repo_name": "payments-service",
+                "issue_number": 15,
+                "issue_comment": "Validated 60s timeout in staging.",
+                "issue_comment_user": "qa-erin"
+            }),
+            Action(name="CloseIssue", kwargs={
+                "owner": "server-main",
+                "repo_name": "payments-service",
+                "issue_number": 15
+            }),
+        ],
+        outputs=[]
     ),
-actions=[
-Action(name="AuthenticateUser", kwargs={
-"username": "server-main",
-"email": "backend@coreservices.io",
-"auth_key": "ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h"
-}),
-Action(name="AddCommentToIssue", kwargs={
-"owner": "server-main",
-"repo_name": "payments-service",
-"issue_number": 15,
-"issue_comment": "Validated 60s timeout in staging.",
-"issue_comment_user": "qa-erin"
-}),
-Action(name="CloseIssue", kwargs={
-"owner": "server-main",
-"repo_name": "payments-service",
-"issue_number": 15
-}),
-],
-outputs=[]
 
-Task(
-    annotator="0",
-    user_id="task_96",
-    instruction=(
-        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' achieves a state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' exists with the contents exactly '## 1.1.0 - Small adjustments - Documentation update. This change should commence at the 'release-notes-1.1.0' line, implemented by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'."
-    ),
-    actions=[
+    Task(
+        annotator="0",
+        user_id="task_96",
+        instruction=(
+            "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' achieves a state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' exists with the contents exactly '## 1.1.0 - Small adjustments - Documentation update. This change should commence at the 'release-notes-1.1.0' line, implemented by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'."
+        ),
+        actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
         Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation revision"}),
@@ -3762,3 +3766,5 @@ Task(
     ],
     outputs=[]
 ),
+
+]

@@ -5,6 +5,34 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _next_seq(rows, key, prefix):
+    mx = 0
+    pat = re.compile(rf"^{re.escape(prefix)}_(\d+)$")
+    for r in rows:
+        v = (r.get(key) or "")
+        m = pat.match(v)
+        if m:
+            mx = max(mx, int(m.group(1)))
+    return f"{prefix}_{mx+1}"
+
+def _fixed_ts(ts: Optional[str]) -> str:
+    return ts or "2025-09-01T00:00:00Z"
+
+def _fill(text, cand):
+    name  = (cand or {}).get("candidate_name", "")
+    role  = (cand or {}).get("role_title", "")
+    start = (cand or {}).get("start_date", "")
+    text = re.sub(r"\{\{\s*name\s*}}", name,  text, flags=re.I)
+    text = re.sub(r"\{\{\s*role\s*}}", role,  text, flags=re.I)
+    text = re.sub(r"\{\{\s*start[_\s]*date\s*}}", start, text, flags=re.I)
+    return text
+
 class ReplyToEmailThread(Tool):
     @staticmethod
     def _find_email_by_keys(db, candidate_id, subject, date_ts):

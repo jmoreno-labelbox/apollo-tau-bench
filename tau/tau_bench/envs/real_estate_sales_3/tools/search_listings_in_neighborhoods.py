@@ -5,6 +5,74 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+class SearchListings(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        neighborhood_ids = kwargs.get("neighborhood_ids") 
+        price_min = kwargs.get("price_min")
+        price_max = kwargs.get("price_max")
+        beds = kwargs.get("beds")
+        baths = kwargs.get("baths")
+        sqft_min = kwargs.get("sqft_min")
+        sqft_max = kwargs.get("sqft_max")
+        property_type = kwargs.get("property_type")
+        limit = kwargs.get("limit", 15)
+
+        props = _index_by(data.get("properties", []), "property_id")
+        results: List[Dict[str, Any]] = []
+        for lst in data.get("listings", []) or []:
+            if lst.get("status") != "active":
+                continue
+            pr = props.get(lst.get("property_id"))
+            if not pr:
+                continue
+            if neighborhood_ids and pr.get("neighborhood_id") not in set(neighborhood_ids):
+                continue
+            if property_type and pr.get("property_type") != property_type:
+                continue
+            if beds is not None and pr.get("beds") != beds:
+                continue
+            if baths is not None and pr.get("baths") != baths:
+                continue
+            if price_min is not None and lst.get("list_price", 0) < price_min:
+                continue
+            if price_max is not None and lst.get("list_price", 0) > price_max:
+                continue
+            if sqft_min is not None and pr.get("sqft", 0) < sqft_min:
+                continue
+            if sqft_max is not None and pr.get("sqft", 0) > sqft_max:
+                continue
+            results.append({
+                "listing_id": lst.get("listing_id"),
+                "property_id": pr.get("property_id"),
+                "neighborhood_id": pr.get("neighborhood_id"),
+                "list_price": lst.get("list_price"),
+                "property_type": pr.get("property_type"),
+                "beds": pr.get("beds"), "baths": pr.get("baths"), "sqft": pr.get("sqft"),
+                "listing_url": lst.get("listing_url"), "street_view_url": lst.get("street_view_url"),
+            })
+            if len(results) >= limit:
+                break
+        return json.dumps({"results": results}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"search_listings",
+            "description":"Search active listings by neighborhood(s) and criteria.",
+            "parameters":{
+                "type":"object","properties":{
+                    "neighborhood_ids":{"type":"array","items":{"type":"integer"}},
+                    "price_min":{"type":"integer"},"price_max":{"type":"integer"},
+                    "beds":{"type":"integer"},"baths":{"type":"integer"},
+                    "sqft_min":{"type":"integer"},"sqft_max":{"type":"integer"},
+                    "property_type":{"type":"string"},"limit":{"type":"integer"}
+                },"required":[]
+            }
+        }}
+
 class SearchListingsInNeighborhoods(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], neighborhood_ids) -> str:

@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _ensure_list(data: Dict[str, Any], key: str):
+    if key not in data or not isinstance(data[key], list):
+        data[key] = []
+
 class RecordAutomationRun(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:

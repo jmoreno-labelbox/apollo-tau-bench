@@ -5,6 +5,18 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_change_id(data: Dict[str, Any], prefix: str = "PC") -> str:
+    seq = data.setdefault("_seq", {}).get("price_change_id", 0) + 1
+    data["_seq"]["price_change_id"] = seq
+    return f"{prefix}{seq:06d}"
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
 class LogUpgradeNoCharge(Tool):
     """
     Write a deterministic audit entry for a no-charge upgrade into price_changes.

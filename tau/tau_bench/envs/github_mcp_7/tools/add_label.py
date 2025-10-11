@@ -5,6 +5,22 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _prs(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("pull_requests", [])
+
+def _issues(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("issues", [])
+
+def _actor_name(data: Dict[str, Any]) -> str:
+    auth = data.get("authentication") or [{}]
+    return auth[0].get("username") or "anonymous"
+
 class AddLabel(Tool):
     """Add a label to an issue or PR."""
     @staticmethod

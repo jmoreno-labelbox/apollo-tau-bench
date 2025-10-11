@@ -6,6 +6,21 @@ from tau_bench.envs.tool import Tool
 from . import _money
 
 
+
+
+
+
+
+
+def _to_number(d: Decimal) -> float:
+    return float(d)
+
+def _money(x: Decimal) -> Decimal:
+    return x.quantize(_TWOPLACES, rounding=ROUND_HALF_UP)
+
+def _dec(x) -> Decimal:
+    return Decimal(str(x))
+
 class CalclulateDiscountFlat(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], subtotal: Any, discount_amount: Any) -> str:

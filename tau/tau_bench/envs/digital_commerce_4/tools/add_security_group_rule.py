@@ -5,6 +5,25 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_sgr_id(data: Dict[str, Any]) -> str:
+    n = len(data.get("aws_security_group_rules", [])) + 1
+    return "sgr-" + f"{n:016x}"
+
+def _as_id(x: Any) -> str:
+    if x is None:
+        return x
+    if isinstance(x, str):
+        return x
+    if isinstance(x, int):
+        return str(x)
+    if isinstance(x, float) and x.is_integer():
+        return str(int(x))
+    return str(x)
+
 class AddSecurityGroupRule(Tool):
     @staticmethod
     def invoke(

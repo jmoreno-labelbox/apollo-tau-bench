@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _load_table(data: Dict[str, Any], table: str) -> List[Dict[str, Any]]:
+        # return result
+    return data.get(table, [])
+
 class Workflows(Tool):
     @staticmethod
         # primary execution method

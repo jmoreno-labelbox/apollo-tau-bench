@@ -6,6 +6,23 @@ from tau_bench.envs.tool import Tool
 from . import _params
 
 
+
+
+
+
+
+
+def _params(data: Dict[str, Any], kwargs: Dict[str, Any]) -> Dict[str, Any]:
+    return kwargs or {}
+
+def _ok(x):
+    return _j(x)
+
+def _ensure(data: Dict[str, Any], key: str, default):
+    if key not in data or data[key] is None:
+        data[key] = default
+    return data[key]
+
 class find_gmail_threads(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:

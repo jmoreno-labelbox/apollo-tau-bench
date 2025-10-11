@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import _json_dump
 
 
+
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
 class BuildRecipeFilters(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], meal_type = "Dinner", min_protein_g = 0, peanut_free = False) -> str:

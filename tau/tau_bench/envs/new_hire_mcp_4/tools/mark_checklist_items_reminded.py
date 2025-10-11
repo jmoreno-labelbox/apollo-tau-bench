@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _fixed_ts(ts: Optional[str]) -> str:
+    return ts or "2025-09-01T00:00:00Z"
+
 class MarkChecklistItemsReminded(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], item_ids, reminder_email_message_id, updated_ts) -> str:

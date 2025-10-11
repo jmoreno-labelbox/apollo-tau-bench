@@ -5,6 +5,23 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_seq_id(rows: List[Dict[str, Any]], key: str, width: int = 4) -> str:
+    mx = 0
+    for r in rows:
+        v = r.get(key)
+        if isinstance(v, str) and v.isdigit():
+            mx = max(mx, int(v))
+    return str(mx + 1).zfill(width)
+
+def _ensure_list(d: Dict[str, Any], key: str) -> List[Any]:
+    if key not in d or not isinstance(d[key], list):
+        d[key] = []
+    return d[key]
+
 class RecordMcpToolCall(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], server_name, tool_name, params_json = {}, result_meta_json = {}) -> str:

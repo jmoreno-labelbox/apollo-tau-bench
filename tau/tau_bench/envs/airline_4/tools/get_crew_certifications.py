@@ -5,6 +5,54 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+def _to_iso_day(v):
+    if v in (None, "", "null"):
+        return "9999-12-31"
+    s = str(v)
+    # Try strict ISO parse (accepts full ISO datetimes too)
+    try:
+        return datetime.fromisoformat(s).date().isoformat()
+    except Exception:
+        # Fallback: first 10 chars, if they form a valid YYYY-MM-DD
+        day = s[:10]
+        try:
+            _date.fromisoformat(day)
+            return day
+        except Exception:
+            return "9999-12-31"
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
+def _get_cert_by_code(data: Dict[str, Any], code: str) -> Optional[Dict[str, Any]]:
+    target = _norm(code)
+    for c in data.get("certifications", []):
+        c_code = _norm(c.get("certification_code"))
+        if c_code == target:
+            return c
+    # fallback: try common alias field names if present (no-ops if absent)
+    for c in data.get("certifications", []):
+        # sometimes datasets have 'model_id' or 'code'
+        for alt_key in ("model_id", "code", "name", "model"):
+            if _norm(c.get(alt_key)) == target:
+                return c
+    return None
+
+def _find_crew_member(data: Dict[str, Any], crew_member_id: str) -> Optional[Dict[str, Any]]:
+    target = _norm(crew_member_id)
+    for cm in data.get("crew_members", []):
+        if _norm(cm.get("crew_member_id")) == target:
+            return cm
+    return None
+
 class GetCrewCertifications(Tool):
     """
     Read-only lookup of a crew member's certifications with optional filters.

@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _now_iso() -> str:
+    return "2025-08-20T00:00:00Z"
+
 class MutateClientContact(Tool):
     """Update client contact fields."""
     @staticmethod

@@ -5,6 +5,35 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_str_id(rows: List[Dict[str, Any]], key: str, prefix: str) -> str:
+    """Generates the next string ID in a sequence (e.g., CAND-001)."""
+    if not rows:
+        return f"{prefix}1"
+
+    max_id = 0
+    for r in rows:
+        id_val = r.get(key)
+        if id_val and isinstance(id_val, str) and id_val.startswith(prefix):
+            try:
+                num_part = int(id_val[len(prefix):])
+                if num_part > max_id:
+                    max_id = num_part
+            except ValueError:
+                continue
+
+    return f"{prefix}{max_id + 1:03d}"
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    """Creates a JSON error message."""
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
 class CreateRoleBasedChecklistTasksTool(Tool):
     """Inserts multiple checklist_items records based on the roles of one or more candidates."""
 

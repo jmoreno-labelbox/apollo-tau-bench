@@ -7,6 +7,16 @@ from . import _fixed_now_iso
 from . import _next_int_id
 
 
+
+
+
+
+def _next_int_id(rows: List[Dict[str, Any]], key: str) -> int:
+    return max((int(r.get(key, 0)) for r in rows), default=0) + 1
+
+def _fixed_now_iso() -> str:
+    return "2025-08-20T00:00:00Z"
+
 class PostAuditEvent(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], action, actor_id, entity_id, entity_type, metadata_json) -> str:

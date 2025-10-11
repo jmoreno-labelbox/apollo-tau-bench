@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _fixed_ts(ts: Optional[str]) -> str:
+    return ts or "2025-09-01T00:00:00Z"
+
 class CloseCompletedChecklistItems(Tool):
     """
     Set completed_ts for any 'Completed' checklist items missing a timestamp (optionally up to due_date_lte).

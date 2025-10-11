@@ -7,6 +7,54 @@ from . import _json_dump
 from . import _first_user_id
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def _store_products_for_ingredient(data: Dict[str, Any], store_id: int, ingredient_id: int) -> List[Dict[str, Any]]:
+    return [
+        p for p in data.get("store_products", [])
+        if p.get("store_id") == store_id and p.get("ingredient_id") == ingredient_id
+    ]
+
+def _max_id(records: List[Dict[str, Any]], key: str, default: int) -> int:
+    if not records:
+        return default
+    return max(int(r.get(key, default)) for r in records)
+
+def _lowest_price_in_stock(products: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    in_stock = [p for p in products if p.get("stock_status_enum") in ("in_stock", "low")]
+    if not in_stock:
+        return None
+    return sorted(in_stock, key=lambda x: int(x.get("price_cents", 10**9)))[0]
+
+def _latest_order_id(data: Dict[str, Any], household_id: Optional[int]) -> Optional[int]:
+    o = _latest_order_for_household(data, household_id)
+    return int(o["order_id"]) if o else None
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _first_user_id(data: Dict[str, Any]) -> Optional[int]:
+    users = data.get("users", [])
+    if not users:
+        return None
+    return int(sorted(users, key=lambda u: int(u.get("user_id", 10**9)))[0]["user_id"])
+
+def _default_household_id(data: Dict[str, Any], user_id: Optional[int] = None) -> Optional[int]:
+    hh = _household_for_user(data, user_id)
+    return hh.get("household_id") if hh else None
+
 class AddOrderItemsFromList(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id, store_id, product_overrides = {}) -> str:

@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _ingredient_by_id(db: Dict[str, Any], ingredient_id: int) -> Optional[Dict[str, Any]]:
+    return next(
+        (i for i in db.get("ingredients", []) if int(i.get("ingredient_id")) == int(ingredient_id)),
+        None,
+    )
+
 class UpdateGroceryListWithSubstitutesByPlanKeys(Tool):
     @staticmethod
     def invoke(

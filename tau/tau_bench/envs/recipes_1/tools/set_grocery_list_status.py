@@ -6,6 +6,17 @@ from tau_bench.envs.tool import Tool
 from . import _require, _json_dump
 
 
+
+
+
+
+def _require(data: Dict[str, Any], table: str, key: str, value: Any) -> Optional[Dict[str, Any]]:
+    row = next((r for r in data.get(table, []) if r.get(key) == value), None)
+    return row
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
 class SetGroceryListStatus(Tool):
     """Update grocery_lists.status_enum for list_id."""
     @staticmethod

@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _check_required(kwargs: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [k for k in required if kwargs.get(k) is None]
+    if missing:
+        return f"Missing required argument(s): {', '.join(missing)}"
+    return None
+
 class GridEncodePitchLocations(Tool):
     """Compute 12x12 zone cell for each pitch (requires explicit zone bounds). Optional persist=True writes back to pitches."""
     @staticmethod

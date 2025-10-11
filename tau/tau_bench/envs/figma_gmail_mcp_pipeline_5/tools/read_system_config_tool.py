@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _require_str(arg: Any, name: str) -> Optional[str]:
+    """Return arg as str if valid, else None."""
+    return arg if isinstance(arg, str) and arg.strip() else None
+
 class ReadSystemConfigTool(Tool):
     """Read a config by key and return limited fields (avoid large blobs)."""
 

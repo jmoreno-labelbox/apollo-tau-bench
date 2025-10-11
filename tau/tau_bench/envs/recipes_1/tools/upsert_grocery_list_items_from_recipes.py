@@ -6,6 +6,62 @@ from tau_bench.envs.tool import Tool
 from . import _max_id, _json_dump
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+def _sum_grocery_items(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    # Sum quantities per (ingredient_id, unit)
+    agg: Dict[Tuple[int, str], float] = {}
+    for r in rows:
+        iid = int(r["ingredient_id"])
+        unit = str(r.get("unit"))
+        qty = float(r.get("quantity", 0))
+        agg[(iid, unit)] = agg.get((iid, unit), 0.0) + qty
+    out = []
+    for (iid, unit), qty in agg.items():
+        out.append({"ingredient_id": iid, "quantity": qty, "unit": unit})
+    return out
+
+def _parse_json_list_ids(json_str: str) -> List[int]:
+    try:
+        arr = json.loads(json_str)
+        if isinstance(arr, list):
+            return [int(x) for x in arr]
+    except Exception:
+        pass
+    return []
+
+def _max_id(records: List[Dict[str, Any]], key: str, default: int) -> int:
+    if not records:
+        return default
+    vals = []
+    for r in records:
+        try:
+            vals.append(int(r.get(key)))
+        except Exception:
+            pass
+    return max(vals) if vals else default
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _ingredient_by_id(data: Dict[str, Any], ingredient_id: int) -> Optional[Dict[str, Any]]:
+    return next((i for i in data.get("ingredients", []) if int(i.get("ingredient_id")) == ingredient_id), None)
+
+def _collect_recipe_ingredients(data: Dict[str, Any], recipe_ids: List[int]) -> List[Dict[str, Any]]:
+    ri = data.get("recipe_ingredients", [])
+    ridset = set(recipe_ids)
+    return [row for row in ri if int(row.get("recipe_id")) in ridset]
+
 class UpsertGroceryListItemsFromRecipes(Tool):
     """Replace all items for list_id with the aggregated ingredients from recipe_ids_json."""
     @staticmethod

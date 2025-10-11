@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _ymd(iso_ts: str) -> str:
+    # '2024-08-23T10:00:00Z' -> '2024-08-23'
+    return (iso_ts or "").split("T")[0]
+
+def _table(data: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    tbl = data.get(name)
+    if not isinstance(tbl, list):
+        tbl = []
+        data[name] = tbl
+    return tbl
+
 class governance_update(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], artifact_id: str, add_tags: List[str], remove_tags: List[str], timestamp: str, request_id: str) -> str:

@@ -5,6 +5,16 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _norm_status(s: str) -> str:
+    return (s or "").strip().lower()
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
 class GetOperationalEvents(Tool):
     """List operational events for a flight in a date range; optionally filter by types.
        Exposes `excluded_dates` (unique YYYY-MM-DD) to feed into pricing filters."""

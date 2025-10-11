@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _fixed_ts(ts: Optional[str]) -> str:
+    return ts or "2025-09-01T00:00:00Z"
+
 class UpdateAssetRequestStatus(Tool):
     @staticmethod
     def _find_email(db, candidate_id: str, subject: str, date_ts: str):

@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _round2(x) -> float:
+    return float(Decimal(str(x)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
+
+def _norm_status(s: str) -> str:
+    return (s or "").strip().lower()
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
 class ComputeCheapestByDateForRoute(Tool):
     """
     Compute the cheapest flight per available date for a route, by cabin(s).

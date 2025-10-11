@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _ok(**payload) -> str:
+    out = {"status": "success"}
+    out.update(payload)
+    return json.dumps(out)
+
+def _find_one(lst: List[Dict[str, Any]], key: str, value: Any) -> Dict[str, Any] | None:
+    for x in lst or []:
+        if x.get(key) == value:
+            return x
+    return None
+
 class CaV2CalculateExpenseSummary(Tool):
     """Calculate expense summary by category for a given period."""
 

@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_table(data: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return data.setdefault(name, [])
+
 class DetectChangedStringsV2(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], pr_number: int) -> str:

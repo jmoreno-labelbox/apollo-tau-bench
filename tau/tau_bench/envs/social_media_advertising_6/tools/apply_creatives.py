@@ -5,6 +5,28 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _require(kwargs: Dict[str, Any], names: List[str]) -> Optional[str]:
+    for n in names:
+        if n not in kwargs:
+            return f"missing_arg:{n}"
+    return None
+
+def _i(x, default=0):
+    try:
+        return int(x)
+    except (TypeError, ValueError):
+        return default
+
+def _ensure_list(data: Dict[str, Any], key: str):
+    if key not in data or not isinstance(data[key], list):
+        data[key] = []
+
 class ApplyCreatives(Tool):
     """Rotate creatives per plan or explicit targets: add a new ad, pause worst active, activate new;
     update adset metadata; and log a deterministic rotation row.

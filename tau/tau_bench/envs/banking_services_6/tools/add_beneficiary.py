@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_beneficiary_id(data: Dict[str, Any]) -> str:
+    bene_ids = [b['beneficiary_id'] for b in data.get('beneficiaries', [])]
+    return _get_next_id('bene', bene_ids)
+
 class AddBeneficiary(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_number, bank_name, country, customer_id, iban, name, relationship, routing_number, sort_code) -> str:

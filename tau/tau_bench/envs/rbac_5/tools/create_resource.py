@@ -5,6 +5,20 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _next_id(data: Dict[str, Any], collection: str, prefix: str) -> str:
+    n = len(data.get(collection, [])) + 1
+    return f"{prefix}-{n:03d}"
+
+def _find_by_id(items: List[Dict[str, Any]], key: str, value: str) -> Optional[Dict[str, Any]]:
+    for it in items or []:
+        if it.get(key) == value:
+            return it
+    return None
+
 class CreateResource(Tool):
     """
     Create a new resource with deterministic ID generation.

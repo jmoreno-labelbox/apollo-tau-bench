@@ -5,6 +5,23 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _find_tracking(data, tracking_id):
+    return next((t for t in data.get('tracking', []) if tracking_id in t.get('tracking_id', [])), None)
+
+def _find_order(data, order_id):
+    return next((o for o in data.get('orders', []) if o.get('order_id') == order_id), None)
+
+def _ensure_list(dct, key):
+    if key not in dct or not isinstance(dct[key], list):
+        dct[key] = []
+    return dct[key]
+
 class SplitOrderFulfillment(Tool):
     """Create a new tracking record and fulfillment for a subset of items, based on provided tracking_id and courier_id."""
     @staticmethod

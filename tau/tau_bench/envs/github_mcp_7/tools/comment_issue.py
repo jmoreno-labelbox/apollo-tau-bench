@@ -5,6 +5,17 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _issues(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("issues", [])
+
+def _actor_name(data: Dict[str, Any]) -> str:
+    auth = data.get("authentication") or [{}]
+    return auth[0].get("username") or "anonymous"
+
 class CommentIssue(Tool):
     """Add a comment to an issue."""
     @staticmethod

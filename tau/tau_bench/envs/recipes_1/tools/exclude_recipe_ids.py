@@ -6,6 +6,22 @@ from tau_bench.envs.tool import Tool
 from . import _json_dump
 
 
+
+
+
+
+def _parse_json_list_ids(json_str: str) -> List[int]:
+    try:
+        arr = json.loads(json_str)
+        if isinstance(arr, list):
+            return [int(x) for x in arr]
+    except Exception:
+        pass
+    return []
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
 class ExcludeRecipeIds(Tool):
     """Remove any recipe_ids that appear in a provided exclusion list."""
     @staticmethod

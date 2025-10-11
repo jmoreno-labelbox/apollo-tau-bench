@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _norm_status(s: str) -> str:
+    return (s or "").strip().lower()
+
+def _load_flights(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.get("flights", [])
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
 class ListAllFaresByRoute(Tool):
     """List available fares (by flight/date) for a route, capped by limit (default 5)."""
 

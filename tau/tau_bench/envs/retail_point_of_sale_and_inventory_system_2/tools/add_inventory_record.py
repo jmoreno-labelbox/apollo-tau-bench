@@ -5,6 +5,20 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_inventory_id(inventory_list: List[Dict[str, Any]]) -> str:
+    max_inv_num = 0
+    for inv in inventory_list:
+        if inv["id"].startswith("INV-"):
+            try:
+                num = int(inv["id"].split("-")[1])
+                if num > max_inv_num:
+                    max_inv_num = num
+            except ValueError:
+                pass
+    return f"INV-{max_inv_num + 1:04d}"
+
 class AddInventoryRecord(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, store_id: str, quantity: int, location: str, reorder_level: int, safety_stock: int) -> str:

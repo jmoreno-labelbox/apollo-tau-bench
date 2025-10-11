@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_by_id(db, id_field, id_value):
+    for i, row in enumerate(db):
+        if row.get(id_field) == id_value:
+            return i, row
+    return None, None
+
 class EditInventoryDb(Tool): # GENERATE
     @staticmethod
     def invoke(

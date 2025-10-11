@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import _fixed_now_iso
 
 
+
+
+def _fixed_now_iso() -> str:
+    return "2025-08-20T00:00:00Z"
+
 class LogMetrics(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], dataset_split, metric_name, model_name, value) -> str:

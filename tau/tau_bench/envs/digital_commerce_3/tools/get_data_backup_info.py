@@ -6,6 +6,19 @@ from tau_bench.envs.tool import Tool
 from . import _find_one
 
 
+
+
+
+
+def _find_one(lst: List[Dict[str, Any]], key: str, value: Any) -> Dict[str, Any] | None:
+    for x in lst or []:
+        if x.get(key) == value:
+            return x
+    return None
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class GetDataBackupInfo(Tool):
     """Fetch backup metadata by backup_id or return the latest backup."""
 

@@ -5,6 +5,15 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    """Creates a JSON error message."""
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
 class UpdateCandidateOnboardingStatusTool(Tool):
     """Updates status and related timestamp fields for one or more candidates."""
 

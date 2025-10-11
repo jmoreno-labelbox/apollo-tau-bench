@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_user(data, user_id):
+    return next((u for u in data.get('users', []) if u.get('user_id') == user_id), None)
+
 class UpdateUserAddress(Tool):
     """Update a user's address to the provided fields."""
     @staticmethod

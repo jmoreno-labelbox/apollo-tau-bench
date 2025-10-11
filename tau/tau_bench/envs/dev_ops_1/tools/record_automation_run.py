@@ -5,6 +5,26 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _max_int_suffix(items: List[Dict[str, Any]], key: str, prefix: str, default: int = 0) -> int:
+    max_val = default
+    for it in items:
+        raw = it.get(key)
+        if isinstance(raw, str) and raw.startswith(prefix + "-"):
+            try:
+                num = int(raw.split("-")[-1])
+                if num > max_val:
+                    max_val = num
+            except ValueError:
+                continue
+    return max_val
+
+def _get_table(data: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return data.setdefault(name, [])
+
 class RecordAutomationRun(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], automation_type: str, inputs: Dict[str, Any], outputs: Dict[str, Any], status: str) -> str:

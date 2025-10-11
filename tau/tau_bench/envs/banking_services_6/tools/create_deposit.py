@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_transaction_id(data: Dict[str, Any]) -> str:
+    transaction_ids = [t['transaction_id'] for t in data.get('transactions', [])]
+    return _get_next_id('txn', transaction_ids)
+
 class CreateDeposit(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id, amount, description) -> str:

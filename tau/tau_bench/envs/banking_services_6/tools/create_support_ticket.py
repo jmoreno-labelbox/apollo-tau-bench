@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_support_ticket_id(data: Dict[str, Any]) -> str:
+    ticket_ids = [t['ticket_id'] for t in data.get('support_tickets', [])]
+    return _get_next_id('tkt', ticket_ids)
+
 class CreateSupportTicket(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], category, customer_id, details, priority, target_entity, target_id) -> str:

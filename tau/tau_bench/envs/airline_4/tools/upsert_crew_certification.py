@@ -5,6 +5,45 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+
+
+def _json(data: Any) -> str:
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
+
+def _get_cert_by_id(data: Dict[str, Any], cert_id: str) -> Optional[Dict[str, Any]]:
+    target = _norm(cert_id)
+    for c in data.get("certifications", []):
+        if _norm(c.get("certification_id")) == target:
+            return c
+    return None
+
+def _get_cert_by_code(data: Dict[str, Any], code: str) -> Optional[Dict[str, Any]]:
+    target = _norm(code)
+    for c in data.get("certifications", []):
+        c_code = _norm(c.get("certification_code"))
+        if c_code == target:
+            return c
+    # fallback: try common alias field names if present (no-ops if absent)
+    for c in data.get("certifications", []):
+        # sometimes datasets have 'model_id' or 'code'
+        for alt_key in ("model_id", "code", "name", "model"):
+            if _norm(c.get(alt_key)) == target:
+                return c
+    return None
+
+def _find_crew_member(data: Dict[str, Any], crew_member_id: str) -> Optional[Dict[str, Any]]:
+    target = _norm(crew_member_id)
+    for cm in data.get("crew_members", []):
+        if _norm(cm.get("crew_member_id")) == target:
+            return cm
+    return None
+
 class UpsertCrewCertification(Tool):
     """
     Create or update a crew member's certification with validation and deterministic IDs/audit.

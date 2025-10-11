@@ -6,6 +6,44 @@ from tau_bench.envs.tool import Tool
 from . import _require_tables
 
 
+
+
+
+
+
+
+
+
+def _require_tables(data: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [t for t in required if t not in data or data.get(t) is None]
+    if missing:
+        return f"Missing required table(s): {', '.join(missing)}"
+    return None
+
+def _next_id(rows: List[Dict[str, Any]], key: str) -> int:
+    max_id = 0
+    for r in rows:
+        try:
+            max_id = max(max_id, int(r.get(key, 0)))
+        except Exception:
+            pass
+    return max_id + 1
+
+def _grade_execution(miss_distance_inches: Optional[float]) -> str:
+    if miss_distance_inches is None:
+        return "Major miss"
+    if miss_distance_inches <= 3.0:
+        return "Executed"
+    if miss_distance_inches <= 9.0:
+        return "Minor miss"
+    return "Major miss"
+
+def _check_required(kwargs: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [k for k in required if kwargs.get(k) is None]
+    if missing:
+        return f"Missing required argument(s): {', '.join(missing)}"
+    return None
+
 class WritePitchExecutionGrade(Tool):
     """Insert pitch_execution_grades based on miss_distance and (optional) model fields."""
     @staticmethod

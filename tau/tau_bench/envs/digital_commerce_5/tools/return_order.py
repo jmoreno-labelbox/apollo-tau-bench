@@ -5,6 +5,40 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _err(msg: str) -> str:
+    return json.dumps({"error": msg}, indent=2)
+
+def _coerce_ids_in(obj: Any) -> Any:
+    """Recursively stringify common *_id fields inside dicts/lists."""
+    if isinstance(obj, list):
+        return [_coerce_ids_in(x) for x in obj]
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if k.endswith("_id") or k in {"cart_item_id", "category_id"}:
+                out[k] = _as_id(v)
+            else:
+                out[k] = _coerce_ids_in(v)
+        return out
+    return obj
+
+def _as_id(x: Any) -> str:
+    if x is None:
+        return x
+    if isinstance(x, str):
+        return x
+    if isinstance(x, int):
+        return str(x)
+    if isinstance(x, float) and x.is_integer():
+        return str(int(x))
+    return str(x)
+
 class ReturnOrder(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, lines: Any, reason: str = None) -> str:

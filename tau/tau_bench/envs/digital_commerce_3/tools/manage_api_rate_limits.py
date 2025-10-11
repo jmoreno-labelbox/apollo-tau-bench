@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import FIXED_NOW
 
 
+
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class ManageApiRateLimits(Tool):
     """Configure and manage API rate limiting policies."""
 

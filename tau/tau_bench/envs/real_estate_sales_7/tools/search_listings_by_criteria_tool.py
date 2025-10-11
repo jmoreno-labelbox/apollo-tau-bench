@@ -5,6 +5,35 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _price_in_range(
+    price: Optional[float], lo: Optional[int], hi: Optional[int]
+) -> bool:
+    if price is None:
+        return False
+    if lo is not None and price < lo:  # min inclusive
+        return False
+    if hi is not None and price > hi:
+        return False
+    return True
+
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
+
+def _as_int(x) -> Optional[int]:
+    try:
+        return int(x)
+    except Exception:
+        return None
+
 class SearchListingsByCriteriaTool(Tool):
     """Searches listings table matching client criteria."""
 

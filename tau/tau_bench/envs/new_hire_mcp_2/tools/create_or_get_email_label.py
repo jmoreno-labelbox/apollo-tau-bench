@@ -5,6 +5,18 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _slug(s: str) -> str:
+    return "" if s is None else "".join(ch.lower() if ch.isalnum() else "_" for ch in s).strip("_")
+
+def _ensure_list(d: Dict[str, Any], key: str) -> List[Any]:
+    if key not in d or not isinstance(d[key], list):
+        d[key] = []
+    return d[key]
+
 class CreateOrGetEmailLabel(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], name) -> str:

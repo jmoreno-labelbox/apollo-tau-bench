@@ -5,6 +5,21 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _now_iso_fixed() -> str:
+    return "2025-08-20T00:00:00Z"
+
+def _next_auto_id(rows: List[Dict[str, Any]], key: str) -> int:
+    return max((int(r.get(key, 0)) for r in rows), default=0) + 1
+
+def _by_key(items: List[Dict[str, Any]], key: str) -> Dict[Any, Dict[str, Any]]:
+    return {i.get(key): i for i in (items or [])}
+
 class CreateOrUpdateCompReport(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], client_id, created_by_broker_id, subject_property_id, final_status = "draft") -> str:

@@ -5,6 +5,25 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+
+
+def _update_row(row: Dict[str, Any], updates: Dict[str, Any]) -> None:
+    for k, v in updates.items():
+        row[k] = v
+
+def _find_one(collection: List[Dict[str, Any]], **filters: Any) -> Optional[Dict[str, Any]]:
+    for row in collection:
+        if all(row.get(k) == v for k, v in filters.items()):
+            return row
+    return None
+
+def _append_row(table: List[Dict[str, Any]], row: Dict[str, Any]) -> None:
+    table.append(row)
+
 class UpsertAppAccount(Tool):
     @staticmethod
     def invoke(

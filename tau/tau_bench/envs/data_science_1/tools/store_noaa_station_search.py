@@ -6,6 +6,20 @@ from tau_bench.envs.tool import Tool
 from . import _require
 
 
+
+
+
+
+def _require(kwargs: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [k for k in required if kwargs.get(k) is None]
+    if missing:
+        return json.dumps({"error": f"Missing required arguments: {', '.join(missing)}"}, indent=2)
+    return None
+
+def _append(table: List[Dict[str, Any]], row: Dict[str, Any]) -> Dict[str, Any]:
+    table.append(row)
+    return row
+
 class StoreNoaaStationSearch(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], query_latitude, query_longitude, query_ts, radius_km, raw_json_path_nullable, station_distances_km, station_ids, station_latitudes, station_longitudes, station_names, station_types_nullable) -> str:

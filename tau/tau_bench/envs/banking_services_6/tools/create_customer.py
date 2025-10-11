@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_customer_id(data: Dict[str, Any]) -> str:
+    customer_ids = [c['customer_id'] for c in data.get('customers', [])]
+    return _get_next_id('customer', customer_ids)
+
 class CreateCustomer(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], annual_income, city, country, dob, email, first_name, last_name, phone, postal_code, street) -> str:

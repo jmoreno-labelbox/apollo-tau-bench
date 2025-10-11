@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _idx_by_id(rows: List[Dict[str, Any]], _id: str) -> Optional[int]:
+    for i, r in enumerate(rows):
+        if r.get("id") == _id:
+            return i
+    return None
+
 class CompleteAutomationRun(Tool):
     """Complete a previously started automation run with deterministic duration."""
     @staticmethod

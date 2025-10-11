@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_table(data: Dict[str, Any], name: str) -> List[Dict[str, Any]]:
+    return data.setdefault(name, [])
+
 class IngestCiWebhookV2(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], provider: str, run_id: str, status: str, repo: Optional[str] = None, branch: Optional[str] = None, commit_sha: Optional[str] = None, job_name: Optional[str] = None) -> str:

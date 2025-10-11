@@ -6,6 +6,25 @@ from tau_bench.envs.tool import Tool
 from . import FIXED_NOW, _find_one
 
 
+
+
+
+
+
+
+def _idstr(v):
+    """Coerce numeric IDs to strings; leave None/strings unchanged."""
+    return str(v) if isinstance(v, int) else v
+
+def _find_one(lst: List[Dict[str, Any]], key: str, value: Any) -> Dict[str, Any] | None:
+    for x in lst or []:
+        if x.get(key) == value:
+            return x
+    return None
+
+def _error(msg: str) -> str:
+    return json.dumps({"error": msg})
+
 class ProcessBulkProductUpdate(Tool):
     """Process bulk updates to product catalog with validation."""
 

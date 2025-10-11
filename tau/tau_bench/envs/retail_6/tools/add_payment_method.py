@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_user(data, user_id):
+    return next((u for u in data.get('users', []) if u.get('user_id') == user_id), None)
+
 class AddPaymentMethod(Tool):
     """Attach a payment method record to a user. Must include a stable id in payload."""
     @staticmethod

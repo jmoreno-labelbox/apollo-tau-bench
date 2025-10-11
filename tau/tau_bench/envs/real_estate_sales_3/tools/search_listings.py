@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _index_by(items: List[Dict[str, Any]], key: str) -> Dict[Any, Dict[str, Any]]:
+    return {i.get(key): i for i in items or []}
+
 class SearchListings(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], baths, beds, neighborhood_ids, price_max, price_min, property_type, sqft_max, sqft_min, limit = 15) -> str:

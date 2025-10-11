@@ -5,6 +5,12 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _get_next_loan_application_id(data: Dict[str, Any]) -> str:
+    app_ids = [app['application_id'] for app in data.get('loan_applications', [])]
+    return _get_next_id('app', app_ids)
+
 class CreateLoanApplication(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], amount, annual_income, customer_id, loan_type, purpose, term) -> str:

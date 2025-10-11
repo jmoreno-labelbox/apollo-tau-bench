@@ -5,6 +5,15 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_product_by_item(data, item_id):
+    for p in data.get('products', []):
+        variants = p.get('variants', {})
+        if item_id in variants:
+            return p, variants[item_id]
+    return None, None
+
 class GetItemVariant(Tool):
     """Return product and variant by item_id."""
     @staticmethod

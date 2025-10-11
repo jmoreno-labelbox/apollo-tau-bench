@@ -5,6 +5,25 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _require_str(arg: Any, name: str) -> Optional[str]:
+    """Return arg as str if valid, else None."""
+    return arg if isinstance(arg, str) and arg.strip() else None
+
+def _get_config_json(data: Dict[str, Any], key: str) -> Dict[str, Any]:
+    """Read a config row from system_config and parse its JSON value."""
+    rows = data.get("system_config", [])
+    for r in rows:
+        if r.get("config_key") == key:
+            try:
+                return json.loads(r.get("config_value_json") or "{}")
+            except Exception:
+                return {}
+    return {}
+
 class DlpScanThreadTool(Tool):
     """Scan a thread's messages for DLP block patterns from config; returns found patterns."""
 

@@ -6,6 +6,18 @@ from tau_bench.envs.tool import Tool
 from . import _ensure_table
 
 
+
+
+
+
+def _json(x: Any) -> str:
+    return json.dumps(x, separators=(",", ":"))
+
+def _ensure_table(db: Dict[str, Any], name: str):
+    if name not in db:
+        db[name] = []
+    return db[name]
+
 class InvalidateCacheByKeys(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], keys: List[str]) -> str:

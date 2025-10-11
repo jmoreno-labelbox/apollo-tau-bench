@@ -6,6 +6,11 @@ from tau_bench.envs.tool import Tool
 from . import _load_table
 
 
+
+
+def _load_table(data: Dict[str, Any], table: str) -> List[Dict[str, Any]]:
+    return data.get(table, [])
+
 class WriteWorkflowRun(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], dag_name, report_id, status) -> str:

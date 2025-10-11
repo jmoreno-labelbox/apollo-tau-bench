@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _issues(data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return data.setdefault("issues", [])
+
 class UpdateIssue(Tool):
     """Updates an issue's fields. Supports both aggregated blocks and flat issue rows."""
 

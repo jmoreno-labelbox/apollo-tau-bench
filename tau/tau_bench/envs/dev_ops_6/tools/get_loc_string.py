@@ -5,6 +5,16 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+
+
+def _loc_table(db: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return db.get('loc_strings') or db.get('loc_strongs') or []
+
+def _err(msg: str) -> str:
+    return json.dumps({'ok': False, 'error': msg}, indent=2)
+
 class GetLocString(Tool):
     """Fetch a localization string row by string_key; optionally include a locale entry."""
 

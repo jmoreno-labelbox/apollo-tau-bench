@@ -6,6 +6,16 @@ from tau_bench.envs.tool import Tool
 from . import _json_dump
 
 
+
+
+
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _ingredient_by_id(data: Dict[str, Any], ingredient_id: int) -> Optional[Dict[str, Any]]:
+    return next((i for i in data.get("ingredients", []) if int(i.get("ingredient_id")) == ingredient_id), None)
+
 class CategorizeGroceryListSections(Tool):
     """Refresh grocery_section for all items in a list from ingredient definitions."""
     @staticmethod

@@ -5,6 +5,11 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _idstr(v):
+    return str(v) if isinstance(v, int) else v
+
 class UpdateOrderStatus(Tool):
     """Update the status of an existing order."""
 

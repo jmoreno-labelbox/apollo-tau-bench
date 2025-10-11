@@ -6,6 +6,12 @@ from tau_bench.envs.tool import Tool
 from . import _now_iso
 
 
+
+
+def _now_iso() -> str:
+    # return datetime.now(timezone.utc).isoformat()
+    return "deterministic placeholder for current time"
+
 class SetDeviceState(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], device_id: str, update: Dict[str, Any]) -> str:

@@ -7,6 +7,62 @@ from . import _json_dump
 from . import _first_user_id
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def _max_id(records: List[Dict[str, Any]], key: str, default: int) -> int:
+    if not records:
+        return default
+    return max(int(r.get(key, default)) for r in records)
+
+def _latest_order_for_household(data: Dict[str, Any], household_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if household_id is None:
+        return None
+    orders = [o for o in data.get("orders", []) if o.get("household_id") == household_id]
+    if not orders:
+        return None
+    return sorted(orders, key=lambda o: int(o.get("order_id", 0)), reverse=True)[0]
+
+def _latest_meal_plan_for_household(data: Dict[str, Any], household_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if household_id is None:
+        return None
+    plans = [m for m in data.get("meal_plans", []) if m.get("household_id") == household_id]
+    if not plans:
+        return None
+    return sorted(plans, key=lambda m: int(m.get("meal_plan_id", 0)), reverse=True)[0]
+
+def _latest_list_for_household(data: Dict[str, Any], household_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if household_id is None:
+        return None
+    lists_ = [l for l in data.get("grocery_lists", []) if l.get("household_id") == household_id]
+    if not lists_:
+        return None
+    return sorted(lists_, key=lambda l: int(l.get("list_id", 0)), reverse=True)[0]
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _first_user_id(data: Dict[str, Any]) -> Optional[int]:
+    users = data.get("users", [])
+    if not users:
+        return None
+    return int(sorted(users, key=lambda u: int(u.get("user_id", 10**9)))[0]["user_id"])
+
+def _default_household_id(data: Dict[str, Any], user_id: Optional[int] = None) -> Optional[int]:
+    hh = _household_for_user(data, user_id)
+    return hh.get("household_id") if hh else None
+
 class LogAuditEvent(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], entity_id, entity_type, household_id, user_id, action_enum = "create", payload_json = {}) -> str:

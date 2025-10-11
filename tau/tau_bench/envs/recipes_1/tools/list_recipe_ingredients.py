@@ -6,6 +6,20 @@ from tau_bench.envs.tool import Tool
 from . import _json_dump
 
 
+
+
+
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
+def _index_by(records: List[Dict[str, Any]], key: str) -> Dict[Any, Dict[str, Any]]:
+    out: Dict[Any, Dict[str, Any]] = {}
+    for r in records:
+        if key in r:
+            out[r[key]] = r
+    return out
+
 class ListRecipeIngredients(Tool):
     """Return joined recipe_ingredients for a recipe_id with ingredient metadata."""
     @staticmethod

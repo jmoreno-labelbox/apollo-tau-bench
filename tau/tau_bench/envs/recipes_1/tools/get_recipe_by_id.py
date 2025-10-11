@@ -6,6 +6,16 @@ from tau_bench.envs.tool import Tool
 from . import _json_dump
 
 
+
+
+
+
+def _recipe_by_id(data: Dict[str, Any], recipe_id: int) -> Optional[Dict[str, Any]]:
+    return next((r for r in data.get("recipes", []) if int(r.get("recipe_id")) == recipe_id), None)
+
+def _json_dump(obj: Any) -> str:
+    return json.dumps(obj, indent=2, ensure_ascii=False)
+
 class GetRecipeById(Tool):
     """Return a recipe row by id."""
     @staticmethod

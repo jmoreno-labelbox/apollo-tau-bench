@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _find_one(collection: List[Dict[str, Any]], **filters: Any) -> Optional[Dict[str, Any]]:
+    for row in collection:
+        if all(row.get(k) == v for k, v in filters.items()):
+            return row
+    return None
+
 class GetDirectoryAccount(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], employee_id: Optional[str] = None, account_id: Optional[str] = None) -> str:
