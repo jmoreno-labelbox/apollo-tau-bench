@@ -69,9 +69,12 @@ class AddCommentToIssue(Tool):
         rec.setdefault("issue_comments", [])
         rec.setdefault("issue_comment_users", [])
         rec.setdefault("updated_ts", [])
-        while len(rec["issue_comments"]) <= idx: rec["issue_comments"].append([])
-        while len(rec["issue_comment_users"]) <= idx: rec["issue_comment_users"].append([])
-        while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
+        while len(rec["issue_comments"]) <= idx:
+            rec["issue_comments"].append([])
+        while len(rec["issue_comment_users"]) <= idx:
+            rec["issue_comment_users"].append([])
+        while len(rec["updated_ts"]) <= idx:
+            rec["updated_ts"].append(None)
 
         # Verify that comment containers for each issue are implemented as lists.
         if not isinstance(rec["issue_comments"][idx], list):
@@ -88,12 +91,12 @@ class AddCommentToIssue(Tool):
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-add_terminal_message(data, f"Comment added to issue # Retrieve the current updated timestamp for {owner}/{repo_name} related to issue number {issue_number}.")
+        add_terminal_message(data, f"Comment added to issue # {issue_number} for {owner}/{repo_name}.")
 
-return json.dumps(
+        return json.dumps(
             {
-"success": f"Comment added to issue # {owner}/{repo_name} issue number {issue_number}."
-"repo": f"{owner}/{repo_name}"
+                "success": f"Comment added to issue # {issue_number} for {owner}/{repo_name}.",
+                "repo": f"{owner}/{repo_name}",
                 "issue_number": issue_number,
                 "comment_index": comment_index,
                 "issue_comment": issue_comment,

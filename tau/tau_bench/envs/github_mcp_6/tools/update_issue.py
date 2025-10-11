@@ -152,15 +152,15 @@ class UpdateIssue(Tool):
 
         return json.dumps({
             "success": False,
-"error": f"Issue # {issue_number} does not exist in the {owner}/{repo} repository."
-"error_code": "ISSUE_NOT_FOUND",
+            "error": f"Issue # {issue_number} does not exist in the {owner}/{repo} repository.",
+            "error_code": "ISSUE_NOT_FOUND",
             "metadata": {
                 "repository": f"{owner}/{repo}",
                 "requested_issue": issue_number,
                 "search_timestamp": update_timestamp
             },
             "suggestions": [
-                f"Check if issue # The issue number {issue_number} is present in the repository {owner}/{repo}.
+                f"Check if issue # {issue_number} is present in the repository {owner}/{repo}.",
                 "Verify repository name and owner are correct",
                 "Use search_issues tool to find available issues"
             ]

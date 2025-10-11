@@ -2,6 +2,7 @@
 
 import json
 from typing import Any, Dict, List, Optional
+from datetime import datetime, timezone
 from tau_bench.envs.tool import Tool
 
 
@@ -13,7 +14,7 @@ class CreatePullRequestTool(Tool):
         title = kwargs.get('title')
         body = kwargs.get('body')
         head_branch = kwargs.get('head')
-        base_branch = kwargs.get('base', 'main') # Set the default primary branch to 'main'.
+        base_branch = kwargs.get('base', 'main')  # Set the default primary branch to 'main'.
 
         if not all([owner, repo, title, body, head_branch, base_branch]):
             return json.dumps({
@@ -42,10 +43,10 @@ class CreatePullRequestTool(Tool):
             "pr_states": ["open"],
             "head_branches": [head_branch],
             "base_branches": [base_branch],
-            "head_shas": [""], # Temporary variable for SHA.
+            "head_shas": [""],  # Temporary variable for SHA.
             "mergeable_flags": [True],
             "merged_flags": [False],
-            "pr_files": [], # This will be filled in by get_pull_request_files subsequently.
+            "pr_files": [],  # This will be filled in by get_pull_request_files subsequently.
             "pr_comments": [],
             "pr_comment_users": [],
             "reviewers": [],
@@ -57,8 +58,8 @@ class CreatePullRequestTool(Tool):
 
         return json.dumps({
             "status": "success",
-"message": f"Pull request # {pr_number} has been successfully created."
-"pr_number": pr_number
+            "message": f"Pull request # {pr_number} has been successfully created.",
+            "pr_number": pr_number
         }, indent=2)
 
     @staticmethod
@@ -78,7 +79,7 @@ class CreatePullRequestTool(Tool):
                         "head": {"type": "string", "description": "The name of the branch where your changes are implemented."},
                         "base": {"type": "string", "description": "The name of the branch you want your changes pulled into."}
                     },
-                    "required": ["owner", "repo", "title", "body", "head", "base"],
-                },
-            },
+                    "required": ["owner", "repo", "title", "body", "head", "base"]
+                }
+            }
         }

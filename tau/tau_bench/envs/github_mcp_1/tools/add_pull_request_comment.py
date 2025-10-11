@@ -48,21 +48,27 @@ class AddPullRequestComment(Tool):
             return json.dumps({"error": f"No pull requests found for '{owner}/{repo_name}'."}, indent=2)
 
         pr_numbers = rec.get("pr_numbers", [])
-if pr_number not in pr_numbers:
-return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
+        if pr_number not in pr_numbers:
+            return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
         idx = pr_numbers.index(pr_number)
 
         # ---- Verify the existence of comments/users structures (thread 0) ----
         rec.setdefault("pr_comments", [])
         rec.setdefault("pr_comment_users", [])
-        while len(rec["pr_comments"]) <= idx: rec["pr_comments"].append([])
-        while len(rec["pr_comment_users"]) <= idx: rec["pr_comment_users"].append([])
+        while len(rec["pr_comments"]) <= idx:
+            rec["pr_comments"].append([])
+        while len(rec["pr_comment_users"]) <= idx:
+            rec["pr_comment_users"].append([])
 
-        if not isinstance(rec["pr_comments"][idx], list): rec["pr_comments"][idx] = []
-        if not isinstance(rec["pr_comment_users"][idx], list): rec["pr_comment_users"][idx] = []
+        if not isinstance(rec["pr_comments"][idx], list):
+            rec["pr_comments"][idx] = []
+        if not isinstance(rec["pr_comment_users"][idx], list):
+            rec["pr_comment_users"][idx] = []
 
-        if len(rec["pr_comments"][idx]) == 0: rec["pr_comments"][idx].append([])
-        if len(rec["pr_comment_users"][idx]) == 0: rec["pr_comment_users"][idx].append([])
+        if len(rec["pr_comments"][idx]) == 0:
+            rec["pr_comments"][idx].append([])
+        if len(rec["pr_comment_users"][idx]) == 0:
+            rec["pr_comment_users"][idx].append([])
 
         thread_idx = 0
         comments_thread = rec["pr_comments"][idx][thread_idx]
@@ -82,17 +88,26 @@ return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo
         rec.setdefault("reviewers", [])
         rec.setdefault("review_states", [])
         rec.setdefault("review_events", [])
-        while len(rec["reviewers"]) <= idx: rec["reviewers"].append([])
-        while len(rec["review_states"]) <= idx: rec["review_states"].append([])
-        while len(rec["review_events"]) <= idx: rec["review_events"].append([])
+        while len(rec["reviewers"]) <= idx:
+            rec["reviewers"].append([])
+        while len(rec["review_states"]) <= idx:
+            rec["review_states"].append([])
+        while len(rec["review_events"]) <= idx:
+            rec["review_events"].append([])
 
-        if not isinstance(rec["reviewers"][idx], list): rec["reviewers"][idx] = []
-        if not isinstance(rec["review_states"][idx], list): rec["review_states"][idx] = []
-        if not isinstance(rec["review_events"][idx], list): rec["review_events"][idx] = []
+        if not isinstance(rec["reviewers"][idx], list):
+            rec["reviewers"][idx] = []
+        if not isinstance(rec["review_states"][idx], list):
+            rec["review_states"][idx] = []
+        if not isinstance(rec["review_events"][idx], list):
+            rec["review_events"][idx] = []
 
-        if len(rec["reviewers"][idx]) == 0: rec["reviewers"][idx].append([])
-        if len(rec["review_states"][idx]) == 0: rec["review_states"][idx].append([])
-        if len(rec["review_events"][idx]) == 0: rec["review_events"][idx].append([])
+        if len(rec["reviewers"][idx]) == 0:
+            rec["reviewers"][idx].append([])
+        if len(rec["review_states"][idx]) == 0:
+            rec["review_states"][idx].append([])
+        if len(rec["review_events"][idx]) == 0:
+            rec["review_events"][idx].append([])
 
         reviewers_list = rec["reviewers"][idx][0]
         states_container = rec["review_states"][idx][0]
@@ -120,10 +135,14 @@ return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo
             events_hist = []
 
         # Coordinate lengths with reviewers.
-        while len(states_hist) < len(reviewers_list): states_hist.append([])
-        while len(events_hist) < len(reviewers_list): events_hist.append([])
-        if len(states_hist) > len(reviewers_list): states_hist = states_hist[:len(reviewers_list)]
-        if len(events_hist) > len(reviewers_list): events_hist = events_hist[:len(reviewers_list)]
+        while len(states_hist) < len(reviewers_list):
+            states_hist.append([])
+        while len(events_hist) < len(reviewers_list):
+            events_hist.append([])
+        if len(states_hist) > len(reviewers_list):
+            states_hist = states_hist[:len(reviewers_list)]
+        if len(events_hist) > len(reviewers_list):
+            events_hist = events_hist[:len(reviewers_list)]
 
         # Verify the existence of the reviewer; then ADD review_state/event.
         if comment_user in reviewers_list:
@@ -144,15 +163,16 @@ return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo
 
         # ---- Update updated_ts in a deterministic manner using the environment helper ----
         rec.setdefault("updated_ts", [])
-        while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
+        while len(rec["updated_ts"]) <= idx:
+            rec["updated_ts"].append(None)
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"Comment added to PR # Appending review state/event for {owner}/{repo_name} with {pr_number}; current timestamp updated.
+        add_terminal_message(data, f"Comment added to PR # {pr_number} for {owner}/{repo_name}; review state/event appended and timestamp updated.")
 
         return json.dumps(
             {
-                "success": f"Comment added to PR # Added review state/event for {owner}/{repo_name} in {pr_number}.
+                "success": f"Comment added to PR # {pr_number} for {owner}/{repo_name}.",
                 "repo": f"{owner}/{repo_name}",
                 "pr_number": pr_number,
                 "thread_index": thread_idx,

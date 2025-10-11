@@ -100,15 +100,15 @@ class GetIssue(Tool):
 
         return json.dumps({
             "success": False,
-"error": f"Issue # {issue_number} is not present in the repository {owner}/{repo}"
-"error_code": "ISSUE_NOT_FOUND",
+            "error": f"Issue # {issue_number} is not present in the repository {owner}/{repo}.",
+            "error_code": "ISSUE_NOT_FOUND",
             "metadata": {
                 "repository": f"{owner}/{repo}",
                 "requested_issue": issue_number,
                 "search_timestamp": "2023-12-05T12:00:00Z"
             },
             "suggestions": [
-                f"Check if issue # Issue {issue_number} is present in the {owner}/{repo} repository.
+                f"Check if issue # {issue_number} is present in the {owner}/{repo} repository.",
                 "Verify repository name and owner are correct",
                 "Use search_issues tool to find available issues"
             ]

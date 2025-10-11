@@ -3150,11 +3150,11 @@ Task(
     user_id="task_82",
     instruction=(
 "Act as 'maya-w' with 'alice.w@acme.dev' and your auth key is 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to have the repository 'acme-webapp' achieve the state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' is in place, with the exact contents '## 1.1.0 - Small corrections - Documentation update.' This change should originate from the line labeled 'release-notes-1.1.0', be authored by 'maya-w', and implemented via a pull request named 'Docs: Release notes 1.1.0' with the content 'Include release notes for version 1.1.0.' The pull request must be approved by 'nathan'."
-    ),
+    )),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Bug fixes - Documentation update"})
+        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Bug fixes - Documentation update"})
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -3635,12 +3635,12 @@ Action(name="CloseIssue", kwargs={
 }),
 ],
 outputs=[]
-]
+
 Task(
     annotator="0",
     user_id="task_96",
     instruction=(
-        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' achieves a state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' exists with the contents exactly '## 1.1.0 - Small adjustments - Documentation update. This change should commence at the 'release-notes-1.1.0' line, implemented by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'.
+        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' achieves a state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' exists with the contents exactly '## 1.1.0 - Small adjustments - Documentation update. This change should commence at the 'release-notes-1.1.0' line, implemented by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
@@ -3770,7 +3770,6 @@ Task(
 
 
 
-]
 
 
             # Operation(
