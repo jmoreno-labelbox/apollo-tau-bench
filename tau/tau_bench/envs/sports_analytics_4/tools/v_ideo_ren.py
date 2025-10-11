@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class VIdeoRen(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         # return output
         return json.dumps({"video_links": ["portal://playlist/opponent_pitcher_tendencies"]}, indent=2)
 

@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it failed to provide access to the file check database, resulting in repeated errors ('str' object has no attribute 'get') when attempting to retrieve the first unfinished task. This prevented the agent from proceeding with the task processing as outlined in the ground truth action sequence. Additionally, the environment failed to locate the log files (\"file_check_log.json\" and \"scan_results.log\") and encountered errors when attempting to update the task's status in the database, further hindering the completion of the task. These issues indicate that the environment did not provide the necessary resources or access to execute the required actions successfully."
+            "description": "The environment is responsible for the fault in the trajectory because it failed to provide the necessary server information and access to the `file_check_db`. The errors `'str' object has no attribute 'get'` indicate that the environment was unable to retrieve or process the required data, preventing the user from executing the necessary actions to ensure NERC-CIP compliance. This lack of access to critical information and resources hindered the user's ability to follow the ground truth action sequence."
         }
     ],
     "fault_type_analysis": []

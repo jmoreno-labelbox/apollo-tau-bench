@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class DbMod(Tool):
     @staticmethod
         # primary call function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         # return outcome
         return json.dumps({"dbt_run_status": "success"}, indent=2)
 

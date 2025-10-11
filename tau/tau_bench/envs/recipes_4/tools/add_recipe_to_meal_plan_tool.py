@@ -6,6 +6,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+ERROR_MESSAGES = {
+    "REQUIRED_PARAMETER": "Required parameter '{param}' is missing.",
+    "INVALID_PARAMETER_TYPE": "Parameter '{param}' must be of type {expected_type}.",
+    "NOT_FOUND": "{entity} with ID {entity_id} not found.",
+    "OPERATION_FAILED": "Operation failed: {reason}",
+}
+
+
 
 
 
@@ -214,7 +222,7 @@ class AddRecipeToMealPlanTool(Tool):
             "notes": {"type": str, "required": False},
             "user_id": {"type": int, "required": False},
         }
-        validation_error = _validate_inputs(kwargs, param_definitions)
+        validation_error = _validate_inputs({"meal_plan_id": meal_plan_id, "plan_date": plan_date, "recipe_id": recipe_id, "user_id": user_id, "meal_type": meal_type, "notes": notes, "servings_adult": servings_adult, "servings_child": servings_child}, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
 

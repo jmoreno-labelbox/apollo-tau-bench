@@ -9,7 +9,7 @@ class GetAds(Tool):
     """Retrieves all ad IDs."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         ads = list(data.get("ads", {}).values())
         ids_ = []
         for i in ads:

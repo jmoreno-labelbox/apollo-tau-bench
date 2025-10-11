@@ -1,0 +1,435 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_01",
+        "actions": [
+          {
+            "name": "GetAllArtifactsOfTypeWithTagsAndEmail",
+            "kwargs": {
+              "artifact_type": "FRAME",
+              "owner_email": "emma.creative@company.com",
+              "tags": [
+                "needs-review"
+              ]
+            }
+          },
+          {
+            "name": "CreateNewAsset",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "export_profile": "PNG 2x",
+              "file_size_bytes": 2000,
+              "storage_ref": "gs://company-assets/figma-exports/hero-section-2x-r2.png"
+            }
+          },
+          {
+            "name": "CreateNewCycle",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "sla_deadline_ts": "2024-08-28T12:30:00Z"
+            }
+          },
+          {
+            "name": "StartEmailThread",
+            "kwargs": {
+              "subject": "Design Review: hero-section-2x-r2.png",
+              "sender_id": "emma.creative@company.com",
+              "recipients": [
+                "jake.design@company.com",
+                "chris.engineer@company.com",
+                "anna.brand@company.com"
+              ],
+              "current_labels": [
+                "Design/Needs-Review",
+                "figma",
+                "review"
+              ],
+              "body_html": "<p>Review for the hero-section-2x-r2.png. See attachment.</p>",
+              "attachments_asset_ids": [
+                "asset_019"
+              ]
+            }
+          },
+          {
+            "name": "UpdateCycleStatus",
+            "kwargs": {
+              "cycle_id": "cycle_013",
+              "new_status": "NEEDS_REVIEW",
+              "thread_id": "thread_015"
+            }
+          },
+          {
+            "name": "AddComment",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "author_email": "emma.creative@company.com",
+              "content": "Submitted for review",
+              "source_message_id": "msg_017",
+              "resolved_flag": false
+            }
+          }
+        ],
+        "instruction": "Handle a review request submission for your frame as 'emma.creative@company.com' by exporting a PNG 2x asset for that frame with the filename 'hero-section-2x-r2.png' in the Gmail thread addressed to 'jake.design@company.com', 'chris.engineer@company.com', 'anna.brand@company.com'.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"Create-style events must utilize a fixed created timestamp, while update-style events must utilize a fixed updated timestamp.\",\n    \"Approvals must apply a fixed approval timestamp; however, if the review was escalated, a fixed escalated-approval timestamp must be used instead.\",\n    \"SLA deadlines and escalation moments must be captured with fixed, deterministic timestamps.\",\n    \"Assign each newly created row within any entity (artifacts, assets, cycles, threads, messages, comments, approvals, releases, diffs) a monotonic, human-readable identifier that is based on the present database size.\",\n    \"The process for generating identifiers must yield the same result on every run; do not incorporate randomness or wall-clock timestamps.\",\n    \"When multiple rows are returned, ensure the output is consistently ordered by the entity\u2019s identifier in ascending sequence.\",\n    \"Thread message histories must be sorted first by sent time, followed by identifier, to guarantee consistent playback.\",\n    \"Artifacts record type, naming, ownership, location, and link metadata; fields specific to frames are filled in solely when relevant.\",\n    \"Artifact tags are initialized as an empty list and must not change unless they are deliberately updated.\",\n    \"Assets are connected to artifacts, log export profile and size, and initially assume a clean data-loss-prevention status with no additional details.\",\n    \"During asset listing or grouping, maintain deterministic ordering and restrict inclusion to rows that correspond to the specified artifact linkage.\",\n    \"New review cycles start in-flight, monitor SLA deadlines, and unambiguously capture escalation state.\",\n    \"Updates to a cycle can modify status, thread linkage, and escalation information; assigning an escalation automatically sets the SLA breach flag.\",\n    \"Retrieving a cycle requires an exact match: the operation yields either the one matching cycle or a deterministic not-found result.\",\n    \"Any approval action must set the parent cycle to the approved state.\",\n    \"When a cycle is flagged as breached, its approval timestamp indicates the escalated timeline.\",\n    \"Approvals are added to the ledger in a deterministic sequence and do not alter the historical order retroactively.\",\n    \"New threads define sender identity, recipients, labels, and the initial message content; the text is deterministically generated from the HTML.\",\n    \"Any following message must have sender authorization associated with the thread\u2019s participants; if not authorized, the system returns a uniform error.\",\n    \"When a post is made in a thread, the thread\u2019s updated time is refreshed according to the fixed update policy, while the ordered history remains intact.\",\n    \"Notifications sent to a thread adopt the thread\u2019s sender identity and utilize identical HTML-to-text normalization procedures.\",\n    \"Comments are attached to artifacts, record the author and content, may optionally reference a source message, and include a flag indicating whether they are resolved.\",\n    \"Comment entries are unchangeable records except for the explicit ability to update the resolution state in subsequent modifications.\",\n    \"Releases represent versioned milestones that record the time of creation and may optionally be linked to a communication.\",\n    \"Release diffs record items that have been added, updated, or removed, as well as highlights and version bumps, within deterministic lists.\",\n    \"Retrieving a diff by release returns precisely one row or a deterministic not-found outcome.\",\n    \"Before/after comparisons retain all previous items unless they are explicitly removed, and incorporate any items that are new or have been updated.\",\n    \"Sorted lists are used for comparison outputs to guarantee consistent and repeatable results.\",\n    \"Each change in user-visible state results in appending a terminal log entry that includes the fixed timestamp and a brief, human-readable message.\",\n    \"Log storage maintains a one-to-one correspondence between printed timestamps and messages for auditability, applying a uniform rendering format.\",\n    \"When creating events such as artifacts, assets, cycles, threads, releases, or diffs, always apply the fixed created time; for updates\u2014including messages, cycle changes, or approvals\u2014use the fixed updated or approval time as relevant.\",\n    \"All behaviors must ensure reproducibility, maintain idempotency for repeated operations, and provide explicit failure modes in cases of invalid lookups or insufficient permissions. Every instance of the now date defaults to '2024-08-23T12:00:00Z'. To retrieve any feedback for the artifact, the default tag must contain 'needs-review'.\",\n    \"The input parameters require that 'frame' be represented as 'FRAME'.\",\n    \"To submit an approval request, an artifact must first be transformed into an asset by generating a new asset.\",\n    \"The default storage_ref location follows the format 'gs://company-assets/figma-exports/<filename>'.\",\n    \"Unless otherwise specified, the default size for a newly created PNG 2x is 2000, for PNG 3x is 3000, for PNG 1x is 1000, for SVG is 500, and for PDF is 200.\",\n    \"When initiating an approval request for an asset, generate a new cycle and ensure that a gmail thread is consistently maintained during the entire process.\",\n    \"The sla_deadline_ts field should have a default value set to 2024-08-28T12:30:00Z.\",\n    \"The standard format for the subject line of email threads pertaining to reviews is 'Design Review: <filename>'.\",\n    \"The standard html body format for an email thread concerning a review is '<p>Review for the <filename>. See attachment.</p>'\",\n    \"The standard html body format for an email thread regarding a request for changes is '<p>Requesting changes: <message>.</p>'\",\n    \"The standard html body format for an email thread pertaining to changes implementation is '<p>Changes implemented: <message>.</p>'\",\n    \"The standard html body format for an approval-related email thread is '<p>Approved: <message>.</p>'.\",\n    \"The standard html body format for an email thread about a new release is '<h2>Release Notes - <release_name></h2>'. The set of current_labels for a review-related email thread must contain the labels 'Design/Needs-Review', 'figma', and 'review'.\",\n    \"The set of current_labels for a release-related email thread must include 'Design/Release'.\",\n    \"When a new review cycle is created, its initial value for status is set to IN_FLIGHT, and for review tasks, the status is updated to NEEDS_REVIEW.\",\n    \"To approve, set the review cycle status to APPROVED; to request changes, update the review cycle status to CHANGES_REQUESTED.\",\n    \"For both approval and change request actions on a review cycle, a comment and a message must be generated within the email thread.\",\n    \"Comments between gmail and figma must be synchronized: when a user submits a review, the user must also post a comment with the content 'Submitted for review'. If a change is requested, the comment content should be 'Requested changes'. When a change is implemented, the comment must state 'Changes implemented'. If the request is approved, the comment content should be 'Approved'.\",\n    \"When creating a comment, the resolved_flag is set to False by default, except when the content is 'Changes implemented' or 'Approved'. For new artifacts, the default values are: artifact_type as FRAME, artifact_name as Hero Section, page_id as 1:2, and current_tags as ['user', 'settings'\n"
+      },
+      {
+        "role": "user",
+        "content": "Hey! I need to submit a review request for a frame asset via email. Can you guide me through the process?"
+      },
+      {
+        "content": "Sure! Here's a step-by-step guide to submitting a review request for a frame asset via email:\n\n1. **Create the Artifact**: If you haven't already, you need to create the frame artifact in Figma. You'll need to provide details like the artifact type, name, Figma file ID, page ID, and owner email.\n\n2. **Transform Artifact into Asset**: Once the artifact is created, you need to create a new asset linked to that artifact. You'll specify the export profile, file size, and storage reference.\n\n3. **Create a Review Cycle**: After the asset is created, initiate a new review cycle for the asset. You'll need to set the SLA deadline timestamp and optionally link it to a Gmail thread.\n\n4. **Start an Email Thread**: Create a new Gmail thread for the review request. You'll need to set the subject line, sender identity, recipients, and the body of the email.\n\n5. **Send the Review Request**: Once the email thread is created, you can send the review request email, which includes the details of the review.\n\n6. **Add Comments**: After submitting the review, add a comment to the artifact indicating that it has been submitted for review.\n\n### Required Information\n- **Artifact Details**: Name, Figma file ID, page ID, owner email.\n- **Asset Details**: Export profile, file size, storage reference.\n- **Review Cycle Details**: SLA deadline timestamp.\n- **Email Thread Details**: Subject, recipients, body content.\n\nWould you like to proceed with any specific step? If so, please provide the necessary details, and I can assist you with the actions!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I've already got the frame ready in Figma. What's the next step I should take for the review request?"
+      },
+      {
+        "content": "Great! Since you already have the frame ready in Figma, the next step is to transform the artifact into an asset. Here\u2019s what you need to do:\n\n### Step 1: Create a New Asset\nYou'll need to create a new asset linked to the frame artifact. For this, please provide the following details:\n\n1. **Artifact ID**: The ID of the frame artifact you want to create an asset for.\n2. **Export Profile**: The export profile you want to use (e.g., PNG, SVG, etc.).\n3. **File Size**: The size of the asset in bytes. The default sizes are:\n   - PNG 1x: 1000\n   - PNG 2x: 2000\n   - PNG 3x: 3000\n   - SVG: 500\n   - PDF: 200\n4. **Storage Reference**: The storage reference location, which follows the format `gs://company-assets/figma-exports/<filename>`.\n\nOnce you provide these details, I can create the asset for you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I've prepared a PNG 2x version of the frame for export. What's the filename to save it as, and any details on where it should be stored?"
+      },
+      {
+        "content": "For a PNG 2x version of the frame, you can save it with a filename that reflects its content or purpose. Here\u2019s a suggested format:\n\n### Suggested Filename\n- **Filename**: `frame_name_2x.png` (replace `frame_name` with a descriptive name for your frame)\n\n### Storage Reference\nThe storage reference should follow this format:\n- **Storage Reference**: `gs://company-assets/figma-exports/<filename>`\n- For example, if your frame is named \"Hero Section\", the storage reference would be:\n  - `gs://company-assets/figma-exports/Hero_Section_2x.png`\n\n### File Size\nThe default size for a PNG 2x is **2000 bytes**.\n\n### Summary of Details Needed\n- **Artifact ID**: (Please provide this)\n- **Export Profile**: PNG\n- **File Size**: 2000\n- **Storage Reference**: `gs://company-assets/figma-exports/<your_filename>`\n\nPlease provide the artifact ID and confirm the filename, and I can proceed to create the asset for you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The filename \"hero-section-2x-r2.png\" is ready to go, so I just need to know how you'd prefer to handle the conversation via email. Can you confirm what to do next?"
+      },
+      {
+        "content": "Perfect! Now that you have the filename ready as \"hero-section-2x-r2.png,\" here\u2019s how to proceed with the email conversation for the review request:\n\n### Step 2: Create the Asset\n1. **Artifact ID**: Please provide the artifact ID for the frame you want to create an asset for.\n2. **Export Profile**: PNG\n3. **File Size**: 2000\n4. **Storage Reference**: `gs://company-assets/figma-exports/hero-section-2x-r2.png`\n\nOnce I have the artifact ID, I can create the asset.\n\n### Step 3: Create a Review Cycle\nAfter the asset is created, we will initiate a new review cycle. For this, we need:\n1. **Artifact ID**: The ID of the asset just created.\n2. **SLA Deadline Timestamp**: This will default to `2024-08-28T12:30:00Z`.\n3. **Thread ID**: (Optional) If you want to link it to an existing email thread.\n\n### Step 4: Start an Email Thread\nWe will create a new Gmail thread for the review request. Here\u2019s the information needed:\n1. **Subject**: `Design Review: hero-section-2x-r2.png`\n2. **Sender ID**: Your email address.\n3. **Recipients**: The email addresses of the reviewers.\n4. **Current Labels**: `['Design/Needs-Review', 'figma', 'review']`\n5. **Body HTML**: `<p>Review for the hero-section-2x-r2.png. See attachment.</p>`\n\n### Step 5: Send the Review Request\nAfter creating the email thread, we will send the review request email.\n\n### Summary of Actions\n1. Create the asset (need artifact ID).\n2. Create a review cycle (need asset ID).\n3. Start the email thread (need sender ID and recipients).\n4. Send the review request.\n\nPlease provide the artifact ID and any other necessary details, and I can assist you with the next steps!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I just need to send the email. Who are the recipients I should include in the email conversation for the review request?"
+      },
+      {
+        "content": "The recipients for the email conversation regarding the review request typically include:\n\n1. **Design Team Members**: Anyone involved in the design process who needs to review the asset.\n2. **Stakeholders**: Individuals who have a vested interest in the design, such as project managers or product owners.\n3. **Feedback Providers**: Specific team members who are responsible for providing feedback on the design.\n\n### Suggested Recipients\n- **Design Lead**: (e.g., designlead@example.com)\n- **Project Manager**: (e.g., projectmanager@example.com)\n- **Team Members**: (e.g., teammember1@example.com, teammember2@example.com)\n\n### Example Recipients List\n- designlead@example.com\n- projectmanager@example.com\n- teammember1@example.com\n- teammember2@example.com\n\nPlease provide the actual email addresses of the recipients you want to include, and I can help you finalize the email thread for the review request!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it! I'll address the email to 'jake.design@company.com,' 'chris.engineer@company.com,' and 'anna.brand@company.com.' What's next?"
+      },
+      {
+        "content": "Great! Now that you have the recipients ready, here\u2019s the next step to finalize the email for the review request:\n\n### Step 1: Create the Asset\nBefore sending the email, we need to create the asset linked to the frame artifact. Please provide the **artifact ID** for the frame you want to create an asset for.\n\n### Step 2: Create the Review Cycle\nOnce the asset is created, we will initiate a new review cycle. The details for this step are:\n- **Artifact ID**: (The ID of the asset just created)\n- **SLA Deadline Timestamp**: `2024-08-28T12:30:00Z`\n\n### Step 3: Start the Email Thread\nHere\u2019s the information for the email thread:\n- **Subject**: `Design Review: hero-section-2x-r2.png`\n- **Sender ID**: Your email address (please provide this).\n- **Recipients**: \n  - jake.design@company.com\n  - chris.engineer@company.com\n  - anna.brand@company.com\n- **Current Labels**: `['Design/Needs-Review', 'figma', 'review']`\n- **Body HTML**: `<p>Review for the hero-section-2x-r2.png. See attachment.</p>`\n\n### Step 4: Send the Review Request\nAfter creating the email thread, we will send the review request email.\n\n### Summary of Actions\n1. Create the asset (need artifact ID).\n2. Create a review cycle (need asset ID).\n3. Start the email thread (need your sender ID).\n4. Send the review request.\n\nPlease provide the artifact ID and your email address, and I can assist you with creating the asset and sending the email!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "My email is 'emma.creative@company.com,' but I'm not certain about the artifact ID. Do you happen to know what's next?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"figma_file_id\":\"your_figma_file_id\",\"artifact_type\":\"FRAME\"}",
+              "name": "get_artifacts_with_file_id"
+            },
+            "id": "call_bplnl8RFf1DI90AFtunmKxGW",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_bplnl8RFf1DI90AFtunmKxGW",
+        "name": "get_artifacts_with_file_id",
+        "content": "Error: GetArtifactsWithFileId.invoke() missing 2 required positional arguments: 'frame_id' and 'page_id'"
+      },
+      {
+        "content": "To retrieve the artifact ID for your frame, I need the following details:\n\n1. **Figma File ID**: The ID of the Figma file where the frame is located.\n2. **Page ID**: The ID of the page that contains the frame.\n3. **Frame ID**: If you have the specific frame ID, that would be helpful as well.\n\nIf you can provide the Figma file ID and the page ID, I can help you find the artifact ID for the frame. If you're unsure about these details, you might need to check in your Figma project. Let me know how you'd like to proceed!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm afraid I don't have the artifact ID at the moment. Can we focus on the email part for now, or should we check back on the artifact ID details first?"
+      },
+      {
+        "content": "We can certainly focus on the email part for now! However, to send the review request email, we still need to create the asset first, which requires the artifact ID. \n\n### Options:\n1. **Check for Artifact ID**: If you can find the artifact ID later, we can proceed with creating the asset and then sending the email.\n2. **Prepare the Email**: We can prepare the email content and structure, but we won't be able to send it until the asset is created.\n\n### Email Preparation\nIf you want to prepare the email now, here\u2019s a summary of what we have so far:\n\n- **Subject**: `Design Review: hero-section-2x-r2.png`\n- **Sender ID**: emma.creative@company.com\n- **Recipients**:\n  - jake.design@company.com\n  - chris.engineer@company.com\n  - anna.brand@company.com\n- **Current Labels**: `['Design/Needs-Review', 'figma', 'review']`\n- **Body HTML**: `<p>Review for the hero-section-2x-r2.png. See attachment.</p>`\n\n### Next Steps\n- If you want to proceed with preparing the email, I can help you draft it.\n- If you prefer to find the artifact ID first, we can pause here and check back later.\n\nLet me know how you\u2019d like to proceed!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's go ahead and prepare the email draft with the details we have. What should I include in the body of the email?"
+      },
+      {
+        "content": "Here's a draft for the email body, including all the necessary details for the review request:\n\n### Email Draft\n\n**Subject**: Design Review: hero-section-2x-r2.png\n\n**To**: \n- jake.design@company.com\n- chris.engineer@company.com\n- anna.brand@company.com\n\n**Body**:\n```html\n<p>Hi Team,</p>\n\n<p>I hope this message finds you well. I would like to request your review for the attached asset:</p>\n\n<p><strong>Asset Name:</strong> hero-section-2x-r2.png</p>\n<p><strong>Details:</strong> Please find the asset attached for your review.</p>\n\n<p>Thank you for your feedback!</p>\n\n<p>Best regards,<br>\nEmma Creative<br>\nemma.creative@company.com</p>\n```\n\n### Next Steps\n1. **Attachments**: Make sure to attach the asset file (hero-section-2x-r2.png) when sending the email.\n2. **Send the Email**: Once you have the asset created and the artifact ID, you can send this email.\n\nIf you need any adjustments to the email draft or if you want to proceed with creating the asset once you have the artifact ID, just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the draft! With the asset ready, I'll attach 'hero-section-2x-r2.png' to the email and send it off when I've got the artifact ID. Anything else to consider right now?"
+      },
+      {
+        "content": "You're welcome! Here are a few additional considerations to keep in mind as you prepare to send the email:\n\n1. **Double-Check the Attachment**: Ensure that the correct file, 'hero-section-2x-r2.png', is attached to the email before sending.\n\n2. **Review the Recipients**: Confirm that all the intended recipients are included in the email.\n\n3. **Follow-Up**: After sending the email, it might be a good idea to follow up with the recipients if you don't receive feedback within a reasonable timeframe.\n\n4. **Keep Track of Feedback**: Be prepared to document any feedback you receive from the reviewers for future reference.\n\n5. **Artifact ID**: Once you have the artifact ID, you can proceed with creating the asset and initiating the review cycle if needed.\n\n6. **SLA Deadline**: Remember that the SLA deadline for the review cycle is set to `2024-08-28T12:30:00Z`, so keep that in mind when planning your timeline.\n\nIf you have any other questions or need further assistance in the future, feel free to reach out. Good luck with your review request!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Everything seems set for now. Once I locate the artifact ID, I'll proceed with exporting and sending the email. Thank you for your help! \n\n###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! I'm glad I could assist you. Once you have the artifact ID and are ready to proceed, feel free to reach out if you need any further help. Good luck with your review request, and have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Got it! If you need assistance later, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance later, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance later, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

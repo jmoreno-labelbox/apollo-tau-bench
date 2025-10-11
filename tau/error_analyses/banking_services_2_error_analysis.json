@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to verify the identity of the user correctly. The user instruction specified the identity of Kenji Tanaka, but the ground truth action sequence shows that the agent should have searched for a customer with the name \"John Doe.\" The agent incorrectly proceeded with actions based on the identity of Kenji Tanaka, which does not match the ground truth requirement."
+            "description": "The fault in the trajectory is that the agent failed to correctly identify the user as Kenji Tanaka and instead retrieved information for a different customer, John Doe, as indicated in the ground truth action sequence. The agent should have used the correct customer details for Kenji Tanaka to perform the actions. This discrepancy led to the agent not following the correct sequence of actions as outlined in the ground truth."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to confirm the balances available both before and after completing the transfer. The ground truth action sequence includes steps to calculate and confirm the account balances before the transfer, which were not performed in the trajectory. The assistant only provided the new balances after the transfer, missing the confirmation of the initial balances as required by the user instruction."
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to confirm the balances available both before and after completing the transfer. In the ground truth action sequence, the balances of both the checking and savings accounts are calculated before the transfer, and the checking account balance is calculated again after the transfer. However, in the trajectory, the assistant only provides the new balances after the transfer without confirming the initial balances before the transfer, which is a key part of the user instruction."
         }
     ]
 }

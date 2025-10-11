@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class NormalizeSpatialData(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"grid": "12x12_catcher_view"}, indent=2)
 
     @staticmethod

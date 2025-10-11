@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "----- start trajectory -----\nUser: Adjust ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13 and verify that the budget and bid strategy are in accordance.\n\nAgent: I have adjusted ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13. The budget is set to 750.0 and the bid strategy is set to 'cost_cap'. Please confirm if everything looks correct.\n\nUser: Can you confirm the bid amount as well?\n\nAgent: The bid amount is set to 20.0. Let me know if you need any further adjustments.\n----- end trajectory -----\n\nThe agent is responsible for the fault because it incorrectly set the bid amount to 20.0 instead of the required 22.0."
+            "description": "----- start trajectory -----\nUser: Adjust ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13 and verify that the budget and bid strategy are in accordance.\n\nAgent: I have adjusted ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13. The budget is set to 750.0, and the bid strategy is set to 'lowest_cost'. Is there anything else you need?\n\nUser: Can you confirm the bid amount as well?\n\nAgent: The bid amount is set to 22.0. Everything should be in order now.\n----- end trajectory -----\n\nThe agent is responsible for the fault because it set the bid strategy to 'lowest_cost' instead of the required 'cost_cap'."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "----- start trajectory -----\nUser: Please adjust ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13.\n\nAgent: I have adjusted ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13. The budget is set to 750.0.\n\nUser: Can you confirm the bid strategy and amount?\n\nAgent: The bid strategy is set to 'cost_cap'.\n----- end trajectory -----\n\nThe trajectory contains a fault of type \"goal_partially_completed\" because the agent did not confirm the bid amount of 22.0, which is a required output."
+            "description": "----- start trajectory -----\n**User:** Can you adjust ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13 and verify that the budget and bid strategy are in accordance?\n\n**Agent:** Sure, I will adjust ad set 104 in the 'Fall Collection Launch' campaign. Let me check the details for the frozen plan for 2025-08-13.\n\n**Agent:** The campaign ID is 3, and the plan ID is plan_2025-08-13. I have updated the ad set with the budget set to 750.0.\n\n**User:** Great, and what about the bid strategy?\n\n**Agent:** The bid strategy has been updated to \"cost_cap\". Is there anything else you need?\n\n**User:** What is the bid amount?\n\n**Agent:** I have set the bid amount to 20.0. Everything should be in order now.\n----- end trajectory -----\n\nThe trajectory contains a fault because the agent set the bid amount to 20.0 instead of the required 22.0."
         }
     ]
 }

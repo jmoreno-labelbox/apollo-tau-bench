@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class AllStats(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         # return output
         return json.dumps({"metrics_table": "key_metrics"}, indent=2)
 

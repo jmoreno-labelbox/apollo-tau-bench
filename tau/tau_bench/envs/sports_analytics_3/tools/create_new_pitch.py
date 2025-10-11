@@ -30,7 +30,7 @@ class CreateNewPitch(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         required_fields = [
             "game_pk","at_bat_index","pitch_number","pitcher_id","hitter_id",
             "pitch_type_raw","pitch_type_canonical","velocity_mph","spin_rate_rpm",

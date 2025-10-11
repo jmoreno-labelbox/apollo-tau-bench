@@ -9,7 +9,7 @@ class GetBudgetChanges(Tool):
     """Retrieves all budget change IDs."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         changes = list(data.get("budget_changes", {}).values())
         ids_ = []
         for i in changes:

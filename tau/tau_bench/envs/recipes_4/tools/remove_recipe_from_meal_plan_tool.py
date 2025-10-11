@@ -6,6 +6,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+ERROR_MESSAGES = {
+    "REQUIRED_PARAMETER": "Required parameter '{param}' is missing.",
+    "INVALID_PARAMETER_TYPE": "Parameter '{param}' must be of type {expected_type}.",
+    "NOT_FOUND": "{entity} with ID {entity_id} not found.",
+    "OPERATION_FAILED": "Operation failed: {reason}",
+}
+
+
 
 
 
@@ -196,7 +204,7 @@ class RemoveRecipeFromMealPlanTool(Tool):
             "entry_id": {"type": int, "required": True},
             "user_id": {"type": int, "required": False},
         }
-        validation_error = _validate_inputs(kwargs, param_definitions)
+        validation_error = _validate_inputs({"entry_id": entry_id, "user_id": user_id}, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
 

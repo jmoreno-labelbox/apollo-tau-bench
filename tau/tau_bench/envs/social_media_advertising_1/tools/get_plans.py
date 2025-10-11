@@ -9,7 +9,7 @@ class GetPlans(Tool):
     """Retrieves all plan IDs."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         plans = list(data.get("plans", {}).values())
         ids_ = []
         for i in plans:

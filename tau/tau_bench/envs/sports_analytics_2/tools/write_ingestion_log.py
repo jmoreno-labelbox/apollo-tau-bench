@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class WriteIngestionLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         logs = data.get("ingestion_logs", [])
         logs.append(kwargs)
         return json.dumps({"status": "ok"}, indent=2)

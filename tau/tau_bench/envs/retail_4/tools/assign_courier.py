@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignCourier(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], destination_country: str, order_value: float = None, order_values: List[float] = None, location: Dict[str, str] = None, tracking_ids: List[str] = None, **kwargs) -> str:
+    def invoke(data: Dict[str, Any], destination_country: str, order_value: float = None, order_values: List[float] = None, location: Dict[str, str] = None, tracking_ids: List[str] = None, courier_id=None) -> str:
         """
         Assign appropriate courier for order delivery based on coverage and requirements
         Supports both single order value and multiple order values for batch processing
@@ -91,7 +91,7 @@ class AssignCourier(Tool):
         # Choose a courier based on user preference or enable automatic selection.
         selected_courier = eligible_couriers[0]  # Basic selection criteria
         if "courier_id" in kwargs:
-            courier_id = kwargs["courier_id"]
+            courier_id = courier_id
             selected_courier = next((c for c in eligible_couriers if c.get("courier_id") == courier_id), selected_courier)
 
         # Retrieve the courier's tracking pool for backup generation.

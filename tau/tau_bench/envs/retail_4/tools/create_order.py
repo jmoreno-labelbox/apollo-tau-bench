@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateOrder(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], user_id: str, items: List[Dict[str, Any]], payment_method_sources: List[str], return_refund_amount: float = None, return_order_id: str = None, **kwargs) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, items: List[Dict[str, Any]], payment_method_sources: List[str], return_refund_amount: float = None, return_order_id: str = None, shipping_cost=None, tax_amount=None) -> str:
         """
         Create a new order for a customer with items, address, and payment processing using multiple payment methods
         Supports replacement orders with automatic refund deduction
@@ -122,13 +122,13 @@ class CreateOrder(Tool):
 
         # Include shipping fees if available.
         if "shipping_cost" in kwargs:
-            shipping_cost = kwargs["shipping_cost"]
+            shipping_cost = shipping_cost
             if shipping_cost < 0:
                 return json.dumps({"error": "Shipping cost cannot be negative", "status": "failed"})
             total_before_refund += shipping_cost
 
         if 'tax_amount' in kwargs:
-            tax_amount = kwargs["tax_amount"]
+            tax_amount = tax_amount
             if tax_amount < 0:
                 return json.dumps({"error": "Tax amount cannot be negative", "status": "failed"})
             total_before_refund += tax_amount
@@ -299,8 +299,8 @@ class CreateOrder(Tool):
             "order_type": new_order["order_type"],
             "pricing_breakdown": {
                 "subtotal": round(subtotal_amount, 2),
-                "shipping_cost": round(kwargs.get("shipping_cost", 0), 2),
-                "tax_amount": round(kwargs.get("tax_amount", 0), 2),
+                "shipping_cost": round((shipping_cost if shipping_cost is not None else 0), 2),
+                "tax_amount": round((tax_amount if tax_amount is not None else 0), 2),
                 "total_before_refund": round(total_before_refund, 2),
                 "refund_applied": round(refund_applied, 2),
                 "final_order_amount": round(total_amount, 2)

@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+ERROR_MESSAGES = {
+    "REQUIRED_PARAMETER": "Required parameter '{param}' is missing.",
+    "INVALID_PARAMETER_TYPE": "Parameter '{param}' must be of type {expected_type}.",
+    "NOT_FOUND": "{entity} with ID {entity_id} not found.",
+    "OPERATION_FAILED": "Operation failed: {reason}",
+}
+
+
 
 
 
@@ -152,7 +160,7 @@ class GetMealHistoryTool(Tool):
             "household_id": {"type": int, "required": True},
             "days_back": {"type": int, "required": False}
         }
-        validation_error = _validate_inputs(kwargs, param_definitions)
+        validation_error = _validate_inputs({"days_back": days_back, "household_id": household_id}, param_definitions)
         if validation_error:
             return _build_error_response(
                 validation_error["error_code"],

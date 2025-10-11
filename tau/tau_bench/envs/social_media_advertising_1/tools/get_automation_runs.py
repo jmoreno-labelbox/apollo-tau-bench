@@ -9,7 +9,7 @@ class GetAutomationRuns(Tool):
     """Retrieves all automation run IDs."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         runs = list(data.get("automation_runs", {}).values())
         ids_ = []
         for i in runs:

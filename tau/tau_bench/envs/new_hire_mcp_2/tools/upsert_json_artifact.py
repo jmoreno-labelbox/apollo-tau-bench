@@ -18,11 +18,11 @@ def _find_by_key(rows: List[Dict[str, Any]], key: str, val: Any) -> Dict[str, An
 
 class UpsertOnboardingFile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_path = kwargs.get("file_path")
-        content_text = kwargs.get("content_text", "")
-        mime_type = kwargs.get("mime_type", "text/plain")
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], candidate_id=None, content_text=None, file_path=None, mime_type=None) -> str:
+        file_path = file_path
+        content_text = (content_text if content_text is not None else "")
+        mime_type = (mime_type if mime_type is not None else "text/plain")
+        candidate_id = candidate_id
         rows = _ensure_list(data, "onboarding_files")
         row = _find_by_key(rows, "file_path", file_path)
         created = False

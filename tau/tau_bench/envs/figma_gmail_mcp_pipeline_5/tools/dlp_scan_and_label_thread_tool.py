@@ -9,11 +9,11 @@ def _require_str(arg: Any, name: str) -> Optional[str]:
 class UpdateThreadLabelsTool(Tool):
     """Update Gmail thread labels deterministically (idempotent)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
-        add_labels = kwargs.get("add_labels", []) or []
-        remove_labels = kwargs.get("remove_labels", []) or []
-        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")
+    def invoke(data: Dict[str, Any], add_labels=None, changed_ts=None, remove_labels=None, thread_id=None) -> str:
+        thread_id = _require_str(thread_id, "thread_id")
+        add_labels = (add_labels if add_labels is not None else []) or []
+        remove_labels = (remove_labels if remove_labels is not None else []) or []
+        changed_ts = _require_str(changed_ts, "changed_ts")
         if not (thread_id and changed_ts):
             return json.dumps({"error":"thread_id and changed_ts required"})
         threads = _safe_table(data, "gmail_threads")
@@ -46,8 +46,8 @@ class UpdateThreadLabelsTool(Tool):
 class DlpScanThreadTool(Tool):
     """Scan a thread's messages for DLP block patterns from config; returns found patterns."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        thread_id = _require_str(thread_id, "thread_id")
         if not thread_id:
             return json.dumps({"error":"thread_id is required"})
         dlp = _get_config_json(data, "dlp_config")

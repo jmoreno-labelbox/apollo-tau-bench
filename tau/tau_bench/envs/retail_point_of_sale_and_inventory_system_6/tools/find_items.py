@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class find_items(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         inventory = list(data.get("inventory", {}).values())
 
         # These columns will correspond precisely to the transmitted value.

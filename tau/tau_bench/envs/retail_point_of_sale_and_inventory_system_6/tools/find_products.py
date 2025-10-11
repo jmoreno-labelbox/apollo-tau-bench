@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class find_products(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         products = list(data.get("products", {}).values())
 
         # These columns will correspond precisely to the provided value.

@@ -18,13 +18,13 @@ class AddPullRequestComment(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        pr_number_raw = kwargs.get("pr_number", kwargs.get("prnumber", None))
-        comment = (kwargs.get("comment") or kwargs.get("comment_body") or "").strip()
-        comment_user = (kwargs.get("comment_user") or kwargs.get("user") or "").strip()
-        review_state = (kwargs.get("review_state") or "").strip()
+    def invoke(data: Dict[str, Any], comment=None, comment_body=None, comment_user=None, owner=None, pr_number=None, prnumber=None, repo_name=None, review_state=None, user=None) -> str:
+        owner = (owner if owner is not None else "").strip()
+        repo_name = (repo_name or repo_name or "").strip()
+        pr_number_raw = (pr_number if pr_number is not None else (prnumber if prnumber is not None else None))
+        comment = (comment or comment_body or "").strip()
+        comment_user = (comment_user or user or "").strip()
+        review_state = (review_state or "").strip()
 
         if not owner or not repo_name or pr_number_raw is None or not comment or not comment_user or not review_state:
             return json.dumps(

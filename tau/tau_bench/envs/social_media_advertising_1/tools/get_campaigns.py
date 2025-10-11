@@ -9,7 +9,7 @@ class GetCampaigns(Tool):
     """Retrieves all advertising campaigns."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         campaigns = list(data.get("campaigns", {}).values())
         ids_ = []
         for i in campaigns:

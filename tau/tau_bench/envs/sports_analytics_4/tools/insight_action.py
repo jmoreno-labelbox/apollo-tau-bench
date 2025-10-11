@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class InsightAction(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         # return output
         return json.dumps({"filtered": True, "filtered_table": "flags_actionable"}, indent=2)
 

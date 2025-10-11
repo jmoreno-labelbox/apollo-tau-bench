@@ -196,9 +196,9 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
                 self._add_param(ctx, key, default_expr)
 
                 if key == target_name:
-                    # Redundant: "x = x"
-                    ctx.assigns_that_can_be_removed.add(updated_node)
-                    return RemovalSentinel.REMOVE
+                    # Redundant: "x = x" - mark for removal
+                    ctx.assigns_that_can_be_removed.add(old_node)
+                    return updated_node  # Don't remove here, remove in leave_FunctionDef
                 else:
                     # Keep assignment but rewrite RHS to param name
                     return updated_node.with_changes(value=cst.Name(key))
@@ -211,8 +211,8 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
                 self._add_param(ctx, key, default=None)
 
                 if key == target_name:
-                    ctx.assigns_that_can_be_removed.add(updated_node)
-                    return RemovalSentinel.REMOVE
+                    ctx.assigns_that_can_be_removed.add(old_node)
+                    return updated_node  # Don't remove here, remove in leave_FunctionDef
                 else:
                     return updated_node.with_changes(value=cst.Name(key))
 
@@ -220,9 +220,13 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
 
 
 def refactor_code(src: str) -> str:
-    mod = cst.parse_module(src)
-    out = mod.visit(KwargsRefactorTransformer())
-    return out.code
+    try:
+        mod = cst.parse_module(src)
+        out = mod.visit(KwargsRefactorTransformer())
+        return out.code
+    except Exception as e:
+        # If transformation fails, return original code
+        return src
 
 
 def main():

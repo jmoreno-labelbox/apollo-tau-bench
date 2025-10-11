@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class Pithcmapping(Tool):
     @staticmethod
         # primary execution method
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         # return outcome
         return json.dumps({"canonical_table": "pitches_canonical"}, indent=2)
 

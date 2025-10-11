@@ -17,16 +17,16 @@ class CreateNewIssue(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
+    def invoke(data: Dict[str, Any], assignee=None, assignees=None, body=None, issue_body=None, issue_title=None, label=None, labels=None, lable=None, owner=None, repo_name=None, title=None) -> str:
+        owner = (owner if owner is not None else "").strip()
+        repo_name = (repo_name or repo_name or "").strip()
 
         # Fields that are not mandatory
-        title = (kwargs.get("title") or kwargs.get("issue_title") or "").strip()
-        body = (kwargs.get("body") or kwargs.get("issue_body") or "").strip()
+        title = (title or issue_title or "").strip()
+        body = (body or issue_body or "").strip()
 
         # Accept labels through 'label', 'lable' (misspelling), or 'labels'.
-        labels_input = kwargs.get("labels", kwargs.get("label", kwargs.get("lable", None)))
+        labels_input = (labels if labels is not None else (label if label is not None else (lable if lable is not None else None)))
         if isinstance(labels_input, str):
             labels_list: List[str] = [labels_input.strip()] if labels_input.strip() else []
         elif isinstance(labels_input, list):
@@ -35,7 +35,7 @@ class CreateNewIssue(Tool):
             labels_list = []
 
         # Receive assignee(s) through 'assignees' or 'assignee'.
-        assignees_input = kwargs.get("assignees", kwargs.get("assignee", None))
+        assignees_input = (assignees if assignees is not None else (assignee if assignee is not None else None))
         if isinstance(assignees_input, str):
             assignees_list: List[str] = [assignees_input.strip()] if assignees_input.strip() else []
         elif isinstance(assignees_input, list):

@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "----- start trajectory -----\nUser: Please enroll Ava Nguyen in the Machine Learning Specialization course.\n\nAgent: Ava Nguyen has been successfully enrolled in the Machine Learning Specialization course.\n\nUser: Also, update his Data Science leadership goal to 30% progress using today's date.\n\nAgent: Ava Nguyen's Data Science leadership goal has been updated to 30% progress with today's date.\n----- end trajectory -----\n\nThe agent is responsible for the fault because it failed to provide the specific identifiers for the user and the goal in its responses. The required outputs specify that the agent should communicate 'User U301 enrolled in course C1005' and 'Goal G301-1 updated for user U301', but the agent's responses lack these identifiers, which are necessary for confirming the correct user and goal were updated."
+            "description": "The agent is responsible for the fault because it failed to enroll Ava Nguyen in the Machine Learning Specialization course (course C1005) and did not update the Data Science leadership goal to 30% progress for user U301. The required outputs indicate that these actions were expected, but the trajectory does not reflect these updates."
         }
     ],
     "fault_type_analysis": [

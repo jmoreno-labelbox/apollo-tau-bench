@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to reject the access request AR-007 as required. The user instruction specifies that only Operations reviewers can approve requests for RES-025, and all permissions must be restricted to RES-025. If these conditions are not met, the request should be dismissed. The required outputs indicate that the request should have been rejected, but the trajectory does not reflect this decision. Instead, the agent incorrectly processed the request, leading to a discrepancy between the expected rejection and the actual handling of the request."
+            "description": "The agent is responsible for the fault because it failed to reject the access request AR-007 as required. The policy states that only Operations reviewers can approve requests for RES-025, and the permissions must be restricted to RES-025. The required output indicates that the request should have been rejected, but the trajectory does not reflect this decision. Instead, the agent incorrectly processed the request, leading to a discrepancy between the expected rejection and the actual handling of the request."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to reject the access request AR-007 and document the rejection in the audit log. The required outputs indicate that the request should have been rejected due to the permissions exceeding the boundaries of RES-025 or the reviewer lacking the necessary authorization. However, the trajectory does not show this rejection and logging action, resulting in only a partial completion of the task."
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to reject the access request AR-007 and document this outcome in the audit log. The required outputs indicate that the request should have been rejected due to the permissions surpassing the boundaries of RES-025 or the reviewer not having the proper authorization. However, the trajectory does not show this rejection and documentation, leading to a partial completion of the task."
         }
     ]
 }

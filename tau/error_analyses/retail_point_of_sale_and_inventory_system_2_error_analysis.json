@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it incorrectly retrieved details for a different customer, CUST-5012 (Logan Smith), instead of CUST-5001 (Emma Wilson) during the process. This error occurred twice: once when the user asked to update the email and check the phone number, and again when the user requested a summary of the transaction history. This deviation from the ground truth action sequence led to incorrect processing and potential confusion in the task execution."
+            "description": "The agent is responsible for the fault in the trajectory because it incorrectly updated the email and phone number for the wrong customer. The agent performed updates on \"CUST-5012\" (Logan Smith) instead of \"CUST-5001\" (Emma Wilson), as specified in the user instruction. This error occurred during the \"UpdateCustomerEmail\" and \"UpdateCustomerPhoneNumber\" actions, where the agent used the wrong customer ID."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the use of the wrong tool argument when updating the customer's phone number. The assistant incorrectly retrieved details for \"CUST-5012\" (Logan Smith) instead of \"CUST-5001\" (Emma Wilson) when attempting to update the phone number. This indicates that the wrong customer ID was used in the tool argument, leading to an incorrect operation."
+            "description": "The fault in the trajectory is that the \"UpdateCustomerEmail\" and \"UpdateCustomerPhoneNumber\" actions were executed with the wrong customer ID. The tool used \"CUST-5012\" instead of the correct \"CUST-5001\" for these updates. This discrepancy in the customer ID is a functional difference from the ground truth, where the correct customer ID \"CUST-5001\" should have been used for updating the email and phone number."
         }
     ]
 }

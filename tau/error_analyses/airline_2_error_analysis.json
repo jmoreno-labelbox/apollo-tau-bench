@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the \"CreateOperationalEvent\" action to log the weather-related operational event at LAX. This action is crucial for documenting the impact of the SIGMET on the airport operations and was part of the ground truth action sequence. The agent encountered an error ('str' object has no attribute 'get') while attempting this action and did not successfully retry or resolve the issue, leading to incomplete execution of the required protocol."
+            "description": "The agent is responsible for the fault because it failed to execute the `CreateOperationalEvent` action, which is necessary to log the SIGMET impacting LAX operations. Additionally, the agent did not send user notifications for the delays of flights HAT170 and HAT124, which are required steps in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect use of the tool arguments when attempting to log the operational event. The ground truth action sequence specifies the use of the `CreateOperationalEvent` tool with specific arguments, including `airport_id`, `event_type`, `details`, and `event_timestamp_utc`. However, in the trajectory, the assistant encounters an error: \"Error: 'str' object has no attribute 'get'\", indicating that the tool was not used correctly, likely due to incorrect or missing arguments. This error prevents the successful logging of the operational event, which is a critical step in the ground truth action sequence."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant incorrectly used the date \"2023-10-05\" instead of the correct date \"2024-05-22\" when attempting to retrieve flight details and update flight statuses. This discrepancy led to errors and the failure to execute the intended actions correctly."
         }
     ]
 }

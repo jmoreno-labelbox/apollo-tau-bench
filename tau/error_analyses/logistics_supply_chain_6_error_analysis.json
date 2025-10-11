@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to create the outbound order due to a persistent error (\"'dict' object has no attribute 'append'\"). This error prevented the agent from executing the \"CreateOutboundOrder\" action, which is a crucial step in the ground truth action sequence. As a result, the order for Mercy General Hospital was not created, and the subsequent steps, including assigning the carrier and reporting the order ID, could not be completed. The agent did not handle the error effectively, leading to a failure in fulfilling the user instruction."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to successfully execute the \"CreateOutboundOrder\" action. The agent encountered a persistent error ('dict' object has no attribute 'append') while attempting to create the order, which prevented the completion of the task. This error was not present in the ground truth action sequence, where the order was successfully created without any issues. As a result, the subsequent steps, including assigning the carrier and reporting the order ID, could not be completed."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "other",
-            "description": "The fault in the trajectory is that the assistant incorrectly reports an error regarding insufficient stock for \"Oncology Drug A (SKU: PHRM-DRUG-S19)\" when there is actually sufficient stock available (400 units available, only 50 requested). This error leads to a failure in creating the order as per the user's request, which deviates from the ground truth action sequence where the order is successfully created with both items. Additionally, the assistant encounters a persistent system error ('dict' object has no attribute 'append') that prevents the order from being processed, which is not present in the ground truth action sequence."
+            "description": "The fault in the trajectory is that the agent fails to create the outbound order due to a technical error (\"'dict' object has no attribute 'append'\"). This prevents the agent from proceeding with the subsequent steps of assigning the carrier and reporting the order ID, which are crucial parts of the task. The ground truth action sequence includes successfully creating the order and updating its status, which the trajectory fails to achieve due to the error."
         }
     ]
 }

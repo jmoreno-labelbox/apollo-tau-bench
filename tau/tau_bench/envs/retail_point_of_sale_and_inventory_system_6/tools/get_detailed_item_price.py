@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_detailed_item_price(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         sku = data.get("sku")
         barcode = data.get("barcode")
         # quantity = data.get("quantity", default=1)

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly schedule the automatic readjustment of the devices at 16:30. The agent encountered multiple errors when attempting to use the `ScheduleDeviceUpdate` function, indicating that it did not properly handle the scheduling of updates for the AC, curtain, and floor lamp as specified in the user instruction. The ground truth action sequence includes successful scheduling of these updates, which the agent did not achieve."
+            "description": "The agent is responsible for the fault in the trajectory due to multiple errors in executing the scheduled updates for the devices. Specifically, the agent failed to correctly use the `UpdateDeviceStateTimer` and `ScheduleDeviceUpdate` actions to schedule the devices to revert to different settings at 16:30. The errors indicate incorrect usage of arguments and methods, resulting in the failure to set the AC to power off, adjust the curtain to 50% position, and set the lamp to 60% brightness at the specified time."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `UpdateDeviceState` tool with incorrect arguments, leading to errors. Specifically, the assistant tried to update the AC state using `UpdateDeviceState` with an unexpected keyword argument 'power', which should have been part of the 'update' dictionary. Additionally, the assistant failed to correctly schedule the device updates for 16:30, as indicated by the repeated errors related to missing required positional arguments and incorrect attribute access. These errors indicate that the assistant did not correctly follow the ground truth action sequence, which used `UpdateDeviceStateTimer` and `ScheduleDeviceUpdate` with the correct arguments."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `UpdateDeviceStateTimer` and `ScheduleDeviceTimerUpdate` tools with incorrect arguments. Specifically, the assistant encountered errors such as \"UpdateDeviceStateTimer.invoke() got an unexpected keyword argument 'replace'\" and \"ScheduleDeviceTimerUpdate.invoke() missing 1 required positional argument: 'update'\". These errors indicate that the assistant used incorrect or missing arguments when trying to schedule the devices to revert to different settings at 16:30, which deviates from the correct usage demonstrated in the ground truth action sequence."
         }
     ]
 }

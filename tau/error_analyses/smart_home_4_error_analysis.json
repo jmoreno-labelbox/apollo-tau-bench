@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to successfully schedule the smart plug to turn on automatically at 6:45 AM daily. The agent encountered repeated errors indicating that the device was not found, despite the device being added to the system earlier in the trajectory. This indicates a failure in the agent's ability to correctly update the device's scheduled updates, which is a key part of the ground truth action sequence."
+            "description": "The agent is responsible for the fault because it failed to add the device \"Kitchen Coffee Maker Plug\" to the kitchen's device list and schedule it to turn on automatically at 6:45 AM daily. The agent encountered an error with an \"Unknown action: add_device\" message, indicating it did not execute the \"ManageRoomInDatabase\" action to add the device to the kitchen's device list, nor did it execute the \"UpdateDeviceInDatabase\" action to schedule the device to turn on at the specified time. These actions are present in the ground truth action sequence but were not successfully completed in the trajectory."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because when adding the device to the database, the assistant used the wrong argument for the \"type\" parameter. The assistant used \"smart_plug\" instead of the correct \"outlet\" as specified in the ground truth action sequence. This discrepancy led to subsequent errors in the trajectory, such as the device not being found when attempting to update its scheduled state."
+            "description": "The fault in the trajectory is due to the incorrect use of the tool argument when attempting to add the device to the kitchen's device list. In the ground truth action sequence, the action `ManageRoomInDatabase` is used with the `action` parameter set to `\"add_device_to_database\"`, and it specifies the `room_id` as `\"kitchen\"` and the `device_id` as `\"plug_kt_coffee\"`. However, in the trajectory, the assistant attempts to use an unknown action `\"add_device\"`, which results in an error. This indicates that the wrong tool argument was used, leading to the failure to add the device to the kitchen's device list."
         }
     ]
 }

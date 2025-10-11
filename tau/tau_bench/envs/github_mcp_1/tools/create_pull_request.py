@@ -17,15 +17,15 @@ class CreatePullRequest(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        pr_title = (kwargs.get("pr_title") or kwargs.get("pr_titile") or "").strip()
-        pr_body = (kwargs.get("pr_body") or "").strip()
-        head_branch_name = (kwargs.get("head_branch_name") or kwargs.get("head_branch") or "").strip()
-        base_branch_name = (kwargs.get("base_branch_name") or kwargs.get("base_branch") or "").strip()
-        head_sha = (kwargs.get("head_sha") or kwargs.get("head_sha_value") or "").strip()
-        pr_files_input = kwargs.get("pr_files", [])
+    def invoke(data: Dict[str, Any], base_branch=None, base_branch_name=None, head_branch=None, head_branch_name=None, head_sha=None, head_sha_value=None, owner=None, pr_body=None, pr_files=None, pr_titile=None, pr_title=None, repo_name=None) -> str:
+        owner = (owner if owner is not None else "").strip()
+        repo_name = (repo_name or repo_name or "").strip()
+        pr_title = (pr_title or pr_titile or "").strip()
+        pr_body = (pr_body or "").strip()
+        head_branch_name = (head_branch_name or head_branch or "").strip()
+        base_branch_name = (base_branch_name or base_branch or "").strip()
+        head_sha = (head_sha or head_sha_value or "").strip()
+        pr_files_input = (pr_files if pr_files is not None else [])
 
         if not owner or not repo_name or not pr_title or not head_branch_name or not base_branch_name or not head_sha:
             return json.dumps({

@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RunCanonicalPitchMap(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"canonical_table": "pitches_canonical"}, indent=2)
 
     @staticmethod

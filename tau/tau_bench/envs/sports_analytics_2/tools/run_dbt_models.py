@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RunDbtModels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"dbt_run_status": "success"}, indent=2)
 
     @staticmethod

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the correct sequence of actions to process the article. The agent repeatedly encountered errors due to missing arguments when attempting to retrieve the paper and researcher profiles. The agent did not correctly use the \"RetrievePapers\" and \"FindResearcherProfiles\" actions with the appropriate parameters, which prevented it from obtaining the necessary article ID and author user ID. Consequently, the agent was unable to proceed with creating the submission, assigning the reviewer, and updating the submission status as required by the user instruction."
+            "description": "The agent is responsible for the fault because it failed to execute the correct sequence of actions to retrieve the necessary information and create the submission record. The agent did not correctly invoke the `RetrievePapers` and `FindResearcherProfiles` actions with the required parameters, leading to errors. Consequently, it could not proceed with creating the submission, assigning the reviewer, or updating the submission status as specified in the ground truth action sequence. The agent's inability to handle missing information and its failure to guide the user effectively resulted in the failure to achieve the task."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant repeatedly attempted to invoke the `RetrievePapers` and `FindResearcherProfiles` tools with incorrect arguments. The ground truth action sequence shows that `RetrievePapers` should be invoked with the `title` argument, and `FindResearcherProfiles` should be invoked with the `name` argument. However, in the trajectory, the assistant attempted to use additional or incorrect arguments such as `article_id`, `topic`, `year`, `author_name`, `research_field`, and `user_id`, which led to errors and prevented the successful execution of the required actions."
+            "description": "The fault in the trajectory is due to the incorrect use of arguments for the `RetrievePapers` and `FindResearcherProfiles` tools. The ground truth action sequence specifies that `RetrievePapers` should be invoked with the `title` argument, and `FindResearcherProfiles` should be invoked with the `name` argument. However, in the trajectory, the assistant attempts to use `RetrievePapers` and `FindResearcherProfiles` with incorrect or missing arguments, leading to errors. This discrepancy in tool argument usage is the reason for the \"used_wrong_tool_argument\" fault."
         }
     ]
 }

@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class EventDay(Tool):
     @staticmethod
         # primary execution method
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         events = data.get("game_day_events", [])
         events.append(kwargs)
         # return output

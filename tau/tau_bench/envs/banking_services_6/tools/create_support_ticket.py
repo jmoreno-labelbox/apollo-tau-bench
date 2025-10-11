@@ -18,8 +18,8 @@ def _get_next_id(table: List[Dict[str, Any]], key: str, prefix: str) -> str:
 
 class GetUserByUpnOrHrId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_lookup = kwargs.get("user_lookup")
+    def invoke(data: Dict[str, Any], account_id=None, actor=None, asset_id=None, asset_type=None, assignment_id=None, body=None, completed_at=None, created_at=None, csv_path=None, current_kpis=None, database_table=None, days=None, department=None, details=None, employee_id=None, end_date=None, event=None, event_type=None, export_path=None, group_ids=None, hr_id=None, input_path=None, issue_type=None, job_title=None, kpi_data_path=None, kpis=None, last_day=None, legal_name=None, license_id=None, license_type=None, lifecycle_id=None, location_uri=None, manager_id=None, memo=None, memo_id=None, metrics=None, metrics_path=None, open_tickets=None, operation=None, output_path=None, pdf_path=None, personal_email=None, pickup_code=None, previous_kpis=None, priority=None, process=None, recipient_group=None, report_date=None, report_path=None, retention_label=None, start_date=None, status=None, subject=None, summary=None, system=None, template_path=None, tickets=None, tickets_with_metrics=None, timestamp=None, timezone=None, upn=None, user_lookup=None, workflow_id=None) -> str:
+        user_lookup = user_lookup
         accounts = data.get("directory_accounts", [])
         for acc in accounts:
             if acc.get("hr_id") == user_lookup or acc.get("upn") == user_lookup or acc.get("employee_id") == user_lookup:
@@ -32,9 +32,9 @@ class GetUserByUpnOrHrId(Tool):
 
 class CreateDirectoryAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        legal_name = kwargs.get("legal_name")
-        hr_id = kwargs.get("hr_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        legal_name = legal_name
+        hr_id = hr_id
         accounts = data.get("directory_accounts", [])
         username = legal_name.lower().replace(" ", ".")
         upn = f"{username}@company.com"
@@ -52,9 +52,9 @@ class CreateDirectoryAccount(Tool):
 
 class SetDirectoryAccountStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any]) -> str:
+        account_id = account_id
+        status = status
         accounts = data.get("directory_accounts", [])
         account = next((a for a in accounts if a.get("account_id") == account_id), None)
         if not account:
@@ -71,9 +71,9 @@ class SetDirectoryAccountStatus(Tool):
 
 class LookupRoleProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department = kwargs.get("department")
-        job_title = kwargs.get("job_title")
+    def invoke(data: Dict[str, Any]) -> str:
+        department = department
+        job_title = job_title
         profiles = data.get("rbac_group_map", [])
         profile = next((p for p in profiles if p.get("department") == department and p.get("job_title") == job_title), None)
         if not profile:
@@ -86,9 +86,9 @@ class LookupRoleProfile(Tool):
 
 class AddUserToGroups(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        group_ids = kwargs.get("group_ids")
+    def invoke(data: Dict[str, Any]) -> str:
+        account_id = account_id
+        group_ids = group_ids
         audit_log = data.setdefault("group_membership_audit", [])
         added_groups = []
         for group_id in group_ids:
@@ -103,8 +103,8 @@ class AddUserToGroups(Tool):
 
 class CheckLicenseAvailability(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        license_id = kwargs.get("license_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        license_id = license_id
         inventory = data.get("license_inventory", [])
         license_info = next((lic for lic in inventory if lic.get("license_id") == license_id), None)
         if not license_info:
@@ -118,10 +118,10 @@ class CheckLicenseAvailability(Tool):
 
 class AssignLicense(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        employee_id = kwargs.get("employee_id")
-        license_id = kwargs.get("license_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        account_id = account_id
+        employee_id = employee_id
+        license_id = license_id
         assignments = data.setdefault("license_assignments", [])
         assignment_id = _get_next_id(assignments, "assignment_id", "lca")
         new_assignment = {"assignment_id": assignment_id, "account_id": account_id, "employee_id": employee_id, "license_id": license_id, "status": "active", "assigned_at": FIXED_NOW}
@@ -134,9 +134,9 @@ class AssignLicense(Tool):
 
 class UpdateLicenseInventory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        license_id = kwargs.get("license_id")
-        operation = kwargs.get("operation")
+    def invoke(data: Dict[str, Any]) -> str:
+        license_id = license_id
+        operation = operation
         inventory = data.get("license_inventory", [])
         license_info = next((lic for lic in inventory if lic.get("license_id") == license_id), None)
         if not license_info:
@@ -155,8 +155,8 @@ class UpdateLicenseInventory(Tool):
 
 class FindAvailableAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_type = kwargs.get("asset_type")
+    def invoke(data: Dict[str, Any]) -> str:
+        asset_type = asset_type
         assets = data.get("it_assets", [])
         asset = next((a for a in assets if a.get("asset_type") == asset_type and a.get("status") == "in_stock"), None)
         if not asset:
@@ -169,9 +169,9 @@ class FindAvailableAsset(Tool):
 
 class AssignAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_id = kwargs.get("asset_id")
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        asset_id = asset_id
+        employee_id = employee_id
         assets = data.get("it_assets", [])
         asset = next((a for a in assets if a.get("asset_id") == asset_id), None)
         if not asset:
@@ -187,15 +187,15 @@ class AssignAsset(Tool):
 
 class CreateDeviceWorkflow(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        asset_id = kwargs.get("asset_id")
-        process = kwargs.get("process")
-        workflow_id = kwargs.get("workflow_id")
-        status = kwargs.get("status", "pending_pickup" if process == "onboarding" else "pending_return")
-        pickup_code = kwargs.get("pickup_code")
-        created_at = kwargs.get("created_at", FIXED_NOW)
-        completed_at = kwargs.get("completed_at")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
+        asset_id = asset_id
+        process = process
+        workflow_id = workflow_id
+        status = (status if status is not None else "pending_pickup" if process == "onboarding" else "pending_return")
+        pickup_code = pickup_code
+        created_at = (created_at if created_at is not None else FIXED_NOW)
+        completed_at = completed_at
 
         workflows = data.setdefault("device_workflow", [])
 
@@ -226,10 +226,10 @@ class CreateDeviceWorkflow(Tool):
 
 class CreateJiraTicket(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        issue_type = kwargs.get("issue_type")
-        summary = kwargs.get("summary")
-        priority = kwargs.get("priority", "P2")
+    def invoke(data: Dict[str, Any]) -> str:
+        issue_type = issue_type
+        summary = summary
+        priority = (priority if priority is not None else "P2")
         tickets = data.setdefault("jira_tickets", [])
         jira_id = f"ITSD-{1001 + len(tickets)}"
         new_ticket = {"jira_id": jira_id, "issue_type": issue_type, "summary": summary, "priority": priority, "status": "To Do", "created_at": FIXED_NOW, "updated_at": FIXED_NOW}
@@ -242,12 +242,12 @@ class CreateJiraTicket(Tool):
 
 class CreateAuditRecord(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        lifecycle_id = kwargs.get("lifecycle_id")
-        event = kwargs.get("event")
-        details = kwargs.get("details")
-        actor = kwargs.get("actor", "SYSTEM")
-        timestamp = kwargs.get("timestamp", FIXED_NOW)
+    def invoke(data: Dict[str, Any]) -> str:
+        lifecycle_id = lifecycle_id
+        event = event
+        details = details
+        actor = (actor if actor is not None else "SYSTEM")
+        timestamp = (timestamp if timestamp is not None else FIXED_NOW)
         audit_table = data.setdefault("lifecycle_audit", [])
         audit_id = _get_next_id(audit_table, "audit_id", "lcaud")
         audit_table.append({"audit_id": audit_id, "lifecycle_id": lifecycle_id, "event": event, "details": details, "timestamp": timestamp, "actor": actor})
@@ -259,8 +259,8 @@ class CreateAuditRecord(Tool):
 
 class GetUserLicenseAssignments(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
         assignments = data.get("license_assignments", [])
         user_licenses = [a for a in assignments if a.get("employee_id") == employee_id and a.get("status") == "active"]
         return json.dumps(user_licenses, indent=2)
@@ -271,9 +271,9 @@ class GetUserLicenseAssignments(Tool):
 
 class GetLicenseAssignmentByType(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        license_type = kwargs.get("license_type")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
+        license_type = license_type
         assignments = data.get("license_assignments", [])
         assignment = next((a for a in assignments if a.get("employee_id") == employee_id and a.get("license_id") == license_type and a.get("status") == "active"), None)
         if not assignment:
@@ -286,8 +286,8 @@ class GetLicenseAssignmentByType(Tool):
 
 class RevokeLicense(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        assignment_id = kwargs.get("assignment_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        assignment_id = assignment_id
         assignments = data.get("license_assignments", [])
         assignment = next((a for a in assignments if a.get("assignment_id") == assignment_id), None)
         if not assignment:
@@ -302,9 +302,9 @@ class RevokeLicense(Tool):
 
 class RemoveUserFromGroups(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        group_ids = kwargs.get("group_ids")
+    def invoke(data: Dict[str, Any]) -> str:
+        account_id = account_id
+        group_ids = group_ids
         audit_log = data.setdefault("group_membership_audit", [])
         removed_groups = []
         for group_id in group_ids:
@@ -319,8 +319,8 @@ class RemoveUserFromGroups(Tool):
 
 class ArchiveMailbox(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
         mailboxes = data.get("mailboxes", [])
         archives = data.setdefault("data_archives", [])
         mailbox = next((m for m in mailboxes if m.get("employee_id") == employee_id), None)
@@ -338,8 +338,8 @@ class ArchiveMailbox(Tool):
 
 class GetUserAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
         assets = data.get("it_assets", [])
         asset = next((a for a in assets if a.get("assigned_to") == employee_id), None)
         if not asset:
@@ -352,10 +352,10 @@ class GetUserAsset(Tool):
 
 class ExportServiceDeskTickets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
-        export_path = kwargs.get("export_path")
+    def invoke(data: Dict[str, Any]) -> str:
+        start_date = start_date
+        end_date = end_date
+        export_path = export_path
         tickets = data.get("tickets", [])
         return json.dumps({"export_path": export_path, "ticket_count": len(tickets), "start_date": start_date, "end_date": end_date}, indent=2)
 
@@ -365,10 +365,10 @@ class ExportServiceDeskTickets(Tool):
 
 class NormalizeTicketTimestamps(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        input_path = kwargs.get("input_path")
-        output_path = kwargs.get("output_path")
-        timezone = kwargs.get("timezone", "UTC")
+    def invoke(data: Dict[str, Any]) -> str:
+        input_path = input_path
+        output_path = output_path
+        timezone = (timezone if timezone is not None else "UTC")
         return json.dumps({"status": "normalized", "input_path": input_path, "output_path": output_path, "timezone": timezone}, indent=2)
 
     @staticmethod
@@ -377,10 +377,10 @@ class NormalizeTicketTimestamps(Tool):
 
 class CalculateServiceDeskKPIs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        input_path = kwargs.get("input_path")
-        metrics = kwargs.get("metrics")
-        output_path = kwargs.get("output_path")
+    def invoke(data: Dict[str, Any]) -> str:
+        input_path = input_path
+        metrics = metrics
+        output_path = output_path
         kpis = {"total_open": 46, "avg_age_open_hours": 23.5, "avg_ttr_mins": 1440, "pct_closed_1d": 60.0, "p1_open_count": 5}
         return json.dumps({"kpis": kpis, "output_path": output_path}, indent=2)
 
@@ -390,10 +390,10 @@ class CalculateServiceDeskKPIs(Tool):
 
 class GenerateReportPDF(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kpi_data_path = kwargs.get("kpi_data_path")
-        template_path = kwargs.get("template_path")
-        output_path = kwargs.get("output_path")
+    def invoke(data: Dict[str, Any]) -> str:
+        kpi_data_path = kpi_data_path
+        template_path = template_path
+        output_path = output_path
         return json.dumps({"status": "generated", "output_path": output_path}, indent=2)
 
     @staticmethod
@@ -402,10 +402,10 @@ class GenerateReportPDF(Tool):
 
 class SaveMetricsToDatabase(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        metrics_path = kwargs.get("metrics_path")
-        database_table = kwargs.get("database_table")
-        report_date = kwargs.get("report_date")
+    def invoke(data: Dict[str, Any]) -> str:
+        metrics_path = metrics_path
+        database_table = database_table
+        report_date = report_date
         metrics_db = data.setdefault("daily_metrics", [])
         run_id = f"run_{report_date.replace('-', '')}"
         new_metric = {"run_id": run_id, "report_date": report_date, "database_table": database_table}
@@ -418,10 +418,10 @@ class SaveMetricsToDatabase(Tool):
 
 class NotifyManagementTeam(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_path = kwargs.get("report_path")
-        recipient_group = kwargs.get("recipient_group")
-        subject = kwargs.get("subject")
+    def invoke(data: Dict[str, Any]) -> str:
+        report_path = report_path
+        recipient_group = recipient_group
+        subject = subject
         return json.dumps({"status": "notified", "recipient_group": recipient_group, "subject": subject}, indent=2)
 
     @staticmethod
@@ -430,8 +430,8 @@ class NotifyManagementTeam(Tool):
 
 class ExportRecentTickets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        days = kwargs.get("days", 30)
+    def invoke(data: Dict[str, Any]) -> str:
+        days = (days if days is not None else 30)
         tickets = data.get("tickets", [])
         report_path = f"\\\\IT\\Reports\\DailyReports\\{FIXED_NOW.split('T')[0]}\\Tickets_Export.csv"
         return json.dumps({"export_path": report_path, "ticket_count": len(tickets)}, indent=2)
@@ -442,8 +442,8 @@ class ExportRecentTickets(Tool):
 
 class CalculateTicketKPIs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        export_path = kwargs.get("export_path")
+    def invoke(data: Dict[str, Any]) -> str:
+        export_path = export_path
         if not "Tickets_Export.csv" in export_path:
             return json.dumps({"error": "Invalid export path provided."}, indent=2)
         kpis = {"total_open": 46, "avg_age_open_hours": 23.5, "avg_ttr_mins": 1440, "pct_closed_1d": 60.0, "p1_open_count": 5}
@@ -455,8 +455,8 @@ class CalculateTicketKPIs(Tool):
 
 class GenerateHealthReportPDF(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kpis = kwargs.get("kpis")
+    def invoke(data: Dict[str, Any]) -> str:
+        kpis = kpis
         if not all(k in kpis for k in ["total_open", "avg_age_open_hours"]):
             return json.dumps({"status": "failed", "reason": "KPI data is incomplete", "missing_fields": [k for k in ["total_open", "avg_age_open_hours"] if k not in kpis]}, indent=2)
         report_path = f"\\\\IT\\Reports\\DailyReports\\{FIXED_NOW.split('T')[0]}\\ServiceDesk_Health_Report.pdf"
@@ -468,8 +468,8 @@ class GenerateHealthReportPDF(Tool):
 
 class SaveReportToMetricsDB(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kpis = kwargs.get("kpis")
+    def invoke(data: Dict[str, Any]) -> str:
+        kpis = kpis
         report_date = FIXED_NOW.split('T')[0]
         metrics_db = data.setdefault("daily_metrics", [])
         run_id = f"run_{report_date.replace('-', '')}"
@@ -483,9 +483,9 @@ class SaveReportToMetricsDB(Tool):
 
 class NotifyTeamOfReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pdf_path = kwargs.get("pdf_path")
-        csv_path = kwargs.get("csv_path")
+    def invoke(data: Dict[str, Any]) -> str:
+        pdf_path = pdf_path
+        csv_path = csv_path
         recipient = "it-management-dl@company.com"
         return json.dumps({"status": "notified", "recipient": recipient, "attachments": [pdf_path, csv_path]}, indent=2)
 
@@ -495,9 +495,9 @@ class NotifyTeamOfReport(Tool):
 
 class ScheduleDeviceReturn(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        asset_id = kwargs.get("asset_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
+        asset_id = asset_id
         workflows = data.setdefault("device_workflow", [])
         workflow_id = _get_next_id(workflows, "workflow_id", "dwf")
         return_code = f"RT{workflow_id[-4:]}"
@@ -511,8 +511,8 @@ class ScheduleDeviceReturn(Tool):
 
 class ReadOnboardingMemo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        memo_id = kwargs.get("memo_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        memo_id = memo_id
         memo = next((m for m in data.get("hr_memos", []) if m.get("memo_id") == memo_id and m.get("type") == "onboarding"), None)
         if not memo:
             return json.dumps({"error": f"Onboarding memo {memo_id} not found."}, indent=2)
@@ -524,8 +524,8 @@ class ReadOnboardingMemo(Tool):
 
 class ValidateMemoFields(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        memo = kwargs.get("memo")
+    def invoke(data: Dict[str, Any]) -> str:
+        memo = memo
         required_fields = ["legal_name", "department", "job_title", "manager_id", "start_date"]
         missing_fields = [field for field in required_fields if field not in memo]
         if missing_fields:
@@ -538,9 +538,9 @@ class ValidateMemoFields(Tool):
 
 class CreateMailbox(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        upn = kwargs.get("upn")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
+        upn = upn
         mailboxes = data.setdefault("mailboxes", [])
         mailbox_id = _get_next_id(mailboxes, "mailbox_id", "mbx")
         new_mailbox = {"mailbox_id": mailbox_id, "employee_id": employee_id, "address": upn, "status": "active", "retention_policy": "std_2y", "created_at": FIXED_NOW}
@@ -553,8 +553,8 @@ class CreateMailbox(Tool):
 
 class EnrollDeviceInMDM(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_id = kwargs.get("asset_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        asset_id = asset_id
         asset = next((a for a in data.get("it_assets", []) if a.get("asset_id") == asset_id), None)
         if asset:
             asset["mdm_enrolled"] = True
@@ -567,10 +567,10 @@ class EnrollDeviceInMDM(Tool):
 
 class SendNewHireWelcomeEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        upn = kwargs.get("upn")
-        personal_email = kwargs.get("personal_email")
-        pickup_code = kwargs.get("pickup_code")
+    def invoke(data: Dict[str, Any]) -> str:
+        upn = upn
+        personal_email = personal_email
+        pickup_code = pickup_code
         return json.dumps({"status": "sent", "recipients": [upn, personal_email], "pickup_code": pickup_code}, indent=2)
 
     @staticmethod
@@ -579,10 +579,10 @@ class SendNewHireWelcomeEmail(Tool):
 
 class NotifyManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        manager_id = kwargs.get("manager_id")
-        subject = kwargs.get("subject")
-        body = kwargs.get("body")
+    def invoke(data: Dict[str, Any]) -> str:
+        manager_id = manager_id
+        subject = subject
+        body = body
         return json.dumps({"status": "sent", "recipient_manager_id": manager_id, "subject": subject}, indent=2)
 
     @staticmethod
@@ -591,10 +591,10 @@ class NotifyManager(Tool):
 
 class AddMemoToLifecycleQueue(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        memo_id = kwargs.get("memo_id")
-        hr_id = kwargs.get("hr_id")
-        event_type = kwargs.get("event_type")
+    def invoke(data: Dict[str, Any]) -> str:
+        memo_id = memo_id
+        hr_id = hr_id
+        event_type = event_type
         queue = data.setdefault("lifecycle_queue", [])
         lifecycle_id = _get_next_id(queue, "lifecycle_id", "lcq")
         new_entry = {"lifecycle_id": lifecycle_id, "memo_id": memo_id, "employee_ref": hr_id, "event": event_type, "status": "queued", "created_at": FIXED_NOW}
@@ -607,8 +607,8 @@ class AddMemoToLifecycleQueue(Tool):
 
 class CalculateTicketMetrics(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tickets = kwargs.get("tickets")
+    def invoke(data: Dict[str, Any]) -> str:
+        tickets = tickets
         calculated_tickets = []
         for ticket in tickets:
             ticket["age_hours"] = 72 # Mock calculation
@@ -622,8 +622,8 @@ class CalculateTicketMetrics(Tool):
 
 class AggregateTicketKPIs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tickets_with_metrics = kwargs.get("tickets_with_metrics")
+    def invoke(data: Dict[str, Any]) -> str:
+        tickets_with_metrics = tickets_with_metrics
         kpis = {"open_count": len(tickets_with_metrics), "open_count_p1": 5, "avg_age_open_hours": 72.5, "avg_ttr_mins": 240.0, "pct_closed_1d": 50.0}
         return json.dumps(kpis, indent=2)
 
@@ -633,8 +633,8 @@ class AggregateTicketKPIs(Tool):
 
 class GetUserGroupMemberships(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        account_id = account_id
         account = next((a for a in data.get("directory_accounts", []) if a.get("account_id") == account_id), None)
         if account and "group_ids" in account:
             return json.dumps({"account_id": account_id, "group_ids": account["group_ids"]}, indent=2)
@@ -646,9 +646,9 @@ class GetUserGroupMemberships(Tool):
 
 class ScheduleDeviceMDMRemoval(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_id = kwargs.get("asset_id")
-        last_day = kwargs.get("last_day")
+    def invoke(data: Dict[str, Any]) -> str:
+        asset_id = asset_id
+        last_day = last_day
         return json.dumps({"asset_id": asset_id, "removal_scheduled_for": last_day, "status": "pending_removal"}, indent=2)
 
     @staticmethod
@@ -657,8 +657,8 @@ class ScheduleDeviceMDMRemoval(Tool):
 
 class ArchiveUserAppAccounts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
         app_accounts = data.get("app_accounts", [])
         archived_count = 0
         for acc in app_accounts:
@@ -673,9 +673,9 @@ class ArchiveUserAppAccounts(Tool):
 
 class UpdateLifecycleQueueStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        lifecycle_id = kwargs.get("lifecycle_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any]) -> str:
+        lifecycle_id = lifecycle_id
+        status = status
         queue = data.get("lifecycle_queue", [])
         entry = next((e for e in queue if e.get("lifecycle_id") == lifecycle_id), None)
         if not entry:
@@ -689,8 +689,8 @@ class UpdateLifecycleQueueStatus(Tool):
 
 class ReadOffboardingMemo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        memo_id = kwargs.get("memo_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        memo_id = memo_id
         memo = next((m for m in data.get("hr_memos", []) if m.get("memo_id") == memo_id and m.get("type") == "offboarding"), None)
         if not memo:
             return json.dumps({"error": f"Offboarding memo {memo_id} not found."}, indent=2)
@@ -702,11 +702,11 @@ class ReadOffboardingMemo(Tool):
 
 class CreateDataArchiveEntry(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        system = kwargs.get("system")
-        retention_label = kwargs.get("retention_label")
-        location_uri = kwargs.get("location_uri")
+    def invoke(data: Dict[str, Any]) -> str:
+        employee_id = employee_id
+        system = system
+        retention_label = retention_label
+        location_uri = location_uri
         archives = data.setdefault("data_archives", [])
         archive_id = _get_next_id(archives, "archive_id", "arch")
         new_archive = {"archive_id": archive_id, "employee_id": employee_id, "system": system, "location_uri": location_uri, "retention_label": retention_label, "created_at": FIXED_NOW}
@@ -719,7 +719,7 @@ class CreateDataArchiveEntry(Tool):
 
 class FilterOpenTickets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any]) -> str:
         tickets = data.get("tickets", [])
         open_statuses = ["New", "In Progress", "On Hold", "Open"]
         open_tickets = [t for t in tickets if t.get("status") in open_statuses]
@@ -731,8 +731,8 @@ class FilterOpenTickets(Tool):
 
 class BuildOpenTicketsCSV(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        open_tickets = kwargs.get("open_tickets")
+    def invoke(data: Dict[str, Any]) -> str:
+        open_tickets = open_tickets
         file_path = f"\\\\IT\\Reports\\DailyReports\\{FIXED_NOW.split('T')[0]}\\Open_Tickets.csv"
         return json.dumps({"file_path": file_path, "rows_written": len(open_tickets)}, indent=2)
 
@@ -742,8 +742,8 @@ class BuildOpenTicketsCSV(Tool):
 
 class UnassignAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_id = kwargs.get("asset_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        asset_id = asset_id
         assets = data.get("it_assets", [])
         asset = next((a for a in assets if a.get("asset_id") == asset_id), None)
         if not asset:
@@ -758,7 +758,7 @@ class UnassignAsset(Tool):
 
 class GetLastReportRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any]) -> str:
         report_runs = data.get("report_runs", [])
         if not report_runs:
             return json.dumps({"error": "No previous report runs found."}, indent=2)
@@ -773,9 +773,9 @@ class GetLastReportRun(Tool):
 
 class CompareTicketKPIs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        current_kpis = kwargs.get("current_kpis")
-        previous_kpis = kwargs.get("previous_kpis")
+    def invoke(data: Dict[str, Any]) -> str:
+        current_kpis = current_kpis
+        previous_kpis = previous_kpis
         delta = {
             "total_open_delta": current_kpis.get("total_open", 0) - previous_kpis.get("total_open", 0),
             "p1_open_delta": current_kpis.get("p1_open_count", 0) - previous_kpis.get("p1_open_count", 0)

@@ -22,11 +22,11 @@ class PostSlackMessage(Tool):
       timestamp: str ISO (defaults now)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        channel = kwargs.get("channel", "")
-        message = kwargs.get("message", "")
-        username = kwargs.get("username", "RBAC_BOT")
-        timestamp = kwargs.get("timestamp") or get_current_timestamp()
+    def invoke(data: Dict[str, Any], channel=None, message=None, timestamp=None, username=None) -> str:
+        channel = (channel if channel is not None else "")
+        message = (message if message is not None else "")
+        username = (username if username is not None else "RBAC_BOT")
+        timestamp = timestamp or get_current_timestamp()
 
         if not channel or not message:
             return json.dumps({"error": "channel and message required"})

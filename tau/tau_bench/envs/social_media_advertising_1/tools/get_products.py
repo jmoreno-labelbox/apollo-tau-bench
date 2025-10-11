@@ -9,7 +9,7 @@ class GetProducts(Tool):
     """Retrieves all product IDs."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         products = list(data.get("dim_product", {}).values())
         ids_ = []
         for i in products:

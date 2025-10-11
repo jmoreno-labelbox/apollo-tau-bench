@@ -16,7 +16,7 @@ def _as_list_literal(v: str) -> List[str]:
 
 class ListCanonicalCreativeTypes(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         for r in list(data.get("policy_params", {}).values()):
             if r.get("param_name") == "canonical_creative_types":
                 return json.dumps(_as_list_literal(r.get("param_value", "[]")))

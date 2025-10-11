@@ -113,12 +113,12 @@ def _default_household_id(data: Dict[str, Any], user_id: Optional[int] = None) -
     return hh.get("household_id") if hh else None
 class RankRecipesForTargets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], anchor_date=None, created_by_user_id=None, days_back=None, filter_token=None, household_id=None, max_per_cuisine=None, meal_type=None, member_id=None, min_protein_g=None, needed_count=None, peanut_free=None, recent_recipe_ids=None, target_calories=None, target_protein=None, week_start_date=None) -> str:
         ids = _ids_from_kwargs_or_defaults(data, kwargs)
-        needed_count = int(kwargs.get("needed_count", 7))
-        member_id = kwargs.get("member_id")
-        tc = kwargs.get("target_calories")
-        tp = kwargs.get("target_protein")
+        needed_count = int((needed_count if needed_count is not None else 7))
+        member_id = member_id
+        tc = target_calories
+        tp = target_protein
         if tc is None or tp is None:
             tc2, tp2 = _pick_target_from_member(data, member_id)
             target_calories = int(tc if tc is not None else tc2)
@@ -142,14 +142,14 @@ class RankRecipesForTargets(Tool):
         return {"type":"function","function":{"name":"rank_recipes_for_targets","description":"Select up to N recipes closest to nutrition targets; targets default from a household member.","parameters":{"type":"object","properties":{"recipe_ids_json":{"type":"string"},"filter_token":{"type":"string"},"meal_type":{"type":"string"},"min_protein_g":{"type":"integer"},"peanut_free":{"type":"boolean"},"needed_count":{"type":"integer"},"target_calories":{"type":"integer"},"target_protein":{"type":"integer"},"member_id":{"type":"integer"}},"required":[]}}}
 class ListRecipesByFilters(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        token = kwargs.get("filter_token")
+    def invoke(data: Dict[str, Any]) -> str:
+        token = filter_token
         if token:
             meal_type, min_protein, pf = _decode_filter_token(token)
         else:
-            meal_type = kwargs.get("meal_type", "Dinner")
-            min_protein = int(kwargs.get("min_protein_g", 0))
-            pf = bool(kwargs.get("peanut_free", False))
+            meal_type = (meal_type if meal_type is not None else "Dinner")
+            min_protein = int((min_protein_g if min_protein_g is not None else 0))
+            pf = bool((peanut_free if peanut_free is not None else False))
         out = _all_recipe_ids_filtered(data, meal_type, min_protein, pf)
         return _json_dump({"candidate_recipe_ids_json": json.dumps(out)})
     @staticmethod
@@ -157,15 +157,15 @@ class ListRecipesByFilters(Tool):
         return {"type":"function","function":{"name":"list_recipes_by_filters","description":"List recipe_ids as JSON from a token or direct parameters.","parameters":{"type":"object","properties":{"filter_token":{"type":"string"},"meal_type":{"type":"string"},"min_protein_g":{"type":"integer"},"peanut_free":{"type":"boolean"}},"required":[]}}}
 class ExcludeRecentRecipes(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        household_id = household_id
         if household_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
         cand = _ids_from_kwargs_or_defaults(data, kwargs)
-        recent = kwargs.get("recent_recipe_ids")
+        recent = recent_recipe_ids
         if recent is None:
-            days_back = int(kwargs.get("days_back", 14))
-            anchor_date = kwargs.get("anchor_date")
+            days_back = int((days_back if days_back is not None else 14))
+            anchor_date = anchor_date
             recent = _recent_recipe_ids(data, household_id, days_back, anchor_date)
         filtered = [rid for rid in cand if rid not in set(int(x) for x in recent)]
         return _json_dump({"filtered_recipe_ids_json": json.dumps(filtered)})
@@ -174,14 +174,14 @@ class ExcludeRecentRecipes(Tool):
         return {"type":"function","function":{"name":"exclude_recent_recipes","description":"Remove recipes that appeared in recent history; defaults to last 14 days for default household.","parameters":{"type":"object","properties":{"candidate_recipe_ids_json":{"type":"string"},"filter_token":{"type":"string"},"meal_type":{"type":"string"},"min_protein_g":{"type":"integer"},"peanut_free":{"type":"boolean"},"recent_recipe_ids":{"type":"array","items":{"type":"integer"}},"household_id":{"type":"integer"},"days_back":{"type":"integer"},"anchor_date":{"type":"string"}},"required":[]}}}
 class CreateMealPlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        created_by_user_id = kwargs.get("created_by_user_id")
+    def invoke(data: Dict[str, Any]) -> str:
+        household_id = household_id
+        created_by_user_id = created_by_user_id
         if created_by_user_id is None:
             created_by_user_id = _first_user_id(data)
         if household_id is None:
             household_id = _default_household_id(data, created_by_user_id)
-        week_start_date = kwargs.get("week_start_date") or _next_week_start_date_for_household(data, household_id)
+        week_start_date = week_start_date or _next_week_start_date_for_household(data, household_id)
         if household_id is None or created_by_user_id is None:
             return _json_dump({"error": "unable to infer household or user"})
         meal_plans = data.get("meal_plans", [])
@@ -200,10 +200,10 @@ class CreateMealPlan(Tool):
         return {"type":"function","function":{"name":"create_meal_plan","description":"Insert a new meal_plan with defaults for household, creator, and week_start_date.","parameters":{"type":"object","properties":{"household_id":{"type":"integer"},"week_start_date":{"type":"string"},"created_by_user_id":{"type":"integer"}},"required":[]}}}
 class BuildRecipeFilters(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_type = kwargs.get("meal_type", "Dinner")
-        min_protein_g = int(kwargs.get("min_protein_g", 0))
-        peanut_free = bool(kwargs.get("peanut_free", False))
+    def invoke(data: Dict[str, Any]) -> str:
+        meal_type = (meal_type if meal_type is not None else "Dinner")
+        min_protein_g = int((min_protein_g if min_protein_g is not None else 0))
+        peanut_free = bool((peanut_free if peanut_free is not None else False))
         token = f"F:{meal_type}:P{min_protein_g}:PF{1 if peanut_free else 0}"
         return _json_dump({"filter_token": token})
     @staticmethod
@@ -211,9 +211,9 @@ class BuildRecipeFilters(Tool):
         return {"type":"function","function":{"name":"build_recipe_filters","description":"Construct a filter token; defaults to Dinner with no protein minimum.","parameters":{"type":"object","properties":{"meal_type":{"type":"string"},"min_protein_g":{"type":"integer"},"peanut_free":{"type":"boolean"}},"required":[]}}}
 class ApplyCuisineLimit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any]) -> str:
         ids = _ids_from_kwargs_or_defaults(data, kwargs)
-        max_per_cuisine = int(kwargs.get("max_per_cuisine", 2))
+        max_per_cuisine = int((max_per_cuisine if max_per_cuisine is not None else 2))
         cuisine_counts: Dict[str, int] = {}
         selected: List[int] = []
         for rid in ids:

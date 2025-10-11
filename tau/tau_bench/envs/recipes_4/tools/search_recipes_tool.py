@@ -5,6 +5,14 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+ERROR_MESSAGES = {
+    "REQUIRED_PARAMETER": "Required parameter '{param}' is missing.",
+    "INVALID_PARAMETER_TYPE": "Parameter '{param}' must be of type {expected_type}.",
+    "NOT_FOUND": "{entity} with ID {entity_id} not found.",
+    "OPERATION_FAILED": "Operation failed: {reason}",
+}
+
+
 
 
 
@@ -174,7 +182,7 @@ class SearchRecipesTool(Tool):
             "min_protein_g": {"type": int, "required": False},
             "is_peanut_free": {"type": bool, "required": False},
         }
-        validation_error = _validate_inputs(kwargs, param_definitions)
+        validation_error = _validate_inputs({"cuisine": cuisine, "is_peanut_free": is_peanut_free, "max_calories": max_calories, "meal_type": meal_type, "min_protein_g": min_protein_g}, param_definitions)
         if validation_error:
             return _build_error_response(
                 validation_error["error_code"],

@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateVideoManifest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         return json.dumps({"video_manifest": "manifest_001"}, indent=2)
 
     @staticmethod

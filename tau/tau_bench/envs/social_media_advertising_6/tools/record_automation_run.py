@@ -13,7 +13,7 @@ def _ensure_list(data: Dict[str, Any], key: str):
 
 class RecordAutomationRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         _ensure_list(data, "automation_runs")
         row = dict(kwargs)
         # attempt:

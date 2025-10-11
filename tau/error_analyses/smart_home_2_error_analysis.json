@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **AC Scheduling Error**: The agent failed to correctly schedule the central AC with the specified settings (power=on, mode=cool, setpoint_c=22, fan_speed=auto) at 13:00. The agent encountered errors and only managed to schedule the AC in cool mode without setting the temperature and fan speed correctly.\n\n2. **Daily Routine Setup Error**: The agent failed to set up the daily routine for the ceiling light and floor lamp at 19:00. The agent encountered repeated errors ('str' object has no attribute 'get') and did not successfully schedule the ceiling light to turn on with brightness=30 and the floor lamp to turn off.\n\nThese errors indicate that the agent did not execute the required actions as specified in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **AC Scheduling**: The agent failed to correctly schedule the central AC with the specified settings (power=on, mode=cool, setpoint_c=22, fan_speed=auto) at 13:00. The agent encountered errors and only managed to schedule the power and mode, but not the setpoint and fan speed.\n\n2. **Reminder Setup**: The agent failed to set up the one-time reminder titled \"Close windows before AC starts\" at 12:55 PM. The agent encountered multiple errors related to incorrect handling of the reminder parameters, such as unexpected keyword arguments and missing required arguments.\n\nThese issues indicate that the agent did not execute the required actions as specified in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `ModifyDeviceState` action for scheduling the central AC was attempted with incorrect parameters. The ground truth specifies that the AC should be scheduled with `power=on`, `mode=cool`, `setpoint_c=22`, and `fan_speed=auto`. However, the trajectory shows repeated errors indicating that the parameters used were not allowed for the device, and ultimately, only `mode=cool` was successfully scheduled, without setting the `power`, `setpoint_c`, or `fan_speed` as required."
+            "description": "The fault in the trajectory is due to the incorrect use of the `UpsertReminder` tool. The assistant attempted to use the `UpsertReminder` tool with incorrect arguments, such as 'reminder_id' and 'title', which are not valid according to the ground truth action sequence. The correct usage should have included a single 'reminder' argument containing a dictionary with all necessary details, including 'reminder_id', 'target', 'trigger', 'actions', 'status', and 'meta'. This discrepancy led to errors and the failure to set up the reminder as instructed."
         }
     ]
 }

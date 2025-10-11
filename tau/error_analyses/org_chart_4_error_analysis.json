@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the \"AddPerformanceReview\" action correctly. The agent encountered an error due to a missing required positional argument 'performance_review' and repeatedly attempted to append to a 'dict' object, which is not a valid operation. As a result, the agent did not successfully record the audit performance evaluation or update the employee's notes as required by the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `AddPerformanceReview` action due to formatting issues. The agent repeatedly encountered errors related to missing or incorrectly formatted arguments, preventing it from adding the required performance review. Additionally, the agent did not update the employee record with the necessary audit note and performance review IDs, as specified in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `AddPerformanceReview` tool without providing the required `performance_review` argument. The ground truth action sequence specifies that the `AddPerformanceReview` tool should be invoked with a complete `performance_review` dictionary, including details such as `review_id`, `employee_id`, `period_start`, `period_end`, `rating`, and `summary`. However, in the trajectory, the assistant failed to provide this argument, resulting in an error and preventing the successful recording of the audit performance evaluation."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `AddPerformanceReview` tool without providing the correct `performance_review` argument structure. The ground truth action sequence specifies that the `AddPerformanceReview` tool should be invoked with a `performance_review` dictionary containing specific fields such as `review_id`, `employee_id`, `period_start`, `period_end`, `rating`, and `summary`. However, in the trajectory, the assistant repeatedly failed to provide this structured argument, resulting in errors and the inability to complete the task."
         }
     ]
 }

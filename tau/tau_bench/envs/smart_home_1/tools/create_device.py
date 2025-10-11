@@ -17,8 +17,7 @@ class CreateDevice(Tool):
         state_params: List[str],
         state: Dict[str, Any],
         name: str = None,
-        **extra_fields: Any,
-    ) -> str:
+        ) -> str:
         devices: List[Dict[str, Any]] = list(data.get("devices", {}).values())
         if any(d.get("id") == id for d in devices):
             return json.dumps({"error": "Duplicate device id"}, indent=2)

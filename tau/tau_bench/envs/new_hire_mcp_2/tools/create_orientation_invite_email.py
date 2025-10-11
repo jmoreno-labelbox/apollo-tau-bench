@@ -22,19 +22,19 @@ def _find_by_key(rows: List[Dict[str, Any]], key: str, val: Any) -> Dict[str, An
 
 class InsertEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id = kwargs.get("message_id")
+    def invoke(data: Dict[str, Any], attachments_ids=None, body=None, candidate_id=None, cc_emails=None, date_ts=None, draft_flag=None, from_email=None, in_reply_to_message_id_nullable=None, label_ids=None, labels_ids=None, message_id=None, name=None, sent_flag=None, subject=None, thread_id_nullable=None, to_emails=None) -> str:
+        message_id = message_id
         rows = _ensure_list(data, "emails")
         if _find_by_key(rows, "message_id", message_id) is None:
-            payload = {"message_id": message_id, "subject": kwargs.get("subject"), "body": kwargs.get("body"),
-                       "from_email": kwargs.get("from_email", "hr@company.com"),
-                       "to_emails": kwargs.get("to_emails", []), "cc_emails": kwargs.get("cc_emails", []),
-                       "date_ts": kwargs.get("date_ts", NOW_TS), "labels_ids": kwargs.get("labels_ids", []),
-                       "attachments_ids": kwargs.get("attachments_ids", []),
-                       "draft_flag": kwargs.get("draft_flag", False), "sent_flag": kwargs.get("sent_flag", True),
-                       "candidate_id_nullable": kwargs.get("candidate_id"),
-                       "thread_id_nullable": kwargs.get("thread_id_nullable"),
-                       "in_reply_to_message_id_nullable": kwargs.get("in_reply_to_message_id_nullable")}
+            payload = {"message_id": message_id, "subject": subject, "body": body,
+                       "from_email": (from_email if from_email is not None else "hr@company.com"),
+                       "to_emails": (to_emails if to_emails is not None else []), "cc_emails": (cc_emails if cc_emails is not None else []),
+                       "date_ts": (date_ts if date_ts is not None else NOW_TS), "labels_ids": (labels_ids if labels_ids is not None else []),
+                       "attachments_ids": (attachments_ids if attachments_ids is not None else []),
+                       "draft_flag": (draft_flag if draft_flag is not None else False), "sent_flag": (sent_flag if sent_flag is not None else True),
+                       "candidate_id_nullable": candidate_id,
+                       "thread_id_nullable": thread_id_nullable,
+                       "in_reply_to_message_id_nullable": in_reply_to_message_id_nullable}
             rows.append(payload)
         return json.dumps({"message_id": message_id, "created": True}, indent=2)
 
@@ -56,8 +56,8 @@ class InsertEmail(Tool):
 
 class CreateOrGetEmailLabel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any]) -> str:
+        name = name
         rows = _ensure_list(data, "email_labels")
         for r in rows:
             if r.get("name") == name:
@@ -76,9 +76,9 @@ class CreateOrGetEmailLabel(Tool):
 
 class AddLabelsToEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id = kwargs.get("message_id")
-        label_ids = kwargs.get("label_ids", [])
+    def invoke(data: Dict[str, Any]) -> str:
+        message_id = message_id
+        label_ids = (label_ids if label_ids is not None else [])
         rows = _ensure_list(data, "emails")
         row = _find_by_key(rows, "message_id", message_id)
         if row is None:

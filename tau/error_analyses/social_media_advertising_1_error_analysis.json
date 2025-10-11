@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the action to log the 'trend_analysis' automation run. The ground truth action sequence specifies the use of the `AddAutomationRun` action with specific parameters, including `input_ref` and `status`. However, in the trajectory, the agent encountered errors related to the `AddAutomationRun` action, indicating a failure to properly execute this step. Additionally, the agent did not attempt to suspend the 'Electronics - UK' ad set (ID 112) after confirming it was active, which was a required action according to the ground truth sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the \"AddAutomationRun\" action successfully. The ground truth action sequence includes logging a 'trend_analysis' automation run with specific parameters, but the agent encountered errors and did not complete this task. The agent's attempts to log the automation run resulted in repeated errors, indicating a failure to fulfill the user instruction to log the automation run with the input reference 'electronics_momentum'."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "other",
-            "description": "The fault in the trajectory is that the assistant failed to successfully log the 'trend_analysis' automation run with the specified input reference 'electronics_momentum'. The ground truth action sequence includes a successful logging of this automation run, but in the trajectory, the assistant encounters persistent errors and is unable to complete this action. This discrepancy indicates a failure to execute a required task as per the user instruction."
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is that the tool \"GetStatusForAdset\" was invoked with the wrong ad set ID. The ground truth specifies checking the status of the 'Electronics - UK' ad set with ID 112, but the trajectory attempted to check an ad set with ID '113', which resulted in an error. This discrepancy indicates the use of an incorrect tool argument."
         }
     ]
 }

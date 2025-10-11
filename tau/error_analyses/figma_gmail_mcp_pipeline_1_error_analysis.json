@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly invoke the `CreateGmailThread` action. The agent repeatedly attempted to call this action without providing the required `workflow_type` argument, leading to a series of errors. This prevented the creation of the email thread necessary for organizing and sending the exported artifacts, which is a critical step in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly invoke the `CreateGmailThread` action. The agent repeatedly attempted to call `CreateGmailThread` without providing the required `workflow_type` argument, which is necessary for the action to succeed. This resulted in a series of errors and prevented the creation of the email thread needed to notify stakeholders, as specified in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `CreateGmailThread` action was attempted with incorrect arguments. Specifically, the trajectory shows repeated errors indicating that the `CreateGmailThread` function was invoked without the required `workflow_type` argument, and with an unexpected `subject` argument. In contrast, the ground truth action sequence correctly includes the `workflow_type` argument set to \"review\" and does not include a `subject` argument. This discrepancy in the arguments used for the `CreateGmailThread` action is the functional difference causing the fault."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `CreateGmailThread` tool was invoked with incorrect arguments. Specifically, the tool was called with an unexpected keyword argument 'subject' and was missing the required positional argument 'workflow_type'. In the ground truth action sequence, the `CreateGmailThread` tool is correctly invoked with the 'workflow_type' argument set to \"review\", and no 'subject' argument is used. This discrepancy in the arguments led to repeated errors in the trajectory."
         }
     ]
 }

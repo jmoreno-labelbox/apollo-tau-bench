@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class create_promotion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], ) -> str:
         promotion_fields = [
             "name",
             "type",

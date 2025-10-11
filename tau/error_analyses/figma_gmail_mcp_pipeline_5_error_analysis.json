@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory due to technical errors that prevented the execution of necessary actions. Specifically, the environment encountered repeated errors such as \"'str' object has no attribute 'get'\" and \"'dict' object has no attribute 'append'\", which blocked the agent from performing actions like updating thread labels and conducting a DLP assessment. These errors indicate that the environment's tools or APIs were malfunctioning, preventing the agent from following the ground truth action sequence."
+            "description": "The environment is responsible for the fault in the trajectory due to technical issues that prevented the execution of necessary actions. Specifically, the environment returned errors such as \"'str' object has no attribute 'get'\" and \"'dict' object has no attribute 'append'\", which indicate that the system was unable to process the actions required to update the thread labels and perform the DLP assessment. These errors prevented the agent from completing the tasks outlined in the ground truth action sequence, such as updating the labels on the Gmail thread and confirming the DLP assessment, leading to the failure in achieving the intended goal."
         }
     ],
     "fault_type_analysis": []

@@ -9,14 +9,14 @@ from tau_bench.envs.tool import Tool
 
 class FindListings(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], max_price=None, min_price=None, property_id=None, status=None) -> str:
         listings = data.get('listings', [])
         results = []
         
-        status = kwargs.get('status')
-        min_price = kwargs.get('min_price', 0)
-        max_price = kwargs.get('max_price', float('inf'))
-        property_id = kwargs.get('property_id')
+        status = status
+        min_price = (min_price if min_price is not None else 0)
+        max_price = (max_price if max_price is not None else float('inf'))
+        property_id = property_id
         
         for listing in listings:
             if property_id and listing.get('property_id') != property_id:

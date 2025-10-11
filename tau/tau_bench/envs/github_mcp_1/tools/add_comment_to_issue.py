@@ -21,21 +21,18 @@ class AddCommentToIssue(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = (kwargs.get("owner") or "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
+    def invoke(data: Dict[str, Any], issue_comment=None, issue_comment_user=None, issue_no=None, issue_number=None, number=None, owner=None, repo_name=None) -> str:
+        owner = (owner or "").strip()
+        repo_name = (repo_name or repo_name or "").strip()
         # allow multiple aliases for the issue identifier
         issue_number_raw = (
-            kwargs.get("issue_number",
-                kwargs.get("issue number",
-                    kwargs.get("issue_no",
-                        kwargs.get("number", None)
+            (issue_number if issue_number is not None else (issue_number if issue_number is not None else (issue_no if issue_no is not None else (number if number is not None else None)
                     )
                 )
             )
         )
-        issue_comment = (kwargs.get("issue_comment") or "").strip()
-        issue_comment_user = (kwargs.get("issue_comment_user") or "").strip()
+        issue_comment = (issue_comment or "").strip()
+        issue_comment_user = (issue_comment_user or "").strip()
 
         if not owner or not repo_name or issue_number_raw is None or not issue_comment or not issue_comment_user:
             return json.dumps(

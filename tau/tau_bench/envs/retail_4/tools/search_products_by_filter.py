@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchProductsByFilter(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], category: str = None, min_price: float = None, max_price: float = None, available_only: bool = True, options: Dict[str, Any] = None, **kwargs) -> str:
+    def invoke(data: Dict[str, Any], category: str = None, min_price: float = None, max_price: float = None, available_only: bool = True, options: Dict[str, Any] = None, limit=None, price_flag=None, show_all=None) -> str:
         """
         Search products by category, price range, and availability status
 
@@ -15,14 +15,14 @@ class SearchProductsByFilter(Tool):
         """
         products = list(data.get("products", {}).values())
         matching_products = []
-        show_all = kwargs.get("show_all", False)
+        show_all = (show_all if show_all is not None else False)
 
         # Condition: Verify item availability prior to allocation - do not allocate items that are out of stock.
         for product in products:
             product_name = product.get("name", "").lower()
             product_id = product.get("product_id")
             variants = product.get("variants", {})
-            limit = kwargs.get("limit", None)
+            limit = (limit if limit is not None else None)
 
             # Apply category filtering if provided.
             if category and category.lower() not in product_name:
@@ -100,7 +100,7 @@ class SearchProductsByFilter(Tool):
                 })
 
         # Filter by the price flag if available and return just one product.
-        price_flag = kwargs.get("price_flag")
+        price_flag = price_flag
 
         if price_flag == "cheapest":
             # Organize sample_variants by price for each product.

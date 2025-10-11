@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it provided an incorrect context for the interaction. The user instruction and ground truth action sequence pertain to booking a flight, while the trajectory involves a conversation about quantum computing citations. This mismatch indicates that the environment did not set up the correct scenario for the user and assistant to follow the intended task of booking a flight."
+            "description": "The environment is responsible for the fault in the trajectory because the conversation and actions taken in the trajectory are completely unrelated to the user instruction and the ground truth action sequence. The trajectory involves an onboarding process and risk profile retrieval for individuals unrelated to the flight booking task specified in the user instruction. This indicates that the environment provided an incorrect context or task to the agent, leading to a mismatch between the expected and actual actions."
         }
     ],
     "fault_type_analysis": []

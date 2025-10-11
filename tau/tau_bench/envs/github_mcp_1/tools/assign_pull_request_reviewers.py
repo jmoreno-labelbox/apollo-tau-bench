@@ -14,11 +14,11 @@ class AssignPullRequestReviewers(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        pr_number_raw = kwargs.get("pr_number", kwargs.get("prnumber", None))
-        reviewers_input = kwargs.get("reviewers", None)
+    def invoke(data: Dict[str, Any], owner=None, pr_number=None, prnumber=None, repo_name=None, reviewers=None) -> str:
+        owner = (owner if owner is not None else "").strip()
+        repo_name = (repo_name or repo_name or "").strip()
+        pr_number_raw = (pr_number if pr_number is not None else (prnumber if prnumber is not None else None))
+        reviewers_input = (reviewers if reviewers is not None else None)
 
         if not owner or not repo_name or pr_number_raw is None or reviewers_input is None:
             return json.dumps(
