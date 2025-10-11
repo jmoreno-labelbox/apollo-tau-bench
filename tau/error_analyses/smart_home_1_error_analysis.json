@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `UpdateDeviceState` action for the central AC. The agent encountered repeated errors due to missing the required 'update' argument in the `UpdateDeviceState` invocation, preventing the AC from being activated with the specified settings. This error also halted further actions, such as opening the curtain and adjusting the floor lamp, which were part of the required sequence when the temperature exceeded 22\u00b0C."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly schedule the automatic readjustment of the devices at 16:30. The agent encountered multiple errors when attempting to use the `ScheduleDeviceUpdate` function, indicating that it did not properly handle the scheduling of updates for the AC, curtain, and floor lamp as specified in the user instruction. The ground truth action sequence includes successful scheduling of these updates, which the agent did not achieve."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the agent attempted to use the `UpdateDeviceState` tool with incorrect arguments. Specifically, the agent failed to provide the required 'update' argument, which should include the settings for the AC (power, mode, setpoint_c, and fan_speed). Instead, the agent's attempts resulted in errors indicating missing or unexpected arguments, preventing the AC from being activated with the specified settings. In contrast, the ground truth action sequence correctly uses the `UpdateDeviceStateTimer` tool with the appropriate 'update' argument to set the AC to the desired state."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `UpdateDeviceState` tool with incorrect arguments, leading to errors. Specifically, the assistant tried to update the AC state using `UpdateDeviceState` with an unexpected keyword argument 'power', which should have been part of the 'update' dictionary. Additionally, the assistant failed to correctly schedule the device updates for 16:30, as indicated by the repeated errors related to missing required positional arguments and incorrect attribute access. These errors indicate that the assistant did not correctly follow the ground truth action sequence, which used `UpdateDeviceStateTimer` and `ScheduleDeviceUpdate` with the correct arguments."
         }
     ]
 }

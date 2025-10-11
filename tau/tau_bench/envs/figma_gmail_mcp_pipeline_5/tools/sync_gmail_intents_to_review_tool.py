@@ -56,7 +56,7 @@ class SyncGmailIntentsToReviewTool(Tool):
         changes = [s.lower() for s in intents.get("changes", [])]
         blocker = [s.lower() for s in intents.get("blocker", [])]
 
-        msgs = list(data.get("gmail_messages", {}).values())
+        msgs = list(list(list(data.get("gmail_messages", {}).values())) if isinstance(data.get("gmail_messages"), dict) else data.get("gmail_messages", []))
         counts = {"approve":0, "changes":0, "blocker":0}
         for m in msgs:
             if m.get("thread_id") != thread_id:

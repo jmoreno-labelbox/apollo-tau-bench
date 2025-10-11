@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to successfully execute the action to set up a daily routine for the ceiling light and floor lamp. The agent encountered repeated errors ('str' object has no attribute 'get') when attempting to schedule the ceiling light to turn on with brightness set to 30 and the floor lamp to turn off at 19:00 daily. This resulted in the failure to complete the task as specified in the user instruction and the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **AC Scheduling Error**: The agent failed to correctly schedule the central AC with the specified settings (power=on, mode=cool, setpoint_c=22, fan_speed=auto) at 13:00. The agent encountered errors and only managed to schedule the AC in cool mode without setting the temperature and fan speed correctly.\n\n2. **Daily Routine Setup Error**: The agent failed to set up the daily routine for the ceiling light and floor lamp at 19:00. The agent encountered repeated errors ('str' object has no attribute 'get') and did not successfully schedule the ceiling light to turn on with brightness=30 and the floor lamp to turn off.\n\nThese errors indicate that the agent did not execute the required actions as specified in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `ModifyDeviceState` tool without providing the correct arguments. Specifically, the assistant encountered an error: `ModifyDeviceState.invoke() missing 1 required positional argument: 'update'`, indicating that the `update` argument was not correctly passed to the tool. This error occurred when trying to schedule the central AC, which is a deviation from the ground truth action sequence where the `update` argument was correctly provided with the necessary parameters for the AC configuration."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `ModifyDeviceState` action for scheduling the central AC was attempted with incorrect parameters. The ground truth specifies that the AC should be scheduled with `power=on`, `mode=cool`, `setpoint_c=22`, and `fan_speed=auto`. However, the trajectory shows repeated errors indicating that the parameters used were not allowed for the device, and ultimately, only `mode=cool` was successfully scheduled, without setting the `power`, `setpoint_c`, or `fan_speed` as required."
         }
     ]
 }

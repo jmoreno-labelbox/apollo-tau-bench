@@ -47,7 +47,7 @@ class RemoveItemsByIndexTool(Tool):
         except Exception:
             return json.dumps({"error": "indices must be a list of integers >= 0"}, indent=2)
 
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
             return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)

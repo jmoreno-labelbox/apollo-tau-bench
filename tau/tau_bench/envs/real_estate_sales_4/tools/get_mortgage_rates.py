@@ -9,7 +9,7 @@ class GetMortgageRates(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], loan_type = 'conventional', term_years = 30) -> str:
         
-        rates = list(data.get('mortgage_rates', {}).values())
+        rates = list(list(list(data.get('mortgage_rates', {}).values())) if isinstance(data.get('mortgage_rates'), dict) else data.get('mortgage_rates', []))
         filtered_rates = []
         
         for rate in rates:

@@ -63,7 +63,7 @@ class AddOrderItemsFromList(Tool):
         if order_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
             order_id = _latest_order_id(data, household_id)
-        order = next((o for o in list(data.get("orders", {}).values()) if o.get("order_id") == order_id), None)
+        order = next((o for o in list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", [])) if o.get("order_id") == order_id), None)
         if not order:
             return _json_dump({"error": "no order available"})
         if store_id is None:

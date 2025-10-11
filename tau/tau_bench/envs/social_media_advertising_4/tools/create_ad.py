@@ -9,7 +9,7 @@ class CreateAd(Tool):
     """Creates a new ad creative."""
     @staticmethod
     def invoke(data: Dict[str, Any], adset_id, creative_type, name) -> str:
-        ads = list(data.get('ads', {}).values())
+        ads = list(list(list(data.get('ads', {}).values())) if isinstance(data.get('ads'), dict) else data.get('ads', []))
         new_id = max((int(a['ad_id']) for a in ads), default=1100) + 1
         new_ad = {"ad_id": str(new_id), "adset_id": adset_id, "name": name, "creative_type": creative_type, "status": "paused", "start_date": "2025-08-15", "end_date": None}
         ads.append(new_ad)

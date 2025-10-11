@@ -9,7 +9,7 @@ class GetOrdersForHousehold(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id: int) -> str:
         rows = [
-            o for o in list(data.get("orders", {}).values()) if int(o.get("household_id")) == int(household_id)
+            o for o in list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", [])) if int(o.get("household_id")) == int(household_id)
         ]
         return json.dumps({"orders": rows})
 

@@ -1,0 +1,453 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "TASK_95",
+        "actions": [
+          {
+            "name": "searchProductsByCategory",
+            "kwargs": {
+              "category": "Running Shoes"
+            }
+          },
+          {
+            "name": "createPromotionalCampaign",
+            "kwargs": {
+              "campaign_name": "Spring Running Season",
+              "target_category": "Running Shoes",
+              "discount_percentage": 30
+            }
+          },
+          {
+            "name": "getTopSellingProducts",
+            "kwargs": {
+              "category": "Running Shoes"
+            }
+          },
+          {
+            "name": "updateProductPrice",
+            "kwargs": {
+              "product_id": "6938111410",
+              "item_id": "4153505238",
+              "new_price": 200
+            }
+          }
+        ],
+        "instruction": "Initiate a seasonal campaign by searching for Running Shoes products. Develop a promotional campaign titled 'Spring Running Season' offering a 30% discount, identify the top-selling items in this category, and adjust the price of the highest priced item in this category to $200.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You serve as a specialist in retail operations, focusing on e-commerce order management, inventory oversight, customer support, and supply chain processes.\",\n    \"Consistently authenticate customer identity by utilizing user_id.\",\n    \"Prior to confirming orders or handling exchanges, ensure product availability, review stock levels, and examine variant options to avoid overselling and stock shortages.\",\n    \"Ensure that detailed audit logs are kept for every order transaction, inventory modification, and customer interaction, capturing accurate timestamps and recording user actions.\",\n    \"Adhere to rigorous product compliance by checking product availability, confirming the accuracy of pricing, and verifying correct item categorization within the catalog.\",\n    \"The platform accommodates various payment methods such as credit cards (credit_card), PayPal (paypal), and gift cards (gift_card). Always verify the payment status prior to completing any order.\",\n    \"You are permitted to access the retail database, which holds data on products, orders, users, suppliers, couriers, tracking, and supply orders.\",\n    \"For any operation, you are required to utilize the corresponding tool (API) that matches the intended action: retrieving data, creating new entries, modifying current records, or handling inventory.\",\n    \"Consistently refer to the available tools to identify the proper method for accessing or altering the retail system's database.\",\n    \"Do not create, infer, or generate any information that has not been directly supplied by the user or obtained from the tools. Treat the tools as the definitive source of truth. Always consider the information provided by the tools to be accurate and do not challenge it.\",\n    \"Perform no more than one tool call at any given time, and when initiating a tool call, refrain from responding to the user concurrently.\",\n    \"Guarantee effective coordination among order fulfillment, shipping carriers, and tracking systems to provide a smooth customer experience.\",\n    \"Carefully manage product variants by verifying specific item_ids, colors, sizes, and other relevant attributes to prevent the shipment of incorrect items.\",\n    \"Track the status of payment processing and work with payment providers to quickly address any transaction problems.\",\n    \"If multiple products, items, or couriers satisfy the specified criteria and a single selection is required, select the one with the lowest ID as the tiebreaker.\",\n    \"Multiple orders may share the same id, and it is also permissible for several supply orders to have identical ids.\",\n    \"The actions create_supply_order and create_pending_supply_order will consistently generate deterministic order ids.\",\n    \"To generate recommendations, simply invoke the create_recommendations API, which will automatically determine the appropriate number of recommendations to return. The add_payment_method_to_user action will always produce a deterministic payment_method_id by appending the id fd520c73 to the payment method. Remember that all ids and any data produced by the tools or API calls are deterministic.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I'm looking to create a seasonal campaign for running shoes. Could you help me find some information about the products in this category?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category\":\"running shoes\"}",
+              "name": "search_products_by_category"
+            },
+            "id": "call_iA5yNSYIBoxVPRxISxQUuNu6",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_iA5yNSYIBoxVPRxISxQUuNu6",
+        "name": "search_products_by_category",
+        "content": "Error: SearchProductsByCategory.invoke() missing 3 required positional arguments: 'max_price', 'max_stock', and 'min_price'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category\":\"running shoes\",\"available_only\":true}",
+              "name": "search_products_by_category"
+            },
+            "id": "call_r7BpPqD52Mh7GcjW0mve4rbU",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_r7BpPqD52Mh7GcjW0mve4rbU",
+        "name": "search_products_by_category",
+        "content": "Error: SearchProductsByCategory.invoke() missing 3 required positional arguments: 'max_price', 'max_stock', and 'min_price'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category\":\"running shoes\",\"available_only\":true,\"max_price\":1000,\"min_price\":0,\"max_stock\":1000}",
+              "name": "search_products_by_category"
+            },
+            "id": "call_G0uO0OHYxkXWX52mGLTakrq4",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_G0uO0OHYxkXWX52mGLTakrq4",
+        "name": "search_products_by_category",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an issue retrieving the information about running shoes. Let me try again to gather the necessary details.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category\":\"running shoes\",\"available_only\":true,\"max_price\":1000,\"min_price\":0,\"max_stock\":1000}",
+              "name": "search_products_by_category"
+            },
+            "id": "call_CcwoH2c9dgEQvhZj0o8YBLXU",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_CcwoH2c9dgEQvhZj0o8YBLXU",
+        "name": "search_products_by_category",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that I'm encountering a persistent issue while trying to retrieve the product information for running shoes. Unfortunately, I cannot proceed with the search at this moment.\n\nIf you have any specific details or requirements for the seasonal campaign, please let me know, and I can assist you in other ways!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No problem! I want to create a promotional campaign called 'Spring Running Season' with a 30% discount on running shoes. Could you help me identify the top-selling items in this category?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"limit\":10,\"category\":\"running shoes\"}",
+              "name": "get_top_selling_products"
+            },
+            "id": "call_mpGSd1kUbuFDkFmzi331Zktf",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_mpGSd1kUbuFDkFmzi331Zktf",
+        "name": "get_top_selling_products",
+        "content": "Error: string indices must be integers"
+      },
+      {
+        "content": "It seems I'm facing another issue while trying to retrieve the top-selling items in the running shoes category. Unfortunately, I cannot access that information at this moment.\n\nIf you have any other requests or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That's alright! Could you help me adjust the price of the highest priced running shoes to $200?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"limit\":10,\"category\":\"running shoes\"}",
+              "name": "get_top_selling_products"
+            },
+            "id": "call_ToIqpJ3zlF7Me4K0fndjBsKm",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ToIqpJ3zlF7Me4K0fndjBsKm",
+        "name": "get_top_selling_products",
+        "content": "Error: string indices must be integers"
+      },
+      {
+        "content": "I am currently unable to retrieve the top-selling running shoes due to a technical issue. Without that information, I cannot identify the highest-priced item to adjust its price.\n\nIf you have any other requests or need assistance with a different task, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for letting me know. Please keep me updated when you're able to access that information, or if there's anything else I can assist with!"
+      },
+      {
+        "content": "Thank you for your understanding! I will keep you updated if I can access the information or if there's anything else you need assistance with. If you have any other questions or tasks in the meantime, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll reach out if I need anything else.###STOP### "
+      },
+      {
+        "content": "You're welcome! Don't hesitate to reach out if you need assistance in the future. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "#STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Got it! If you need anything later, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

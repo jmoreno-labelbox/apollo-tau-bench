@@ -18,7 +18,7 @@ def _next_auto_id(rows: List[Dict[str, Any]], key: str) -> int:
 class PersistViewingRoute(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], client_id, created_by_broker_id, date, map_url, stops_ordered_json) -> str:
-        routes = list(data.get("routes", {}).values())
+        routes = list(list(list(data.get("routes", {}).values())) if isinstance(data.get("routes"), dict) else data.get("routes", []))
         new_id = _next_auto_id(routes, "route_id")
         row = {
             "route_id": new_id,

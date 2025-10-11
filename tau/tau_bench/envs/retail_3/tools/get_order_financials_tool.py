@@ -11,7 +11,7 @@ class GetOrderFinancialsTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id) -> str:
         # Fetches the 'orders' object from the in-memory state, which might have been altered.
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
 
         order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:

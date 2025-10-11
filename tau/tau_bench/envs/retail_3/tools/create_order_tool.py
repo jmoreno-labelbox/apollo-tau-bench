@@ -1,5 +1,6 @@
 # Copyright Sierra
 
+import datetime
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
@@ -65,7 +66,7 @@ class CreateOrderTool(Tool):
             )
 
         resolved_items: List[Dict[str, Any]] = []
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
         for line in items_spec:
             pid = line.get("product_id")
             iid = line.get("item_id")

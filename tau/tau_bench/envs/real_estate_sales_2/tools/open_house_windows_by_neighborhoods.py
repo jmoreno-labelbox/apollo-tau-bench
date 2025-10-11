@@ -9,7 +9,7 @@ class OpenHouseWindowsByNeighborhoods(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], neighborhood_ids) -> str:
         nids = set(neighborhood_ids or [])
-        props = [p for p in list(data.get("properties", {}).values()) if p.get("neighborhood_id") in nids]
+        props = [p for p in list(list(list(data.get("properties", {}).values())) if isinstance(data.get("properties"), dict) else data.get("properties", [])) if p.get("neighborhood_id") in nids]
         prop_ids = {p.get("property_id") for p in props}
         rows = [oh for oh in data.get("open_houses", []) if oh.get("property_id") in prop_ids]
         return json.dumps({"neighborhood_ids": list(nids), "open_houses": rows}, indent=2)

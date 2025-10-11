@@ -11,7 +11,7 @@ class FindUsersByCity(Tool):
     def invoke(data, city) -> str:
         if not city:
             return json.dumps({"error":"city is required"}, indent=2)
-        users = list(data.get('users', {}).values())
+        users = list(list(list(data.get('users', {}).values())) if isinstance(data.get('users'), dict) else data.get('users', []))
         out = [u for u in users if u.get('address',{}).get('city') == city]
         return json.dumps(out, indent=2)
 

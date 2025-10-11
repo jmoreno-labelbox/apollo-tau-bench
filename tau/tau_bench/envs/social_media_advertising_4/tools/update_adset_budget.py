@@ -9,7 +9,7 @@ class UpdateAdsetBudget(Tool):
     """Updates the daily budget of an ad set."""
     @staticmethod
     def invoke(data: Dict[str, Any], adset_id, new_budget) -> str:
-        for adset in list(data.get('adsets', {}).values()):
+        for adset in list(list(list(data.get('adsets', {}).values())) if isinstance(data.get('adsets'), dict) else data.get('adsets', [])):
             if adset.get('adset_id') == adset_id:
                 adset['daily_budget'] = new_budget
                 return json.dumps(adset)

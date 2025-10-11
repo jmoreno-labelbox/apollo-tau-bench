@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to retrieve the artifact ID using the \"GetAllArtifactsOfTypeWithTagsAndEmail\" action, which was necessary to proceed with creating the asset and starting the email thread. Instead, the agent asked the user for information that was not required, such as the Figma File ID, and did not attempt to fetch the artifact using the available owner email and tags. This led to an inability to create the asset and attach it to the email, resulting in an incomplete task."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the necessary actions to handle the review request submission. Specifically, the agent did not attempt to retrieve the frame artifacts using the correct parameters, such as the \"needs-review\" tag, and did not proceed with creating the asset, starting the email thread, or updating the cycle status as outlined in the ground truth action sequence. Instead, the agent repeatedly asked for information that was not required according to the ground truth, leading to an incomplete task execution."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the assistant attempted to use the `StartEmailThread` tool without providing the required `attachments_asset_ids` argument. In the ground truth action sequence, the `StartEmailThread` action includes the `attachments_asset_ids` argument with the value `[\"asset_019\"]`, which is necessary to attach the asset to the email thread. The trajectory failed to create the asset and thus could not provide this argument, leading to an error."
+            "description": "The fault in the trajectory is due to the incorrect use of the tool \"GetAllArtifactsOfTypeWithTagsAndEmail\". The assistant attempted to invoke this tool without providing the required 'tags' argument, which is necessary to filter the artifacts by the \"needs-review\" tag as specified in the ground truth action sequence. This resulted in an error and the failure to retrieve the necessary frame for further actions."
         }
     ]
 }

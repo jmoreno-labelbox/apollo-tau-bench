@@ -9,7 +9,7 @@ class ReadCampaign(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], campaign_id) -> str:
         cid = campaign_id
-        c = next((x for x in list(data.get("campaigns", {}).values()) if x.get("campaign_id") == cid), None)
+        c = next((x for x in list(list(list(data.get("campaigns", {}).values())) if isinstance(data.get("campaigns"), dict) else data.get("campaigns", [])) if x.get("campaign_id") == cid), None)
         if not c:
             return json.dumps({"error": f"campaign_id {cid} not found"}, indent=2)
         return json.dumps(c, indent=2)

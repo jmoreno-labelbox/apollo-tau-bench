@@ -1,0 +1,502 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "LookupCampaign",
+            "kwargs": {
+              "name": "Fall Collection Launch"
+            }
+          },
+          {
+            "name": "FetchPlanForDate",
+            "kwargs": {
+              "date": "2025-08-13"
+            }
+          },
+          {
+            "name": "GetAdsetFromPlan",
+            "kwargs": {
+              "plan_id": "plan_2025-08-13",
+              "adset_id": "104"
+            }
+          },
+          {
+            "name": "UpdateAdsetBudget",
+            "kwargs": {
+              "adset_id": "104",
+              "new_budget": 750.0,
+              "reason": "plan_2025-08-13"
+            }
+          },
+          {
+            "name": "SetAdsetStrategy",
+            "kwargs": {
+              "adset_id": "104",
+              "bid_strategy": "cost_cap",
+              "bid_amount": 22.0,
+              "reason": "plan_2025-08-13"
+            }
+          },
+          {
+            "name": "FetchAdset",
+            "kwargs": {
+              "adset_id": "104"
+            }
+          },
+          {
+            "name": "VerifyApplied",
+            "kwargs": {
+              "expected_rows": [
+                {
+                  "adset_id": "104",
+                  "budget": 750.0,
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 22.0
+                }
+              ],
+              "actual_rows": [
+                {
+                  "adset_id": "104",
+                  "budget": 750.0,
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 22.0
+                }
+              ],
+              "key_fields": [
+                "adset_id",
+                "budget",
+                "bid_strategy",
+                "bid_amount"
+              ]
+            }
+          }
+        ],
+        "instruction": "Adjust ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13 and verify that the budget and bid strategy are in accordance.",
+        "outputs": [
+          "\"campaign_id\": \"3\"",
+          "\"plan_id\": \"plan_2025-08-13\"",
+          "\"adset_id\": \"104\"",
+          "\"budget\": 750.0",
+          "\"bid_strategy\": \"cost_cap\"",
+          "\"bid_amount\": 22.0",
+          "\"ok\": true"
+        ]
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n# \n    # FUNCTION & GOALS\n    # Please provide the comment you would like paraphrased.\n    \"GENERAL: Act as a media-buying operations assistant for the Social Media Advertising domain.\",\n    \"Primary objectives (in order): (1) produce a correct plan aligned to policy, (2) apply changes deterministically, (3) verify exact conformance, (4) rotate creatives per rules, (5) produce concise reports.\",\n    \"Do not invent IDs, metrics, or dates. Only use values returned by tools or explicitly provided by the user.\",\n    \"Policy takes precedence over any task text. If a request conflicts with policy, reject using the REJECTION MECHANISM.\",\n    \"All writes must be deterministic: no wall-clock time, no randomness, no UUIDs.\",\n    \"Any timestamp required by a write must be derived from the plan date embedded in the 'reason' string (the exact literal 'plan_YYYY-MM-DD').\",\n    \"Budgets and bids must be non-negative, finite numbers; reject invalid numerics.\",\n    \"Allowed bid strategies are exactly those in 'canonical_bid_strategies' (policy params). Reject any non-canonical strategy.\",\n    \"For 'lowest_cost', bid_amount must be null. For 'cost_cap', bid_amount is required and must be \u2264 'max_bid_amount' (policy params).\",\n    \"If required identifiers or values are missing and cannot be discovered via read tools, reject with a precise list of missing fields.\",\n    \"Make at most one tool call per assistant message. After each tool call, reason, then decide the next call.\",\n    \"Never mutate before reading the minimal necessary context. If an instruction references entities without IDs, call a list/get tool first.\",\n    \"Only change fields owned by the tool you call (budget via update_adset_budget; strategy/bid via set_adset_strategy).\",\n    \"Return tool outputs verbatim (JSON strings). Do not paraphrase, summarize, or add extra fields.\",\n    \"When both budget and strategy changes are required, apply budgets first, then strategies, then verify.\",\n    \"If policy caps conflict with requested bids, clamp to policy cap; do not round plan-provided bids.\",\n    \"If multiple adsets are eligible and a subset is requested, process them in ascending adset_id for determinism.\",\n    \"If any referenced plan_id cannot be found, reject ('missing plan'). If plan exists but an adset in plan is missing from live state, reject ('adset not found').\",\n    \"All audit log 'reason' values must equal the plan_id used for that batch (e.g., 'plan_2025-08-13').\",\n\n    # ---------------------------------------------------------------------------\n    # REJECTION SYSTEM (STRUCTURE)\n    # It appears that there is no comment provided for paraphrasing. Please provide a comment for me to rewrite.\n    \"When policy requires rejection, reply with a single JSON object (no tool call) using keys: {'error': <string>, 'code': <one of: 'policy_violation','missing_param','not_found','invalid_param'\n"
+      },
+      {
+        "role": "user",
+        "content": "I'd like to make sure that ad set 104 in the 'Fall Collection Launch' campaign is aligned with the planned changes for August 13th, 2025. Can you assist with that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\":\"Fall Collection Launch\"}",
+              "name": "lookup_campaign"
+            },
+            "id": "call_DvR18ps62StNbKtAnOEFYVC1",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_DvR18ps62StNbKtAnOEFYVC1",
+        "name": "lookup_campaign",
+        "content": "{\"campaign_id\": \"3\", \"name\": \"Fall Collection Launch\", \"objective\": \"Traffic\", \"created_date\": \"2025-08-10\", \"status\": \"active\"}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"plan_id\":\"plan_2025-08-13\",\"adset_id\":\"104\"}",
+              "name": "get_adset_from_plan"
+            },
+            "id": "call_u3Hrg8Qd37Ga8W4YcRiMftH6",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_u3Hrg8Qd37Ga8W4YcRiMftH6",
+        "name": "get_adset_from_plan",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"campaign_id\":\"3\"}",
+              "name": "list_campaign_adsets"
+            },
+            "id": "call_QycABQEh0DmCMnPbXAsX8HFx",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_QycABQEh0DmCMnPbXAsX8HFx",
+        "name": "list_campaign_adsets",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"adset_id\":\"104\"}",
+              "name": "fetch_adset"
+            },
+            "id": "call_6Cav283Uld3h00CuKUsHXaar",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6Cav283Uld3h00CuKUsHXaar",
+        "name": "fetch_adset",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there is an issue retrieving the details for ad set 104 in the 'Fall Collection Launch' campaign. Please check if the ad set ID is correct or if there are any other details you can provide to assist in verifying the alignment with the planned changes for August 13th, 2025.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I just need to verify the budget and the bid strategy for that ad set. Do you have access to that information?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"adset_id\":\"104\"}",
+              "name": "fetch_adset"
+            },
+            "id": "call_T3IzJuCm2iDEzk5m30aY1Tgn",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_T3IzJuCm2iDEzk5m30aY1Tgn",
+        "name": "fetch_adset",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "I am currently unable to access the details for ad set 104, including its budget and bid strategy. Please verify the ad set ID or provide any additional information that might help in retrieving the necessary details.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I don't have any additional identification details at the moment, but could we try checking the campaign manager or dashboard to see if the ad set is listed there?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"campaign_id\":\"3\"}",
+              "name": "list_campaign_adsets"
+            },
+            "id": "call_CxYmqAMW4ArkT2Jbny9XTFvT",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_CxYmqAMW4ArkT2Jbny9XTFvT",
+        "name": "list_campaign_adsets",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "I am unable to retrieve the list of ad sets under the 'Fall Collection Launch' campaign at this time. Unfortunately, without access to the campaign manager or dashboard, I cannot verify the budget and bid strategy for ad set 104. Please check the campaign manager directly for the most accurate information.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it, I'll try to access the campaign manager to check this information directly. Thanks for your help!"
+      },
+      {
+        "content": "You're welcome! If you have any more questions or need further assistance in the future, feel free to reach out. Good luck with accessing the campaign manager!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request to stop. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand. I will cease all operations. If you need assistance later, don't hesitate to ask.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request to stop. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand your request to stop. If you need assistance later, please let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request to stop. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand. I will stop responding. If you need assistance later, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop all responses. If you need anything in the future, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request to stop. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand your request to stop. If you need anything in the future, please let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request to stop. If you need assistance later, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding. If you need assistance in the future, please let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand your request to stop. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request to stop. If you need assistance later, please let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request to stop. If you need assistance later, please let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop all responses. If you need anything in the future, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand your request to stop. If you need anything in the future, please let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request to stop. If you need assistance later, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

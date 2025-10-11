@@ -50,7 +50,7 @@ class AddOrderItemsForPlanByKeys(Tool):
             return json.dumps({"error": "grocery_list not found for plan"})
         orders = [
             o
-            for o in list(data.get("orders", {}).values())
+            for o in list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
             if int(o.get("household_id")) == int(household_id)
             and int(o.get("store_id")) == int(store_id)
             and int(o.get("list_id")) == int(gl.get("list_id"))

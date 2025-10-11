@@ -11,7 +11,7 @@ class ListListingsByIds(Tool):
         if not listing_ids:
             return json.dumps({"error": "listing_ids is required"}, indent=2)
         
-        listings = list(data.get('listings', {}).values())
+        listings = list(list(list(data.get('listings', {}).values())) if isinstance(data.get('listings'), dict) else data.get('listings', []))
         found_listings = []
         
         for listing_id in listing_ids:

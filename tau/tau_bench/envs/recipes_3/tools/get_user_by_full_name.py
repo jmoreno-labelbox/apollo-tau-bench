@@ -9,7 +9,7 @@ class GetUserByFullName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], full_name: str) -> str:
         user = next(
-            (u for u in list(data.get("users", {}).values()) if str(u.get("full_name")) == str(full_name)), None
+            (u for u in list(list(list(data.get("users", {}).values())) if isinstance(data.get("users"), dict) else data.get("users", [])) if str(u.get("full_name")) == str(full_name)), None
         )
         return json.dumps({"user": user})
 

@@ -14,7 +14,7 @@ class ScheduleOpenHouse(Tool):
                 "error": "property_id, date, start_time, and end_time are required"
             }, indent=2)
         
-        listings = list(data.get('listings', {}).values())
+        listings = list(list(list(data.get('listings', {}).values())) if isinstance(data.get('listings'), dict) else data.get('listings', []))
         property_exists = any(l.get('property_id') == property_id for l in listings)
         
         if not property_exists:

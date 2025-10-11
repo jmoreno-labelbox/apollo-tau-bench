@@ -19,7 +19,7 @@ class NewCampaignCreator(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], created_by, name, type) -> str:
         name, ctype, created_by = name, type, created_by
-        c = list(data.get("campaigns", {}).values())
+        c = list(list(list(data.get("campaigns", {}).values())) if isinstance(data.get("campaigns"), dict) else data.get("campaigns", []))
         new_id = _next_auto_id(c, "campaign_id")
         row = {"campaign_id": new_id, "name": name, "type": ctype, "created_by": created_by, "created_at": _now_iso_fixed()}
         c.append(row)

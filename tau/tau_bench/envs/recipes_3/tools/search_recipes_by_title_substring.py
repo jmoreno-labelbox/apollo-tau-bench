@@ -11,7 +11,7 @@ class SearchRecipesByTitleSubstring(Tool):
     def invoke(data: Dict[str, Any], title_substring: str) -> str:
         if not title_substring:
             return json.dumps({"error": "title_substring parameter is required."})
-        recipes = list(data.get("recipes", {}).values())
+        recipes = list(list(list(data.get("recipes", {}).values())) if isinstance(data.get("recipes"), dict) else data.get("recipes", []))
         matching_recipes = [
             recipe for recipe in recipes 
             if title_substring.lower() in recipe.get("recipe_title", "").lower()

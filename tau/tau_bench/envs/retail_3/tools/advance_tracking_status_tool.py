@@ -1,5 +1,6 @@
 # Copyright Sierra
 
+import datetime
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
@@ -52,7 +53,7 @@ class AdvanceTrackingStatusTool(Tool):
         tr["tracking_history"][status] = _now_iso()
 
         # Duplicate into orders.json if relevant.
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         order = next((o for o in orders if o.get("order_id") == tr.get("order_id")), None)
         if order:
             if "fulfillments" not in order:

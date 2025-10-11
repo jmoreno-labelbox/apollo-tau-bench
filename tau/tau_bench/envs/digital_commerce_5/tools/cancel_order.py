@@ -28,7 +28,7 @@ class CancelOrder(Tool):
     def invoke(data: Dict[str, Any], order_id: str, cancel_at: Any) -> str:
         if not order_id or not cancel_at:
             return _err("order_id and cancel_at are required.")
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")

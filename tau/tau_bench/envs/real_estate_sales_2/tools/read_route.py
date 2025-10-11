@@ -9,7 +9,7 @@ class ReadRoute(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], route_id) -> str:
         rid = route_id
-        r = next((x for x in list(data.get("routes", {}).values()) if x.get("route_id") == rid), None)
+        r = next((x for x in list(list(list(data.get("routes", {}).values())) if isinstance(data.get("routes"), dict) else data.get("routes", [])) if x.get("route_id") == rid), None)
         if not r:
             return json.dumps({"error": f"route_id {rid} not found"}, indent=2)
         return json.dumps(r, indent=2)

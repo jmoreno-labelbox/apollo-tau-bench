@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **Failure to Retrieve Transaction ID**: The agent failed to retrieve the original transaction ID for the refund process. The ground truth sequence includes a step to get the transaction information using `GetTransactionsInfoByParam`, which the agent did not successfully execute.\n\n2. **Incorrect Execution of Refund**: The agent did not successfully execute the `CreateRefundTransaction` action. The ground truth specifies this action with the correct parameters, but the agent encountered errors and did not complete this step.\n\n3. **Promotion Creation Error**: The agent failed to create the promotion for Emma Wilson. The ground truth includes the `EditPromotionsDb` action to set up the discount, but the agent encountered errors and did not execute this action correctly.\n\nThese failures resulted in the agent not completing the necessary actions to process the refund and set up the promotion as specified in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly invoke the `GetCustomersInfoByParam` action. The agent did not provide the required `filter_params` argument, which led to repeated errors. This prevented the agent from retrieving Emma Wilson's customer information, which was necessary to proceed with the refund process and subsequent actions. In contrast, the ground truth action sequence correctly specifies the `filter_params` argument to retrieve the necessary customer information."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `EditPromotionsDb` tool with an incorrect argument. Specifically, the assistant included an unexpected keyword argument 'current_time' when invoking `EditPromotionsDb`, which is not part of the ground truth action sequence. The correct invocation should have included the promotion details such as the name, type, discount value, applicable SKUs, start date, and end date, without the 'current_time' argument. This discrepancy led to errors and the failure to create the promotion as intended."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `GetCustomersInfoByParam` tool was invoked without the required `filter_params` argument. In the ground truth action sequence, `filter_params` is correctly provided with the value `{\"name\": \"Emma Wilson\"}` to retrieve the necessary customer information. The absence of this argument in the trajectory leads to repeated errors, preventing the successful execution of the intended actions."
         }
     ]
 }

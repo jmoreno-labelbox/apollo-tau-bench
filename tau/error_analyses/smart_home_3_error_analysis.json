@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `MemberManager` tool without providing the required `member_id` argument. This resulted in continuous errors and prevented the agent from retrieving Robert's member details, which was the first step in the ground truth action sequence. Consequently, the agent failed to proceed with any subsequent actions necessary to set up the morning schedule."
+            "description": "The agent is responsible for the fault because it repeatedly attempted to invoke the `MemberManager` tool without providing the required `member_id` argument. This resulted in continuous errors and prevented the agent from retrieving Robert's member details, which was the first step in the ground truth action sequence. Consequently, the agent failed to proceed with any subsequent actions necessary to set up the automated morning routine."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `MemberManager` tool was invoked without the required `member_id` argument. The ground truth action sequence specifies that the `MemberManager` should be called with `member_id` set to \"john_johnson\", but the trajectory shows repeated errors due to the missing `member_id` argument. This discrepancy indicates that the tool was used incorrectly, leading to the failure in retrieving Robert's member details."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `MemberManager` tool was invoked without the required `member_id` argument. The ground truth action sequence specifies that the `MemberManager` should be called with `member_id` set to \"john_johnson\", but the trajectory shows repeated errors indicating that this argument was missing."
         }
     ]
 }

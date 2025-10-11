@@ -16,7 +16,7 @@ class ComputeUserFillRate(Tool):
     def invoke(data, user_id) -> str:
         if not user_id:
             return json.dumps({"error":"user_id is required"}, indent=2)
-        user_orders = [o for o in list(data.get('orders', {}).values()) if o.get('user_id') == user_id]
+        user_orders = [o for o in list(list(list(data.get('orders', {}).values())) if isinstance(data.get('orders'), dict) else data.get('orders', [])) if o.get('user_id') == user_id]
         total = sum(len(o.get('items', [])) for o in user_orders)
         delivered = 0
         for o in user_orders:

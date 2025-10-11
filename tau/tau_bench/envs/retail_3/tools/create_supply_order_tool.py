@@ -1,5 +1,6 @@
 # Copyright Sierra
 
+import datetime
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
@@ -59,7 +60,7 @@ class CreateSupplyOrderTool(Tool):
                 indent=2,
             )
 
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
         resolved_items: List[Dict[str, Any]] = []
 
         for line in items_spec:

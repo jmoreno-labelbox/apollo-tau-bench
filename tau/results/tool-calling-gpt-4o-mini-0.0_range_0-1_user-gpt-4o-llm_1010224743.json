@@ -1,0 +1,466 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "res_01",
+        "actions": [
+          {
+            "name": "SearchEmployees",
+            "kwargs": {
+              "filters": {
+                "first_name": "Daniel",
+                "last_name": "Kim"
+              }
+            }
+          },
+          {
+            "name": "GetEmployee",
+            "kwargs": {
+              "employee_id": "E10002"
+            }
+          },
+          {
+            "name": "SetEmployeeBenefits",
+            "kwargs": {
+              "employee_id": "E10002",
+              "benefit_plan_ids": [
+                "BEN4001"
+              ]
+            }
+          },
+          {
+            "name": "GetEmployee",
+            "kwargs": {
+              "employee_id": "E10002"
+            }
+          }
+        ],
+        "instruction": "Delete the Dental Plan (BEN4002) from Michael Park's benefits with immediate effect and document the change.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"As a smart HR assistant, you have the capability to manipulate this company's HR data, which includes details about employees, departments, benefits, performance reviews, leaves, and other HR-related information.\",\n    \"Your responsibility is to receive the user's request and modify the HR database state accordingly.\",\n    \"You are required to review your available tools IND order to identify the optimal method for modifying the state of the HR database.\",\n    \"The method for altering the state of the HR database involves utilizing your available tools, specifically by invoking the APIs.\",\n    \"You must never fabricate any information or knowledge that has not been supplied by the user or obtained from the tools.\",\n    \"You may make no more than one tool call at any given time, and when a tool call is made, you must not provide a response to the user simultaneously.\",\n    \"Any modification to an employee's permanent work location requires updating their record and officially recording the change with a performance review note.\",\n    \"To process equity adjustments, a new compensation record must be created. The value of the new equity grant is determined by adding the refresh amount to the employee's existing grant.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi, I need to make some changes to Michael Park's benefits."
+      },
+      {
+        "content": "Could you please specify what changes you would like to make to Michael Park's benefits?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I would like to remove the Dental Plan from his benefits."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"employee_id\":\"Michael Park\"}",
+              "name": "list_employee_documents"
+            },
+            "id": "call_pJsbademUApDxe4UgRucmVsO",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_pJsbademUApDxe4UgRucmVsO",
+        "name": "list_employee_documents",
+        "content": "{\n  \"count\": 0,\n  \"results\": []\n}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "search_employees"
+            },
+            "id": "call_CZM37SJZfNoiXArYmBy6W8up",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_CZM37SJZfNoiXArYmBy6W8up",
+        "name": "search_employees",
+        "content": "Error: search_employees.invoke() missing 1 required positional argument: 'filters'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "search_employees"
+            },
+            "id": "call_j7eK8BdEijRaYTV0ymgYlNo5",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_j7eK8BdEijRaYTV0ymgYlNo5",
+        "name": "search_employees",
+        "content": "Error: search_employees.invoke() missing 1 required positional argument: 'filters'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"employee_id\":\"Michael Park\"}",
+              "name": "get_employee"
+            },
+            "id": "call_9Y4JTzQOUddNvSp2LjwMOxnr",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_9Y4JTzQOUddNvSp2LjwMOxnr",
+        "name": "get_employee",
+        "content": "{\n  \"error\": \"employee_id Michael Park not found\"\n}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "get_unused_employee_id"
+            },
+            "id": "call_aqwoucAxlGFMa2PI2QgimOL5",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_aqwoucAxlGFMa2PI2QgimOL5",
+        "name": "get_unused_employee_id",
+        "content": "\"E10000\""
+      },
+      {
+        "content": "It seems that I am unable to locate Michael Park's employee record. Could you please provide me with his employee ID or any other identifying information?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm afraid I don't have his employee ID at the moment. Can I provide any other details instead?"
+      },
+      {
+        "content": "Yes, you can provide details such as his full name, department, or position. Any additional information you have will help me locate his employee record.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure, his full name is Michael Park, and he works in the Finance department."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"filters\":{\"first_name\":\"Michael\",\"last_name\":\"Park\"}}",
+              "name": "search_employees"
+            },
+            "id": "call_wwKsnIleidAsa6i2gr2HhXGA",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_wwKsnIleidAsa6i2gr2HhXGA",
+        "name": "search_employees",
+        "content": "{\n  \"count\": 0,\n  \"results\": []\n}"
+      },
+      {
+        "content": "I am still unable to find Michael Park's employee record using the provided details. It's possible that there may be a discrepancy in the name or department. \n\nIf you have any other information, such as his position or hire date, please share that, and I'll continue to assist you in locating his record.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Unfortunately, I don't have any more details on hand. Can we try searching by just his last name?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"filters\":{\"last_name\":\"Park\"}}",
+              "name": "search_employees"
+            },
+            "id": "call_q9kSot01bemuV7Lhlr4Z1ifa",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_q9kSot01bemuV7Lhlr4Z1ifa",
+        "name": "search_employees",
+        "content": "{\n  \"count\": 0,\n  \"results\": []\n}"
+      },
+      {
+        "content": "I am still unable to find any employee records for the last name \"Park.\" It seems that there may be an issue with the employee database or the information provided.\n\nIf you can check with your HR department or provide any other details later, I would be happy to assist you with the changes to Michael Park's benefits.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I understand. I'll check again for more details and get back to you. Thanks for your help!"
+      },
+      {
+        "content": "You're welcome! Feel free to reach out whenever you have more information or if you need assistance with anything else. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too, take care! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Take care as well! If you need anything in the future, don't hesitate to ask.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Got it! If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything later, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance later, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Acknowledged! If you need anything in the future, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Got it! If you need assistance in the future, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything later, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Acknowledged! If you need assistance in the future, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Got it! If you need assistance later, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Acknowledged! If you need assistance later, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

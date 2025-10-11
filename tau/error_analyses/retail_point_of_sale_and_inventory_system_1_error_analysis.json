@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the \"ActivatePromotion\" action for \"PROMO-001\" as instructed. Instead, the agent incorrectly assumed that the promotion was already active and did not attempt to activate it. Additionally, the agent encountered an error when trying to update the 'times_used' count for the promotion, indicating a misunderstanding or misconfiguration of the \"UpdatePromotionDetails\" action, which should have been executed with the correct parameters. These discrepancies led to the agent not following the ground truth action sequence accurately."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the `UpdatePromotionDetails` action correctly. The agent incorrectly reported an error when attempting to update the 'times_used' count for the promotion, stating that the `times_used` argument was unexpected. However, the ground truth action sequence indicates that updating the 'times_used' count is a valid action, and the agent should have executed it without error."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect use of the `UpdatePromotionDetails` tool. The ground truth action sequence specifies updating the `times_used` count for `PROMO-001` to 10 using the `UpdatePromotionDetails` tool with the correct argument `times_used`. However, in the trajectory, the tool invocation results in an error because the `times_used` argument is not recognized, indicating that the tool was used with an incorrect or unsupported argument."
+            "description": "The fault in the trajectory is due to the incorrect use of the `UpdatePromotionDetails` tool. The assistant attempted to update the 'times_used' count for the promotion using an incorrect argument. The ground truth action sequence specifies using the `UpdatePromotionDetails` tool with the argument `times_used: 10`, but the trajectory shows an error indicating that 'times_used' is not a valid argument for the tool. This discrepancy indicates that the assistant used the wrong tool argument, leading to the failure in updating the promotion details as intended."
         }
     ]
 }

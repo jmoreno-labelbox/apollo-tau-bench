@@ -90,7 +90,7 @@ class CalculateTotalSizeTool(Tool):
                     and isinstance(idx[path].get("size"), (int, float))
                 ):
                     return int(idx[path]["size"])
-                for item in list(data.get("files", {}).values()) or []:
+                for item in list(list(list(data.get("files", {}).values())) if isinstance(data.get("files"), dict) else data.get("files", [])) or []:
                     if (
                         isinstance(item, dict)
                         and item.get("path") == path

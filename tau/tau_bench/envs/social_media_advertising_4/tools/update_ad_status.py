@@ -10,7 +10,7 @@ class UpdateAdStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], ad_id, status) -> str:
         new_status = status
-        for ad in list(data.get('ads', {}).values()):
+        for ad in list(list(list(data.get('ads', {}).values())) if isinstance(data.get('ads'), dict) else data.get('ads', [])):
             if ad.get('ad_id') == ad_id:
                 ad['status'] = new_status
                 return json.dumps(ad)

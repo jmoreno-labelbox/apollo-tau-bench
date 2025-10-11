@@ -25,12 +25,12 @@ class GetUserByEmail(Tool):
     def invoke(data: Dict[str, Any], email, user_id) -> str:
         user = None
         if email:
-            user = next((u for u in list(data.get("users", {}).values()) if u.get("email") == email), None)
+            user = next((u for u in list(list(list(data.get("users", {}).values())) if isinstance(data.get("users"), dict) else data.get("users", [])) if u.get("email") == email), None)
         if user is None and user_id is not None:
-            user = next((u for u in list(data.get("users", {}).values()) if u.get("user_id") == user_id), None)
+            user = next((u for u in list(list(list(data.get("users", {}).values())) if isinstance(data.get("users"), dict) else data.get("users", [])) if u.get("user_id") == user_id), None)
         if user is None:
             fid = _first_user_id(data)
-            user = next((u for u in list(data.get("users", {}).values()) if u.get("user_id") == fid), None)
+            user = next((u for u in list(list(list(data.get("users", {}).values())) if isinstance(data.get("users"), dict) else data.get("users", [])) if u.get("user_id") == fid), None)
         if not user:
             return _json_dump({"error": "no users available"})
         return _json_dump(user)

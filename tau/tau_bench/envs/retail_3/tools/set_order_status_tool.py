@@ -28,7 +28,7 @@ class SetOrderStatusTool(Tool):
         if not order_id or not isinstance(status, str) or not status:
             return json.dumps({"error": "order_id and non-empty status are required"}, indent=2)
 
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
             return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)

@@ -22,7 +22,7 @@ class ListProductsInCategory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], category_id: str) -> str:
         category_id = _as_id(category_id)
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
         rows = [p for p in products if _as_id(p.get("category_id")) == category_id]
         return json.dumps({"products": rows}, indent=2)
 

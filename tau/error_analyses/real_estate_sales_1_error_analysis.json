@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory due to several discrepancies from the ground truth action sequence:\n\n1. **Campaign Creation**: The agent created a campaign with the name \"Client Onboarding\" and type \"general_update\" instead of \"Premium Client Onboarding \u2014 Elite Segment\" with type \"client_onboarding\".\n\n2. **Email Sending**: The agent used the wrong email template \"welcome_template\" instead of \"client_onboarding\" for sending welcome communications to clients 4, 5, and 6.\n\n3. **Calendar Event Notes**: The agent created calendar events with the notes \"Initial consultation for onboarding\" instead of \"Premium client onboarding consultation\".\n\nThese deviations indicate that the agent did not follow the specific instructions regarding campaign creation, email template usage, and calendar event details."
+            "description": "The agent is responsible for the fault in the trajectory due to the following functional differences:\n\n1. **Incorrect Email Template**: The agent used the \"welcome_template\" instead of the specified \"client_onboarding\" template for sending emails to clients 4, 5, and 6.\n\n2. **Incorrect Broker ID for Client 6**: The agent sent the email to client 6 using broker ID 2 instead of the specified broker ID 1.\n\n3. **Incorrect Consultation Timing for Client 4**: The agent scheduled the consultation for client 4 from 09:00 to 10:00 UTC instead of the specified 10:00 to 11:00 UTC.\n\n4. **Incorrect Notes for Consultations**: The agent used \"Initial consultation for onboarding\" as notes instead of the specified \"Premium client onboarding consultation.\"\n\nThese discrepancies indicate that the agent did not adhere to the specific instructions provided in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the \"CreateCampaign\" action used the wrong tool argument for the campaign type. In the ground truth, the campaign type should be \"client_onboarding\" with the name \"Premium Client Onboarding \u2014 Elite Segment\". However, in the trajectory, the campaign was created with the type \"general_update\" and the name \"Client Onboarding\", which does not match the specified campaign type and name in the user instruction."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `SendEmail` actions used the wrong `template_code` argument. In the ground truth, the `template_code` should be \"client_onboarding\", but in the trajectory, it was incorrectly set to \"welcome_template\". Additionally, for the `SendEmail` action for client 6, the `broker_id` was incorrectly set to 2 instead of 1. These discrepancies indicate the use of incorrect arguments in the tool invocation."
         }
     ]
 }

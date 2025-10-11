@@ -9,7 +9,7 @@ class GetAdsByAdsetID(Tool):
     """Retrieves all ads within a specific ad set."""
     @staticmethod
     def invoke(data: Dict[str, Any], adset_id) -> str:
-        ads = [ad for ad in list(data.get('ads', {}).values()) if ad.get('adset_id') == adset_id]
+        ads = [ad for ad in list(list(list(data.get('ads', {}).values())) if isinstance(data.get('ads'), dict) else data.get('ads', [])) if ad.get('adset_id') == adset_id]
         return json.dumps({"ads": ads})
 
     @staticmethod

@@ -9,7 +9,7 @@ class CreateCampaign(Tool):
     """Creates a new advertising campaign."""
     @staticmethod
     def invoke(data: Dict[str, Any], name, objective) -> str:
-        campaigns = list(data.get('campaigns', {}).values())
+        campaigns = list(list(list(data.get('campaigns', {}).values())) if isinstance(data.get('campaigns'), dict) else data.get('campaigns', []))
         new_id = max((int(c['campaign_id']) for c in campaigns), default=0) + 1
         new_campaign = {"campaign_id": str(new_id), "name": name, "objective": objective, "created_date": "2025-08-15", "status": "paused"}
         campaigns.append(new_campaign)

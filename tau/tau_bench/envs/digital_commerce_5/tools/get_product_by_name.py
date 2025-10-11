@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetProductByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], name: Any) -> str:
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
         match = next((p for p in products if p.get("name") == name), None)
         return json.dumps(match or {}, indent=2)
 

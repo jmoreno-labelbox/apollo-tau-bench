@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory due to multiple errors encountered during the execution of actions. Specifically, the errors such as \"'str' object has no attribute 'get'\" and \"SearchGmailThreadsTool.invoke() missing required positional arguments\" indicate that the environment failed to properly handle the tool invocations and manage the required parameters for the actions. These errors prevented the successful execution of the \"SearchGmailThreads,\" \"UpdateThreadLabels,\" and \"DlpScanThread\" actions, which are necessary to achieve the user's goal as outlined in the ground truth action sequence."
+            "description": "The environment is responsible for the fault in the trajectory due to technical errors that prevented the execution of necessary actions. Specifically, the environment encountered repeated errors such as \"'str' object has no attribute 'get'\" and \"'dict' object has no attribute 'append'\", which blocked the agent from performing actions like updating thread labels and conducting a DLP assessment. These errors indicate that the environment's tools or APIs were malfunctioning, preventing the agent from following the ground truth action sequence."
         }
     ],
     "fault_type_analysis": []

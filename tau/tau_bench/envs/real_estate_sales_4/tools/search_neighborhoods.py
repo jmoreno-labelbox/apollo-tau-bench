@@ -9,7 +9,7 @@ class SearchNeighborhoods(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], city, max_avg_price = float('inf'), min_avg_price = 0) -> str:
         
-        neighborhoods = list(data.get('neighborhoods', {}).values())
+        neighborhoods = list(list(list(data.get('neighborhoods', {}).values())) if isinstance(data.get('neighborhoods'), dict) else data.get('neighborhoods', []))
         results = []
         
         for neighborhood in neighborhoods:

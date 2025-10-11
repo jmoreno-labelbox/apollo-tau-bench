@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the \"StartAutomationRun\" action, which is crucial for initiating the automation run with the key 'AUTO::automation::build_triage::run_001::canonical'. This action is necessary to monitor the triage status and mark it as 'in_progress', as specified in the user instruction. The absence of this action in the trajectory led to the failure to complete the automation run and update its status correctly, which is a significant deviation from the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute several necessary actions from the ground truth action sequence. Specifically, the agent did not:\n\n1. Start the automation run with the specified automation run ID.\n2. Attach the symbolicated stack to the run.\n3. Complete the automation run with the required status and outputs.\n4. Retrieve the updated build run details after setting the triage status.\n\nThese actions are crucial for fulfilling the user instruction, and their absence indicates a failure to follow the deterministic steps outlined in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect use of the tool argument in the `AttachSymbolicatedStackToRun` action. In the ground truth, the `AttachSymbolicatedStackToRun` action is supposed to attach the symbolicated stack to the run using the `build_id` \"build_001\", `module_name` \"GameEngine.dll\", and `platform` \"windows\". However, in the trajectory, the assistant incorrectly retrieves the symbol information using the `GetSymbolDetails` tool with the wrong argument, resulting in a PDB URI that does not match the expected symbolicated stack URI from the ground truth. The correct action should have directly attached the symbolicated stack to the run without retrieving the symbol details separately."
+            "description": "The fault in the trajectory is that the `SetBuildTriageStatus` action was invoked with an incorrect argument. The assistant attempted to use an `owner_id` argument, which is not part of the ground truth action sequence. In the ground truth, the `SetBuildTriageStatus` action only requires the `run_id` and `triage_status` arguments. The trajectory incorrectly included an additional `owner_id` argument, which led to an error."
         }
     ]
 }

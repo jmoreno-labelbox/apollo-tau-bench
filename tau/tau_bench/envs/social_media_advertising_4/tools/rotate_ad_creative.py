@@ -11,7 +11,7 @@ class RotateAdCreative(Tool):
     def invoke(data: Dict[str, Any], ad_id_to_activate, ad_id_to_pause) -> str:
         ad_to_activate, ad_to_pause = ad_id_to_activate, ad_id_to_pause
         activated, paused = False, False
-        for ad in list(data.get('ads', {}).values()):
+        for ad in list(list(list(data.get('ads', {}).values())) if isinstance(data.get('ads'), dict) else data.get('ads', [])):
             if ad.get('ad_id') == ad_to_activate:
                 ad['status'], activated = 'active', True
             if ad.get('ad_id') == ad_to_pause:

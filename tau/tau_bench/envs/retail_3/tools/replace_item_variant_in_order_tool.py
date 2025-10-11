@@ -40,8 +40,8 @@ class ReplaceItemVariantInOrderTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], index, item_id, order_id, product_id) -> str:
 
-        orders = list(data.get("orders", {}).values())
-        products = list(data.get("products", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
         tracking_data = data.get("tracking", [])
 
         order = next((o for o in orders if o.get("order_id") == order_id), None)

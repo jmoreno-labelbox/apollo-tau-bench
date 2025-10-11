@@ -10,7 +10,7 @@ class UpdateCampaignStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], campaign_id, status) -> str:
         new_status = status
-        for campaign in list(data.get('campaigns', {}).values()):
+        for campaign in list(list(list(data.get('campaigns', {}).values())) if isinstance(data.get('campaigns'), dict) else data.get('campaigns', [])):
             if campaign.get('campaign_id') == campaign_id:
                 campaign['status'] = new_status
                 return json.dumps(campaign)

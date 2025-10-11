@@ -11,7 +11,7 @@ class GetRouteDetails(Tool):
         if not route_id:
             return json.dumps({"error": "route_id is required"}, indent=2)
         
-        routes = list(data.get('routes', {}).values())
+        routes = list(list(list(data.get('routes', {}).values())) if isinstance(data.get('routes'), dict) else data.get('routes', []))
         route = next((r for r in routes if r.get('route_id') == route_id), None)
         
         if not route:

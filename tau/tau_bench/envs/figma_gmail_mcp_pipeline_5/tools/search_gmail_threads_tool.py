@@ -17,7 +17,7 @@ class SearchGmailThreadsTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], keyword, label, participant) -> str:
 
-        threads = list(data.get("gmail_threads", {}).values())
+        threads = list(list(list(data.get("gmail_threads", {}).values())) if isinstance(data.get("gmail_threads"), dict) else data.get("gmail_threads", []))
         out = []
         for t in threads:
             if label and label not in (t.get("current_labels") or []):

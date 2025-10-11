@@ -2,15 +2,9 @@
     "fault_assignment_analysis": [
         {
             "task_id": 0,
-            "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it included an additional passenger, Amelia Ahmed, in the booking, which was not part of the user's instruction or the ground truth action sequence. The user only intended to book a flight for themselves, Mia Li, as indicated in the ground truth action sequence. This led to an incorrect payment calculation and booking details."
+            "author": "environment",
+            "description": "The environment is responsible for the fault in the trajectory because it provided an incorrect context for the interaction. The user instruction and ground truth action sequence pertain to booking a flight, while the trajectory involves a conversation about quantum computing citations. This mismatch indicates that the environment did not set up the correct scenario for the user and assistant to follow the intended task of booking a flight."
         }
     ],
-    "fault_type_analysis": [
-        {
-            "task_id": 0,
-            "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the booking was made for two passengers, Mia Li and Amelia Ahmed, instead of just Mia Li as specified in the ground truth action sequence. The user instruction and ground truth action sequence indicate that only Mia Li should have been booked on the flight, but the trajectory includes an additional passenger, Amelia Ahmed, which deviates from the intended goal."
-        }
-    ]
+    "fault_type_analysis": []
 }

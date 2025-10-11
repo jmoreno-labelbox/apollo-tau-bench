@@ -55,7 +55,7 @@ class CreateOrder(Tool):
         if not lines:
             return _err("Cart has no items.")
 
-        accounts = list(data.get("accounts", {}).values())
+        accounts = list(list(list(data.get("accounts", {}).values())) if isinstance(data.get("accounts"), dict) else data.get("accounts", []))
         account = next(
             (a for a in accounts if _as_id(a.get("account_id")) == _as_id(cart.get("account_id"))),
             None,
@@ -65,7 +65,7 @@ class CreateOrder(Tool):
         )
         pbes = data.get("pricebook_entries", [])
         offers = data.get("offers", [])
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
 
         subtotal = 0.0
         for li in lines:

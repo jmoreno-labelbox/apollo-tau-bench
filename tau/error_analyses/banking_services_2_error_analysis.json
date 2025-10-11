@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly identify the user as Kenji Tanaka and instead used the identity of John Doe in the ground truth action sequence. The agent should have used the correct identity provided by the user, Kenji Tanaka, to find the customer and perform subsequent actions. This discrepancy in identity handling is a functional difference between the ground truth and the trajectory."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to verify the identity of the user correctly. The user instruction specified the identity of Kenji Tanaka, but the ground truth action sequence shows that the agent should have searched for a customer with the name \"John Doe.\" The agent incorrectly proceeded with actions based on the identity of Kenji Tanaka, which does not match the ground truth requirement."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to confirm the balances available both before and after completing the transfer. In the ground truth action sequence, the balances of both the checking and savings accounts are calculated and confirmed before and after the transfer. However, in the trajectory, the assistant only confirms the balances after the transfer, not before, which is a deviation from the user instruction and the ground truth action sequence."
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to confirm the balances available both before and after completing the transfer. The ground truth action sequence includes steps to calculate and confirm the account balances before the transfer, which were not performed in the trajectory. The assistant only provided the new balances after the transfer, missing the confirmation of the initial balances as required by the user instruction."
         }
     ]
 }

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to apply a 3-hour delay to all flights to ATL with status 'available' in a single update operation. Instead, the agent attempted to update the status of flights departing from ATL individually and did not apply the required delay. Additionally, the agent encountered an error due to the undefined 'timedelta' function, which indicates a failure to correctly implement the delay operation. The ground truth action sequence required a single update operation to apply the delay, which the agent did not perform."
+            "description": "The agent is responsible for the fault because it failed to execute the necessary actions to apply the 3-hour delay to flights with an 'available' status heading to ATL. The agent incorrectly concluded that there were no flights with an 'available' status without performing the \"FindFlights\" action to verify this information. Consequently, it did not proceed with the \"UpdateFlightSchedule\" action to apply the delay, which was required according to the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the agent incorrectly used the \"UpdateFlightSchedule\" tool with the wrong arguments. Instead of updating the flight schedule with a 3-hour delay and changing the status to \"DELAYED\" for flights with the status \"available\" to ATL, the agent updated flights departing from ATL and only changed their status to \"DELAYED\" without applying the 3-hour delay. Additionally, the updates were not performed in a single operation as required."
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to execute the necessary actions to complete the task. Specifically, the assistant did not perform the \"CreateOperationalEvent\" action to log the SIGMET event at ATL, nor did it execute the \"FindFlights\" and \"UpdateFlightSchedule\" actions to apply the 3-hour delay to the flights with status 'available'. Instead, the assistant incorrectly concluded that there were no flights to update, which is inconsistent with the ground truth action sequence that identifies specific flights needing the delay."
         }
     ]
 }

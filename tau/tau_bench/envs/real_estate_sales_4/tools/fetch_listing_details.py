@@ -11,7 +11,7 @@ class FetchListingDetails(Tool):
         if not listing_id:
             return json.dumps({"error": "listing_id is required"}, indent=2)
         
-        listings = list(data.get('listings', {}).values())
+        listings = list(list(list(data.get('listings', {}).values())) if isinstance(data.get('listings'), dict) else data.get('listings', []))
         listing = next((l for l in listings if l.get('listing_id') == listing_id), None)
         
         if not listing:

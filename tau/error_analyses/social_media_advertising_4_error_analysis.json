@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it returned an error message, \"Error: 'str' object has no attribute 'get'\", when the assistant attempted to retrieve the list of ad sets with a ROAS below 1.5. This error prevented the assistant from accessing the necessary data to perform the required actions, such as updating budgets and bid strategies, and logging the changes, as specified in the user instruction and ground truth action sequence. The environment's failure to provide the correct data access functionality led to the assistant being unable to execute the task as intended."
+            "description": "The environment is responsible for the fault in the trajectory because it returned an error message \"'str' object has no attribute 'get'\" when the agent attempted to execute the \"FindUnderperformingAdsets\" action. This error prevented the agent from retrieving the necessary ad set data to proceed with the subsequent actions, such as applying budget cuts and changing bid strategies, as outlined in the ground truth action sequence. The environment's failure to provide the correct data or handle the request properly led to the agent being unable to fulfill the user's instruction."
         }
     ],
     "fault_type_analysis": []

@@ -27,7 +27,7 @@ class FindOrdersByUserAndStatusTool(Tool):
         if not user_id:
             return json.dumps({"error": "user_id is required"}, indent=2)
 
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         filtered = []
         for o in orders:
             if o.get("user_id") != user_id:

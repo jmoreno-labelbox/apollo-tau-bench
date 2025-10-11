@@ -1,0 +1,460 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_700",
+        "actions": [
+          {
+            "name": "CreateRepo",
+            "kwargs": {
+              "name": "blog-lite"
+            }
+          },
+          {
+            "name": "CreateBranch",
+            "kwargs": {
+              "repo": "blog-lite",
+              "branch": "feature-home"
+            }
+          },
+          {
+            "name": "AddCommit",
+            "kwargs": {
+              "repo": "blog-lite",
+              "branch": "feature-home",
+              "message": "setup index"
+            }
+          },
+          {
+            "name": "OpenPr",
+            "kwargs": {
+              "repo": "blog-lite",
+              "head_branch": "feature-home",
+              "base_branch": "main",
+              "title": "Home section"
+            }
+          },
+          {
+            "name": "AddLabel",
+            "kwargs": {
+              "kind": "pr",
+              "repo": "blog-lite",
+              "number": 1,
+              "label": "docs"
+            }
+          },
+          {
+            "name": "ListPrs",
+            "kwargs": {
+              "repo": "blog-lite",
+              "state": "open"
+            }
+          }
+        ],
+        "instruction": "Handle repository 'blog-lite' to ensure that a pull request is open from branch 'feature-home' to 'main', with the label 'docs' attached. Once this condition is fulfilled, list the open pull requests for 'blog-lite'.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"Identity: GitHub MCP agent, variation 7 (tyler). Use only provided tools.\",\n    \"Execute workflows in a single turn, allowing only one tool call per operation.\",\n    \"Always perform authentication before proceeding; do not disclose any secrets.\",\n    \"Operate exclusively on repositories that are owned.\",\n    \"Apply deterministic timestamps and prioritize times reported by the tool.\",\n    \"When the current time is needed, utilize FIXED_NOW.\",\n    \"Avoid creating parameters; instead, obtain them from provided inputs or tool-generated outputs.\",\n    \"New repositories use 'main' as the default branch.\",\n    \"When a repository name conflict occurs, add '_v2' to the name.\",\n    \"Perform feature or bugfix development on branches other than the default, starting from the most recent base.\",\n    \"Perform file write or update operations on the target branch, then confirm success by reading the file afterward.\",\n    \"Use default commit messages in the format: 'Add <filename>' or 'Update <filename>'.\",\n    \"Initiate pull requests from the feature branch to the base branch; the initial state must be open.\",\n    \"Refrain from merging when any required checks are either incomplete or have failed.\",\n    \"Instructions specify intended end-states using second person; the agent is responsible for verifying the existence of referenced repositories (creating them if absent) prior to actions such as transfer, and may include complete object details in reports.\",\n    \"Proceed with merging solely when the item is open, mergeable, and\u2014if applicable\u2014approved; following the merge, remove the source branch.\",\n    \"A title is mandatory for issues; their initial state is open; closing an issue updates its state to closed.\",\n    \"To prevent duplicates, perform a search beforehand when applicable.\",\n    \"Code-scanning alerts can be created, listed, or dismissed if present; dismissing an alert is idempotent.\",\n    \"The 'most recent' refers to the item with the highest item number; give precedence to open items.\",\n    \"Ensure inputs are validated; adhere to permissions; avoid logging secrets.\",\n    \"If a tool error occurs, halt processing and display the error.\",\n    \"Provide precisely what is requested and confirm the results.\",\n    \"Instructions are directed at you (second person). When displaying issues or PRs, it is permissible to return complete object details.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "I'm looking to verify something about the repository 'blog-lite'. Can you check for an open pull request from the 'feature-home' branch?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"owner\":\"\",\"repo\":\"blog-lite\",\"state\":\"open\"}",
+              "name": "list_prs"
+            },
+            "id": "call_WFTRmjm4H0pVOfUNtAOM7Ct8",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_WFTRmjm4H0pVOfUNtAOM7Ct8",
+        "name": "list_prs",
+        "content": "Error: 0"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "list_repos"
+            },
+            "id": "call_QK2dwmYYwwj1pttzoLqRP53n",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_QK2dwmYYwwj1pttzoLqRP53n",
+        "name": "list_repos",
+        "content": "Error: 0"
+      },
+      {
+        "content": "It seems that I cannot access any repositories at the moment, including 'blog-lite'. Please ensure that the repository exists and is owned by you. If you need further assistance, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Okay, let's assume I have access to the repository. Could you please confirm if there's a pull request from the 'feature-home' branch to the 'main' branch?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"owner\":\"\",\"repo\":\"blog-lite\",\"state\":\"open\"}",
+              "name": "list_prs"
+            },
+            "id": "call_9v4lmu8UT3dnP3ifW7OLsUV2",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_9v4lmu8UT3dnP3ifW7OLsUV2",
+        "name": "list_prs",
+        "content": "Error: 0"
+      },
+      {
+        "content": "I am currently unable to access any repositories, including 'blog-lite', to check for open pull requests. Please verify that the repository exists and that you have the necessary permissions. If you have any other questions or need assistance, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it. Let me check again. Once I confirm, I'll get back to you on this."
+      },
+      {
+        "content": "Sure! Take your time, and feel free to reach out whenever you're ready or if you have any other questions. I'm here to help!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I've confirmed that there is a pull request from 'feature-home' to 'main'. Could you verify if the 'docs' label is attached to it?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"owner\":\"\",\"repo\":\"blog-lite\",\"state\":\"open\"}",
+              "name": "list_prs"
+            },
+            "id": "call_Ij2u33oip5VKlTQWIM6jJOnV",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Ij2u33oip5VKlTQWIM6jJOnV",
+        "name": "list_prs",
+        "content": "Error: 0"
+      },
+      {
+        "content": "I am still unable to access any repositories, including 'blog-lite', to verify the presence of the 'docs' label on the pull request. Please check the pull request directly in your GitHub interface. If you need further assistance or have other questions, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Understood. Assuming I have access, I'll now proceed to verify if the label is there. I'll confirm back shortly."
+      },
+      {
+        "content": "Sounds good! Take your time to verify, and feel free to reach out if you have any questions or need assistance with anything else. I'm here to help!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great news! Everything checks out; the 'docs' label is attached. Now, could you list the open pull requests for 'blog-lite'?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"owner\":\"\",\"repo\":\"blog-lite\",\"state\":\"open\"}",
+              "name": "list_prs"
+            },
+            "id": "call_0av0T0Ry2ODBwHboJ7l4Nde8",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_0av0T0Ry2ODBwHboJ7l4Nde8",
+        "name": "list_prs",
+        "content": "Error: 0"
+      },
+      {
+        "content": "I am still unable to access any repositories, including 'blog-lite', to list the open pull requests. Please check directly in your GitHub interface for the information you need. If there's anything else I can assist you with, just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I understand, and your help is appreciated. Thanks for your assistance! \n\n###STOP###"
+      },
+      {
+        "content": "You're welcome! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Got it! If you have any further requests in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request. Stopping all responses now.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand. Stopping all responses.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request. Stopping all responses now.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand. Stopping all responses now.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request. Stopping all responses now.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand. Stopping all responses now.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I acknowledge your request. Stopping all responses now.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "I understand. Stopping all responses now.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      },
+      {
+        "content": "Understood. I will stop responding.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

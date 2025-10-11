@@ -37,7 +37,7 @@ class UpdateProductVariantPriceTool(Tool):
         except Exception:
             return json.dumps({"error": "new_price must be numeric"}, indent=2)
 
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
         product = next((p for p in products if p.get("product_id") == product_id), None)
         if not product:
             return json.dumps(

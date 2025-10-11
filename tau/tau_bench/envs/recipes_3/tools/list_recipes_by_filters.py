@@ -18,7 +18,7 @@ class ListRecipesByFilters(Tool):
         except Exception:
             return json.dumps({"error": "invalid filter_token"})
         ids: List[int] = []
-        for r in list(data.get("recipes", {}).values()):
+        for r in list(list(list(data.get("recipes", {}).values())) if isinstance(data.get("recipes"), dict) else data.get("recipes", [])):
             if str(r.get("meal_type")) != meal_type:
                 continue
             if int(r.get("protein_g_per_serving", 0)) < min_protein:

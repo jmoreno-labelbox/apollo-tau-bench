@@ -29,7 +29,7 @@ class SetOrderShippingAddress(Tool):
         order_id = _as_id(order_id)
         if not order_id or address is None:
             return _err("order_id and address are required.")
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")

@@ -13,7 +13,7 @@ class GetAccountById(Tool):
         account_id = str(account_id)
         if not account_id:
             return json.dumps({"error": "Missing required field: account_id"}, indent=2)
-        accounts = list(data.get("accounts", {}).values())
+        accounts = list(list(list(data.get("accounts", {}).values())) if isinstance(data.get("accounts"), dict) else data.get("accounts", []))
         for account in accounts:
             if account.get("account_id") == account_id:
                 return json.dumps(account, indent=2)

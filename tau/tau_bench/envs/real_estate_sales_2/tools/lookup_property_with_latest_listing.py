@@ -10,10 +10,10 @@ class LookupPropertyWithLatestListing(Tool):
     def invoke(data: Dict[str, Any], property_id) -> str:
         if not property_id:
             return json.dumps({"error": "property_id is required"}, indent=2)
-        prop = next((p for p in list(data.get("properties", {}).values()) if p.get("property_id") == property_id), None)
+        prop = next((p for p in list(list(list(data.get("properties", {}).values())) if isinstance(data.get("properties"), dict) else data.get("properties", [])) if p.get("property_id") == property_id), None)
         if not prop:
             return json.dumps({"error": f"Property '{property_id}' not found"}, indent=2)
-        listings = [l for l in list(data.get("listings", {}).values()) if l.get("property_id") == property_id]
+        listings = [l for l in list(list(list(data.get("listings", {}).values())) if isinstance(data.get("listings"), dict) else data.get("listings", [])) if l.get("property_id") == property_id]
         listing = None
         if listings:
             listing = max(listings, key=lambda x: ((x.get("updated_at") or ""), x.get("listing_id", 0)))

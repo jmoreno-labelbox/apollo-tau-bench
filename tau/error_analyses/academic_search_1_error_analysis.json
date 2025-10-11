@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it repeatedly failed to provide the correct parameters for the `SearchProjects` and `SearchArticles` functions. The agent did not include the required arguments such as 'funding_source_id' for `SearchProjects` and various parameters like 'article_id', 'author_name', 'title', etc., for `SearchArticles`. This resulted in errors and prevented the agent from successfully identifying the core article and its most recent citation, which was necessary to verify the cross-disciplinary impact as per the user instruction."
+            "description": "The agent is responsible for the fault because it failed to execute the necessary actions to retrieve and analyze citation data for the 'Quantum Computing Applications' project. The agent repeatedly encountered errors due to missing parameters when attempting to use the `SearchProjects` and `SearchArticles` tools, and it did not resolve these issues or attempt alternative methods to gather the required information. Consequently, the agent did not perform any of the actions in the ground truth sequence, such as searching for citations, analyzing citation details, or creating a log entry, which were essential to fulfill the user instruction."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect use of the `SearchProjects` and `SearchArticles` tools. The ground truth action sequence specifies using `SearchProjects` with the `project_name` argument to find the project \"Quantum Computing Applications\" and then using `SearchCitations` and `GetCitationDetails` to analyze citations. However, in the trajectory, the assistant repeatedly attempts to use `SearchProjects` and `SearchArticles` without providing the necessary arguments, such as `funding_source_id` for `SearchProjects` and various required parameters for `SearchArticles`. This results in errors and prevents the assistant from correctly identifying and analyzing the most recent citation, leading to a failure in executing the task as intended."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant repeatedly attempts to invoke the `SearchProjects` tool without providing the required `funding_source_id` argument. In the ground truth action sequence, the `SearchProjects` tool is correctly invoked with the `project_name` argument, which is sufficient for the task. The assistant's failure to provide the correct arguments prevents it from retrieving the necessary project details and proceeding with the audit as instructed."
         }
     ]
 }

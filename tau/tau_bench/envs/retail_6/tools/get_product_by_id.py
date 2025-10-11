@@ -11,7 +11,7 @@ class GetProductById(Tool):
     def invoke(data, product_id) -> str:
         if not product_id:
             return json.dumps({"error":"product_id is required"}, indent=2)
-        prod = next((p for p in list(data.get('products', {}).values()) if p.get('product_id') == product_id), None)
+        prod = next((p for p in list(list(list(data.get('products', {}).values())) if isinstance(data.get('products'), dict) else data.get('products', [])) if p.get('product_id') == product_id), None)
         return json.dumps(prod or {"error": f"product_id {product_id} not found"}, indent=2)
 
     @staticmethod

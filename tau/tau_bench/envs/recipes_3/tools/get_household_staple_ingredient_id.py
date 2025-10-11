@@ -17,7 +17,7 @@ class GetHouseholdStapleIngredientId(Tool):
         staple_ids = sorted(
             {
                 int(r.get("ingredient_id"))
-                for r in list(data.get("ingredients", {}).values())
+                for r in list(list(list(data.get("ingredients", {}).values())) if isinstance(data.get("ingredients"), dict) else data.get("ingredients", []))
                 if bool(r.get("pantry_staple_flag", False))
             }
         )

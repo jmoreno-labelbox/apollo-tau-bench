@@ -1,5 +1,6 @@
 # Sierra Copyright
 
+import datetime
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
@@ -45,7 +46,7 @@ class DuplicateOrderTool(Tool):
         if not src_id:
             return json.dumps({"error": "source_order_id is required"}, indent=2)
 
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         src = next((o for o in orders if o.get("order_id") == src_id), None)
         if not src:
             return json.dumps({"error": f"source_order_id '{src_id}' not found"}, indent=2)

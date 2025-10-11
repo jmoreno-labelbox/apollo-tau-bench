@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class find_project_by_name(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], name: str) -> str:
-        projects = list(data.get("projects", {}).values())
+        projects = list(list(list(data.get("projects", {}).values())) if isinstance(data.get("projects"), dict) else data.get("projects", []))
         for project in projects:
             if project.get("name") == name:
                 return json.dumps(project, indent=2)

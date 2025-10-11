@@ -39,9 +39,9 @@ class CreateOrUpdateCompReport(Tool):
         reports.append(rpt)
 
         comps_table = data.get("comparables", [])
-        props = _by_key(list(data.get("properties", {}).values()), "property_id")
+        props = _by_key(list(list(list(data.get("properties", {}).values())) if isinstance(data.get("properties"), dict) else data.get("properties", [])), "property_id")
         candidates = []
-        for lst in (list(data.get("listings", {}).values()) or []):
+        for lst in (list(list(list(data.get("listings", {}).values())) if isinstance(data.get("listings"), dict) else data.get("listings", [])) or []):
             if lst.get("status") != "active":
                 continue
             pid = lst.get("property_id")

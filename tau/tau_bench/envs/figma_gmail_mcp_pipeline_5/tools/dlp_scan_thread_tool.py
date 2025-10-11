@@ -1,5 +1,6 @@
 # Copyright Sierra
 
+from typing import Set
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
@@ -35,7 +36,7 @@ class DlpScanThreadTool(Tool):
 
         dlp = _get_config_json(data, "dlp_config")
         patterns = dlp.get("block_patterns", []) if isinstance(dlp, dict) else []
-        messages = list(data.get("gmail_messages", {}).values())
+        messages = list(list(list(data.get("gmail_messages", {}).values())) if isinstance(data.get("gmail_messages"), dict) else data.get("gmail_messages", []))
         found: Set[str] = set()
         for m in messages:
             if m.get("thread_id") != thread_id:

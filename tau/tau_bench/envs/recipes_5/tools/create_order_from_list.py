@@ -68,7 +68,7 @@ class CreateOrderFromList(Tool):
             slot_end = "2025-01-02T20:00:00Z"
         if household_id is None or store_id is None or list_id is None:
             return _json_dump({"error": "unable to infer household, store, or list"})
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         next_id = _max_id(orders, "order_id", 10000) + 1
         row = {
             "order_id": next_id,

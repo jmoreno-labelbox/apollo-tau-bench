@@ -4,6 +4,15 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List
 import os
 
+def _convert_db_to_list(db_data: Any) -> List[Dict]:
+    """Convert database data to list of dicts"""
+    if isinstance(db_data, list):
+        return db_data
+    elif isinstance(db_data, dict):
+        return [db_data]
+    else:
+        return []
+
 class ApplyTransactionAdjustment(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, amount: float = None, reason: str = None) -> str:

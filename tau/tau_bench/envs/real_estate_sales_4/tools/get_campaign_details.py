@@ -11,7 +11,7 @@ class GetCampaignDetails(Tool):
         if not campaign_id:
             return json.dumps({"error": "campaign_id is required"}, indent=2)
         
-        campaigns = list(data.get('campaigns', {}).values())
+        campaigns = list(list(list(data.get('campaigns', {}).values())) if isinstance(data.get('campaigns'), dict) else data.get('campaigns', []))
         campaign = next((c for c in campaigns if c.get('campaign_id') == campaign_id), None)
         
         if not campaign:

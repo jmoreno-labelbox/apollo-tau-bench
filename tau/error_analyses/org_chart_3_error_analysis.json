@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to correctly identify and retrieve the employee record for Michael Park. Instead, it mistakenly retrieved the details for Daniel Kim. The agent did not perform the necessary actions to remove the Dental Plan (BEN4002) from Michael Park's benefits, as specified in the user instruction. The agent also did not effectively handle the lack of an employee ID by using available information to search for the correct employee, leading to an inability to complete the task."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `SearchEmployees` action with the appropriate filters. The ground truth action sequence specifies searching for an employee with the first name \"Daniel\" and last name \"Kim,\" but the agent attempted to search for \"Michael Park\" without providing the necessary filters, resulting in errors and an inability to locate the correct employee record. This led to the failure to proceed with the subsequent actions needed to remove the Dental Plan from the employee's benefits."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to retrieve employee records without providing the necessary filters for the `SearchEmployees` tool. The ground truth action sequence correctly specifies filters with the first name \"Daniel\" and last name \"Kim\" to search for the employee, whereas the trajectory shows multiple errors due to missing or incorrect arguments for the `SearchEmployees` tool. This led to the assistant being unable to locate the correct employee record for Michael Park."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant failed to use the correct filters when attempting to search for the employee. The ground truth action sequence specifies searching for an employee with the first name \"Daniel\" and last name \"Kim,\" but the trajectory shows attempts to search for \"Michael Park\" without providing the correct filters, leading to errors and an inability to locate the employee record."
         }
     ]
 }

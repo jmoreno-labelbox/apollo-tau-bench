@@ -37,7 +37,7 @@ class PreviewCartTotals(Tool):
         items = data.get("cart_items", [])
         lines = [ci for ci in items if ci.get("cart_id") == cart_id]
 
-        accounts = list(data.get("accounts", {}).values())
+        accounts = list(list(list(data.get("accounts", {}).values())) if isinstance(data.get("accounts"), dict) else data.get("accounts", []))
         account = next((a for a in accounts if a.get("account_id") == cart.get("account_id")), None)
         pricebook_id = cart.get("override_pricebook_id") or (
             account.get("default_pricebook_id") if account else "1"

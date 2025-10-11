@@ -34,7 +34,7 @@ class AddItemToCart(Tool):
         cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
         product = next((p for p in products if _as_id(p.get("product_id")) == product_id), None)
         if not product:
             return _err("Product not found.")

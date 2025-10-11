@@ -24,7 +24,7 @@ class QueryActiveListings(Tool):
         limit: int = limit
 
         neighborhoods = set(neighborhood_ids or [])
-        props = QueryActiveListings._by_key(list(data.get("properties", {}).values()), "property_id")
+        props = QueryActiveListings._by_key(list(list(list(data.get("properties", {}).values())) if isinstance(data.get("properties"), dict) else data.get("properties", [])), "property_id")
         listings = (data.get("listings") or [])
 
         def within(val: Optional[float], lo: Optional[float], hi: Optional[float]) -> bool:

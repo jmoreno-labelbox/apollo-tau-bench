@@ -31,7 +31,7 @@ def _get_next_id(prefix: str, existing_ids: List[str]) -> str:
 class create_notification_record(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], message: str) -> str:
-        notifications = list(data.get("notifications", {}).values())
+        notifications = list(list(list(data.get("notifications", {}).values())) if isinstance(data.get("notifications"), dict) else data.get("notifications", []))
         existing_ids = [n['id'] for n in notifications]
         new_id = _get_next_id("notification", existing_ids)
         new_notification = {

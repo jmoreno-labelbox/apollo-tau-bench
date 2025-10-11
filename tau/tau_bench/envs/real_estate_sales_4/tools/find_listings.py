@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindListings(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], property_id, status, max_price = float('inf'), min_price = 0) -> str:
-        listings = list(data.get('listings', {}).values())
+        listings = list(list(list(data.get('listings', {}).values())) if isinstance(data.get('listings'), dict) else data.get('listings', []))
         results = []
         
         for listing in listings:

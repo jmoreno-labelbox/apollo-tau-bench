@@ -1,5 +1,6 @@
 # Copyright Sierra
 
+import datetime
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
@@ -38,7 +39,7 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
             return json.dumps({"error": "supply_order_id is required"}, indent=2)
 
         supply_orders = data.get("supply_orders", [])
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
 
         so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
         if not so:

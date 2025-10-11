@@ -37,7 +37,7 @@ class MergeOrdersForSameUserTool(Tool):
                 indent=2,
             )
 
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         target = next((o for o in orders if o.get("order_id") == target_id), None)
         source = next((o for o in orders if o.get("order_id") == source_id), None)
         if not target or not source:

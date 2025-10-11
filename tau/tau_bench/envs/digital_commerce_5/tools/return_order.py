@@ -45,13 +45,13 @@ class ReturnOrder(Tool):
         if not order_id or lines is None:
             return _err("order_id and lines are required.")
         lines = _coerce_ids_in(lines)
-        orders = list(data.get("orders", {}).values())
+        orders = list(list(list(data.get("orders", {}).values())) if isinstance(data.get("orders"), dict) else data.get("orders", []))
         order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
 
         order_items = data.get("order_items", [])
-        products = list(data.get("products", {}).values())
+        products = list(list(list(data.get("products", {}).values())) if isinstance(data.get("products"), dict) else data.get("products", []))
 
         items_processed = []
         total_refund = 0.0

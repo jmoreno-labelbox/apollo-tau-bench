@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to execute the `QueryProjects` action correctly. The agent did not provide the required `project_name` argument to the `QueryProjects` function, resulting in repeated errors. This prevented the agent from retrieving the necessary project information to proceed with adding the research note to the project's record, as specified in the user instruction and the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the necessary actions to add research notes to the project and the researcher. The agent did not correctly handle the `AddEntryToLog` function, which required specific arguments such as `user_id`, `article_id`, `project_id`, and `submission_id`. Instead of resolving these issues or guiding the user to provide the correct information, the agent repeatedly asked for additional details without making progress, leading to an incomplete task. In contrast, the ground truth action sequence successfully adds the research notes without requiring additional user input beyond what was initially provided."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the assistant attempted to use the `QueryProjects` tool without providing the required argument `project_name`. The ground truth action sequence specifies that the `QueryProjects` tool should be invoked with the `project_name` argument set to \"Exoplanet Atmospheric Analysis\". The trajectory shows repeated errors due to the missing `project_name` argument, indicating that the tool was used incorrectly."
+            "description": "The fault in the trajectory is that the assistant attempted to use the `AddEntryToLog` tool with incorrect arguments. The ground truth specifies that the `AddEntryToLog` tool should be used with `project_id` and `user_id` as arguments, along with the `notes`. However, in the trajectory, the assistant incorrectly assumed that additional arguments such as `article_id`, `submission_id`, and `user_id` were required, leading to errors. This indicates a misunderstanding of the tool's required arguments, resulting in the fault of type \"used_wrong_tool_argument\"."
         }
     ]
 }

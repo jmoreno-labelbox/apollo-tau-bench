@@ -11,7 +11,7 @@ class SearchIngredientsByName(Tool):
     def invoke(data: Dict[str, Any], name_query: str) -> str:
         if not name_query:
             return json.dumps({"error": "name_query parameter is required."})
-        ingredients = list(data.get("ingredients", {}).values())
+        ingredients = list(list(list(data.get("ingredients", {}).values())) if isinstance(data.get("ingredients"), dict) else data.get("ingredients", []))
         matching_ingredients = [
             ingredient for ingredient in ingredients 
             if name_query.lower() in ingredient.get("ingredient_name", "").lower()

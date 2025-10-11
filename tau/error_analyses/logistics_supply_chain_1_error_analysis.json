@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the \"ShipOutboundOrder\" action after creating the outbound order. The ground truth action sequence includes shipping the order using the \"ShipOutboundOrder\" action with specific parameters, which is crucial for completing the task. Instead, the trajectory shows repeated errors related to a string object not having a 'get' attribute, indicating a failure to proceed with the necessary shipping step and subsequent actions."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the \"CreateOutboundOrder\" and \"ShipOutboundOrder\" actions. Instead of proceeding with the correct carrier \"Global Parcel Service\" (SCAC: GPLS) as per the ground truth, the agent attempted to use \"Desert Falcon Cargo\" (SCAC: DFC) for shipment, which was not part of the ground truth sequence. Additionally, the agent encountered repeated errors when trying to process the shipment, indicating a failure to correctly handle the order creation and shipping process. This deviation from the ground truth sequence led to the inability to complete the task and provide the final tracking number."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "other",
-            "description": "The fault in the trajectory is due to the agent's failure to properly execute the \"ShipOutboundOrder\" action. The agent attempted to perform an operation that resulted in repeated errors: \"Error: 'str' object has no attribute 'get'\". This indicates a technical issue in the agent's handling of the order shipment process, preventing the successful completion of the task. Consequently, the agent was unable to proceed to the next step of retrieving the outbound order details, which is necessary to report the final tracking number, as required by the user instruction."
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is due to the use of the wrong tool argument when attempting to ship the order. In the ground truth action sequence, the `ShipOutboundOrder` action is supposed to be invoked with specific arguments: `order_id`, `warehouse_id`, and `carrier_scac`. However, in the trajectory, the assistant attempts to proceed with shipping using Desert Falcon Cargo without specifying the correct `carrier_scac` (\"GPLS\") as per the ground truth. Instead, the assistant incorrectly attempts to use Desert Falcon Cargo, which is not aligned with the ground truth sequence. This discrepancy in the carrier selection and the lack of correct tool arguments for shipping led to the fault."
         }
     ]
 }

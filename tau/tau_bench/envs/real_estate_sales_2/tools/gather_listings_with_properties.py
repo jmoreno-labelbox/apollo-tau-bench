@@ -14,9 +14,9 @@ class GatherListingsWithProperties(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], listing_ids) -> str:
         ids = set(listing_ids or [])
-        props = _by_key(list(data.get("properties", {}).values()), "property_id")
+        props = _by_key(list(list(list(data.get("properties", {}).values())) if isinstance(data.get("properties"), dict) else data.get("properties", [])), "property_id")
         out: List[Dict[str, Any]] = []
-        for lst in (list(data.get("listings", {}).values()) or []):
+        for lst in (list(list(list(data.get("listings", {}).values())) if isinstance(data.get("listings"), dict) else data.get("listings", [])) or []):
             if ids and lst.get("listing_id") not in ids:
                 continue
             pr = props.get(lst.get("property_id")) or {}

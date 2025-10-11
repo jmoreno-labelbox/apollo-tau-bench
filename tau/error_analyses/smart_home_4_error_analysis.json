@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to add the device \"plug_kt_coffee\" to the database with the correct parameters. The agent added a device with the name \"Kitchen Coffee Maker Plug\" and state parameters \"power\" and \"energy consumption,\" but it did not include the correct device ID \"plug_kt_coffee,\" type \"outlet,\" firmware version \"1.0.0,\" and initial state with \"power\" set to \"off\" and \"energy_kwh\" set to 0. Additionally, the agent did not proceed to manage the room in the database, update the device state, or set up the scheduled updates and reminders as specified in the ground truth action sequence."
+            "description": "The agent is responsible for the fault because it failed to successfully schedule the smart plug to turn on automatically at 6:45 AM daily. The agent encountered repeated errors indicating that the device was not found, despite the device being added to the system earlier in the trajectory. This indicates a failure in the agent's ability to correctly update the device's scheduled updates, which is a key part of the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the assistant used the wrong tool argument for the state parameters of the smart plug. In the ground truth, the state parameters for the device \"plug_kt_coffee\" are specified as \"power\" and \"energy_kwh\". However, in the trajectory, the assistant added the device with state parameters \"power\" and \"energy consumption\", which is incorrect. The correct parameter should be \"energy_kwh\" as per the ground truth."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because when adding the device to the database, the assistant used the wrong argument for the \"type\" parameter. The assistant used \"smart_plug\" instead of the correct \"outlet\" as specified in the ground truth action sequence. This discrepancy led to subsequent errors in the trajectory, such as the device not being found when attempting to update its scheduled state."
         }
     ]
 }

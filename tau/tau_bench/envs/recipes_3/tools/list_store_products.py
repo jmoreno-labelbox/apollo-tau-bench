@@ -9,7 +9,7 @@ class ListStoreProducts(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], store_id: int, ingredient_id: Optional[int] = None) -> str:
         rows = [
-            p for p in list(data.get("store_products", {}).values()) if int(p.get("store_id")) == int(store_id)
+            p for p in list(list(list(data.get("store_products", {}).values())) if isinstance(data.get("store_products"), dict) else data.get("store_products", [])) if int(p.get("store_id")) == int(store_id)
         ]
         if ingredient_id is not None:
             rows = [p for p in rows if int(p.get("ingredient_id")) == int(ingredient_id)]
