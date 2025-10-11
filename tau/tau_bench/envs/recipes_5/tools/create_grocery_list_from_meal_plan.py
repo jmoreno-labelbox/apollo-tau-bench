@@ -5,25 +5,47 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _json_dump
 from . import _first_user_id
+def _collect_recipe_ingredients(data: Dict[str, Any], recipe_ids: List[int]) -> List[Dict[str, Any]]:
+    ri = data.get("recipe_ingredients", [])
+    ridset = set(recipe_ids)
+    return [row for row in ri if int(row.get("recipe_id")) in ridset]
 
+def _household_for_user(data: Dict[str, Any], user_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if user_id is not None:
+        h = next((h for h in data.get("households", []) if h.get("primary_user_id") == user_id), None)
+        if h:
+            return h
+    households = data.get("households", [])
+    if not households:
+        return None
+    return sorted(households, key=lambda h: int(h.get("household_id", 10**9)))[0]
 
+def _plan_week_dates(week_start_date: str) -> List[str]:
+    # Deterministic: generate 7 consecutive ISO dates from a start date YYYY-MM-DD
+    from datetime import date, timedelta
+    y, m, d = [int(x) for x in str(week_start_date).split("-")]
+    start = date(y, m, d)
+    return [(start + timedelta(days=i)).isoformat() for i in range(7)]
 
+def _parse_json_list_ids(json_str: str) -> List[int]:
+    try:
+        arr = json.loads(json_str)
+        if isinstance(arr, list):
+            return [int(x) for x in arr]
+    except Exception:
+        pass
+    return []
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def _next_week_start_date_for_household(data: Dict[str, Any], household_id: Optional[int]) -> str:
+    base = date(2025, 1, 6)
+    if household_id is None:
+        return base.isoformat()
+    plans = [m for m in data.get("meal_plans", []) if m.get("household_id") == household_id]
+    if not plans:
+        return base.isoformat()
+    latest = max(plans, key=lambda m: str(m.get("week_start_date", "2025-01-06")))
+    y, m, d = [int(x) for x in str(latest.get("week_start_date")).split("-")]
+    return (date(y, m, d) + timedelta(days=7)).isoformat()
 
 def _sum_grocery_items(data: Dict[str, Any], recipe_ids: List[int]) -> List[Dict[str, Any]]:
     rows = _collect_recipe_ingredients(data, recipe_ids)

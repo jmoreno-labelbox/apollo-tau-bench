@@ -3,7 +3,6 @@ import json
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 import os
-
 class AddEmployerToCustomerProfile(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, employer: str = None) -> str:

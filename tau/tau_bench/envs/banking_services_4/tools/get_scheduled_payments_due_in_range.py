@@ -3,7 +3,6 @@ import json
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 import os
-
 class GetScheduledPaymentsDueInRange(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], start_date: str = None, end_date: str = None) -> str:

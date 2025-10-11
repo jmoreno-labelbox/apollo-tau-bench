@@ -3,7 +3,6 @@ import json
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 import os
-
 class ReassignRelationshipManager(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, relationship_manager_id: str = None) -> str:

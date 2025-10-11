@@ -3,7 +3,6 @@ import json
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 import os
-
 class UpdateScheduledPaymentAmount(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], payment_id: str = None, amount: float = None) -> str:

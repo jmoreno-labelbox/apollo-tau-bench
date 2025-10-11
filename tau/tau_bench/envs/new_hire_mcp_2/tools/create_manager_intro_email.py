@@ -3,12 +3,21 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
+def _ensure_list(d: Dict[str, Any], key: str) -> List[Any]:
+    if key not in d or not isinstance(d[key], list):
+        d[key] = []
+    return d[key]
 
 
+def _slug(s: str) -> str:
+    return "" if s is None else "".join(ch.lower() if ch.isalnum() else "_" for ch in s).strip("_")
 
 
-
-
+def _find_by_key(rows: List[Dict[str, Any]], key: str, val: Any) -> Dict[str, Any]:
+    for r in rows:
+        if r.get(key) == val:
+            return r
+    return None
 
 
 class InsertEmail(Tool):

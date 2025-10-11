@@ -3,7 +3,8 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+def _fixed_now_iso() -> str:
+    return "2025-08-20T00:00:00Z"
 
 class DispatchResultsMail(Tool):
     @staticmethod

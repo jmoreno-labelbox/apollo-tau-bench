@@ -4,15 +4,11 @@ import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _params, _require
+def _j(v):
+    return v if isinstance(v, str) else json.dumps(v, separators=(",", ":"), ensure_ascii=False)
 
-
-
-
-
-
-
-
-
+def _err(msg: str) -> str:
+    return json.dumps({'ok': False, 'error': msg}, indent=2)
 
 def _require(p: Dict[str, Any], req: List[str]):
     missing = [k for k in req if p.get(k) in (None, "")]

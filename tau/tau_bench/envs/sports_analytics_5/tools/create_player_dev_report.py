@@ -4,6 +4,8 @@ import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _require_tables
+from domains_warrior.sports_analytics.variations.variation_1.tools import _today_iso
+
 
 
 

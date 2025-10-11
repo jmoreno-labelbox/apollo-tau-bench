@@ -5,6 +5,20 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
+def _parse_iso(iso_str: str) -> Optional[str]:
+    """Parse ISO 8601 string to datetime."""
+    if not iso_str:
+        return None
+    try:
+        from datetime import datetime
+        return datetime.fromisoformat(iso_str.replace('Z', '+00:00'))
+    except:
+        return None
+
+
+def _eq(a, b) -> bool:
+    """Check if two values are equal."""
+    return a == b
 
 
 class ListHubspotTicketsTool(Tool):
@@ -73,6 +87,7 @@ class ListHubspotTicketsTool(Tool):
                 },
             },
         }
+
 
 class GetHubspotTicketsByRequesterTool(Tool):
     """get_hubspot_tickets_by_requester: filter tickets by requester."""

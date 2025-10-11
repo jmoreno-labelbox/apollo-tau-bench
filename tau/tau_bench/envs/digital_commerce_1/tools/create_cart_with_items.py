@@ -4,17 +4,22 @@ import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _ensure_table
-
-
-
-
-
-
-
-
-
-
-
+def _slugify(text: str, max_len: int = 40) -> str:
+    s = str(text).lower()
+    out = []
+    prev_dash = False
+    for ch in s:
+        if ch.isalnum():
+            out.append(ch)
+            prev_dash = False
+        else:
+            if not prev_dash:
+                out.append("-")
+                prev_dash = True
+    slug = "".join(out).strip("-")
+    while "--" in slug:
+        slug = slug.replace("--", "-")
+    return slug[:max_len] if max_len > 0 else slug
 
 def _stable_id(prefix: str, *parts: str) -> str:
     base = "-".join(_slugify(p) for p in parts if p is not None and str(p) != "")

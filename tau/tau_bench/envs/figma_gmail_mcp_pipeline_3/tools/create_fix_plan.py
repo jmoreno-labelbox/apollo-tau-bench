@@ -4,19 +4,8 @@ import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _params, _require
-
-
-
-
-
-
-
-
-
-
-
-
-
+def _j(v):
+    return v if isinstance(v, str) else json.dumps(v, separators=(",", ":"), ensure_ascii=False)
 
 def _require_write(p: Dict[str, Any]):
     miss = _require(p, ["timestamp", "request_id"])

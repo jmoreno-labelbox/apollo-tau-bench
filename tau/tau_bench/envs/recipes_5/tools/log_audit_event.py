@@ -5,21 +5,15 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _json_dump
 from . import _first_user_id
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def _household_for_user(data: Dict[str, Any], user_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if user_id is not None:
+        h = next((h for h in data.get("households", []) if h.get("primary_user_id") == user_id), None)
+        if h:
+            return h
+    households = data.get("households", [])
+    if not households:
+        return None
+    return sorted(households, key=lambda h: int(h.get("household_id", 10**9)))[0]
 
 def _max_id(records: List[Dict[str, Any]], key: str, default: int) -> int:
     if not records:

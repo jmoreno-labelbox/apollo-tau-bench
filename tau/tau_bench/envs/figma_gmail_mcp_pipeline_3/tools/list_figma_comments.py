@@ -4,13 +4,8 @@ import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _params
-
-
-
-
-
-
-
+def _j(v):
+    return v if isinstance(v, str) else json.dumps(v, separators=(",", ":"), ensure_ascii=False)
 
 def _params(data: Dict[str, Any], kwargs: Dict[str, Any]) -> Dict[str, Any]:
     return kwargs or {}

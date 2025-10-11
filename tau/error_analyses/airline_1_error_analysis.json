@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to execute the \"CreateOperationalEvent\" action to log the SIGMET event for ATL, which is a crucial step in the ground truth action sequence. Additionally, the agent incorrectly concluded that there were no available flights to ATL without performing the \"FindFlights\" action to verify the flight status, leading to the omission of the \"UpdateFlightSchedule\" action to apply the necessary delays."
+            "description": "The agent is responsible for the fault because it failed to apply a 3-hour delay to all flights to ATL with status 'available' in a single update operation. Instead, the agent attempted to update the status of flights departing from ATL individually and did not apply the required delay. Additionally, the agent encountered an error due to the undefined 'timedelta' function, which indicates a failure to correctly implement the delay operation. The ground truth action sequence required a single update operation to apply the delay, which the agent did not perform."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to execute the \"CreateOperationalEvent\" action, which is a necessary part of the standard Severe Weather Protocol for ATL. The ground truth action sequence includes creating an operational event to document the initiation of the Severe Weather Protocol due to the SIGMET, but the trajectory does not include this action. The assistant only attempted to find flights and did not perform any updates or create the required operational event."
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is that the agent incorrectly used the \"UpdateFlightSchedule\" tool with the wrong arguments. Instead of updating the flight schedule with a 3-hour delay and changing the status to \"DELAYED\" for flights with the status \"available\" to ATL, the agent updated flights departing from ATL and only changed their status to \"DELAYED\" without applying the 3-hour delay. Additionally, the updates were not performed in a single operation as required."
         }
     ]
 }

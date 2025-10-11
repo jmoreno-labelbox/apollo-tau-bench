@@ -5,15 +5,23 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _json_dump
 from . import _first_user_id
+def _latest_meal_plan_for_household(data: Dict[str, Any], household_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if household_id is None:
+        return None
+    plans = [m for m in data.get("meal_plans", []) if m.get("household_id") == household_id]
+    if not plans:
+        return None
+    return sorted(plans, key=lambda m: int(m.get("meal_plan_id", 0)), reverse=True)[0]
 
-
-
-
-
-
-
-
-
+def _household_for_user(data: Dict[str, Any], user_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if user_id is not None:
+        h = next((h for h in data.get("households", []) if h.get("primary_user_id") == user_id), None)
+        if h:
+            return h
+    households = data.get("households", [])
+    if not households:
+        return None
+    return sorted(households, key=lambda h: int(h.get("household_id", 10**9)))[0]
 
 def _latest_meal_plan_id(data: Dict[str, Any], household_id: Optional[int]) -> Optional[int]:
     mp = _latest_meal_plan_for_household(data, household_id)

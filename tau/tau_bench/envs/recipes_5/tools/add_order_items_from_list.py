@@ -5,21 +5,23 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _json_dump
 from . import _first_user_id
+def _latest_order_for_household(data: Dict[str, Any], household_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if household_id is None:
+        return None
+    orders = [o for o in data.get("orders", []) if o.get("household_id") == household_id]
+    if not orders:
+        return None
+    return sorted(orders, key=lambda o: int(o.get("order_id", 0)), reverse=True)[0]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def _household_for_user(data: Dict[str, Any], user_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if user_id is not None:
+        h = next((h for h in data.get("households", []) if h.get("primary_user_id") == user_id), None)
+        if h:
+            return h
+    households = data.get("households", [])
+    if not households:
+        return None
+    return sorted(households, key=lambda h: int(h.get("household_id", 10**9)))[0]
 
 def _store_products_for_ingredient(data: Dict[str, Any], store_id: int, ingredient_id: int) -> List[Dict[str, Any]]:
     return [

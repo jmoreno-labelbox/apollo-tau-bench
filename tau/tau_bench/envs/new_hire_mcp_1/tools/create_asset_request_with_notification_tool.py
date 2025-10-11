@@ -3,13 +3,11 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
-
-
-
-
-
-
+def _render_template(template_content: str, context: Dict[str, Any]) -> str:
+    """Performs simple string replacement on a template."""
+    for key, value in context.items():
+        template_content = template_content.replace(f"{{{{{key}}}}}", str(value))
+    return template_content
 
 def _next_str_id(rows: List[Dict[str, Any]], key: str, prefix: str) -> str:
     """Generates the next string ID in a sequence (e.g., CAND-001)."""
@@ -112,7 +110,6 @@ class CreateAssetRequestWithNotificationTool(Tool):
                 continue
 
             role_title = candidate.get("role_title", "")
-            defaults = ROLE_ASSET_DEFAULTS_MAP.get(role_title, ROLE_ASSET_DEFAULTS_MAP["Default"])
             urgency = urgency_level
             specs = specifications
 

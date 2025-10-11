@@ -5,17 +5,47 @@ from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 from . import _json_dump
 from . import _first_user_id
+def _decode_filter_token(token: Optional[str]) -> Tuple[str, int, bool]:
+    if not token:
+        return ("Dinner", 0, False)
+    try:
+        _, meal_type, ppart, pfpart = token.split(":")
+        min_protein = int(ppart[1:])
+        pf = True if pfpart == "PF1" else False
+        return (meal_type, min_protein, pf)
+    except Exception:
+        return ("Dinner", 0, False)
 
+def _parse_json_list_ids(json_str: str) -> List[int]:
+    try:
+        arr = json.loads(json_str)
+        if isinstance(arr, list):
+            return [int(x) for x in arr]
+    except Exception:
+        pass
+    return []
 
+def _all_recipe_ids_filtered(data: Dict[str, Any], meal_type: str = "Dinner", min_protein_g: int = 0, peanut_free: bool = False) -> List[int]:
+    out = []
+    for r in data.get("recipes", []):
+        if r.get("meal_type") != meal_type:
+            continue
+        if int(r.get("protein_g_per_serving", 0)) < int(min_protein_g):
+            continue
+        if peanut_free and not r.get("is_peanut_free", False):
+            continue
+        out.append(int(r.get("recipe_id")))
+    return out
 
-
-
-
-
-
-
-
-
+def _household_for_user(data: Dict[str, Any], user_id: Optional[int]) -> Optional[Dict[str, Any]]:
+    if user_id is not None:
+        h = next((h for h in data.get("households", []) if h.get("primary_user_id") == user_id), None)
+        if h:
+            return h
+    households = data.get("households", [])
+    if not households:
+        return None
+    return sorted(households, key=lambda h: int(h.get("household_id", 10**9)))[0]
 
 def _recent_recipe_ids(data: Dict[str, Any], household_id: Optional[int], days_back: int = 14, anchor_date: Optional[str] = None) -> List[int]:
     if household_id is None:
