@@ -20,7 +20,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class list_figma_comments(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         p = _params(data, kwargs)
         rows = []
         for c in _ensure(data, "figma_comments", []):

@@ -8,6 +8,10 @@ from . import _params, _require
 def _j(v):
     return v if isinstance(v, str) else json.dumps(v, separators=(",", ":"), ensure_ascii=False)
 
+_ISO8601Z = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$"
+)
+
 def _require_write(p: Dict[str, Any]):
     miss = _require(p, ["timestamp", "request_id"])
     if miss:
@@ -45,7 +49,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class create_fix_plan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         p = _params(data, kwargs)
         miss = _require(p, ["audit_id","owner_email","delivery_method","timestamp","request_id"])
         if miss: return miss

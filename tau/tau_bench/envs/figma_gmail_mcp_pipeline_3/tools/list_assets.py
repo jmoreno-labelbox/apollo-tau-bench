@@ -16,7 +16,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class list_assets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         rows = list(_ensure(data, "assets", []))
         return _ok({"rows": rows})
 

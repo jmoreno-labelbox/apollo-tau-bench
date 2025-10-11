@@ -29,7 +29,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class verify_single_thread_per_cycle(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], )->str:
+    def invoke(data: Dict[str, Any], **kwargs)->str:
         p = _params(data, kwargs)
         miss = _require(p, ["cycle_id"])
         if miss: return miss

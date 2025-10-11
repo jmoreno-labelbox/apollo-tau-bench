@@ -16,7 +16,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class list_review_cycles(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], )->str:
+    def invoke(data: Dict[str, Any], **kwargs)->str:
         return _ok({"rows": list(_ensure(data, "review_cycles", []))})
 
     @staticmethod

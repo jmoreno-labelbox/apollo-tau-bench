@@ -32,7 +32,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class governance_update(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], )->str:
+    def invoke(data: Dict[str, Any], **kwargs)->str:
         p = _params(data, kwargs)
         miss = _require(p, ["artifact_id","request_id"])
         if miss: return miss

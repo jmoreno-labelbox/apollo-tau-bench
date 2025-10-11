@@ -8,6 +8,10 @@ from . import _params, _require
 def _j(v):
     return v if isinstance(v, str) else json.dumps(v, separators=(",", ":"), ensure_ascii=False)
 
+_ISO8601Z = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$"
+)
+
 def _require_write(p: Dict[str, Any]):
     miss = _require(p, ["timestamp", "request_id"])
     if miss:
@@ -45,7 +49,7 @@ def _ensure(data: Dict[str, Any], key: str, default):
 
 class create_review_cycle(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         p = _params(data, kwargs)
 
         # mandatory fields
