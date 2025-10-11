@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .create_customer_account_tool import CreateCustomerAccountTool
 from .apply_for_loan_with_check_tool import ApplyForLoanWithCheckTool

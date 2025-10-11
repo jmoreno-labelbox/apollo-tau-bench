@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .create_user import CreateUser
 from .update_user import UpdateUser

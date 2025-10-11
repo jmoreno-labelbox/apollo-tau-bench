@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .get_user_id import GetUserId
 from .get_user_goals import GetUserGoals

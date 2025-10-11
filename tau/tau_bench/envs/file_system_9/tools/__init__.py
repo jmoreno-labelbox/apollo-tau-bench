@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .get_file_metadata import GetFileMetadata
 from .get_last_access_time import GetLastAccessTime

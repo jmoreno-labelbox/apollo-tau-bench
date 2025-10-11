@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .get_inventory_by_sku_warehouse import GetInventoryBySkuWarehouse
 from .create_purchase_order import CreatePurchaseOrder

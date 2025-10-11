@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .list_artifacts_tool import ListArtifactsTool
 from .get_artifact_summary_tool import GetArtifactSummaryTool

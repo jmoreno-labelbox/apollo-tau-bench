@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .ca_v2_get_consultant_profile import CaV2GetConsultantProfile
 from .ca_v2_find_publisher_by_name import CaV2FindPublisherByName

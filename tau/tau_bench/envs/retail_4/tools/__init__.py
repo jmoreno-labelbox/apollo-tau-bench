@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .process_payment import ProcessPayment
 from .allocate_inventory import AllocateInventory

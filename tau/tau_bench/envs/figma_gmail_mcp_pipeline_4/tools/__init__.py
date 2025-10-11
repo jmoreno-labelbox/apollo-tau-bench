@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .update_review_cycle_status import UpdateReviewCycleStatus
 from .get_figma_artifacts_by_status import GetFigmaArtifactsByStatus

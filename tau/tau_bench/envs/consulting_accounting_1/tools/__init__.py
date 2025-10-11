@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .get_invoice_details import GetInvoiceDetails
 from .compute_invoice_aging import ComputeInvoiceAging

@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .search_tasks import SearchTasks
 from .create_task import CreateTask

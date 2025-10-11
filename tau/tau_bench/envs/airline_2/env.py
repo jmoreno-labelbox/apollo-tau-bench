@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.airline_2.data import load_data

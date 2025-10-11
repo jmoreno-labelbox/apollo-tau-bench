@@ -1,4 +1,4 @@
-# Copyright belongs to Sierra.
+# Copyright Sierra
 
 from .find_researcher_profiles import FindResearcherProfiles
 from .retrieve_papers import RetrievePapers

@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .get_consultant_profile import GetConsultantProfile
 from .update_consultant_contact import UpdateConsultantContact

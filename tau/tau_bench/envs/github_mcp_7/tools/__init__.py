@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from .who_am_i import WhoAmI
 from .list_repos import ListRepos

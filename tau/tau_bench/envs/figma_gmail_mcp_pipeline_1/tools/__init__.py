@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .create_review_cycle import CreateReviewCycle
 from .export_figma_artifacts_to_assets import ExportFigmaArtifactsToAssets

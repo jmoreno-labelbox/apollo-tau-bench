@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from .create_change_request import CreateChangeRequest
 from .perform_impact_assessment import PerformImpactAssessment

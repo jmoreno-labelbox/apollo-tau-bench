@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .get_milestone_details import GetMilestoneDetails
 from .create_milestone import CreateMilestone

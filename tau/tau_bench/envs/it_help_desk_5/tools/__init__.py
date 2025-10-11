@@ -1,4 +1,4 @@
-# Copyright Sierra Corporation
+# Copyright Sierra
 
 from .get_employee_id import GetEmployeeId
 from .employee_account_exists import EmployeeAccountExists

@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 # Utility function (should be declared BEFORE imports to prevent circular dependencies)
 from datetime import datetime

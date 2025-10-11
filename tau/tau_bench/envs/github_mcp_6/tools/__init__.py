@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .get_me import GetMe
 from .search_repositories import SearchRepositories

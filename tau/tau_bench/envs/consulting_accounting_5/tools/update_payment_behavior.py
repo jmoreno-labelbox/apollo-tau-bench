@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from datetime import datetime
 import json

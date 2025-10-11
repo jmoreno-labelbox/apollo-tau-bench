@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.github_mcp_5.data import load_data

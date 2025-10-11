@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .get_info_from_db import GetInfoFromDB
 from .update_db import UpdateDB

@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from .get_user_by_id import GetUserById
 from .find_users_by_city import FindUsersByCity

@@ -6,6 +6,7 @@ Restore all copyright comments to standard "# Copyright Sierra" format.
 import re
 from pathlib import Path
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def restore_copyright_in_file(file_path: Path, dry_run: bool = False) -> bool:
     """Restore copyright comment in a file. Returns True if changed."""
@@ -52,6 +53,12 @@ def main():
         action="store_true",
         help="Show what would be changed without modifying files"
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=20,
+        help="Number of parallel workers (default: 20)"
+    )
     args = parser.parse_args()
     
     # Find all Python files
@@ -64,16 +71,25 @@ def main():
     py_files = [f for f in py_files if '__pycache__' not in str(f)]
     
     print(f"Scanning {len(py_files)} Python files...")
+    print(f"Using {args.workers} parallel workers")
     if args.dry_run:
         print("DRY RUN MODE - No files will be modified\n")
     
     changed_files = []
     
-    for py_file in py_files:
+    def process_file(py_file):
         if restore_copyright_in_file(py_file, args.dry_run):
-            changed_files.append(py_file)
             rel_path = py_file.relative_to(target_path.parent.parent.parent)
             print(f"{'Would restore' if args.dry_run else 'Restored'}: {rel_path}")
+            return py_file
+        return None
+    
+    with ThreadPoolExecutor(max_workers=args.workers) as executor:
+        futures = [executor.submit(process_file, py_file) for py_file in py_files]
+        for future in as_completed(futures):
+            result = future.result()
+            if result:
+                changed_files.append(result)
     
     print(f"\n{'='*60}")
     print(f"SUMMARY")

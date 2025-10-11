@@ -1,4 +1,4 @@
-# Copyright ownership held by Sierra.
+# Copyright Sierra
 
 import json
 from typing import Any, Dict, List, Optional

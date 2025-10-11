@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .book_reservation import BookReservation
 from .calculate import Calculate

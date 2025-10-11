@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .get_candidate_with_full_context_tool import GetCandidateWithFullContextTool
 from .find_candidates_by_onboarding_status_tool import FindCandidatesByOnboardingStatusTool

@@ -1,4 +1,4 @@
-# Copyright by Sierra
+# Copyright Sierra
 
 from .locate_papers import LocatePapers
 from .summarize_abstract import SummarizeAbstract

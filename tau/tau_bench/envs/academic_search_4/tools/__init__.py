@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .fetch_articles import FetchArticles
 from .fetch_users import FetchUsers

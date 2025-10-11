@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .get_user_profile import GetUserProfile
 from .get_skill_gap import GetSkillGap

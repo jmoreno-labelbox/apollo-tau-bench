@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.logistics_supply_chain_6.data import load_data

@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .add_new_customer import AddNewCustomer
 from .add_new_beneficiary_for_customer import AddNewBeneficiaryForCustomer

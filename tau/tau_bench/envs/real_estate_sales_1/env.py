@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.real_estate_sales_1.data import load_data

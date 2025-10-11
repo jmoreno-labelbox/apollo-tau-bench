@@ -1198,7 +1198,7 @@ actions=[
     Task(
         annotator="v1",
         user_id="task_058",
-instruction="Organize a complete return for delivered order # 9005 by restocking the items and changing the order status to Returned. Provide a succinct receipt with the updated status and adjusted inventory levels."
+instruction="Organize a complete return for delivered order # 9005 by restocking the items and changing the order status to Returned. Provide a succinct receipt with the updated status and adjusted inventory levels.",
 
         actions=[
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9005"}),
@@ -1575,7 +1575,7 @@ instruction="Organize a complete return for delivered order # 9005 by restocking
     Task(
         annotator="v1",
         user_id="task_075",
-instruction="You annul David Chen’s order # 9010, restock its products from the order lines, and finalize a 'Ordered By Mistake' case (High)."
+instruction="You annul David Chen’s order # 9010, restock its products from the order lines, and finalize a 'Ordered By Mistake' case (High).",
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "Mike", "last_name": "Rivera"}),
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9010"}),

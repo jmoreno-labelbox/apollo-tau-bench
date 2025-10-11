@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .find_discountable_products import find_discountable_products
 from .update_stock_quantity import update_stock_quantity

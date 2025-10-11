@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.retail_point_of_sale_and_inventory_system_5.data import load_data

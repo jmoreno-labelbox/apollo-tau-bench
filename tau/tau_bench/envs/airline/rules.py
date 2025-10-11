@@ -1,3 +1,3 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 RULES = []

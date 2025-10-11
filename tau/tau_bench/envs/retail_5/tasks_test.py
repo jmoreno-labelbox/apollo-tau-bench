@@ -178,7 +178,7 @@ instruction="Handle vendor relationships by obtaining supplier details for Tech 
     Task(
         annotator="shipping_coordinator",
         user_id="TASK_88",
-instruction="Handle shipment coordination. Obtain tracking information for order #W2611340. Update tracking status to 'in_transit', retrieve courier information, confirm delivery estimates, adjust tracking to 'out_for_delivery', then to 'delivered', and ultimately mark the order status as 'completed'."
+        instruction="Handle shipment coordination. Obtain tracking information for order #W2611340. Update tracking status to 'in_transit', retrieve courier information, confirm delivery estimates, adjust tracking to 'out_for_delivery', then to 'delivered', and ultimately mark the order status as 'completed'.",
         actions=[
             Action(name="getTrackingInfo", kwargs={"order_id": "#W2611340"}),
             Action(name="updateTrackingStatus", kwargs={"tracking_id": "357962501027", "status": "in_transit"}),
@@ -252,7 +252,7 @@ instruction="Handle shipment coordination. Obtain tracking information for order
     Task(
         annotator="quality_manager",
         user_id="TASK_92",
-instruction="Handle quality issues by locating delivered orders, limiting results to 5, and selecting the order # W9907310. Handle item returns related to 'quality issues' and confirm updated stock quantities. Assess the customer's buying history and develop suggestions for the Water Bottle category."
+        instruction="Handle quality issues by locating delivered orders, limiting results to 5, and selecting the order #W9907310. Handle item returns related to 'quality issues' and confirm updated stock quantities. Assess the customer's buying history and develop suggestions for the Water Bottle category.",
         actions=[
             Action(name="getOrdersByStatus", kwargs={"status": "delivered", "limit": 5}),
             Action(name="getOrderDetails", kwargs={"order_id": "#W9907310"}),
@@ -298,7 +298,7 @@ instruction="Handle quality issues by locating delivered orders, limiting result
     Task(
         annotator="customer_scenarios",
         user_id="TASK_94",
-instruction="As Mason Lee with the email id: mason.lee9297@example.com, you're managing a situation. Locate your most recently delivered order with ID: # W9710999. Process the return of the Electric Toothbrush due to 'defective product'. Then, review the Electric Toothbrush selections to identify the highest-priced option and add a Water Bottle to this order. Next, place an order for the most expensive Water Bottle. Lastly, as this is for personal use, request expedited shipping to your location."
+        instruction="As Mason Lee with the email id: mason.lee9297@example.com, you're managing a situation. Locate your most recently delivered order with ID: #W9710999. Process the return of the Electric Toothbrush due to 'defective product'. Then, review the Electric Toothbrush selections to identify the highest-priced option and add a Water Bottle to this order. Next, place an order for the most expensive Water Bottle. Lastly, as this is for personal use, request expedited shipping to your location.",
         actions=[
             Action(name="searchUsers", kwargs={"email": "mason.lee9297@example.com"}),
             Action(name="getOrderDetails", kwargs={"order_id": "#W9710999"}),
@@ -378,7 +378,7 @@ instruction="As Mason Lee with the email id: mason.lee9297@example.com, you're m
     Task(
         annotator="supplier_relations",
         user_id="TASK_96",
-instruction="Handle the management of supplier relationships. Retrieve information for supplier # SUP0004, check stock for items below 20 units and place an order for 100 units at $100 each for the item with the least stock, ensuring proper order placement and ignoring out-of-stock items. Change the supply order status to 'confirmed', update inventory, review outstanding orders, and set an inventory alert for 'E-Reader' at a threshold of 20."
+        instruction="Handle the management of supplier relationships. Retrieve information for supplier #SUP0004, check stock for items below 20 units and place an order for 100 units at $100 each for the item with the least stock, ensuring proper order placement and ignoring out-of-stock items. Change the supply order status to 'confirmed', update inventory, review outstanding orders, and set an inventory alert for 'E-Reader' at a threshold of 20.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0004"}),
             Action(name="getStockLevels", kwargs={"supplier_id": "#SUP0004", "low_stock_threshold": 20}),
@@ -395,7 +395,7 @@ instruction="Handle the management of supplier relationships. Retrieve informati
     Task(
         annotator="5",
         user_id="TASK_01",
-instruction="Coordinate as a supply chain manager addressing urgent stock shortages. Collect all item IDs with inventory under 50 units for supplier # Identify the key item with the lowest inventory, excluding those currently out of stock. Gather complete supplier information and place an order for 200 units of this key item at $35 per unit. Check pending orders to verify the new supply order is included. Change the supply order status to 'confirmed' and recheck pending orders to ensure it is no longer listed, verifying that stock levels have been updated."
+        instruction="Coordinate as a supply chain manager addressing urgent stock shortages. Collect all item IDs with inventory under 50 units for supplier. Identify the key item with the lowest inventory, excluding those currently out of stock. Gather complete supplier information and place an order for 200 units of this key item at $35 per unit. Check pending orders to verify the new supply order is included. Change the supply order status to 'confirmed' and recheck pending orders to ensure it is no longer listed, verifying that stock levels have been updated.",
         actions=[
             Action(name="getStockLevels", kwargs={"supplier_id": "#SUP0001", "low_stock_threshold": 50}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0001"}),
@@ -472,7 +472,7 @@ instruction="As the warehouse manager, coordinate a stock rebalancing operation 
     Task(
         annotator="5",
         user_id="TASK_07",
-instruction="As an ecommerce customer relations manager, address an urgent stock redistribution. A key customer requires an immediate supply of T-shirt. Inspect current stock levels for supplier # SUP0001, retrieve all T-shirt variants with inventory exceeding 100 units. Modify the stock for item '1176194968' by reducing it by 50 units (for emergency reasons). Place a restock order for 100 units at $40 each and verify the order confirmation."
+        instruction="As an ecommerce customer relations manager, address an urgent stock redistribution. A key customer requires an immediate supply of T-shirt. Inspect current stock levels for supplier #SUP0001, retrieve all T-shirt variants with inventory exceeding 100 units. Modify the stock for item '1176194968' by reducing it by 50 units (for emergency reasons). Place a restock order for 100 units at $40 each and verify the order confirmation.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0001"}),
             Action(name="searchProductsByCategory", kwargs={"category": "T-Shirt", "min_stock": 100}),
@@ -489,7 +489,7 @@ instruction="As an ecommerce customer relations manager, address an urgent stock
     Task(
         annotator="5",
         user_id="sc_task_08",
-instruction="You are a warehouse manager. Handle the supplier diversification analysis. Obtain a full list of all suppliers and evaluate the order history and products of supplier # SUP0004. Assess their inventory situation and create a new purchase order for the previously canceled order (20 units at $45 each). Revise their contact information to phone: +1-800-555-1234."
+instruction="You are a warehouse manager. Handle the supplier diversification analysis. Obtain a full list of all suppliers and evaluate the order history and products of supplier # SUP0004. Assess their inventory situation and create a new purchase order for the previously canceled order (20 units at $45 each). Revise their contact information to phone: +1-800-555-1234.",
         actions=[
             Action(name="listAllSuppliers", kwargs={}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0004"}),
@@ -578,7 +578,7 @@ instruction="You are an operation manager and need to enhance vendor performance
     Task(
         annotator="risk_manager",
         user_id="sc_task_13",
-instruction="As a supply chain risk analyst, set up supply chain risk management protocols. Evaluate product portfolios for #SUP0009, #SUP0010, #SUP0011. For suppliers SUP0009, SUP0010, and SUP0011, collect order histories, assess product offerings, and create a risk mitigation order of 35 units at a unit cost of 28 for the item with the least stock from the supplier that has the fewest products. Exclude out-of-stock items and ensure the order is confirmed. Update the email address for the supplier with the least products to hello@athleticequipment.com."
+instruction="As a supply chain risk analyst, set up supply chain risk management protocols. Evaluate product portfolios for #SUP0009, #SUP0010, #SUP0011. For suppliers SUP0009, SUP0010, and SUP0011, collect order histories, assess product offerings, and create a risk mitigation order of 35 units at a unit cost of 28 for the item with the least stock from the supplier that has the fewest products. Exclude out-of-stock items and ensure the order is confirmed. Update the email address for the supplier with the least products to hello@athleticequipment.com.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0009"}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0010"}),
@@ -598,7 +598,7 @@ instruction="As a supply chain risk analyst, set up supply chain risk management
     Task(
         annotator="product_lifecycle_manager",
         user_id="sc_task_14",
-instruction="As a tech product lifecycle manager, handle the lifecycle of technology products for Electronics suppliers. Concentrate on Tech Supplies Inc. (#SUP0001) and Worldwide Electronics Partners (#SUP0002). Evaluate the technology products from SUP0001 and Worldwide Electronics Partners (#SUP0002) (Digital Camera, Laptop), lower the price of the most expensive Digital Camera model to $2200 as it approaches end-of-life, and place a supply order for 25 units of the latest Laptop item 1684786391 at $1500, ensuring confirmation of the order."
+instruction="As a tech product lifecycle manager, handle the lifecycle of technology products for Electronics suppliers. Concentrate on Tech Supplies Inc. (#SUP0001) and Worldwide Electronics Partners (#SUP0002). Evaluate the technology products from SUP0001 and Worldwide Electronics Partners (#SUP0002) (Digital Camera, Laptop), lower the price of the most expensive Digital Camera model to $2200 as it approaches end-of-life, and place a supply order for 25 units of the latest Laptop item 1684786391 at $1500, ensuring confirmation of the order.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0001"}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0002"}),
@@ -661,7 +661,7 @@ instruction="As an emergency coordinator, a crisis has occurred with a vital sup
     Task(
         annotator="partnership_manager",
         user_id="sc_task_17",
-instruction="Act as a strategic partnership manager. Turn your attention to Supplier # SUP0009 - analyze the product lineup, monitor order history, and explore growth opportunities. Reassess pricing by establishing the cost of the highest-priced Tea Kettle model at $85, then place a strategic order for 45 units of that model at $65 each and confirm it."
+instruction="Act as a strategic partnership manager. Turn your attention to Supplier # SUP0009 - analyze the product lineup, monitor order history, and explore growth opportunities. Reassess pricing by establishing the cost of the highest-priced Tea Kettle model at $85, then place a strategic order for 45 units of that model at $65 each and confirm it.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0009"}),
             Action(name="listProductsBySupplier", kwargs={"supplier_id": "#SUP0009"}),
@@ -679,7 +679,7 @@ instruction="Act as a strategic partnership manager. Turn your attention to Supp
     Task(
         annotator="quality_assurance_manager",
         user_id="sc_task_18",
-instruction="As a quality assurance specialist, handle the examination of Athletic Equipment Co. (# Evaluate current supply orders, modify the price of the top-tier cycling helmet to $250 to account for quality premiums, and create a quality-centric order for 100 units at $150 each. Confirm the order and update the supplier contact to include quality assurance stipulations at quality@athleticequipment.com."
+instruction="As a quality assurance specialist, handle the examination of Athletic Equipment Co. (# Evaluate current supply orders, modify the price of the top-tier cycling helmet to $250 to account for quality premiums, and create a quality-centric order for 100 units at $150 each. Confirm the order and update the supplier contact to include quality assurance stipulations at quality@athleticequipment.com.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0010"}),
             Action(name="getStockLevels", kwargs={"supplier_id": "#SUP0010"}),
@@ -698,7 +698,7 @@ instruction="As a quality assurance specialist, handle the examination of Athlet
     Task(
         annotator="digital_transformation_lead",
         user_id="sc_task_19",
-instruction="As a digital consultant, direct attention to the supplier with ID: # SUP0006 to implement digital workflows. Review the product catalog with a focus on Vacuum Cleaners and Bluetooth Speakers. The supplier has requested a price modification for item 5967152432 to $299. Also, enable tech-driven supply orders for item 4602305039 (50 units at $500 each) and item 5967152432 (30 units at $200 each), while updating their systems with the new email digital@livingcomfort.com. Confirm the supply order and contact information updates."
+instruction="As a digital consultant, direct attention to the supplier with ID: # SUP0006 to implement digital workflows. Review the product catalog with a focus on Vacuum Cleaners and Bluetooth Speakers. The supplier has requested a price modification for item 5967152432 to $299. Also, enable tech-driven supply orders for item 4602305039 (50 units at $500 each) and item 5967152432 (30 units at $200 each), while updating their systems with the new email digital@livingcomfort.com. Confirm the supply order and contact information updates.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0006"}),
             Action(name="listProductsBySupplier", kwargs={"supplier_id": "#SUP0006"}),
@@ -736,7 +736,7 @@ instruction="As a supply manager facing critical stock deficiencies, identify al
     Task(
         annotator="supply_chain_analyst",
         user_id="sc_task_22",
-instruction="As an analyst for an ecommerce site, assess the performance of (# Fetch their details and review all outstanding supply orders and history. Adjust the price of their most expensive item to $180 and order 200 more units of this item at $100 each. Confirm the order and update their contact number to '+1-800-555-9100')."
+instruction="As an analyst for an ecommerce site, assess the performance of (# Fetch their details and review all outstanding supply orders and history. Adjust the price of their most expensive item to $180 and order 200 more units of this item at $100 each. Confirm the order and update their contact number to '+1-800-555-9100').",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0012"}),
             Action(name="getSupplierOrderHistory", kwargs={"supplier_id": "#SUP0012"}),
@@ -771,7 +771,7 @@ instruction="As an analyst for an ecommerce site, assess the performance of (# F
     Task(
         annotator="inventory_manager",
         user_id="sc_task_24",
-instruction="Serving as inventory manager, Verify stock levels for suppliers #SUP0008, #SUP0006, and # Identify items with stock fewer than 10 units for SUP0008, #SUP0006, and #SUP0012. For each supplier's item with the lowest stock, excluding those that are out of stock, arrange orders for 150 units at $80 each. Update all suppliers' contact information to include 'PRIORITY SUPPLIER' by changing their email domains to priority@<domain>.com."
+instruction="Serving as inventory manager, Verify stock levels for suppliers #SUP0008, #SUP0006, and # Identify items with stock fewer than 10 units for SUP0008, #SUP0006, and #SUP0012. For each supplier's item with the lowest stock, excluding those that are out of stock, arrange orders for 150 units at $80 each. Update all suppliers' contact information to include 'PRIORITY SUPPLIER' by changing their email domains to priority@<domain>.com.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0008"}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0006"}),
@@ -828,7 +828,7 @@ instruction="Serving as inventory manager, Verify stock levels for suppliers #SU
     Task(
         annotator="logistics_coordinator",
         user_id="sc_task_27",
-instruction="As an ecommerce customer relations manager, it is your responsibility to address an emergency stock redistribution. A key customer requires an immediate supply of Cycling Helmet. Start by checking the current stock levels for supplier # Retrieve all Cycling Helmet variants with inventory greater than 100 units. The supplier requires an inventory update, so decrease the stock of item '5537798301' by 50 units for emergency allocation. Create a replenishment order for 100 units at $40 each for this item, mark the order status as 'urgent', and confirm the stock adjustment."
+instruction="As an ecommerce customer relations manager, it is your responsibility to address an emergency stock redistribution. A key customer requires an immediate supply of Cycling Helmet. Start by checking the current stock levels for supplier # Retrieve all Cycling Helmet variants with inventory greater than 100 units. The supplier requires an inventory update, so decrease the stock of item '5537798301' by 50 units for emergency allocation. Create a replenishment order for 100 units at $40 each for this item, mark the order status as 'urgent', and confirm the stock adjustment.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0010"}),
             Action(name="searchProductsByCategory", kwargs={"category": "Cycling Helmet", "min_stock": 100}),
@@ -845,7 +845,7 @@ instruction="As an ecommerce customer relations manager, it is your responsibili
     Task(
         annotator="analyst",
         user_id="sc_task_28",
-instruction="Your role as a warehouse manager involves obtaining a list of all suppliers, and conducting an analysis of supplier # Update the pending supply order for SUP0007 to confirmed status as the items have arrived, then proceed with the inventory update. Verify that both updates are executed successfully. Also, revise their contact information to include phone: +1-800-555-1245."
+instruction="Your role as a warehouse manager involves obtaining a list of all suppliers, and conducting an analysis of supplier # Update the pending supply order for SUP0007 to confirmed status as the items have arrived, then proceed with the inventory update. Verify that both updates are executed successfully. Also, revise their contact information to include phone: +1-800-555-1245.",
         actions=[
             Action(name="listAllSuppliers", kwargs={}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0007"}),
@@ -882,7 +882,7 @@ instruction="Your role as a warehouse manager involves obtaining a list of all s
     Task(
         annotator="cost_analyst",
         user_id="sc_task_30",
-instruction="As a cost specialist analyst, coordinate supply chain cost optimization. Examine supplier # Order history and product catalog for SUP0009. Decrease the price of the highest-priced item by $50, check its inventory level, and create a supply order for 40 units at $1300 each for that item. Confirm the pending order for accuracy."
+instruction="As a cost specialist analyst, coordinate supply chain cost optimization. Examine supplier # Order history and product catalog for SUP0009. Decrease the price of the highest-priced item by $50, check its inventory level, and create a supply order for 40 units at $1300 each for that item. Confirm the pending order for accuracy.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0009"}),
             Action(name="listProductsBySupplier", kwargs={"supplier_id": "#SUP0009"}),
@@ -917,7 +917,7 @@ instruction="As a cost specialist analyst, coordinate supply chain cost optimiza
     Task(
         annotator="vendor_manager",
         user_id="sc_task_32",
-instruction="You are an operations manager. Improve vendor performance for # SUP0007. Begin by examining the supplier profile, product catalog, and existing inventory levels. Develop improvement strategies by setting the price of the premium Wristwatch to $2200. Place a supply order for 60 units of that wristwatch at $1500 each, update their contact number to +1-800-555-0110, and confirm that the order has been successfully processed."
+instruction="You are an operations manager. Improve vendor performance for # SUP0007. Begin by examining the supplier profile, product catalog, and existing inventory levels. Develop improvement strategies by setting the price of the premium Wristwatch to $2200. Place a supply order for 60 units of that wristwatch at $1500 each, update their contact number to +1-800-555-0110, and confirm that the order has been successfully processed.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0007"}),
             Action(name="listProductsBySupplier", kwargs={"supplier_id": "#SUP0007"}),
@@ -934,7 +934,7 @@ instruction="You are an operations manager. Improve vendor performance for # SUP
     Task(
         annotator="lifecycle_manager",
         user_id="sc_task_34",
-instruction="As a product lifecycle manager, handle the lifecycle processes for suppliers, particularly #SUP0007 and # Retrieve product details and inventory for SUP0007 and SUP0008. Analyze their product categories—Bookshelf and Desklamp. Lower the price of the priciest Bookshelf to $500. Place a supply order for 25 units of the Desk lamp with variant ID: 4385534692 at $100 each, ensuring successful order placement."
+instruction="As a product lifecycle manager, handle the lifecycle processes for suppliers, particularly #SUP0007 and # Retrieve product details and inventory for SUP0007 and SUP0008. Analyze their product categories—Bookshelf and Desklamp. Lower the price of the priciest Bookshelf to $500. Place a supply order for 25 units of the Desk lamp with variant ID: 4385534692 at $100 each, ensuring successful order placement.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0007"}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0008"}),
@@ -973,7 +973,7 @@ instruction="As a product lifecycle manager, handle the lifecycle processes for 
     Task(
         annotator="Supply chain emergency coordinator",
         user_id="sc_task_36",
-instruction="As a Supply Chain Emergency Coordinator, handle the disruption impacting Supplier # SUP0012. Review the product inventory and current stock levels to find out-of-stock items. For each affected product, place an order for 80 units at $50 per unit and verify the order confirmation. Once the shipment is received, mark the order as delivered, update the inventory records, and adjust the stock quantities accordingly."
+instruction="As a Supply Chain Emergency Coordinator, handle the disruption impacting Supplier # SUP0012. Review the product inventory and current stock levels to find out-of-stock items. For each affected product, place an order for 80 units at $50 per unit and verify the order confirmation. Once the shipment is received, mark the order as delivered, update the inventory records, and adjust the stock quantities accordingly.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0012"}),
             Action(name="listProductsBySupplier", kwargs={"supplier_id": "#SUP0012"}),
@@ -990,7 +990,7 @@ instruction="As a Supply Chain Emergency Coordinator, handle the disruption impa
     Task(
         annotator="me",
         user_id="sc_task_37",
-instruction="In the role of a global supply chain manager, assess Supplier # SUP0006 by analyzing their product lineup, assessing order history, and considering growth opportunities. Revise terms by adjusting the cost of their most expensive Bluetooth Speaker model to $300. Additionally, arrange a supply order for 150 units at $150 each for variants currently out of stock, and confirm the order has been successfully processed."
+instruction="In the role of a global supply chain manager, assess Supplier # SUP0006 by analyzing their product lineup, assessing order history, and considering growth opportunities. Revise terms by adjusting the cost of their most expensive Bluetooth Speaker model to $300. Additionally, arrange a supply order for 150 units at $150 each for variants currently out of stock, and confirm the order has been successfully processed.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0006"}),
             Action(name="listProductsBySupplier", kwargs={"supplier_id": "#SUP0006"}),
@@ -1009,7 +1009,7 @@ instruction="In the role of a global supply chain manager, assess Supplier # SUP
     Task(
         annotator="quality_assurance_manager",
         user_id="sc_task_38",
-instruction="Handle quality assurance tasks by evaluating Suppliers # SUP0003. It is crucial to assess their product assortment, quality benchmarks, and inventory status. Analyze the existing supply orders and modify the price of the most expensive Tablet to $1500 to accurately represent its quality value. Place an order for 100 units of this specific Tablet model at $500 each, prioritizing quality, and ensure the order is confirmed. Revise the supplier's contact information to include quality assurance instructions at quality@techcorp.com."
+instruction="Handle quality assurance tasks by evaluating Suppliers # SUP0003. It is crucial to assess their product assortment, quality benchmarks, and inventory status. Analyze the existing supply orders and modify the price of the most expensive Tablet to $1500 to accurately represent its quality value. Place an order for 100 units of this specific Tablet model at $500 each, prioritizing quality, and ensure the order is confirmed. Revise the supplier's contact information to include quality assurance instructions at quality@techcorp.com.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0003"}),
             Action(name="listProductsBySupplier", kwargs={"supplier_id": "#SUP0003"}),
@@ -1093,7 +1093,7 @@ instruction="Coordinate with Style Trend Distributors (ID: # SUP0007) to improve
     Task(
         annotator="generator",
         user_id="hard_02_multi_item_return_and_stock_check",
-instruction="As the manager of the returns department, handle the return process for customer Raleigh Moore, who is sending back a 'Water Bottle' and 'Hiking Boots' from order #W4817420. The return reason is 'no longer needed'. After completing the return, verify the updated stock level for the returned hiking boots, which fall under the management of supplier # W4817420. The reason for return is 'no longer needed'. Once the return is processed, check the revised stock quantity for the returned hiking boots managed by supplier #SUP0002."
+instruction="As the manager of the returns department, handle the return process for customer Raleigh Moore, who is sending back a 'Water Bottle' and 'Hiking Boots' from order #W4817420. The return reason is 'no longer needed'. After completing the return, verify the updated stock level for the returned hiking boots, which fall under the management of supplier # W4817420. The reason for return is 'no longer needed'. Once the return is processed, check the revised stock quantity for the returned hiking boots managed by supplier #SUP0002.",
         actions=[
             Action(name="searchUsers", kwargs={"name": "Raleigh Moore"}),
             Action(name="getOrderDetails", kwargs={"order_id": "#W4817420"}),
@@ -1106,7 +1106,7 @@ instruction="As the manager of the returns department, handle the return process
     Task(
         annotator="generator",
         user_id="hard_03_low_stock_analysis_and_reorder",
-instruction="As a supply chain director, begin by identifying all products from supplier 'Tech Supplies Inc.' with supplier ID: # Identify SUP0001 items with stock below 40, excluding those that are entirely out of stock. Collect supplier details and create a new order for each item to restock to 200 units at $30 per unit. Confirm successful order placement."
+instruction="As a supply chain director, begin by identifying all products from supplier 'Tech Supplies Inc.' with supplier ID: # Identify SUP0001 items with stock below 40, excluding those that are entirely out of stock. Collect supplier details and create a new order for each item to restock to 200 units at $30 per unit. Confirm successful order placement.",
         actions=[
             Action(name="getStockLevels", kwargs={"supplier_id": "#SUP0001", "low_stock_threshold": 40}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0001"}),
@@ -1193,7 +1193,7 @@ instruction="As a supply chain director, begin by identifying all products from 
         annotator="generator_01",
         user_id="medium_task_01",
 
-instruction="Act as a customer service manager. A customer named William Li has informed us that order # W2611340 has been delivered, but the Office Chair (item_id: 8426249116) is damaged. Process a return for the damaged chair using 'Item arrived damaged' as the reason and credit her account. Check the stock level for the returned chair. Additionally, assess her total spending history to see if she qualifies for a loyalty discount voucher."
+instruction="Act as a customer service manager. A customer named William Li has informed us that order # W2611340 has been delivered, but the Office Chair (item_id: 8426249116) is damaged. Process a return for the damaged chair using 'Item arrived damaged' as the reason and credit her account. Check the stock level for the returned chair. Additionally, assess her total spending history to see if she qualifies for a loyalty discount voucher.",
         actions=[
             Action(name="searchUsers", kwargs={"name": "William Li"}),
             Action(name="getOrderDetails", kwargs={"order_id": "#W2611340"}),
@@ -1271,7 +1271,7 @@ instruction="Act as a customer service manager. A customer named William Li has 
         annotator="5",
         user_id="high_task_03",
 
-instruction=("As a VIP customer executive, one of the customers, Raleigh Moore (Raleigh.moore6020@example.com), intends to cancel the 'Hiking Boots' from her order # W4817420. Although the order status shows 'delivered', you need to start a return with the reason 'Item no longer needed'. Then, help her by checking her purchase history to suggest a new pair of boots, making sure the specific variant (size 8) is in stock, and add a new PayPal payment method to her account for future purchases.")
+instruction=("As a VIP customer executive, one of the customers, Raleigh Moore (Raleigh.moore6020@example.com), intends to cancel the 'Hiking Boots' from her order # W4817420. Although the order status shows 'delivered', you need to start a return with the reason 'Item no longer needed'. Then, help her by checking her purchase history to suggest a new pair of boots, making sure the specific variant (size 8) is in stock, and add a new PayPal payment method to her account for future purchases."),
         actions=[
             Action(name="searchUsers", kwargs={"email": "charlotte.moore6020@example.com"}),
             Action(name="getOrderDetails", kwargs={"order_id": "#W4817420"}),
@@ -1289,7 +1289,7 @@ instruction=("As a VIP customer executive, one of the customers, Raleigh Moore (
         annotator="generator_01",
         user_id="high_task_07",
 
-instruction=("As a logistics coordinator, the fulfillment for order #W2611340 has been dispatched. Adjust its tracking status to 'in_transit' and ensure the update is verified. Next, identify the courier in charge of this delivery. After finding the courier, examine the countries they deliver to. Finally, locate all supply orders from supplier # W2611340 has been shipped. Update its tracking status to 'in_transit' and confirm the change. Next, determine the courier responsible for this shipment. After identifying the courier, review the countries they service. Lastly, find all supply orders from supplier #SUP0001 and cancel any that are still 'pending'. Generate a revenue summary by product to assess the impact of these cancellations.")
+instruction=("As a logistics coordinator, the fulfillment for order #W2611340 has been dispatched. Adjust its tracking status to 'in_transit' and ensure the update is verified. Next, identify the courier in charge of this delivery. After finding the courier, examine the countries they deliver to. Finally, locate all supply orders from supplier # W2611340 has been shipped. Update its tracking status to 'in_transit' and confirm the change. Next, determine the courier responsible for this shipment. After identifying the courier, review the countries they service. Lastly, find all supply orders from supplier #SUP0001 and cancel any that are still 'pending'. Generate a revenue summary by product to assess the impact of these cancellations."),
         actions=[
             Action(name="getTrackingInfo", kwargs={"order_id": "#W2611340"}),
 
@@ -1312,7 +1312,7 @@ instruction=("As a logistics coordinator, the fulfillment for order #W2611340 ha
         annotator="generator_01",
         user_id="high_task_11",
 
-instruction="As an operations specialist, identify all orders with the 'delivered' status. From this selection, retrieve the first two orders, obtain their details, and shift them to 'archived' status via a bulk update. Subsequently, locate user 'William Li' and review his purchase history. Based on his past transactions, create new product recommendations. Lastly, verify any outstanding supply orders from 'Tech Supplies Inc.' (# SUP0001)."
+instruction="As an operations specialist, identify all orders with the 'delivered' status. From this selection, retrieve the first two orders, obtain their details, and shift them to 'archived' status via a bulk update. Subsequently, locate user 'William Li' and review his purchase history. Based on his past transactions, create new product recommendations. Lastly, verify any outstanding supply orders from 'Tech Supplies Inc.' (# SUP0001).",
         actions=[
             Action(name="getOrdersByStatus", kwargs={"status": "delivered"}),
 
@@ -1330,7 +1330,7 @@ instruction="As an operations specialist, identify all orders with the 'delivere
         annotator="generator_01",
         user_id="high_task_12",
 
-instruction="As a customer service agent, you are managing a detailed request from 'Raleigh Moore' (Raleigh.moore6020@example.com). She wishes to return the 'Bookshelf' from order # W4817420 states 'Item does not fit' as the reason for return. Handle the return process accordingly. She plans to buy a specific T-shirt (item_id: 9612497925). Create a new pending order for this T-shirt. Additionally, she has a new address. Update her address to '999 Lakeview Dr, Houston, NM, 78701, USA'. Finally, check delivery times for express shipping to her updated address."
+instruction="As a customer service agent, you are managing a detailed request from 'Raleigh Moore' (Raleigh.moore6020@example.com). She wishes to return the 'Bookshelf' from order # W4817420 states 'Item does not fit' as the reason for return. Handle the return process accordingly. She plans to buy a specific T-shirt (item_id: 9612497925). Create a new pending order for this T-shirt. Additionally, she has a new address. Update her address to '999 Lakeview Dr, Houston, NM, 78701, USA'. Finally, check delivery times for express shipping to her updated address.",
         actions=[
             Action(name="searchUsers", kwargs={"email": "charlotte.moore6020@example.com"}),
 
@@ -1409,7 +1409,7 @@ instruction="As a customer service agent, you are managing a detailed request fr
     Task(
         annotator="customer_scenarios",
         user_id="address_change_shipping_crisis",
-instruction="You are Ella Anderson, relocating to another state to visit someone. You've just made order # W7381650 needs to be updated due to a change of address to '456 Ocean Ave, Miami, AL, 33101, USA'. Please cancel the Air Purifier from the order and update the delivery address. Place a new order for the canceled item to be sent to the new address. The rest of the items can be delivered to the old address. Keep track of the new order."
+instruction="You are Ella Anderson, relocating to another state to visit someone. You've just made order # W7381650 needs to be updated due to a change of address to '456 Ocean Ave, Miami, AL, 33101, USA'. Please cancel the Air Purifier from the order and update the delivery address. Place a new order for the canceled item to be sent to the new address. The rest of the items can be delivered to the old address. Keep track of the new order.",
         actions=[
             Action(name="searchUsers", kwargs={"name": "Ella Anderson"}),
             Action(name="getOrderDetails", kwargs={"order_id": "#W7381650"}),
@@ -1886,7 +1886,7 @@ instruction="You are Liam Williams managing a shipping calamity. Your order # W7
     Task(
         annotator="5",
         user_id="TASK_103",
-instruction="As a vendor manager, it is your responsibility to evaluate the performance for # SUP0003. Start by reviewing the supplier profile, product catalog, and existing inventory. Develop enhancement strategies by setting the price of the highest-priced Sneakers to $200. Order 60 units of that sneaker model at $150 each, update their contact number to +1-800-555-0010, and verify that the order placement is successfully confirmed."
+instruction="As a vendor manager, it is your responsibility to evaluate the performance for # SUP0003. Start by reviewing the supplier profile, product catalog, and existing inventory. Develop enhancement strategies by setting the price of the highest-priced Sneakers to $200. Order 60 units of that sneaker model at $150 each, update their contact number to +1-800-555-0010, and verify that the order placement is successfully confirmed.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0003"}),
             Action(name="listProductsBySupplier", kwargs={"supplier_id": "#SUP0003"}),
@@ -1903,7 +1903,7 @@ instruction="As a vendor manager, it is your responsibility to evaluate the perf
     Task(
         annotator="5",
         user_id="TASK_104",
-instruction="As a product lifecycle manager, evaluate suppliers #SUP0012 and # Retrieve details, available products, and stock levels for SUP0012 and #SUP0008. Analyze their product offerings — Fleece Jacket and Desklamp. Set the price of the highest-priced Fleece Jacket to $150 and place a supply order for 25 units of the Desk lamp variant id: 4385534692 at $100 each, then confirm the order placement."
+instruction="As a product lifecycle manager, evaluate suppliers #SUP0012 and # Retrieve details, available products, and stock levels for SUP0012 and #SUP0008. Analyze their product offerings — Fleece Jacket and Desklamp. Set the price of the highest-priced Fleece Jacket to $150 and place a supply order for 25 units of the Desk lamp variant id: 4385534692 at $100 each, then confirm the order placement.",
         actions=[
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0012"}),
             Action(name="getSupplierInfo", kwargs={"supplier_id": "#SUP0008"}),

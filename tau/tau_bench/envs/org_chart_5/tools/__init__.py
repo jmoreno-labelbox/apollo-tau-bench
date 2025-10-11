@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .get_employee_profile import get_employee_profile
 from .create_employee_from_offer_letter import create_employee_from_offer_letter

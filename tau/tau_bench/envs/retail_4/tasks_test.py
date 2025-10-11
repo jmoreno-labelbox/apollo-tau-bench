@@ -3649,15 +3649,15 @@ TASKS = [
             Action(name="GetSupplyOrderDetails", kwargs={"supply_order_id": "#SO5398"}),
         ],
         outputs=[]
-)
-
-Task(
-    annotator="0",
-    user_id="V5TSK_USR_92",
-    instruction=(
-        "You are Ella Ahmed user_id: ella_ahmed_3960. It is required to obtain a 6mm yoga mat for your home workouts. Search for options in your desired thickness, confirm the item, and make the purchase using your credit card."
     ),
-    actions=[
+
+    Task(
+        annotator="0",
+        user_id="V5TSK_USR_92",
+        instruction=(
+            "You are Ella Ahmed user_id: ella_ahmed_3960. It is required to obtain a 6mm yoga mat for your home workouts. Search for options in your desired thickness, confirm the item, and make the purchase using your credit card."
+        ),
+        actions=[
         Action(name="ValidateUserIdentity", kwargs={"first_name": "Evelyn", "last_name": "Ahmed", "user_id": "ella_ahmed_3960"}),
         Action(name="SearchProductsByFilter", kwargs={
             "category": "yoga mat",
@@ -4157,3 +4157,4 @@ Task(
     ],
     outputs=[]
 )
+]

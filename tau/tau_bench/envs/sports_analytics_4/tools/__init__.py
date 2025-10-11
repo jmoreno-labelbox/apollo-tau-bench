@@ -1,4 +1,4 @@
-# Copyright held by Sierra
+# Copyright Sierra
 
 from .get_trends import GetTrends
 from .pitchers import Pitchers

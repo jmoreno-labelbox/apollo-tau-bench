@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .list_candidate_emails import ListCandidateEmails
 from .mark_checklist_items_reminded import MarkChecklistItemsReminded

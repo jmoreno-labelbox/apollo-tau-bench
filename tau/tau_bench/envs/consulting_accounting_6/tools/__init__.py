@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .list_projects_catalog import ListProjectsCatalog
 from .fetch_project_card import FetchProjectCard

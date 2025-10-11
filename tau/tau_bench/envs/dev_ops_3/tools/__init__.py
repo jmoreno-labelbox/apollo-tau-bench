@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from .get_crash_event_details import get_crash_event_details
 from .find_work_item_by_crash_fingerprint import find_work_item_by_crash_fingerprint

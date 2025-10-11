@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from .find_listings import FindListings
 from .fetch_listing_details import FetchListingDetails

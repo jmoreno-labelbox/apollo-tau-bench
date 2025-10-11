@@ -2,36 +2,6 @@ from tau_bench.types import Action, Task
 
 TASKS = [
 
-    # # # 20 (alice-w) acme-webapp: record critical alerts and label repository
-    # Operation(
-    # annotator='zero',
-    # user_identifier="task_20",
-    # command=(
-    #         "As 'app-developer', in the repository 'flutter-finance-app', establish the following final condition with all values exact and case-sensitive: • A branch named 'hotfix-1.2.1' is present. Within this branch, the 'CHANGELOG.md' file includes precisely '## As 'app-developer' in the 'flutter-finance-app' repository, ensure the following final conditions are met with exact and case-sensitive values: • There is a branch named 'hotfix-1.2.1'. The 'CHANGELOG.md' in this branch must contain exactly '## 1.2.1 - hotfix'. • The latest commit on 'hotfix-1.2.1' should have the message 'Add CHANGELOG for v1.2.1
-    #     ),
-    # actionList=[
-    # Action(name="GetMe", kwargs={"username": "maya-w"})
-
-    #         # # Access: repository environment (secure & predictable)
-    # Action(name="RetrieveRepository", kwargs={"repo_name": "acme-webapp"}),
-
-    #         # # Fetch: display only HIGH-severity alerts for this repository
-    # Action(name="ListCodeScanningAlerts", kwargs={"repository": "acme-webapp", "level": "high"}),
-
-    #         # # Add a topic and subsequently confirm its inclusion in the list of topics.
-    #         Action(name="AddRepoTopic", kwargs={"repo_name": "acme-webapp", "topic": "security-audit"}),
-    #         Action(name="ListRepoTopics", kwargs={"repo_name": "acme-webapp"}),
-
-    #         # # Append terminal confirmation and ensure it is the most recent entry.
-    # Action(name="AppendTerminal", kwargs={"message": "Audit snapshot logged for acme-webapp (high severity)"}),
-    # Action(name="RetrieveMostRecentTerminalMessage", kwargs={}),
-    #     ],
-    # results=[
-    # "message": "The \'security-audit\' topic has been added."
-    # "entries": {"printed_ts": "2025-08-21T12:00:00Z", "message": "Audit snapshot captured for acme-webapp (high severity)"},
-    #     ],
-    # ),
-    # 28
     Task(
         annotator='0',
         user_id="task_28",

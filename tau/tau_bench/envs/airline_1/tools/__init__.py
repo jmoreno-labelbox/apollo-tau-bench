@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .get_airport_by_code import GetAirportByCode
 from .find_flights import FindFlights

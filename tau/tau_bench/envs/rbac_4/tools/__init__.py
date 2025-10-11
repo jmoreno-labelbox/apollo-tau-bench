@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .list_users_tool import ListUsersTool
 from .get_user_details_tool import GetUserDetailsTool

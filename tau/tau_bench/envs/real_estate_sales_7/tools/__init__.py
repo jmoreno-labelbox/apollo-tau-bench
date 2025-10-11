@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 from .fetch_client_full_context_tool import FetchClientFullContextTool
 from .fetch_listing_by_property_id_tool import FetchListingByPropertyIdTool

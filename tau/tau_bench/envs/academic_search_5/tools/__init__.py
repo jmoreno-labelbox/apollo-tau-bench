@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .find_users import FindUsers
 from .launch_project import LaunchProject

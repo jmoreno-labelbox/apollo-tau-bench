@@ -1,4 +1,4 @@
-# Copyright © Sierra
+# Copyright Sierra
 
 
 # Utility function

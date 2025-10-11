@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .search_products import SearchProducts
 from .get_customer_details import GetCustomerDetails

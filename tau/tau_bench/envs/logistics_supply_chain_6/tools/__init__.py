@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .get_product_by_sku import GetProductBySku
 from .find_products import FindProducts

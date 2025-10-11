@@ -1,4 +1,4 @@
-# Copyright Sierra Technologies
+# Copyright Sierra
 
 
 

@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .fetch_plan_for_date import FetchPlanForDate
 from .get_adset_from_plan import GetAdsetFromPlan

@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .get_current_ticket_price import GetCurrentTicketPrice
 from .list_all_fares_by_route import ListAllFaresByRoute

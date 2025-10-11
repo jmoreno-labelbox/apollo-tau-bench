@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .find_product_by_name import FindProductByName
 from .add_cart_item import AddCartItem

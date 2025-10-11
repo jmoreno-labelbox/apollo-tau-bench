@@ -1,4 +1,4 @@
-# Copyright owned by Sierra.
+# Copyright Sierra
 
 from .get_campaigns import GetCampaigns
 from .get_name_for_campaign import GetNameForCampaign

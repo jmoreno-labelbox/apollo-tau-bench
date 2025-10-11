@@ -1,4 +1,4 @@
-# Copyright Sierra Corporation
+# Copyright Sierra
 
 from .list_devices import ListDevices
 from .get_device import GetDevice

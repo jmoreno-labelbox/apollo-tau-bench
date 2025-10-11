@@ -1,4 +1,4 @@
-# Copyright owned by Sierra
+# Copyright Sierra
 
 from .find_incomplete_tasks_tool import FindIncompleteTasksTool
 from .extract_task_instructions_tool import ExtractTaskInstructionsTool
