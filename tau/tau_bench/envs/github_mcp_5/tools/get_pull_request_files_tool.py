@@ -34,7 +34,7 @@ class GetPullRequestFilesTool(Tool):
         if not pull_request:
             return json.dumps({
                 "status": "error",
-                "message": f"Pull request # "{pr_number} is absent in the '{repo}' repository."
+"message": f"Pull request # {pr_number} is absent in the '{repo}' repository."
             }, indent=2)
 
         # In a practical situation, you would retrieve the files linked to the commits of the PR.

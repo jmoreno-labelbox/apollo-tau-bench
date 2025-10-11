@@ -44,28 +44,28 @@ class MarkPRasMerged(Tool):
             return json.dumps({"error": f"No pull requests found for '{owner}/{repo_name}'."}, indent=2)
 
         pr_numbers: List[int] = rec.get("pr_numbers", [])
-        if pr_number not in pr_numbers:
-            return json.dumps({"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
-        idx = pr_numbers.index(pr_number)
+return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
+return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
+idx = pr_numbers.index(pr_number)
 
         # Verify the existence of arrays and apply padding if necessary.
-        rec.setdefault("pr_states", [])
-        rec.setdefault("merged_flags", [])
-        rec.setdefault("mergeable_flags", [])
-        rec.setdefault("updated_ts", [])
-        rec.setdefault("pr_status", [])
+rec.setdefault("pr_states", [])
+rec.setdefault("merged_flags", [])
+rec.setdefault("mergeable_flags", [])
+rec.setdefault("updated_ts", [])
+rec.setdefault("pr_status", [])
 
-        while len(rec["pr_states"])       <= idx: rec["pr_states"].append("open")
-        while len(rec["merged_flags"])    <= idx: rec["merged_flags"].append(False)
-        while len(rec["mergeable_flags"]) <= idx: rec["mergeable_flags"].append(False)
-        while len(rec["updated_ts"])      <= idx: rec["updated_ts"].append(None)
-        while len(rec["pr_status"])       <= idx: rec["pr_status"].append("open")
+while len(rec["pr_states"]) <= idx: rec["pr_states"].append("open")
+while len(rec["merged_flags"]) <= idx: rec["merged_flags"].append(False)
+while len(rec["mergeable_flags"]) <= idx: rec["mergeable_flags"].append(False)
+while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
+while len(rec["pr_status"]) <= idx: rec["pr_status"].append("open")
 
         # Should be capable of merging.
-        if not bool(rec["mergeable_flags"][idx]):
+if not bool(rec["mergeable_flags"][idx]):
             return json.dumps(
                 {
-                    "error": f"PR # "{pr_number} cannot be merged into '{owner}/{repo_name}'."
+"error": f"PR # {pr_number} cannot be merged into '{owner}/{repo_name}'.",
                     "mergeable": False,
                     "current_state": rec["pr_states"][idx]
                 },
@@ -73,10 +73,10 @@ class MarkPRasMerged(Tool):
             )
 
         # Idempotent route: already combined.
-        if bool(rec["merged_flags"][idx]) and rec["pr_states"][idx] == "merged":
+if bool(rec["merged_flags"][idx]) and rec["pr_states"][idx] == "merged":
             return json.dumps(
                 {
-                    "success": f"PR # The pull request {pr_number} has already been merged into {owner}/{repo_name}.
+"success": f"PR # The pull request {pr_number} has already been merged into {owner}/{repo_name}.",
                     "repo": f"{owner}/{repo_name}",
                     "pr_number": pr_number,
                     "state": "merged",
@@ -88,23 +88,23 @@ class MarkPRasMerged(Tool):
             )
 
         # Set as merged and refresh timestamp (without file modifications)
-        rec["pr_states"][idx] = "merged"
-        rec["pr_status"][idx] = "merged"
-        rec["merged_flags"][idx] = True
+rec["pr_states"][idx] = "merged"
+rec["pr_status"][idx] = "merged"
+rec["merged_flags"][idx] = True
 
-        new_updated_ts = get_current_updated_timestamp()
-        rec["updated_ts"][idx] = new_updated_ts
+new_updated_ts = get_current_updated_timestamp()
+rec["updated_ts"][idx] = new_updated_ts
 
         # Command line output
-        add_terminal_message(
+add_terminal_message(
             data,
-            f"PR # "{pr_number} has been merged into {owner}/{repo_name}."
+f"PR # {pr_number} has been merged into {owner}/{repo_name}.",
             new_updated_ts
         )
 
-        return json.dumps(
+return json.dumps(
             {
-                "success": f"PR # "{pr_number} has been merged into {owner}/{repo_name}."
+"success": f"PR # {pr_number} has been merged into {owner}/{repo_name}.",
                 "repo": f"{owner}/{repo_name}",
                 "pr_number": pr_number,
                 "state": "merged",
@@ -115,8 +115,8 @@ class MarkPRasMerged(Tool):
             indent=2
         )
 
-    @staticmethod
-    def get_info() -> Dict[str, Any]:
+@staticmethod
+def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {

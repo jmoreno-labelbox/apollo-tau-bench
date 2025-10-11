@@ -321,7 +321,7 @@ TASKS = [
         instruction="Attend to GitHub access issues for candidate cand_3. Examine the 'GitHub' system, inform the manager, update the records, and record the note as 'Resolved by IT.'",
         actions=[
             Action(name="AnalyzeSystemAccessFailures", kwargs={'system_name': 'GitHub'}),
-            Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_3', 'template_name': 'it_support_request', 'to_emails': ['it-support@example.com'], 'template_context': {'GitHub': {'failure_notes': ['Account not yet provisioned. IT ticket # '12345 generated.']}}}),
+Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_3', 'template_name': 'it_support_request', 'to_emails': ['it-support@example.com'], 'template_context': {'GitHub': {'failure_notes': ['Account not yet provisioned. IT ticket # 12345 generated.']}}}),
             Action(name="NotifyManager", kwargs={'candidate_id': 'cand_3', 'notification_type': 'access_issue'}),
             Action(name="UpdateAccessCheckStatus", kwargs={'candidate_id': 'cand_3', 'system_name': 'GitHub', 'new_status': 'Success', 'note': 'Resolved by IT.'}),
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_3'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),

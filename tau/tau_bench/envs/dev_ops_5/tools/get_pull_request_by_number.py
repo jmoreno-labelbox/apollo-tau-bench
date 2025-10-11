@@ -15,9 +15,9 @@ class GetPullRequestByNumber(Tool):
         for pr in prs:
             if pr.get("repository_id") == repo_id and pr.get("number") == pr_number:
                 return json.dumps(pr)
-        return json.dumps({"error": f"PR # "Pull request {pr_number} in repository '{repo_id}' is missing."
-    @staticmethod
-    def get_info() -> Dict[str, Any]:
+return json.dumps({"error": f"Pull request {pr_number} in repository '{repo_id}' is missing."})
+@staticmethod
+def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {

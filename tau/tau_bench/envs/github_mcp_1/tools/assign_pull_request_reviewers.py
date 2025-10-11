@@ -53,49 +53,49 @@ class AssignPullRequestReviewers(Tool):
             return json.dumps({"error": f"No pull requests found for '{owner}/{repo_name}'."}, indent=2)
 
         pr_numbers: List[int] = rec.get("pr_numbers", [])
-        if pr_number not in pr_numbers:
-            return json.dumps({"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
-        idx = pr_numbers.index(pr_number)
+return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
+return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
+idx = pr_numbers.index(pr_number)
 
         # Verify the presence and correct structure of nested arrays.
-        rec.setdefault("reviewers", [])
-        rec.setdefault("review_states", [])
-        rec.setdefault("review_events", [])
-        rec.setdefault("updated_ts", [])
-        rec.setdefault("created_ts", [])
+rec.setdefault("reviewers", [])
+rec.setdefault("review_states", [])
+rec.setdefault("review_events", [])
+rec.setdefault("updated_ts", [])
+rec.setdefault("created_ts", [])
 
-        while len(rec["reviewers"]) <= idx: rec["reviewers"].append([])
-        while len(rec["review_states"]) <= idx: rec["review_states"].append([])
-        while len(rec["review_events"]) <= idx: rec["review_events"].append([])
-        while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
+while len(rec["reviewers"]) <= idx: rec["reviewers"].append([])
+while len(rec["review_states"]) <= idx: rec["review_states"].append([])
+while len(rec["review_events"]) <= idx: rec["review_events"].append([])
+while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
 
         # Every PR maintains a list of groups for reviewers/states/events; verify that the initial group is present.
-        if not isinstance(rec["reviewers"][idx], list): rec["reviewers"][idx] = []
-        if not isinstance(rec["review_states"][idx], list): rec["review_states"][idx] = []
-        if not isinstance(rec["review_events"][idx], list): rec["review_events"][idx] = []
+if not isinstance(rec["reviewers"][idx], list): rec["reviewers"][idx] = []
+if not isinstance(rec["review_states"][idx], list): rec["review_states"][idx] = []
+if not isinstance(rec["review_events"][idx], list): rec["review_events"][idx] = []
 
-        if len(rec["reviewers"][idx]) == 0: rec["reviewers"][idx].append([])
-        if len(rec["review_states"][idx]) == 0: rec["review_states"][idx].append([])
-        if len(rec["review_events"][idx]) == 0: rec["review_events"][idx].append([])
+if len(rec["reviewers"][idx]) == 0: rec["reviewers"][idx].append([])
+if len(rec["review_states"][idx]) == 0: rec["review_states"][idx].append([])
+if len(rec["review_events"][idx]) == 0: rec["review_events"][idx].append([])
 
-        reviewers_list: List[str] = rec["reviewers"][idx][0]
-        states_list: List[str] = rec["review_states"][idx][0]
-        events_list: List[str] = rec["review_events"][idx][0]
+reviewers_list: List[str] = rec["reviewers"][idx][0]
+states_list: List[str] = rec["review_states"][idx][0]
+events_list: List[str] = rec["review_events"][idx][0]
 
-        if not isinstance(reviewers_list, list): 
+if not isinstance(reviewers_list, list):
             reviewers_list = []
             rec["reviewers"][idx][0] = reviewers_list
-        if not isinstance(states_list, list): 
+if not isinstance(states_list, list):
             states_list = []
             rec["review_states"][idx][0] = states_list
-        if not isinstance(events_list, list): 
+if not isinstance(events_list, list):
             events_list = []
             rec["review_events"][idx][0] = events_list
 
-        added: List[str] = []
-        skipped_existing: List[str] = []
+added: List[str] = []
+skipped_existing: List[str] = []
 
-        for user in reviewers_input:
+for user in reviewers_input:
             if user in reviewers_list:
                 skipped_existing.append(user)
             else:
@@ -105,14 +105,14 @@ class AssignPullRequestReviewers(Tool):
                 added.append(user)
 
         # Fixed deterministic increment of updated_ts
-        new_updated_ts = get_current_updated_timestamp()
-        rec["updated_ts"][idx] = new_updated_ts
+new_updated_ts = get_current_updated_timestamp()
+rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"Assigned reviewers to PR # Retrieve the current updated timestamp for {owner}/{repo_name} associated with PR number {pr_number}.
+add_terminal_message(data, f"Assigned reviewers to PR # Retrieve the current updated timestamp for {owner}/{repo_name} associated with PR number {pr_number}.")
 
-        return json.dumps(
+return json.dumps(
             {
-                "success": f"Assigned reviewers to PR # Pull request number {pr_number} for the repository {owner}/{repo_name}.
+"success": f"Assigned reviewers to PR # Pull request number {pr_number} for the repository {owner}/{repo_name}.",
                 "repo": f"{owner}/{repo_name}",
                 "pr_number": pr_number,
                 "added_reviewers": added,
@@ -123,8 +123,8 @@ class AssignPullRequestReviewers(Tool):
             indent=2
         )
 
-    @staticmethod
-    def get_info() -> Dict[str, Any]:
+@staticmethod
+def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {

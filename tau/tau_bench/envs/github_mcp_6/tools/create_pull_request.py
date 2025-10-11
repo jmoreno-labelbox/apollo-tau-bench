@@ -144,10 +144,10 @@ class CreatePullRequest(Tool):
 
         # Identify associated issues (analyze content for issue mentions)
         linked_issues = []
-        for issue_entry in issues_data:
-            if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
-                for i, issue_number in enumerate(issue_entry.get("issue_numbers", [])):
-                    if f"#{issue_number}" in body or f"closes #{issue_number}" in body.lower() or f"fixes # {issue_number} is present in body.lower() or f"fixes #{issue_number}" exists in body.lower():
+for issue_entry in issues_data:
+if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
+for i, issue_number in enumerate(issue_entry.get("issue_numbers", [])):
+if f"#{issue_number}" in body or f"closes #{issue_number}" in body.lower() or f"fixes #{issue_number}" in body.lower():
                         linked_issues.append(issue_number)
 
         # Identify conflicting pull requests (mocked on the same base branch).

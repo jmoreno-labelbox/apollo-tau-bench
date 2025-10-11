@@ -52,11 +52,11 @@ class PostSlackMessage(Tool):
             "type": "function",
             "function": {
                 "name": "post_slack_message",
-                "description": "Post a message record to Slack notifications (e.g., # access-requests).
+"description": "Post a message record to Slack notifications (e.g., # access-requests).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "channel": {"type": "string", "description": "Slack channel name (e.g., # access-requests).
+"channel": {"type": "string", "description": "Slack channel name (e.g., # access-requests)."},
                         "message": {"type": "string", "description": "Message text."},
                         "username": {"type": "string", "description": "Posting bot username.", "default": "RBAC_BOT"},
                         "timestamp": {"type": "string", "description": "ISO timestamp (optional)."}

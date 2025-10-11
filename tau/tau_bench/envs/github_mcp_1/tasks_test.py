@@ -158,7 +158,7 @@ Task(
     annotator="0",
     user_id="task_32",
     instruction=(
-        "Operate as 'server-main' with 'backend@coreservices.io' and auth key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. For 'payments-service', append a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13, close issue # 13, resolve issue #15, and then list all issues for the repository.
+"Operate as 'server-main' with 'backend@coreservices.io' and auth key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. For 'payments-service', append a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13, close issue # 13, resolve issue #15, and then list all issues for the repository."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -343,7 +343,7 @@ Task(
     annotator="0",
     user_id="task_34",
     instruction=(
-        "Handle the authorization and merge pull request # 12 for the 'ui-kit' repo as 'design-team' using the email 'team@uidesign.co' and auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'.
+"Handle the authorization and merge pull request # 12 for the 'ui-kit' repo as 'design-team' using the email 'team@uidesign.co' and auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'.",
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -458,7 +458,7 @@ Task(
     annotator="0",
     user_id="task_01",
     instruction=(
-        "Operate as 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task involves adding a new security policy to the repository 'acme-webapp' (description: 'A sample demonstration repository') by creating a feature branch 'feature-security-policy'. This branch should introduce a file named 'SECURITY.md' at the root of the repository containing '## Security Policy. Report any vulnerabilities to security@acme.dev within 24 hours. Then, create a pull request to 'main' titled 'Add security policy' with the description 'Add SECURITY.md containing coordinated disclosure guidelines.' for these changes.
+"Operate as 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task involves adding a new security policy to the repository 'acme-webapp' (description: 'A sample demonstration repository') by creating a feature branch 'feature-security-policy'. This branch should introduce a file named 'SECURITY.md' at the root of the repository containing '## Security Policy. Report any vulnerabilities to security@acme.dev within 24 hours.' Then, create a pull request to 'main' titled 'Add security policy' with the description 'Add SECURITY.md containing coordinated disclosure guidelines.' for these changes."
     ),
     actions=[
         Action(
@@ -471,7 +471,7 @@ Task(
         ),
         Action(
             name="AddNewFileInRepo",
-            kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "feature-security-policy", "file_name": "SECURITY.md", "file_content": "## Security Policy: Report any vulnerabilities to security@acme.dev within 24 hours.
+kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "feature-security-policy", "file_name": "SECURITY.md", "file_content": "## Security Policy: Report any vulnerabilities to security@acme.dev within 24 hours."}
         ),
         Action(
             name="InitialCommit",
@@ -492,7 +492,7 @@ Task(
     annotator="0",
     user_id="task_02",
     instruction=(
-        "Take on the role of 'maya-w' with the email 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r', then proceed to designate nathan for pull request# 5 in the 'acme-webapp' repository. He commented 'Nice Job' and approved the PR.
+"Take on the role of 'maya-w' with the email 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r', then proceed to designate nathan for pull request# 5 in the 'acme-webapp' repository. He commented 'Nice Job' and approved the PR."
     ),
     actions=[
         Action(
@@ -526,7 +526,7 @@ Task(
     annotator="0",
     user_id="task_03",
     instruction=(
-        "Act as 'design-team' with the contact 'team@uidesign.co' and the auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', then manage the process to finalize the pull request # 11, already approved and prepared for merging, for the 'ui-kit' repository. This guarantees that the main branch incorporates the approved modifications and cleans up the feature branch.
+"Act as 'design-team' with the contact 'team@uidesign.co' and the auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', then manage the process to finalize the pull request # 11, already approved and prepared for merging, for the 'ui-kit' repository. This guarantees that the main branch incorporates the approved modifications and cleans up the feature branch."
     ),
     actions=[
         Action(
@@ -814,12 +814,12 @@ Task(
     annotator="0",
     user_id="task_11",
     instruction=(
-        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' results in a new document at 'docs/RELEASE_NOTES_1.1.0.md' whose contents are precisely '## 1.1.0 - Small corrections - Documentation update. This change should start at the line labeled 'release-notes-1.1.0', authored by 'maya-w', and submitted via a pull request titled 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be evaluated by 'nathan'.
+"You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' results in a new document at 'docs/RELEASE_NOTES_1.1.0.md' whose contents are precisely '## 1.1.0 - Small corrections - Documentation update'. This change should start at the line labeled 'release-notes-1.1.0', authored by 'maya-w', and submitted via a pull request titled 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be evaluated by 'nathan'."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation update
+Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation update"})
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -1583,7 +1583,7 @@ Task(
     annotator="0",
     user_id="task_37",
     instruction=(
-        "Act as 'design-team' with 'team@uidesign.co' using the auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Proceed to merge the current pull request # 11 within the 'ui-kit' repository.
+"Act as 'design-team' with 'team@uidesign.co' using the auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Proceed to merge the current pull request # 11 within the 'ui-kit' repository."
     ),
     actions=[
         Action(
@@ -1707,7 +1707,7 @@ Task(
     annotator="0",
     user_id="task_41",
     instruction=(
-        "Act as 'design-team' with the email 'team@uidesign.co' and authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to incorporate a new security policy into the present repository 'ui-kit' (description: 'A sample demonstration repository'). Introduce this by creating a feature branch 'feature-security-policy' which adds a file titled 'SECURITY.md' at the root of the repository containing '## Security Policy. Report any vulnerabilities to security@acme.dev within 24 hours. To implement this update, submit a pull request to 'main' titled 'Add security policy' and include a description of 'Introduce SECURITY.md with coordinated disclosure guidelines.'
+"Act as 'design-team' with the email 'team@uidesign.co' and authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to incorporate a new security policy into the present repository 'ui-kit' (description: 'A sample demonstration repository'). Introduce this by creating a feature branch 'feature-security-policy' which adds a file titled 'SECURITY.md' at the root of the repository containing '## Security Policy. Report any vulnerabilities to security@acme.dev within 24 hours. To implement this update, submit a pull request to 'main' titled 'Add security policy' and include a description of 'Introduce SECURITY.md with coordinated disclosure guidelines.'")
     ),
     actions=[
         Action(
@@ -1720,7 +1720,7 @@ Task(
         ),
         Action(
             name="AddNewFileInRepo",
-            kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-security-policy", "file_name": "SECURITY.md", "file_content": "## Security policy: Report any vulnerabilities to security@acme.dev within 24 hours.
+kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-security-policy", "file_name": "SECURITY.md", "file_content": "## Security policy: Report any vulnerabilities to security@acme.dev within 24 hours."}
         ),
         Action(
             name="InitialCommit",
@@ -1736,12 +1736,12 @@ Task(
         ),
     ],
     outputs=[]
-),
+]
 Task(
     annotator="0",
     user_id="task_42",
     instruction=(
-        "Assume the identity of 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task is to delegate the assignment of nathan to pull request# 5 in the 'acme-webapp' repository, where he remarked 'Great Work' and approved the PR.
+"Assume the identity of 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task is to delegate the assignment of nathan to pull request# 5 in the 'acme-webapp' repository, where he remarked 'Great Work' and approved the PR."
     ),
     actions=[
         Action(
@@ -1859,7 +1859,7 @@ Task(
     annotator="0",
     user_id="task_47",
     instruction=(
-        "Operating as 'maya-w' with 'alice.w@acme.dev' and the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r', your responsibility is to ensure that the repository 'acme-webapp' receives a new document at 'docs/RELEASE_NOTES_1.1.0.md', containing exactly '## Version 1.1.0 - Small updates - Documentation revision. This change should originate from the 'release-notes-1.1.0' branch, created by 'maya-w', and merged through a pull request titled 'Docs: Release notes 1.1.0', containing the description 'Include release notes for version 1.1.0.' The pull request requires review by 'nathan'.
+"Operating as 'maya-w' with 'alice.w@acme.dev' and the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r', your responsibility is to ensure that the repository 'acme-webapp' receives a new document at 'docs/RELEASE_NOTES_1.1.0.md', containing exactly '## Version 1.1.0 - Small updates - Documentation revision.' This change should originate from the 'release-notes-1.1.0' branch, created by 'maya-w', and merged through a pull request titled 'Docs: Release notes 1.1.0', containing the description 'Include release notes for version 1.1.0.' The pull request requires review by 'nathan'."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
@@ -2176,7 +2176,7 @@ Task(
     annotator="0",
     user_id="task_55",
     instruction=(
-        "Operating as 'design-team' with 'team@uidesign.co' and using the authorization key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', coordinate the merge of the existing pull request # 11 within the 'ui-kit' repository.
+"Operating as 'design-team' with 'team@uidesign.co' and using the authorization key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', coordinate the merge of the existing pull request # 11 within the 'ui-kit' repository."
     ),
     actions=[
         Action(
@@ -2474,7 +2474,7 @@ Task(
     annotator="0",
     user_id="task_63",
     instruction=(
-        "Function as 'maya-w' with 'alice.w@acme.dev' and authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your role is to appoint nathan to pull request# 5 in the 'acme-webapp' repository, where he commented 'Great work' and approved the PR.
+"Function as 'maya-w' with 'alice.w@acme.dev' and authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your role is to appoint nathan to pull request# 5 in the 'acme-webapp' repository, where he commented 'Great work' and approved the PR."
     ),
     actions=[
         Action(
@@ -2513,7 +2513,7 @@ Task(
     annotator="0",
     user_id="task_64",
     instruction=(
-        "As 'server-main' with 'backend@coreservices.io' and using the auth key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h', for 'payments-service', insert a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13, close issue # 13, resolve issue #15, and then generate a comprehensive list of all issues in the repository.
+"As 'server-main' with 'backend@coreservices.io' and using the auth key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h', for 'payments-service', insert a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13, close issue # 13, resolve issue #15, and then generate a comprehensive list of all issues in the repository."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -2665,12 +2665,12 @@ Task(
     annotator="0",
     user_id="task_69",
     instruction=(
-        "Act as 'maya-w' with 'alice.w@acme.dev' and the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to confirm that the repository 'acme-webapp' culminates in a new document at 'docs/RELEASE_NOTES_1.1.0.md' with contents precisely '## 1.1.0 - Minor adjustments - Documentation revision. This change should start from the 'release-notes-1.1.0' branch, be created by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'.
+"Act as 'maya-w' with 'alice.w@acme.dev' and the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to confirm that the repository 'acme-webapp' culminates in a new document at 'docs/RELEASE_NOTES_1.1.0.md' with contents precisely '## 1.1.0 - Minor adjustments - Documentation revision'. This change should start from the 'release-notes-1.1.0' branch, be created by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation revision
+Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation revision"}),
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -2916,12 +2916,12 @@ Task(
     annotator="0",
     user_id="task_75",
     instruction=(
-        "Assume the identity of 'maya-w' with 'alice.w@acme.dev' and utilize the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your duty is to guarantee that the repository 'acme-webapp' is updated to include a new document at 'docs/RELEASE_NOTES_1.1.0.md', containing exactly '## Version 1.1.0 - Minor corrections - Documentation update. This change should originate from the 'release-notes-1.1.0' branch, be created by 'maya-w', and submitted via a pull request titled 'Docs: Release notes 1.1.0' with the description 'Add release notes for version 1.1.0.' Reviews are to be finalized by 'nathan'.
+"Assume the identity of 'maya-w' with 'alice.w@acme.dev' and utilize the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your duty is to guarantee that the repository 'acme-webapp' is updated to include a new document at 'docs/RELEASE_NOTES_1.1.0.md', containing exactly '## Version 1.1.0 - Minor corrections - Documentation update'. This change should originate from the 'release-notes-1.1.0' branch, be created by 'maya-w', and submitted via a pull request titled 'Docs: Release notes 1.1.0' with the description 'Add release notes for version 1.1.0.' Reviews are to be finalized by 'nathan'."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor adjustments - Documentation update
+Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor adjustments - Documentation update"}),
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -3149,12 +3149,12 @@ Task(
     annotator="0",
     user_id="task_82",
     instruction=(
-        "Act as 'maya-w' with 'alice.w@acme.dev' and your auth key is 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to have the repository 'acme-webapp' achieve the state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' is in place, with the exact contents '## 1.1.0 - Small corrections - Documentation update. This change should originate from the line labeled 'release-notes-1.1.0', be authored by 'maya-w', and implemented via a pull request named 'Docs: Release notes 1.1.0' with the content 'Include release notes for version 1.1.0.' The pull request must be approved by 'nathan'.
+"Act as 'maya-w' with 'alice.w@acme.dev' and your auth key is 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to have the repository 'acme-webapp' achieve the state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' is in place, with the exact contents '## 1.1.0 - Small corrections - Documentation update.' This change should originate from the line labeled 'release-notes-1.1.0', be authored by 'maya-w', and implemented via a pull request named 'Docs: Release notes 1.1.0' with the content 'Include release notes for version 1.1.0.' The pull request must be approved by 'nathan'."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Bug fixes - Documentation update
+Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Bug fixes - Documentation update"})
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -3355,7 +3355,7 @@ Task(
     annotator="0",
     user_id="task_88",
     instruction=(
-        "As 'server-main' using 'backend@coreservices.io' with the authorization key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h', proceed with adding a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13 within 'payments-service', and ensure closing issue # 13 in 'payments-service', and close issue #15, then enumerate all issues for the repository.
+"As 'server-main' using 'backend@coreservices.io' with the authorization key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h', proceed with adding a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13 within 'payments-service', and ensure closing issue # 13 in 'payments-service', and close issue #15, then enumerate all issues for the repository."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -3423,7 +3423,7 @@ Task(
     annotator="0",
     user_id="task_90",
     instruction=(
-        "As 'design-team' using 'team@uidesign.co' and the authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', handle the approval and merging of pull request # 12 for the UI kit repository.
+"As 'design-team' using 'team@uidesign.co' and the authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', handle the approval and merging of pull request # 12 for the UI kit repository."
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -3613,7 +3613,7 @@ Task(
 annotator="0",
 user_id="task_95",
     instruction=(
-        "You are 'server-main' with 'backend@coreservices.io' and auth key as 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. Resolve the open issue # In 'payments-service' issue 15, labeled 'Timeout too aggressive': add a QA verification comment 'Confirmed 60s timeout in staging.' from 'qa-erin'.
+"You are 'server-main' with 'backend@coreservices.io' and auth key as 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. Resolve the open issue # In 'payments-service' issue 15, labeled 'Timeout too aggressive': add a QA verification comment 'Confirmed 60s timeout in staging.' from 'qa-erin'.")
     ),
 actions=[
 Action(name="AuthenticateUser", kwargs={
@@ -3635,7 +3635,7 @@ Action(name="CloseIssue", kwargs={
 }),
 ],
 outputs=[]
-),
+]
 Task(
     annotator="0",
     user_id="task_96",

@@ -36,7 +36,7 @@ TASKS = [
         annotator='0',
         user_id="task_28",
     instruction=(
-        "You act as 'app-developer'. In 'flutter-finance-app', assess Issue #18 along with PR # 18 in conjunction with PR #26. Approve the PR with the comment: 'Please verify rendering on actual devices for iOS 14 and 15,' requesting confirmation for iOS 14/15, and label the issue as 'ios1'. Obtain the latest terminal message, then append 'flutter-finance-app iOS charts fix in validation.'
+"You act as 'app-developer'. In 'flutter-finance-app', assess Issue #18 along with PR #18 in conjunction with PR #26. Approve the PR with the comment: 'Please verify rendering on actual devices for iOS 14 and 15,' requesting confirmation for iOS 14/15, and label the issue as 'ios1'. Obtain the latest terminal message, then append 'flutter-finance-app iOS charts fix in validation.'")
     ),
         actions=[
             Action(name="GetMe", kwargs={"username": "app-developer"}),
@@ -57,7 +57,7 @@ TASKS = [
             Action(name="AppendTerminal", kwargs={"message": "flutter-finance-app iOS charts fix under validation"}),
         ],
         outputs=['"message": "flutter-finance-app iOS charts fix under validation"'],
-    ),
+)
 
     # 45
     Task(

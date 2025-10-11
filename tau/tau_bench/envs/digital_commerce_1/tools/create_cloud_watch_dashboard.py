@@ -11,22 +11,22 @@ class CreateCloudWatchDashboard(Tool):
     def invoke(data, environment: str, purpose: str = "cache") -> str:
         dashboards = _ensure_table(data, "aws_cloudwatch_dashboards")
         dashboard_name = _stable_id("dash", environment, purpose)
-        url = f"https://console.aws.amazon.com/cloudwatch/home# dashboards:name={dashboard_identifier}
-        row = _find_one(dashboards, dashboard_name=dashboard_name)
-        payload = {
+url = f"https://console.aws.amazon.com/cloudwatch/home#dashboards:name={dashboard_identifier}"
+row = _find_one(dashboards, dashboard_name=dashboard_name)
+payload = {
             "dashboard_name": dashboard_name,
             "purpose": purpose,
             "environment": environment,
             "url": url,
         }
-        if row:
+if row:
             row.update({**payload, "updated_at": FIXED_NOW})
-        else:
+else:
             dashboards.append({**payload, "created_at": FIXED_NOW})
-        return _json({"dashboard_name": dashboard_name, "url": url})
+return _json({"dashboard_name": dashboard_name, "url": url})
 
-    @staticmethod
-    def get_info():
+@staticmethod
+def get_info():
         return {
             "type": "function",
             "function": {

@@ -48,7 +48,7 @@ class GetAlertDetails(Tool):
         alert_numbers: List[int] = rec.get("alert_numbers", [])
         if alert_number not in alert_numbers:
             return json.dumps(
-                {"error": f"Alert # "{alert_number} is missing for '{owner}/{repo_name}'."
+{"error": f"Alert # {alert_number} is missing for '{owner}/{repo_name}'."},
                 indent=2
             )
 

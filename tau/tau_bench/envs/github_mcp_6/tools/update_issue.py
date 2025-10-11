@@ -152,8 +152,8 @@ class UpdateIssue(Tool):
 
         return json.dumps({
             "success": False,
-            "error": f"Issue # "{issue_number} does not exist in the {owner}/{repo} repository."
-            "error_code": "ISSUE_NOT_FOUND",
+"error": f"Issue # {issue_number} does not exist in the {owner}/{repo} repository."
+"error_code": "ISSUE_NOT_FOUND",
             "metadata": {
                 "repository": f"{owner}/{repo}",
                 "requested_issue": issue_number,

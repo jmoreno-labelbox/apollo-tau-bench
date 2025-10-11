@@ -34,7 +34,7 @@ class GetPullRequestTool(Tool):
         if not pull_request:
             return json.dumps({
                 "status": "error",
-                "message": f"Pull request # Pull request number {pr_number} does not exist in the '{repo}' repository.
+"message": f"Pull request number {pr_number} does not exist in the '{repo}' repository.",
             }, indent=2)
 
         return json.dumps({

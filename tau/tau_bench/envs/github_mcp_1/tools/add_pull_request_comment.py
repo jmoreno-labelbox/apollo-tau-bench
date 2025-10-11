@@ -48,8 +48,8 @@ class AddPullRequestComment(Tool):
             return json.dumps({"error": f"No pull requests found for '{owner}/{repo_name}'."}, indent=2)
 
         pr_numbers = rec.get("pr_numbers", [])
-        if pr_number not in pr_numbers:
-            return json.dumps({"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
+if pr_number not in pr_numbers:
+return json.dumps({"error": f"PR # {pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
         idx = pr_numbers.index(pr_number)
 
         # ---- Verify the existence of comments/users structures (thread 0) ----

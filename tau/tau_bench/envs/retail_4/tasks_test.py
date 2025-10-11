@@ -60,7 +60,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_2",
         instruction=(
-            "You are assisting customer Chen Moore (user_id: chen_moore_6080) in updating their account profile and adding a fresh payment method. The customer currently resides at 275 Cedar Avenue, Suite 148, San Diego, NV 91087, USA, but plans to relocate to a new address in San Diego at 456 Sunset Boulevard, Apt 12B, San Diego, NV 90028, USA. They wish to incorporate a gift card with a balance of $500, update their delivery address to this new Sunset Boulevard location, and ensure that their current order # W9205196 can be sent to the revised address: 456 Sunset Boulevard, Apt 12B, San Diego, NV 90028, USA.
+        "You are assisting customer Chen Moore (user_id: chen_moore_6080) in updating their account profile and adding a fresh payment method. The customer currently resides at 275 Cedar Avenue, Suite 148, San Diego, NV 91087, USA, but plans to relocate to a new address in San Diego at 456 Sunset Boulevard, Apt 12B, San Diego, NV 90028, USA. They wish to incorporate a gift card with a balance of $500, update their delivery address to this new Sunset Boulevard location, and ensure that their current order # W9205196 can be sent to the revised address: 456 Sunset Boulevard, Apt 12B, San Diego, NV 90028, USA."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Chen", "last_name": "Moore", "user_id": "chen_moore_6080"}),
@@ -106,7 +106,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_3",
         instruction=(
-            "As a customer service representative, you are tasked with managing a return request from Sofia Li (user_id: sofia_li_3261) regarding items from her completed order # W6874763. The client received a defective e-reader and an action camera in the wrong color. Verify her identity, review her order history, confirm the order's validity, process the return request, and change the order status to for return. Additionally, validate the shipping address and calculate the return shipping fee using the original courier.
+"As a customer service representative, you are tasked with managing a return request from Sofia Li (user_id: sofia_li_3261) regarding items from her completed order # W6874763. The client received a defective e-reader and an action camera in the wrong color. Verify her identity, review her order history, confirm the order's validity, process the return request, and change the order status to for return. Additionally, validate the shipping address and calculate the return shipping fee using the original courier."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Sofia", "last_name": "Li", "user_id": "sofia_li_3261"}),
@@ -188,7 +188,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_5",
         instruction=(
-            "Assume the identity of Lucas Rodriguez (user_id: lucas_rodriguez_6635) located at 477 Park Avenue, Suite 558, Houston, NM 75277, USA. As a regular customer with 4 past orders, review the status of all your orders (#W6893533, #W8770097, #W5183325, #W3913498). Especially focus on order # W6893533, #W8770097, #W5183325, #W3913498). Pay particular attention to order #W8770097 and change the delivery address to a temporary site at 500 Commerce Street, Suite 100, Houston, NM 75202, USA for this order.
+"Assume the identity of Lucas Rodriguez (user_id: lucas_rodriguez_6635) located at 477 Park Avenue, Suite 558, Houston, NM 75277, USA. As a regular customer with 4 past orders, review the status of all your orders (#W6893533, #W8770097, #W5183325, #W3913498). Especially focus on order #W6893533, #W8770097, #W5183325, #W3913498. Pay particular attention to order #W8770097 and change the delivery address to a temporary site at 500 Commerce Street, Suite 100, Houston, NM 75202, USA for this order."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Ivan", "last_name": "Santos", "user_id": "lucas_rodriguez_6635"}),
@@ -318,7 +318,7 @@ TASKS = [
     annotator="0",
         user_id="V5TSK_USR_8",
         instruction=(
-            "You are Ethan Khan (user_id: noah_khan_3904) residing at 264 Elm Street, Suite 579, San Diego, NV 92117, USA. Order # You created order W4347784, but it needs to be canceled due to changed conditions. Please check the order status, initiate the cancellation, process a refund to your Visa card, and then place a new order for a single budget-friendly water bottle.
+"You are Ethan Khan (user_id: noah_khan_3904) residing at 264 Elm Street, Suite 579, San Diego, NV 92117, USA. Order # You created order W4347784, but it needs to be canceled due to changed conditions. Please check the order status, initiate the cancellation, process a refund to your Visa card, and then place a new order for a single budget-friendly water bottle."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Ethan", "last_name": "Khan", "user_id": "noah_khan_3904"}),
@@ -555,7 +555,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_13",
         instruction=(
-            "As a customer service representative, you're addressing an escalated case for VIP customer Mei Anderson (user_id: mei_anderson_1792) located at 319 Laurel Lane, Suite 319, Raleigh, NC 28260, USA. The customer has a complaint regarding their order # W4498118 is still pending and requires urgent processing for a crucial business presentation. Verify their identity and the ordered items, review their order history and current status. If any items are out of stock, update the order status to reflect a return.
+"As a customer service representative, you're addressing an escalated case for VIP customer Mei Anderson (user_id: mei_anderson_1792) located at 319 Laurel Lane, Suite 319, Raleigh, NC 28260, USA. The customer has a complaint regarding their order # W4498118 is still pending and requires urgent processing for a crucial business presentation. Verify their identity and the ordered items, review their order history and current status. If any items are out of stock, update the order status to reflect a return."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Mei", "last_name": "Wilson", "user_id": "mei_anderson_1792"}),
@@ -647,7 +647,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_17",
         instruction=(
-            "You are Olivia Johnson (user_id: olivia_johnson_8564), responsible for managing supplies. Adjust the stock levels of 2235648106 to 200 units. Update the supplier # SUP0003 contact number and email: +1-800-555-NEW1 phonesupplier@example.com.
+"You are Olivia Johnson (user_id: olivia_johnson_8564), responsible for managing supplies. Adjust the stock levels of 2235648106 to 200 units. Update the supplier # SUP0003 contact number and email: +1-800-555-NEW1 phonesupplier@example.com."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Emma", "last_name": "Smith", "user_id": "olivia_johnson_8564"}),
@@ -1114,7 +1114,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_30",
         instruction=(
-            "Identify yourself as Mei Anderson (user_id: mei_anderson_1792), who is a store manager for the retail company. Supplier #SUP0007, your usual source, is encountering challenges with grill orders. Review supplier # Supplier #SUP0007 is having issues with grill orders. Check their inventory for items with the highest stock to see if they can fulfill an order of at least 20 units. After your assessment, place a new supply order and update the inventory by reducing it by 20 units.
+"Identify yourself as Mei Anderson (user_id: mei_anderson_1792), who is a store manager for the retail company. Supplier #SUP0007, your usual source, is encountering challenges with grill orders. Review supplier #SUP0007's inventory for items with the highest stock to see if they can fulfill an order of at least 20 units. After your assessment, place a new supply order and update the inventory by reducing it by 20 units."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Mei", "last_name": "Wilson", "user_id": "mei_anderson_1792"}),
@@ -1149,7 +1149,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_31",
         instruction=(
-            "You are Omar Rodriguez (user_id: omar_rodriguez_4830), serving as a supply chain manager for the retail company. Handle the task of updating the pricing terms for an existing supply order # SO6035 requires updates due to cost changes. Examine the supply order specifics, adjust the terms to COD with the new price of $30.0, and increase inventory by 45 units as needed.
+"You are Omar Rodriguez (user_id: omar_rodriguez_4830), serving as a supply chain manager for the retail company. Handle the task of updating the pricing terms for an existing supply order # SO6035 requires updates due to cost changes. Examine the supply order specifics, adjust the terms to COD with the new price of $30.0, and increase inventory by 45 units as needed."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Omar", "last_name": "Santos", "user_id": "omar_rodriguez_4830"}),
@@ -1249,7 +1249,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_34",
         instruction=(
-            "Being William Lee (user_id: william_lee_5010), a supply chain expert managing supplier # SUP0011, confirm the correctness of the supplier's data and update performance ratings according to the latest assessments. Also, ensure that the stock of electric toothbrushes is maintained at an optimal level of 200 units.
+"Being William Lee (user_id: william_lee_5010), a supply chain expert managing supplier # SUP0011, confirm the correctness of the supplier's data and update performance ratings according to the latest assessments. Also, ensure that the stock of electric toothbrushes is maintained at an optimal level of 200 units."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Lee", "user_id": "william_lee_5010"}),
@@ -1380,7 +1380,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_37",
         instruction=(
-            "Your role is Ahmad Harris (ahmad_harris_7149), a procurement specialist in charge of managing supplier relationships. Supplier # SUP0003 has revised their contact details, requiring a system update. Examine their current information, update the contact info (email newsupport@premiumparts.com, phone +1-800-555-0134), and change the performance rating to 4.2. Also, add notes indicating the supplier is reliable. You must also verify their capacity, investigate the products they offer, check inventory levels, and evaluate their supply orders.
+"Your role is Ahmad Harris (ahmad_harris_7149), a procurement specialist in charge of managing supplier relationships. Supplier # SUP0003 has revised their contact details, requiring a system update. Examine their current information, update the contact info (email newsupport@premiumparts.com, phone +1-800-555-0134), and change the performance rating to 4.2. Also, add notes indicating the supplier is reliable. You must also verify their capacity, investigate the products they offer, check inventory levels, and evaluate their supply orders."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Yusuf", "last_name": "Taylor", "user_id": "ahmad_harris_7149"}),
@@ -1688,7 +1688,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_43",
         instruction=(
-            "You are Mia Russo (mia_russo_7776), the procurement manager tasked with conducting a detailed supplier performance evaluation for electronics suppliers. Evaluate suppliers #SUP0001, #SUP0004, and # Check the capacity of SUP0001, SUP0004, and SUP0007, and revise their performance ratings and comments.
+"You are Mia Russo (mia_russo_7776), the procurement manager tasked with conducting a detailed supplier performance evaluation for electronics suppliers. Evaluate suppliers #SUP0001, #SUP0004, and #SUP0007. Check the capacity of SUP0001, SUP0004, and SUP0007, and revise their performance ratings and comments."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Anya", "last_name": "Rossi", "user_id": "mia_russo_7776"}),
@@ -1925,7 +1925,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_47",
         instruction=(
-            "You are Omar Jackson (omar_jackson_3107), a procurement assistant handling routine maintenance tasks for supplier # SUP0005. Examine their information, update their performance rating, and supply revised feedback.
+"You are Omar Jackson (omar_jackson_3107), a procurement assistant handling routine maintenance tasks for supplier # SUP0005. Examine their information, update their performance rating, and supply revised feedback."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Omar", "last_name": "Lopez", "user_id": "omar_jackson_3107"}),
@@ -2019,7 +2019,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_50",
         instruction=(
-            "You are Lei Khan (user_id: lei_khan_6353), responsible for managing inventory setup for a new product line in collaboration with supplier # SUP0008. Confirm supplier details, update their rating based on recent assessments, and update their contact email to newproducts@supplier8.com. Additionally, create a new supply order for 50 units to replace the cancelled order for product ID 6679515468, and adjust inventory to reflect the new items.
+"You are Lei Khan (user_id: lei_khan_6353), responsible for managing inventory setup for a new product line in collaboration with supplier # SUP0008. Confirm supplier details, update their rating based on recent assessments, and update their contact email to newproducts@supplier8.com. Additionally, create a new supply order for 50 units to replace the cancelled order for product ID 6679515468, and adjust inventory to reflect the new items."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Lei", "last_name": "Khan", "user_id": "lei_khan_6353"}),
@@ -2150,7 +2150,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_53",
         instruction=(
-            "As William Li (james_li_6934), a warehouse manager, you need to adjust inventory levels for supplier # SUP0010 is prompted by fluctuations in seasonal demand. Check supplier information, evaluate their capacity, adjust stock levels for recent orders by increasing them by 50 units, and create new supply orders for the same amount to meet expected demand.
+"As William Li (james_li_6934), a warehouse manager, you need to adjust inventory levels for supplier # SUP0010 is prompted by fluctuations in seasonal demand. Check supplier information, evaluate their capacity, adjust stock levels for recent orders by increasing them by 50 units, and create new supply orders for the same amount to meet expected demand."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Mason", "last_name": "Li", "user_id": "james_li_6934"}),
@@ -2297,7 +2297,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_56",
         instruction=(
-            "You are Mason Williams (mason_williams_5676), responsible for vendor relations and updating contact details for supplier # SUP0006. Their office has moved, and their contact details have been updated to +1-800-555-0167 and newoffice@supplier6.com. Update their information, confirm their current capacity, and place supply orders for the available running shoes (5 units each).
+"You are Mason Williams (mason_williams_5676), responsible for vendor relations and updating contact details for supplier # SUP0006. Their office has moved, and their contact details have been updated to +1-800-555-0167 and newoffice@supplier6.com. Update their information, confirm their current capacity, and place supply orders for the available running shoes (5 units each)."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Liam", "last_name": "Johnson", "user_id": "mason_williams_5676"}),
@@ -2423,7 +2423,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_59",
         instruction=(
-            "Assume the role of Evelyn Anderson (user_id: amelia_wilson_4999), a seasonal planning manager tasked with organizing inventory for sneaker sales with supplier # SUP0003. Review the supplier's information, update their performance data based on the latest feedback, evaluate their sneaker production capability, and create a supply order for 10 units of each available sneaker variant.
+"Assume the role of Evelyn Anderson (user_id: amelia_wilson_4999), a seasonal planning manager tasked with organizing inventory for sneaker sales with supplier # SUP0003. Review the supplier's information, update their performance data based on the latest feedback, evaluate their sneaker production capability, and create a supply order for 10 units of each available sneaker variant."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Isabella", "last_name": "Brown", "user_id": "amelia_wilson_4999"}),
@@ -2505,7 +2505,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_61",
         instruction=(
-            "As a customer service representative assisting Daiki Williams (user_id: daiki_williams_9523), you need to address the customer's request concerning order # W1436802 requires the addition of a 24MP digital camera with 3x zoom before shipment. Review the existing order, help incorporate the new product, and modify the order as needed.
+"As a customer service representative assisting Daiki Williams (user_id: daiki_williams_9523), you need to address the customer's request concerning order # W1436802 requires the addition of a 24MP digital camera with 3x zoom before shipment. Review the existing order, help incorporate the new product, and modify the order as needed."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Johnson", "user_id": "daiki_williams_9523"}),
@@ -2543,7 +2543,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_62",
         instruction=(
-            "In your role as Ella Lee, a category manager, you are tasked with expanding the electronics product line in collaboration with supplier # SUP0009. Review existing products, analyze their capacity, update the supplier email to thenewemail@example.com, and schedule supply orders of 5 units for all deliverable products.
+"In your role as Ella Lee, a category manager, you are tasked with expanding the electronics product line in collaboration with supplier # SUP0009. Review existing products, analyze their capacity, update the supplier email to thenewemail@example.com, and schedule supply orders of 5 units for all deliverable products."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Evelyn", "last_name": "Lee"}),
@@ -2675,7 +2675,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_64",
         instruction=(
-            "Identify yourself as Olivia Ito (user_id: olivia_ito_4529). You placed an order yesterday but neglected to include a small red fleece jacket. You intend to append it to your existing order # W8664580 prior to shipping. Verify your identity, check your order history, add the fleece jacket to your existing order, and complete the addition with your Visa.
+"Identify yourself as Olivia Ito (user_id: olivia_ito_4529). You placed an order yesterday but neglected to include a small red fleece jacket. You intend to append it to your existing order # W8664580 prior to shipping. Verify your identity, check your order history, add the fleece jacket to your existing order, and complete the addition with your Visa."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Emma", "last_name": "Ito", "user_id": "olivia_ito_4529"}),
@@ -2735,7 +2735,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_66",
         instruction=(
-            "You are Fatima Martinez, a procurement manager tasked with expanding supplier # Portfolio of SUP0011. The supplier aims to start providing kitchen appliances, specifically available espresso machines. You must organize supply orders for 10 units of each espresso machine variant.
+"You are Fatima Martinez, a procurement manager tasked with expanding supplier # Portfolio of SUP0011. The supplier aims to start providing kitchen appliances, specifically available espresso machines. You must organize supply orders for 10 units of each espresso machine variant."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Fatima", "last_name": "Garcia"}),
@@ -2826,7 +2826,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_69",
         instruction=(
-            "You are Olivia Kovacs (olivia_kovacs_9839), a category manager examining supplier # Evaluate SUP0010's current selection as you consider adding new t-shirt styles. Check their current inventory, confirm production capacity, identify suppliers with similar products that have a minimum of 20 units in stock, and place an order for 20 units of every available variant.
+"You are Olivia Kovacs (olivia_kovacs_9839), a category manager examining supplier # Evaluate SUP0010's current selection as you consider adding new t-shirt styles. Check their current inventory, confirm production capacity, identify suppliers with similar products that have a minimum of 20 units in stock, and place an order for 20 units of every available variant."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Emma", "last_name": "Kovacs", "user_id": "olivia_kovacs_9839"}),
@@ -2856,7 +2856,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_70",
         instruction=(
-            "You are Liam Williams (user_id: liam_williams_2067). You need to review your recent order # Review order W7016806 and consider buying an additional water bottle. Check your purchase history, validate payment methods, find a stainless steel bottle in the same color, confirm it, and complete the transaction using your credit card.
+"You are Liam Williams (user_id: liam_williams_2067). You need to review your recent order # Review order W7016806 and consider buying an additional water bottle. Check your purchase history, validate payment methods, find a stainless steel bottle in the same color, confirm it, and complete the transaction using your credit card."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Lucas", "last_name": "Johnson", "user_id": "liam_williams_2067"}),
@@ -2940,7 +2940,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_72",
         instruction=(
-            "As Luna Dean (luna_dean_2998), manage the vendor's activities to improve supplier # SUP0010's sports gear lineup aims to expand its cycling offerings beyond helmets. Evaluate their capacity, revise their data to include recent performance metrics, and arrange new purchase orders of 35 units for each available bicycle model.
+"As Luna Dean (luna_dean_2998), manage the vendor's activities to improve supplier # SUP0010's sports gear lineup aims to expand its cycling offerings beyond helmets. Evaluate their capacity, revise their data to include recent performance metrics, and arrange new purchase orders of 35 units for each available bicycle model."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Harper", "last_name": "Kim", "user_id": "luna_dean_2998"}),
@@ -3138,7 +3138,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_76",
         instruction=(
-            "Operating as Isabella Johnson (user_id: isabella_johnson_5265), a supply chain manager for the retail company, coordinate inventory updates for supplier # SUP0008 related to LED lighting products. Verify the existing information, update the contact email to 'support@smartlighting.com', check the inventory levels for LED lighting, and increase the stock by 50 units for each available variant.
+"Operating as Isabella Johnson (user_id: isabella_johnson_5265), a supply chain manager for the retail company, coordinate inventory updates for supplier # SUP0008 related to LED lighting products. Verify the existing information, update the contact email to 'support@smartlighting.com', check the inventory levels for LED lighting, and increase the stock by 50 units for each available variant."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Olivia", "last_name": "Smith", "user_id": "isabella_johnson_5265"}),
@@ -3233,7 +3233,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_79",
         instruction=(
-            "As Juan Johnson (user_id: juan_johnson_5229), a procurement specialist at the retail firm, handle supplier # Assess SUP0001 relationships, modify their contact number to '+1-555-0123', and adjust their performance rating to 5.0. Organize new t-shirt supply orders, ensuring 40 units are obtained for each item variant.
+"As Juan Johnson (user_id: juan_johnson_5229), a procurement specialist at the retail firm, handle supplier # Assess SUP0001 relationships, modify their contact number to '+1-555-0123', and adjust their performance rating to 5.0. Organize new t-shirt supply orders, ensuring 40 units are obtained for each item variant."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Juan", "last_name": "Smith", "user_id": "juan_johnson_5229"}),
@@ -3321,7 +3321,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_81",
         instruction=(
-            "Assist Ava Martinez (user_id: ava_martinez_5795) with overseeing the shipping logistics for her recent orders #W4958652 and # W4958652 and #W6447372. She has moved and plans to consolidate shipping via FleetFast Delivery for these orders. Your responsibility is to configure both orders for delivery to her new address and prepare them for shipment with her selected courier.
+"Assist Ava Martinez (user_id: ava_martinez_5795) with overseeing the shipping logistics for her recent orders #W4958652 and #W4958652 and #W6447372. She has moved and plans to consolidate shipping via FleetFast Delivery for these orders. Your responsibility is to configure both orders for delivery to her new address and prepare them for shipment with her selected courier."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={
@@ -3368,7 +3368,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_82",
         instruction=(
-            "Act as Ahmad Harris (user_id: ahmad_harris_7149), a cost analyst at the retail company. Supply order # SO6035 needs cost updates. Examine the existing terms, change the unit price to $28.50, and update the payment terms to 'COD'.
+"Act as Ahmad Harris (user_id: ahmad_harris_7149), a cost analyst at the retail company. Supply order # SO6035 needs cost updates. Examine the existing terms, change the unit price to $28.50, and update the payment terms to 'COD'."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Yusuf", "last_name": "Taylor", "user_id": "ahmad_harris_7149"}),
@@ -3418,7 +3418,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_84",
         instruction=(
-            "As a customer service representative assisting Lei Ahmed (user_id: lei_ahmed_1705), verify the status of order # W9015076. If the order is pending, add the cheapest garden hose to it. After adding, update the order status to processed.
+"As a customer service representative assisting Lei Ahmed (user_id: lei_ahmed_1705), verify the status of order # W9015076. If the order is pending, add the cheapest garden hose to it. After adding, update the order status to processed."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Lei", "last_name": "Ahmed", "user_id": "lei_ahmed_1705"}),
@@ -3458,7 +3458,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_85",
         instruction=(
-            "Assume the role of Juan Johnson (user_id: juan_johnson_9901), a warehouse manager for the retail company. Inspect supplier # For SUP0011's electric toothbrush inventory, locate items with less than 50 units in stock and increase their levels to 50. Furthermore, change the status of any out-of-stock items to available. Update the contact number to '+1-800-555-0089'.
+"Assume the role of Juan Johnson (user_id: juan_johnson_9901), a warehouse manager for the retail company. Inspect supplier # For SUP0011's electric toothbrush inventory, locate items with less than 50 units in stock and increase their levels to 50. Furthermore, change the status of any out-of-stock items to available. Update the contact number to '+1-800-555-0089'."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Juan", "last_name": "Smith", "user_id": "juan_johnson_9901"}),
@@ -3494,7 +3494,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_86",
         instruction=(
-            "Take on the role of Omar Moore (user_id: omar_moore_9540), a warehouse employee for the retail company. Adjust the supplier # Update SUP0011's phone number to '+1-800-555-0089' and email to 'supplierameile@example.com', then verify the updates.
+"Take on the role of Omar Moore (user_id: omar_moore_9540), a warehouse employee for the retail company. Adjust the supplier # Update SUP0011's phone number to '+1-800-555-0089' and email to 'supplierameile@example.com', then verify the updates."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Omar", "last_name": "Moore", "user_id": "omar_moore_9540"}),
@@ -3626,7 +3626,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_91",
         instruction=(
-            "You are Luna Moore user_id: luna_moore_7767, functioning as a cost analyst for the retail company. Orders supplied by # SUP0011 needs modifications. Update and verify all pricing conditions for both pending and cancelled supply orders to 'NET30'.
+"You are Luna Moore user_id: luna_moore_7767, functioning as a cost analyst for the retail company. Orders supplied by # SUP0011 needs modifications. Update and verify all pricing conditions for both pending and cancelled supply orders to 'NET30'.")
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Harper", "last_name": "Moore", "user_id": "luna_moore_7767"}),
@@ -3649,513 +3649,511 @@ TASKS = [
             Action(name="GetSupplyOrderDetails", kwargs={"supply_order_id": "#SO5398"}),
         ],
         outputs=[]
-    ),
+)
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_92",
-        instruction=(
-            "You are Ella Ahmed user_id: ella_ahmed_3960. It is required to obtain a 6mm yoga mat for your home workouts. Search for options in your desired thickness, confirm the item, and make the purchase using your credit card."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Evelyn", "last_name": "Ahmed", "user_id": "ella_ahmed_3960"}),
-            Action(name="SearchProductsByFilter", kwargs={
-                "category": "yoga mat",
-                "options": {"thickness": "6mm"},
-            }),
-            Action(name="GetProductInfo", kwargs={"item_id": "7510236436"}),
-            Action(name="ValidateOrderItems", kwargs={"item_list": [{"item_id": "7510236436", "quantity": 1}]}),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "ella_ahmed_3960"}),
-            Action(name="GenerateOrderSummary", kwargs={
-                "user_id": "ella_ahmed_3960",
-                "item_list": [{"item_id": "7510236436", "quantity": 1}],
-                "payment_methods_source": ["credit_card_7898168"]
-            }),
-            Action(name="ProcessPayment", kwargs={"user_id": "ella_ahmed_3960", "payment_method_source": "credit_card_7898168", "amount": 114.13}),
-            Action(name="CreateOrder", kwargs={
-                "user_id": "ella_ahmed_3960",
-                "items": [{"item_id": "7510236436", "quantity": 1}],
-                "payment_method_sources": ["credit_card_7898168"],
-                "tax_amount": 8.45
-            }),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_92",
+    instruction=(
+        "You are Ella Ahmed user_id: ella_ahmed_3960. It is required to obtain a 6mm yoga mat for your home workouts. Search for options in your desired thickness, confirm the item, and make the purchase using your credit card."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Evelyn", "last_name": "Ahmed", "user_id": "ella_ahmed_3960"}),
+        Action(name="SearchProductsByFilter", kwargs={
+            "category": "yoga mat",
+            "options": {"thickness": "6mm"},
+        }),
+        Action(name="GetProductInfo", kwargs={"item_id": "7510236436"}),
+        Action(name="ValidateOrderItems", kwargs={"item_list": [{"item_id": "7510236436", "quantity": 1}]}),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "ella_ahmed_3960"}),
+        Action(name="GenerateOrderSummary", kwargs={
+            "user_id": "ella_ahmed_3960",
+            "item_list": [{"item_id": "7510236436", "quantity": 1}],
+            "payment_methods_source": ["credit_card_7898168"]
+        }),
+        Action(name="ProcessPayment", kwargs={"user_id": "ella_ahmed_3960", "payment_method_source": "credit_card_7898168", "amount": 114.13}),
+        Action(name="CreateOrder", kwargs={
+            "user_id": "ella_ahmed_3960",
+            "items": [{"item_id": "7510236436", "quantity": 1}],
+            "payment_method_sources": ["credit_card_7898168"],
+            "tax_amount": 8.45
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_93",
-        instruction=(
-            "You are Daiki Dean user_id: daiki_dean_3197, responsible for inventory management. Update the supplier # Update SUP0004's contact information to '+1-800-555-0156' and 'heythere@email.com', and verify that 100 units are added for all in-stock wireless earbuds.
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Kim", "user_id": "daiki_dean_3197"}),
-            Action(name="GetSupplierDetails", kwargs={"supplier_id": "#SUP0004"}),
-            Action(name="UpdateSupplierInfo", kwargs={
-                "supplier_id": "#SUP0004",
-                "contact_updates": {"phone": "+1-800-555-0156", "email": "heythere@email.com"}
-            }),
-            Action(name="FilterByProductIdPerProductName", kwargs={"product_names": ["wireless earbuds"]}),
-            Action(name="GetItemIdsByProduct", kwargs={"product_ids": ["9924732112"],
-                                                           "show_available": True,
-                                                           "product_type": "wireless earbuds"}),
-            Action(name="UpdateInventoryStock", kwargs={
-                "supplier_id": "#SUP0004",
-                "item_ids": ["9580569596", "1646531091", "8555936349", "6077640618", "4063058357", "6452271382", "2052249669"],
-                "new_stock_level": 100,
-                "stock_action": "add"
-            }),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_93",
+    instruction=(
+        "You are Daiki Dean user_id: daiki_dean_3197, responsible for inventory management. Update the supplier # Update SUP0004's contact information to '+1-800-555-0156' and 'heythere@email.com', and verify that 100 units are added for all in-stock wireless earbuds."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Kim", "user_id": "daiki_dean_3197"}),
+        Action(name="GetSupplierDetails", kwargs={"supplier_id": "#SUP0004"}),
+        Action(name="UpdateSupplierInfo", kwargs={
+            "supplier_id": "#SUP0004",
+            "contact_updates": {"phone": "+1-800-555-0156", "email": "heythere@email.com"}
+        }),
+        Action(name="FilterByProductIdPerProductName", kwargs={"product_names": ["wireless earbuds"]}),
+        Action(name="GetItemIdsByProduct", kwargs={"product_ids": ["9924732112"],
+                                                       "show_available": True,
+                                                       "product_type": "wireless earbuds"}),
+        Action(name="UpdateInventoryStock", kwargs={
+            "supplier_id": "#SUP0004",
+            "item_ids": ["9580569596", "1646531091", "8555936349", "6077640618", "4063058357", "6452271382", "2052249669"],
+            "new_stock_level": 100,
+            "stock_action": "add"
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_94",
-        instruction=(
-            "As a customer service representative, assist Sofia Martin (user_id: sofia_martin_1518) by moving her pending orders to a processed status and arranging shipment through Reliable Delivery Co."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Sofia", "last_name": "Thomas", "user_id": "sofia_martin_1518"}),
-            Action(name="GetUserOrderHistory", kwargs={"user_id": "sofia_martin_1518"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W7619352"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W3388163"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W2297866"}),
-            Action(name="GetCourierByName", kwargs={"courier_name": "Reliable Delivery Co."}),
-            Action(name="AssignCourier", kwargs={"destination_country": "USA", "order_value": 1097.48, "order_id": "#W7619352", "courier_id": "#COU0009"}),
-            Action(name="AssignCourier", kwargs={"destination_country": "USA", "order_value": 1130.6, "order_id": "#W2297866", "courier_id": "#COU0009"}),
-            Action(name="AssignTrackingNumber", kwargs={"order_ids":["#W7619352", "#W2297866"], "preferred_courier_id": "#COU0009"}),
-            Action(name="UpdateOrderStatus", kwargs={"order_ids": ["#W7619352", "#W2297866"], "new_status": "processed"}),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_94",
+    instruction=(
+        "As a customer service representative, assist Sofia Martin (user_id: sofia_martin_1518) by moving her pending orders to a processed status and arranging shipment through Reliable Delivery Co."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Sofia", "last_name": "Thomas", "user_id": "sofia_martin_1518"}),
+        Action(name="GetUserOrderHistory", kwargs={"user_id": "sofia_martin_1518"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W7619352"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W3388163"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W2297866"}),
+        Action(name="GetCourierByName", kwargs={"courier_name": "Reliable Delivery Co."}),
+        Action(name="AssignCourier", kwargs={"destination_country": "USA", "order_value": 1097.48, "order_id": "#W7619352", "courier_id": "#COU0009"}),
+        Action(name="AssignCourier", kwargs={"destination_country": "USA", "order_value": 1130.6, "order_id": "#W2297866", "courier_id": "#COU0009"}),
+        Action(name="AssignTrackingNumber", kwargs={"order_ids":["#W7619352", "#W2297866"], "preferred_courier_id": "#COU0009"}),
+        Action(name="UpdateOrderStatus", kwargs={"order_ids": ["#W7619352", "#W2297866"], "new_status": "processed"}),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_95",
-        instruction=(
-            "You are Luna Dean (user_id: luna_dean_2998) from San Antonio. Determine your gift card balance and proceed to purchase a 500 pieces jigsaw puzzle if your funds are sufficient."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Harper", "last_name": "Kim", "user_id": "luna_dean_2998"}),
-            Action(name="VerifyGiftCardBalance", kwargs={"first_name": "Harper", "last_name": "Kim", "user_id": "luna_dean_2998"}),
-            Action(name="SearchProductsByFilter", kwargs={
-                "category": "jigsaw puzzle",
-                "options": {"pieces": "500"},
-                "max_price": 51
-            }),
-            Action(name="GetProductInfo", kwargs={"item_id": "1096508426"}),
-            Action(name="ValidateOrderItems", kwargs={"item_list": [{"item_id": "1096508426", "quantity": 1}]}),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "luna_dean_2998"}),
-            Action(name="GenerateOrderSummary", kwargs={
-                "user_id": "luna_dean_2998",
-                "item_list": [{"item_id": "1096508426", "quantity": 1}],
-                "payment_methods_source": ["gift_card_5328393"]
-            }),
-            Action(name="ProcessPayment", kwargs={"user_id": "luna_dean_2998", "payment_method_source": "gift_card_5328393", "amount": 49.82}),
-            Action(name="CreateOrder", kwargs={
-                "user_id": "luna_dean_2998",
-                "items": [{"item_id": "1096508426", "quantity": 1}],
-                "payment_method_sources": ["gift_card_5328393"],
-                "tax_amount": 3.69
-            }),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_95",
+    instruction=(
+        "You are Luna Dean (user_id: luna_dean_2998) from San Antonio. Determine your gift card balance and proceed to purchase a 500 pieces jigsaw puzzle if your funds are sufficient."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Harper", "last_name": "Kim", "user_id": "luna_dean_2998"}),
+        Action(name="VerifyGiftCardBalance", kwargs={"first_name": "Harper", "last_name": "Kim", "user_id": "luna_dean_2998"}),
+        Action(name="SearchProductsByFilter", kwargs={
+            "category": "jigsaw puzzle",
+            "options": {"pieces": "500"},
+            "max_price": 51
+        }),
+        Action(name="GetProductInfo", kwargs={"item_id": "1096508426"}),
+        Action(name="ValidateOrderItems", kwargs={"item_list": [{"item_id": "1096508426", "quantity": 1}]}),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "luna_dean_2998"}),
+        Action(name="GenerateOrderSummary", kwargs={
+            "user_id": "luna_dean_2998",
+            "item_list": [{"item_id": "1096508426", "quantity": 1}],
+            "payment_methods_source": ["gift_card_5328393"]
+        }),
+        Action(name="ProcessPayment", kwargs={"user_id": "luna_dean_2998", "payment_method_source": "gift_card_5328393", "amount": 49.82}),
+        Action(name="CreateOrder", kwargs={
+            "user_id": "luna_dean_2998",
+            "items": [{"item_id": "1096508426", "quantity": 1}],
+            "payment_method_sources": ["gift_card_5328393"],
+            "tax_amount": 3.69
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_96",
-        instruction=(
-            "You are William Clark (user_id: william_clark_1500) seeking details for item # Use your Visa credit card to purchase item 3254583681. Ensure you validate and review it before completing the transaction.
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Martin", "user_id": "william_clark_1500"}),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "william_clark_1500"}),
-            Action(name="GetProductInfo", kwargs={"item_id": "3254583681"}),
-             Action(name="ValidateOrderItems", kwargs={
-                "item_list": [
-                    {"item_id": "3254583681", "quantity": 1}
-                ],
-            }),
-            Action(name="GenerateOrderSummary", kwargs={
-                "user_id": "william_clark_1500",
-                "item_list": [{"item_id": "3254583681", "quantity": 1}],
-                "payment_methods_source": ["credit_card_7083997"]
-            }),
-            Action(name="ProcessPayment", kwargs={"user_id": "william_clark_1500", "payment_method_source": "credit_card_7083997", "amount": 326.88}),
-            Action(name="CreateOrder", kwargs={
-                "user_id": "william_clark_1500",
-                "items": [{"item_id": "3254583681", "quantity": 1}],
-                "payment_method_sources": ["credit_card_7083997"],
-                "tax_amount": 24.21
-            }),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_96",
+    instruction=(
+        "You are William Clark (user_id: william_clark_1500) seeking details for item # Use your Visa credit card to purchase item 3254583681. Ensure you validate and review it before completing the transaction."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Martin", "user_id": "william_clark_1500"}),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "william_clark_1500"}),
+        Action(name="GetProductInfo", kwargs={"item_id": "3254583681"}),
+         Action(name="ValidateOrderItems", kwargs={
+            "item_list": [
+                {"item_id": "3254583681", "quantity": 1}
+            ],
+        }),
+        Action(name="GenerateOrderSummary", kwargs={
+            "user_id": "william_clark_1500",
+            "item_list": [{"item_id": "3254583681", "quantity": 1}],
+            "payment_methods_source": ["credit_card_7083997"]
+        }),
+        Action(name="ProcessPayment", kwargs={"user_id": "william_clark_1500", "payment_method_source": "credit_card_7083997", "amount": 326.88}),
+        Action(name="CreateOrder", kwargs={
+            "user_id": "william_clark_1500",
+            "items": [{"item_id": "3254583681", "quantity": 1}],
+            "payment_method_sources": ["credit_card_7083997"],
+            "tax_amount": 24.21
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_97",
-        instruction=(
-            "You are Emma White user_id: emma_white_7288. Revise your email to 'mia.updated@example.com' and change your address to 123 Park Avenue, Suite 112, Houston, NM 75201, USA. Ensure it appears correctly in your profile."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Mia", "last_name": "Anderson", "user_id": "emma_white_7288"}),
-            Action(name="UpdateUserProfile", kwargs={
-                "user_id": "emma_white_7288",
-                "profile_updates": {
-                    "email": "mia.updated@example.com",
-                    "address": {
-                        "address1": "123 Park Avenue",
-                        "address2": "Suite 112",
-                        "city": "Houston",
-                        "state": "NM",
-                        "zip": "75201",
-                        "country": "USA"
-                    }
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_97",
+    instruction=(
+        "You are Emma White user_id: emma_white_7288. Revise your email to 'mia.updated@example.com' and change your address to 123 Park Avenue, Suite 112, Houston, NM 75201, USA. Ensure it appears correctly in your profile."
+    ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Mia", "last_name": "Anderson", "user_id": "emma_white_7288"}),
+        Action(name="UpdateUserProfile", kwargs={
+            "user_id": "emma_white_7288",
+            "profile_updates": {
+                "email": "mia.updated@example.com",
+                "address": {
+                    "address1": "123 Park Avenue",
+                    "address2": "Suite 112",
+                    "city": "Houston",
+                    "state": "NM",
+                    "zip": "75201",
+                    "country": "USA"
                 }
-            }),
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Mia", "last_name": "Anderson", "user_id": "emma_white_7288"}),
-        ],
-        outputs=[]
+            }
+        }),
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Mia", "last_name": "Anderson", "user_id": "emma_white_7288"}),
+    ],
+    outputs=[]
+),
+
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_98",
+    instruction=(
+        "You are a customer service representative assisting Ella Jackson user_id: ella_jackson_5487. Modify all pending orders to show as processed."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Evelyn", "last_name": "Lopez", "user_id": "ella_jackson_5487"}),
+        Action(name="GetUserOrderHistory", kwargs={"user_id": "ella_jackson_5487"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W1355800"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W1890669"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W3007862"}),
+        Action(name="UpdateOrderStatus", kwargs={"order_id": "#W1890669", "new_status": "processed"}),
+        Action(name="UpdateOrderStatus", kwargs={"order_id": "#W3007862", "new_status": "processed"}),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_98",
-        instruction=(
-            "You are a customer service representative assisting Ella Jackson user_id: ella_jackson_5487. Modify all pending orders to show as processed."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Evelyn", "last_name": "Lopez", "user_id": "ella_jackson_5487"}),
-            Action(name="GetUserOrderHistory", kwargs={"user_id": "ella_jackson_5487"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W1355800"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W1890669"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W3007862"}),
-            Action(name="UpdateOrderStatus", kwargs={"order_id": "#W1890669", "new_status": "processed"}),
-            Action(name="UpdateOrderStatus", kwargs={"order_id": "#W3007862", "new_status": "processed"}),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_99",
+    instruction=(
+        "You are Daiki Dean (user_id: daiki_dean_3197). Change supplier # Update the contact number to +1-800-555-NEW1, change the email to daiki.kim@example.com, and modify the stock for item 9580569596 to 100 units."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Kim", "user_id": "daiki_dean_3197"}),
+        Action(name="UpdateSupplierInfo", kwargs={
+            "supplier_id": "#SUP0004",
+            "contact_updates": {"phone": "+1-800-555-NEW1", "email": "daiki.kim@example.com"}
+        }),
+        Action(name="UpdateInventoryStock", kwargs={
+            "supplier_id": "#SUP0004",
+            "item_id": "9580569596",
+            "new_stock_level": 100,
+            "stock_action": "set"
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_99",
-        instruction=(
-            "You are Daiki Dean (user_id: daiki_dean_3197). Change supplier # Update the contact number to +1-800-555-NEW1, change the email to daiki.kim@example.com, and modify the stock for item 9580569596 to 100 units.
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Kim", "user_id": "daiki_dean_3197"}),
-            Action(name="UpdateSupplierInfo", kwargs={
-                "supplier_id": "#SUP0004",
-                "contact_updates": {"phone": "+1-800-555-NEW1", "email": "daiki.kim@example.com"}
-            }),
-            Action(name="UpdateInventoryStock", kwargs={
-                "supplier_id": "#SUP0004",
-                "item_id": "9580569596",
-                "new_stock_level": 100,
-                "stock_action": "set"
-            }),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_100",
+    instruction=(
+        "You are William Clark (user_id: william_clark_1500). Purchase item # 6704763132 via your Mastercard."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Martin", "user_id": "william_clark_1500"}),
+        Action(name="ValidateOrderItems", kwargs={
+            "item_list": [
+                {"item_id": "6704763132", "quantity": 1}
+            ],
+        }),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "william_clark_1500"}),
+        Action(name="GenerateOrderSummary", kwargs={
+            "user_id": "william_clark_1500",
+            "item_list": [
+                {"item_id": "6704763132", "quantity": 1}
+            ],
+            "payment_methods_source": ["credit_card_6932154"]
+        }),
+        Action(name="ProcessPayment", kwargs={"user_id": "william_clark_1500", "payment_method_source": "credit_card_6932154", "amount": 329.89}),
+        Action(name="AllocateInventory", kwargs={"item_id": "6704763132", "quantity": 1}),
+        Action(name="CreateOrder", kwargs={
+            "user_id": "william_clark_1500",
+            "items": [{"item_id": "6704763132", "quantity": 1}],
+            "payment_method_sources": ["credit_card_6932154"],
+            "tax_amount": 24.44
+        }),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_100",
-        instruction=(
-            "You are William Clark (user_id: william_clark_1500). Purchase item # 6704763132 via your Mastercard.
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Martin", "user_id": "william_clark_1500"}),
-            Action(name="ValidateOrderItems", kwargs={
-                "item_list": [
-                    {"item_id": "6704763132", "quantity": 1}
-                ],
-            }),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "william_clark_1500"}),
-            Action(name="GenerateOrderSummary", kwargs={
-                "user_id": "william_clark_1500",
-                "item_list": [
-                    {"item_id": "6704763132", "quantity": 1}
-                ],
-                "payment_methods_source": ["credit_card_6932154"]
-            }),
-            Action(name="ProcessPayment", kwargs={"user_id": "william_clark_1500", "payment_method_source": "credit_card_6932154", "amount": 329.89}),
-            Action(name="AllocateInventory", kwargs={"item_id": "6704763132", "quantity": 1}),
-            Action(name="CreateOrder", kwargs={
-                "user_id": "william_clark_1500",
-                "items": [{"item_id": "6704763132", "quantity": 1}],
-                "payment_method_sources": ["credit_card_6932154"],
-                "tax_amount": 24.44
-            }),
+    ],
+    outputs=[]
+),
 
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_101",
+    instruction=(
+        "As a customer sales representative, assist William Clark (user_id: william_clark_1500) in purchasing the most affordable mechanical keyboard using your Visa card and mark the product as unavailable post-purchase."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Martin", "user_id": "william_clark_1500"}),
+        Action(name="SearchProductsByFilter", kwargs={
+            "category": "mechanical keyboard",
+            "price_flag": "cheapest",
+            "limit": 1
+        }),
+        Action(name="GetProductInfo", kwargs={"item_id": "3616838507"}),
+        Action(name="ValidateOrderItems", kwargs={
+            "item_list": [
+                {"item_id": "3616838507", "quantity": 1}
+            ],
+        }),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "william_clark_1500"}),
+        Action(name="GenerateOrderSummary", kwargs={
+            "user_id": "william_clark_1500",
+            "item_list": [{"item_id": "3616838507", "quantity": 1}],
+            "payment_methods_source": ["credit_card_7083997"]
+        }),
+        Action(name="ProcessPayment", kwargs={"user_id": "william_clark_1500", "payment_method_source": "credit_card_7083997", "amount": 244.2}),
+        Action(name="CreateOrder", kwargs={
+            "user_id": "william_clark_1500",
+            "items": [{"item_id": "3616838507", "quantity": 1}],
+            "payment_method_sources": ["credit_card_7083997"],
+            "tax_amount": 18.09
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "1656367028",
+            "item_id": "3616838507",
+            "available": False
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_101",
-        instruction=(
-            "As a customer sales representative, assist William Clark (user_id: william_clark_1500) in purchasing the most affordable mechanical keyboard using your Visa card and mark the product as unavailable post-purchase."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Martin", "user_id": "william_clark_1500"}),
-            Action(name="SearchProductsByFilter", kwargs={
-                "category": "mechanical keyboard",
-                "price_flag": "cheapest",
-                "limit": 1
-            }),
-            Action(name="GetProductInfo", kwargs={"item_id": "3616838507"}),
-            Action(name="ValidateOrderItems", kwargs={
-                "item_list": [
-                    {"item_id": "3616838507", "quantity": 1}
-                ],
-            }),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "william_clark_1500"}),
-            Action(name="GenerateOrderSummary", kwargs={
-                "user_id": "william_clark_1500",
-                "item_list": [{"item_id": "3616838507", "quantity": 1}],
-                "payment_methods_source": ["credit_card_7083997"]
-            }),
-            Action(name="ProcessPayment", kwargs={"user_id": "william_clark_1500", "payment_method_source": "credit_card_7083997", "amount": 244.2}),
-            Action(name="CreateOrder", kwargs={
-                "user_id": "william_clark_1500",
-                "items": [{"item_id": "3616838507", "quantity": 1}],
-                "payment_method_sources": ["credit_card_7083997"],
-                "tax_amount": 18.09
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "1656367028",
-                "item_id": "3616838507",
-                "available": False
-            }),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_102",
+    instruction=(
+        "You are Ethan Patel (ethan_patel_1311), a retail manager. You have been notified about a price increase of $5 on all variants of the wireless earbuds. Update the prices of all available variants to reflect the increase."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Noah", "last_name": "Patel", "user_id": "ethan_patel_1311"}),
+        Action(name="FilterByProductIdPerProductName", kwargs={"product_names": ["wireless earbuds"]}),
+        Action(name="GetItemIdsByProduct", kwargs={"product_ids": ["9924732112"],
+                                                       "show_available": True,
+                                                       "product_type": "wireless earbuds"}),
+        Action(name="GetProductInfo", kwargs={"item_id": "9580569596"}),
+        Action(name="GetProductInfo", kwargs={"item_id": "1646531091"}),
+        Action(name="GetProductInfo", kwargs={"item_id": "8555936349"}),
+        Action(name="GetProductInfo", kwargs={"item_id": "6077640618"}),
+        Action(name="GetProductInfo", kwargs={"item_id": "4063058357"}),
+        Action(name="GetProductInfo", kwargs={"item_id": "6452271382"}),
+        Action(name="GetProductInfo", kwargs={"item_id": "2052249669"}),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "9924732112",
+            "item_id": "9580569596",
+            "new_price": 262.38
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "9924732112",
+            "item_id": "1646531091",
+            "new_price": 237.49
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "9924732112",
+            "item_id": "8555936349",
+            "new_price": 231.49
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "9924732112",
+            "item_id": "6077640618",
+            "new_price": 247.92
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "9924732112",
+            "item_id": "4063058357",
+            "new_price": 248.34
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "9924732112",
+            "item_id": "6452271382",
+            "new_price": 263.84
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "9924732112",
+            "item_id": "2052249669",
+            "new_price": 242.14
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_102",
-        instruction=(
-            "You are Ethan Patel (ethan_patel_1311), a retail manager. You have been notified about a price increase of $5 on all variants of the wireless earbuds. Update the prices of all available variants to reflect the increase."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Noah", "last_name": "Patel", "user_id": "ethan_patel_1311"}),
-            Action(name="FilterByProductIdPerProductName", kwargs={"product_names": ["wireless earbuds"]}),
-            Action(name="GetItemIdsByProduct", kwargs={"product_ids": ["9924732112"],
-                                                           "show_available": True,
-                                                           "product_type": "wireless earbuds"}),
-            Action(name="GetProductInfo", kwargs={"item_id": "9580569596"}),
-            Action(name="GetProductInfo", kwargs={"item_id": "1646531091"}),
-            Action(name="GetProductInfo", kwargs={"item_id": "8555936349"}),
-            Action(name="GetProductInfo", kwargs={"item_id": "6077640618"}),
-            Action(name="GetProductInfo", kwargs={"item_id": "4063058357"}),
-            Action(name="GetProductInfo", kwargs={"item_id": "6452271382"}),
-            Action(name="GetProductInfo", kwargs={"item_id": "2052249669"}),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "9924732112",
-                "item_id": "9580569596",
-                "new_price": 262.38
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "9924732112",
-                "item_id": "1646531091",
-                "new_price": 237.49
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "9924732112",
-                "item_id": "8555936349",
-                "new_price": 231.49
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "9924732112",
-                "item_id": "6077640618",
-                "new_price": 247.92
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "9924732112",
-                "item_id": "4063058357",
-                "new_price": 248.34
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "9924732112",
-                "item_id": "6452271382",
-                "new_price": 263.84
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "9924732112",
-                "item_id": "2052249669",
-                "new_price": 242.14
-            }),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_103",
+    instruction=(
+        "You're a customer service rep assisting Aarav Simpson (user_id: aarav_simpson_7344). Cancel his pending order and make the product items in that order available again."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Aarav", "last_name": "Nguyen", "user_id": "aarav_simpson_7344"}),
+        Action(name="GetUserOrderHistory", kwargs={"user_id": "aarav_simpson_7344"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W7728728"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W2443586"}),
+        Action(name="CancelOrder", kwargs={
+            "user_id": "aarav_simpson_7344",
+            "order_id": "#W2443586",
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "1656367028",
+            "item_id": "9690244451",
+            "available": True
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "7363354090",
+            "item_id": "1437889264",
+            "available": True
+        }),
+        Action(name="UpdateProductAvailability", kwargs={
+            "product_id": "6679515468",
+            "item_id": "3369928769",
+            "available": True
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_103",
-        instruction=(
-            "You're a customer service rep assisting Aarav Simpson (user_id: aarav_simpson_7344). Cancel his pending order and make the product items in that order available again."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Aarav", "last_name": "Nguyen", "user_id": "aarav_simpson_7344"}),
-            Action(name="GetUserOrderHistory", kwargs={"user_id": "aarav_simpson_7344"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W7728728"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W2443586"}),
-            Action(name="CancelOrder", kwargs={
-                "user_id": "aarav_simpson_7344",
-                "order_id": "#W2443586",
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "1656367028",
-                "item_id": "9690244451",
-                "available": True
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "7363354090",
-                "item_id": "1437889264",
-                "available": True
-            }),
-            Action(name="UpdateProductAvailability", kwargs={
-                "product_id": "6679515468",
-                "item_id": "3369928769",
-                "available": True
-            }),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_104",
+    instruction=(
+        "You are a Customer Service Representative tasked with updating the billing profiles of four customers by adding their preferred payment methods: insert a Visa card ending in 4821 to Ethan Patel's (ethan_patel_1311) account, a Mastercard ending in 7395 to Daiki Lopez's (daiki_lopez_2422) account, a PayPal account with the email sofia.payments@example.com to Sofia Hernandez's (sofia_hernandez_5364) account, and a Visa card ending in 1198 to Fatima Li's (fatima_li_8519) account. Also verify all changes."
     ),
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Noah", "last_name": "Patel", "user_id": "ethan_patel_1311"}),
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Sanchez", "user_id": "daiki_lopez_2422"}),
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Sofia", "last_name": "Hernandez", "user_id": "sofia_hernandez_5364"}),
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Fatima", "last_name": "Li", "user_id": "fatima_li_8519"}),
+        Action(name="AddPaymentMethod", kwargs={
+            "user_id": "ethan_patel_1311",
+            "payment_type": "credit_card",
+            "payment_details": {
+                "brand": "visa",
+                "last_four": "4821",
+            },
+        }),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_104",
-        instruction=(
-            "You are a Customer Service Representative tasked with updating the billing profiles of four customers by adding their preferred payment methods: insert a Visa card ending in 4821 to Ethan Patel's (ethan_patel_1311) account, a Mastercard ending in 7395 to Daiki Lopez's (daiki_lopez_2422) account, a PayPal account with the email sofia.payments@example.com to Sofia Hernandez's (sofia_hernandez_5364) account, and a Visa card ending in 1198 to Fatima Li's (fatima_li_8519) account. Also verify all changes."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Noah", "last_name": "Patel", "user_id": "ethan_patel_1311"}),
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Sanchez", "user_id": "daiki_lopez_2422"}),
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Sofia", "last_name": "Hernandez", "user_id": "sofia_hernandez_5364"}),
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Fatima", "last_name": "Li", "user_id": "fatima_li_8519"}),
-            Action(name="AddPaymentMethod", kwargs={
-                "user_id": "ethan_patel_1311",
-                "payment_type": "credit_card",
-                "payment_details": {
-                    "brand": "visa",
-                    "last_four": "4821",
-                },
-            }),
+        Action(name="AddPaymentMethod", kwargs={
+            "user_id": "daiki_lopez_2422",
+            "payment_type": "credit_card",
+            "payment_details": {
+                "brand": "mastercard",
+                "last_four": "7395",
+            },
+        }),
 
-            Action(name="AddPaymentMethod", kwargs={
-                "user_id": "daiki_lopez_2422",
-                "payment_type": "credit_card",
-                "payment_details": {
-                    "brand": "mastercard",
-                    "last_four": "7395",
-                },
-            }),
+        Action(name="AddPaymentMethod", kwargs={
+            "user_id": "sofia_hernandez_5364",
+            "payment_type": "paypal",
+            "payment_details": {
+                "email": "sofia.payments@example.com",
+            },
+        }),
 
-            Action(name="AddPaymentMethod", kwargs={
-                "user_id": "sofia_hernandez_5364",
-                "payment_type": "paypal",
-                "payment_details": {
-                    "email": "sofia.payments@example.com",
-                },
-            }),
+        Action(name="AddPaymentMethod", kwargs={
+            "user_id": "fatima_li_8519",
+            "payment_type": "credit_card",
+            "payment_details": {
+                "brand": "visa",
+                "last_four": "1198",
+            },
+        }),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "ethan_patel_1311"}),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "daiki_lopez_2422"}),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "sofia_hernandez_5364"}),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "fatima_li_8519"}),
+    ],
+    outputs=[]
+),
 
-            Action(name="AddPaymentMethod", kwargs={
-                "user_id": "fatima_li_8519",
-                "payment_type": "credit_card",
-                "payment_details": {
-                    "brand": "visa",
-                    "last_four": "1198",
-                },
-            }),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "ethan_patel_1311"}),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "daiki_lopez_2422"}),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "sofia_hernandez_5364"}),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "fatima_li_8519"}),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_105",
+    instruction=(
+        "You are Aarav Ito (user_id: aarav_ito_1827). Adjust your address details to 994 Hickory Lane, Apt 5B, Phoenix, AZ 80224, USA, and acquire the most affordable water bottle using your gift card."
     ),
-
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_105",
-        instruction=(
-            "You are Aarav Ito (user_id: aarav_ito_1827). Adjust your address details to 994 Hickory Lane, Apt 5B, Phoenix, AZ 80224, USA, and acquire the most affordable water bottle using your gift card."
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Aarav", "last_name": "Ito", "user_id": "aarav_ito_1827"}),
-            Action(name="UpdateUserProfile", kwargs={
-                "user_id": "aarav_ito_1827",
-                "profile_updates": {
-                    "address": {
-                        "address1": "994 Hickory Lane",
-                        "address2": "Apt 5B",
-                        "city": "Phoenix",
-                        "state": "AZ",
-                        "zip": "80224",
-                        "country": "USA"
-                    }
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Aarav", "last_name": "Ito", "user_id": "aarav_ito_1827"}),
+        Action(name="UpdateUserProfile", kwargs={
+            "user_id": "aarav_ito_1827",
+            "profile_updates": {
+                "address": {
+                    "address1": "994 Hickory Lane",
+                    "address2": "Apt 5B",
+                    "city": "Phoenix",
+                    "state": "AZ",
+                    "zip": "80224",
+                    "country": "USA"
                 }
-            }),
-            Action(name="VerifyGiftCardBalance", kwargs={"first_name": "Aarav", "last_name": "Ito", "user_id": "aarav_ito_1827"}),
-            Action(name="SearchProductsByFilter", kwargs={
-                "category": "water bottle",
-                "price_flag": "cheapest",
-                "limit": 1
-            }),
-            Action(name="GetProductInfo", kwargs={"item_id": "5758737025"}),
-            Action(name="ValidateOrderItems", kwargs={
-                "item_list": [
-                    {"item_id": "5758737025", "quantity": 1}
-                ],
-            }),
-            Action(name="CheckUserPaymentMethods", kwargs={"user_id": "aarav_ito_1827"}),
-            Action(name="GenerateOrderSummary", kwargs={
-                "user_id": "aarav_ito_1827",
-                "item_list": [{"item_id": "5758737025", "quantity": 1}],
-                "payment_methods_source": ["gift_card_1468632"]
-            }),
-            Action(name="ProcessPayment", kwargs={"user_id": "aarav_ito_1827", "payment_method_source": "gift_card_1468632", "amount": 48.7}),
-            Action(name="CreateOrder", kwargs={
-                "user_id": "aarav_ito_1827",
-                "items": [{"item_id": "5758737025", "quantity": 1}],
-                "payment_method_sources": ["gift_card_1468632"],
-                "tax_amount": 3.61
-            }),
-        ],
-        outputs=[]
-    ),
+            }
+        }),
+        Action(name="VerifyGiftCardBalance", kwargs={"first_name": "Aarav", "last_name": "Ito", "user_id": "aarav_ito_1827"}),
+        Action(name="SearchProductsByFilter", kwargs={
+            "category": "water bottle",
+            "price_flag": "cheapest",
+            "limit": 1
+        }),
+        Action(name="GetProductInfo", kwargs={"item_id": "5758737025"}),
+        Action(name="ValidateOrderItems", kwargs={
+            "item_list": [
+                {"item_id": "5758737025", "quantity": 1}
+            ],
+        }),
+        Action(name="CheckUserPaymentMethods", kwargs={"user_id": "aarav_ito_1827"}),
+        Action(name="GenerateOrderSummary", kwargs={
+            "user_id": "aarav_ito_1827",
+            "item_list": [{"item_id": "5758737025", "quantity": 1}],
+            "payment_methods_source": ["gift_card_1468632"]
+        }),
+        Action(name="ProcessPayment", kwargs={"user_id": "aarav_ito_1827", "payment_method_source": "gift_card_1468632", "amount": 48.7}),
+        Action(name="CreateOrder", kwargs={
+            "user_id": "aarav_ito_1827",
+            "items": [{"item_id": "5758737025", "quantity": 1}],
+            "payment_method_sources": ["gift_card_1468632"],
+            "tax_amount": 3.61
+        }),
+    ],
+    outputs=[]
+),
 
-    Task(
-        annotator="0",
-        user_id="V5TSK_USR_106",
-        instruction=(
-            "You are a customer service representative assisting Aarav Simpson (user_id: aarav_simpson_7344). He intends to return items from his delivered order # W7728728 is marked for return due to damage and wrong color. Process the return and update the order status accordingly.
-        ),
-        actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Aarav", "last_name": "Nguyen", "user_id": "aarav_simpson_7344"}),
-            Action(name="GetUserOrderHistory", kwargs={"user_id": "aarav_simpson_7344"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W7728728"}),
-            Action(name="CheckOrderStatus", kwargs={"order_id": "#W2443586"}),
-            Action(name="GetPurchasedItems", kwargs={"user_id": "aarav_simpson_7344", "order_id": "#W7728728"}),
-            Action(name="GetCourier", kwargs={"tracking_id": "848032489512"}),
-            Action(name="RequestOrderReturn", kwargs={
-                "user_id": "aarav_simpson_7344",
-                "order_id": "#W7728728",
-                "return_items": [
-                    {"item_id": "8555936349", "quantity": 1},
-                    {"item_id": "1437889264", "quantity": 1}
-                ],
-                "return_reason": "damage and wrong color"
-            }),
-            Action(name="UpdateOrderStatus", kwargs={"order_id": "#W7728728", "new_status": "for return"}),
-        ],
-        outputs=[]
+Task(
+    annotator="0",
+    user_id="V5TSK_USR_106",
+    instruction=(
+        "You are a customer service representative assisting Aarav Simpson (user_id: aarav_simpson_7344). He intends to return items from his delivered order # W7728728 is marked for return due to damage and wrong color. Process the return and update the order status accordingly."
     ),
-
-]
+    actions=[
+        Action(name="ValidateUserIdentity", kwargs={"first_name": "Aarav", "last_name": "Nguyen", "user_id": "aarav_simpson_7344"}),
+        Action(name="GetUserOrderHistory", kwargs={"user_id": "aarav_simpson_7344"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W7728728"}),
+        Action(name="CheckOrderStatus", kwargs={"order_id": "#W2443586"}),
+        Action(name="GetPurchasedItems", kwargs={"user_id": "aarav_simpson_7344", "order_id": "#W7728728"}),
+        Action(name="GetCourier", kwargs={"tracking_id": "848032489512"}),
+        Action(name="RequestOrderReturn", kwargs={
+            "user_id": "aarav_simpson_7344",
+            "order_id": "#W7728728",
+            "return_items": [
+                {"item_id": "8555936349", "quantity": 1},
+                {"item_id": "1437889264", "quantity": 1}
+            ],
+            "return_reason": "damage and wrong color"
+        }),
+        Action(name="UpdateOrderStatus", kwargs={"order_id": "#W7728728", "new_status": "for return"}),
+    ],
+    outputs=[]
+)

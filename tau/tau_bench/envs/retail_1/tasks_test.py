@@ -414,7 +414,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_012",
-        instruction="As Fatima Williams with zip number 78712, coordinate the amendment of the pending order for hiking boots by changing the size to 8, maintaining the same material, while being indifferent to waterproof features. Utilize the existing payment method for the alteration. Furthermore, establish tracking for the new item with a standard delivery by using courier #COU0002. [System IDs: order_id=# COU0002. [System Identifiers: order_id=#W5199551; item_ids=1615379700; new_item_ids=3613716226; payment_method_id=paypal_5364164]. Important entities: Johnson, fatima_johnson_7581, Hiking."
+instruction="As Fatima Williams with zip number 78712, coordinate the amendment of the pending order for hiking boots by changing the size to 8, maintaining the same material, while being indifferent to waterproof features. Utilize the existing payment method for the alteration. Furthermore, establish tracking for the new item with a standard delivery by using courier #COU0002. [System IDs: order_id=#W5199551; item_ids=1615379700; new_item_ids=3613716226; payment_method_id=paypal_5364164]. Important entities: Johnson, fatima_johnson_7581, Hiking.",
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -513,7 +513,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_015",
-        instruction="As a customer service representative, handle a return request from customer Raleigh Simpson, residing in zip code 78786, because of compatibility issues with her bluetooth speaker. Facilitate the return using her original payment method and arrange a new purchase for headphones (on-ear, red, wireless) with the same payment method. Ensure the customer's information is verified and generate a tracking number (with standard delivery and using courier ID # COU0004) for the new order."
+instruction="As a customer service representative, handle a return request from customer Raleigh Simpson, residing in zip code 78786, because of compatibility issues with her bluetooth speaker. Facilitate the return using her original payment method and arrange a new purchase for headphones (on-ear, red, wireless) with the same payment method. Ensure the customer's information is verified and generate a tracking number (with standard delivery and using courier ID # COU0004) for the new order.",
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -550,7 +550,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_016",
-        instruction="As a warehouse supervisor, coordinate the creation of a new supply order for 75 units of electric kettles (2L, glass, white) priced at $95 each. Following this, amend the payment history for Raleigh Moore's (zip 85032) order of the same model of electric kettle to indicate a 'partial refund' of $150 issued to her PayPal owing to the delivery delay. [System IDs: supplier_id=# SUP0009; identifier=4064702754]."
+instruction="As a warehouse supervisor, coordinate the creation of a new supply order for 75 units of electric kettles (2L, glass, white) priced at $95 each. Following this, amend the payment history for Raleigh Moore's (zip 85032) order of the same model of electric kettle to indicate a 'partial refund' of $150 issued to her PayPal owing to the delivery delay. [System IDs: supplier_id=#SUP0009; identifier=4064702754],",
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -588,7 +588,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_017",
-        instruction="As a customer support specialist, assist customer James Jackson in zip 28221 with exchanging his cycling helmet for the most affordable gaming mouse available. Ensure to aid him in adding a new PayPal payment method to his account for future transactions. [System IDs: order_id=# W9892169; item_ids=6401214406; new_item_ids=2880340443; payment_method_id=credit_card_2327218; user_id=james_jackson_8519]. Important entities: Gaming, Lopez, Mason."
+instruction="As a customer support specialist, assist customer James Jackson in zip 28221 with exchanging his cycling helmet for the most affordable gaming mouse available. Ensure to aid him in adding a new PayPal payment method to his account for future transactions. [System IDs: order_id=#W9892169; item_ids=6401214406; new_item_ids=2880340443; payment_method_id=credit_card_2327218; user_id=james_jackson_8519]. Important entities: Gaming, Lopez, Mason.",
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -650,7 +650,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_019",
-        instruction="As a customer account manager, assist customer Olivia Ito from zip 19022 in updating her name to 'Isabella Ito-Martinez' and in returning the coffee maker from her recent order, issuing the refund to her original payment method. [System IDs: order_id=# W3780282; item_ids=9862136885; payment_method_id=credit_card_8058445."
+instruction="As a customer account manager, assist customer Olivia Ito from zip 19022 in updating her name to 'Isabella Ito-Martinez' and in returning the coffee maker from her recent order, issuing the refund to her original payment method. [System IDs: order_id=# W3780282; item_ids=9862136885; payment_method_id=credit_card_8058445.],"
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",

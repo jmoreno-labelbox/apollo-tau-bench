@@ -51,7 +51,7 @@ class DismissAlert(Tool):
         alert_numbers: List[int] = rec.get("alert_numbers", [])
         if alert_number not in alert_numbers:
             return json.dumps(
-                {"error": f"Alert # "{alert_number} is missing for '{owner}/{repo_name}'."
+{"error": f"Alert # {alert_number} is missing for '{owner}/{repo_name}'."},
                 indent=2
             )
 
@@ -70,7 +70,7 @@ class DismissAlert(Tool):
         if current_state == "dismissed":
             return json.dumps(
                 {
-                    "success": f"Alert # The alert number {alert_number} has already been dismissed for {owner}/{repo_name}.
+"success": f"Alert # The alert number {alert_number} has already been dismissed for {owner}/{repo_name}.",
                     "repo": f"{owner}/{repo_name}",
                     "alert_number": alert_number,
                     "state": "dismissed",
@@ -84,11 +84,11 @@ class DismissAlert(Tool):
         new_dismissed_ts = get_current_updated_timestamp()
         rec["dismissed_ts_nullables"][idx] = new_dismissed_ts
 
-        add_terminal_message(data, f"Alert # "{alert_number} has been dismissed for {owner}/{repo_name}.", get_current_updated_timestamp())
+add_terminal_message(data, f"Alert # {alert_number} has been dismissed for {owner}/{repo_name}.", get_current_updated_timestamp())
 
-        return json.dumps(
+return json.dumps(
             {
-                "success": f"Alert # Alert number {alert_number} has been dismissed for {owner}/{repo_name}.
+"success": f"Alert number {alert_number} has been dismissed for {owner}/{repo_name}.",
                 "repo": f"{owner}/{repo_name}",
                 "alert_number": alert_number,
                 "state": "dismissed",
@@ -97,8 +97,8 @@ class DismissAlert(Tool):
             indent=2
         )
 
-    @staticmethod
-    def get_info() -> Dict[str, Any]:
+@staticmethod
+def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {

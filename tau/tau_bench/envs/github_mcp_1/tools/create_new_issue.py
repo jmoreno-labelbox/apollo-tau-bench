@@ -106,14 +106,14 @@ class CreateNewIssue(Tool):
         rec["created_ts"].append(new_ts)
         rec["updated_ts"].append(new_ts)
 
-        add_terminal_message(data, f"Created new issues bucket and issue #{next_issue_number}" if created_bucket else f"Added issue # f"Added issue #{next_issue_number} to existing bucket" if created_bucket else f"Next issue number: {next_issue_number}", get_current_timestamp()
+add_terminal_message(data, f"Created new issues bucket and issue #{next_issue_number}" if created_bucket else f"Added issue #{next_issue_number} to existing bucket", get_current_timestamp())
 
-        return json.dumps(
+return json.dumps(
             {
                 "success": (
-                    f"Created new issues bucket and issue # {subsequent_issue_number}
+f"Created new issues bucket and issue # {subsequent_issue_number}"
                     if created_bucket else
-                    f"Added issue # "Add {next_issue_number} to the current bucket."
+f"Added issue # {next_issue_number} to the current bucket."
                 ),
                 "repo": f"{owner}/{repo_name}",
                 "issue": {
@@ -130,8 +130,8 @@ class CreateNewIssue(Tool):
             indent=2
         )
 
-    @staticmethod
-    def get_info() -> Dict[str, Any]:
+@staticmethod
+def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {

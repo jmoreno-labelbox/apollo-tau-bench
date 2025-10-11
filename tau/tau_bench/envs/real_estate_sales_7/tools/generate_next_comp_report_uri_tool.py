@@ -42,7 +42,7 @@ class GenerateNextCompReportUriTool(Tool):
             "function": {
                 "name": "generate_next_comp_report_uri",
                 "description": (
-                    "Builds https://storage.example.com/reports/comp_### ##.pdf utilizing the maximum report_id incremented by one from comp_reports.
+"Builds https://storage.example.com/reports/comp_### ##.pdf utilizing the maximum report_id incremented by one from comp_reports."
                 ),
                 "parameters": {
                     "type": "object",

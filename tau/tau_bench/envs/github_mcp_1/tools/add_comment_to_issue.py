@@ -88,12 +88,12 @@ class AddCommentToIssue(Tool):
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"Comment added to issue # Retrieve the current updated timestamp for {owner}/{repo_name} related to issue number {issue_number}.
+add_terminal_message(data, f"Comment added to issue # Retrieve the current updated timestamp for {owner}/{repo_name} related to issue number {issue_number}.")
 
-        return json.dumps(
+return json.dumps(
             {
-                "success": f"Comment added to issue # "{owner}/{repo_name} issue number {issue_number}."
-                "repo": f"{owner}/{repo_name}",
+"success": f"Comment added to issue # {owner}/{repo_name} issue number {issue_number}."
+"repo": f"{owner}/{repo_name}"
                 "issue_number": issue_number,
                 "comment_index": comment_index,
                 "issue_comment": issue_comment,

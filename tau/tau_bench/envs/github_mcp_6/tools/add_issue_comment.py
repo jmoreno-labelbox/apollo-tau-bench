@@ -24,10 +24,10 @@ class AddIssueComment(Tool):
                 except ValueError:
                     pass
 
-        return json.dumps({"error": f"Issue # {"error": "Issue number {issue_number} is missing"}, indent=2)
+return json.dumps({"error": f"Issue number {issue_number} is missing"}, indent=2)
 
-    @staticmethod
-    def get_info() -> Dict[str, Any]:
+@staticmethod
+def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {

@@ -57,8 +57,8 @@ class CreatePullRequestTool(Tool):
 
         return json.dumps({
             "status": "success",
-            "message": f"Pull request # "{pr_number} has been successfully created."
-            "pr_number": pr_number
+"message": f"Pull request # {pr_number} has been successfully created."
+"pr_number": pr_number
         }, indent=2)
 
     @staticmethod

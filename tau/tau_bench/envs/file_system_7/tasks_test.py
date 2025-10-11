@@ -4787,7 +4787,7 @@ Task(
         annotator="0",
         user_id="USER_081",
         instruction=(
-            "Process the first incomplete task in file_check_db for SEC compliance audit through Task ID SCAN_001. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify the file check channel along with task completion information. The SEC audit system mandates accurate checksum validation for all files that are transferred.
+"Process the first incomplete task in file_check_db for SEC compliance audit through Task ID SCAN_001. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify the file check channel along with task completion information. The SEC audit system mandates accurate checksum validation for all files that are transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -4869,7 +4869,7 @@ Task(
         annotator="0",
         user_id="USER_082",
         instruction=(
-            "Process the first incomplete task in file_check_db for GDPR data retention compliance through Task ID SCAN_002. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file checksums in the channel alongside task completion information. The GDPR audit system mandates accurate checksum validation for all files being transferred.
+"Process the first incomplete task in file_check_db for GDPR data retention compliance through Task ID SCAN_002. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file checksums in the channel alongside task completion information. The GDPR audit system mandates accurate checksum validation for all files being transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -4951,7 +4951,7 @@ Task(
         annotator="0",
         user_id="USER_083",
         instruction=(
-            "Process the first incomplete task in file_check_db for HIPAA healthcare compliance through Task ID SCAN_003. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel, including task completion information. The HIPAA audit system mandates accurate checksum validation for all files in transit.
+"Process the first incomplete task in file_check_db for HIPAA healthcare compliance through Task ID SCAN_003. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel, including task completion information. The HIPAA audit system mandates accurate checksum validation for all files in transit."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5033,7 +5033,7 @@ Task(
         annotator="0",
         user_id="USER_084",
         instruction=(
-            "Process the first incomplete task in file_check_db for SOX financial compliance through Task ID SCAN_004. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify the file check channel with task completion information. The SOX audit system mandates accurate checksum validation for all files being transferred.
+"Process the first incomplete task in file_check_db for SOX financial compliance through Task ID SCAN_004. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify the file check channel with task completion information. The SOX audit system mandates accurate checksum validation for all files being transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5115,7 +5115,7 @@ Task(
         annotator="0",
         user_id="USER_085",
         instruction=(
-            "Process the first incomplete task in file_check_db for PCI-DSS payment card compliance through Task ID SCAN_005. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity for the Check channel using task completion information. The PCI-DSS audit mandates accurate checksum validation for all files that are transmitted.
+"Process the first incomplete task in file_check_db for PCI-DSS payment card compliance through Task ID SCAN_005. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity for the Check channel using task completion information. The PCI-DSS audit mandates accurate checksum validation for all files that are transmitted."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5197,7 +5197,7 @@ Task(
         annotator="0",
         user_id="USER_086",
         instruction=(
-            "Process the first incomplete task in file_check_db for ISO27001 security compliance through Task ID SCAN_006. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity with task completion information. The ISO27001 audit framework mandates accurate checksum validation for all files exchanged.
+"Process the first incomplete task in file_check_db for ISO27001 security compliance through Task ID SCAN_006. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity with task completion information. The ISO27001 audit framework mandates accurate checksum validation for all files exchanged."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5279,7 +5279,7 @@ Task(
         annotator="0",
         user_id="USER_087",
         instruction=(
-            "Process the first incomplete task in file_check_db for FERPA educational privacy compliance through Task ID SCAN_007. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file checksums in the channel with task completion information. The FERPA audit system mandates accurate checksum validation for all files being transferred.
+"Process the first incomplete task in file_check_db for FERPA educational privacy compliance through Task ID SCAN_007. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file checksums in the channel with task completion information. The FERPA audit system mandates accurate checksum validation for all files being transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5361,7 +5361,7 @@ Task(
         annotator="0",
         user_id="USER_088",
         instruction=(
-            "Process the first incomplete task in file_check_db for CCPA consumer privacy compliance through Task ID SCAN_008. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity with task completion information. The CCPA audit system mandates accurate checksum validation for all files being transferred.
+"Process the first incomplete task in file_check_db for CCPA consumer privacy compliance through Task ID SCAN_008. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity with task completion information. The CCPA audit system mandates accurate checksum validation for all files being transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5443,7 +5443,7 @@ Task(
         annotator="0",
         user_id="USER_089",
         instruction=(
-            "Process the first incomplete task in file_check_db for NIST cybersecurity framework compliance through Task ID SCAN_009. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through checksum validation for all transmitted files as mandated by the NIST audit system.
+"Process the first incomplete task in file_check_db for NIST cybersecurity framework compliance through Task ID SCAN_009. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through checksum validation for all transmitted files as mandated by the NIST audit system."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5525,7 +5525,7 @@ Task(
         annotator="0",
         user_id="USER_090",
         instruction=(
-            "Process the first incomplete task in file_check_db for HIPAA health information compliance through Task ID SCAN_009. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify the file check channel along with task completion information. The HIPAA audit system mandates accurate checksum validation for all files being transferred.
+"Process the first incomplete task in file_check_db for HIPAA health information compliance through Task ID SCAN_009. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify the file check channel along with task completion information. The HIPAA audit system mandates accurate checksum validation for all files being transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5607,7 +5607,7 @@ Task(
         annotator="0",
         user_id="USER_091",
         instruction=(
-            "Process the first incomplete task in file_check_db for PCI-DSS payment card compliance through Task ID SCAN_010. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity by checking the channel alongside task completion information. The PCI-DSS audit mandates accurate checksum validation for all files sent.
+"Process the first incomplete task in file_check_db for PCI-DSS payment card compliance through Task ID SCAN_010. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity by checking the channel alongside task completion information. The PCI-DSS audit mandates accurate checksum validation for all files sent."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5689,7 +5689,7 @@ Task(
         annotator="0",
         user_id="USER_092",
         instruction=(
-            "Process the first incomplete task in file_check_db for SOX financial reporting compliance through Task ID SCAN_011. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel, including task completion information. The SOX audit system mandates accurate checksum validation for all files being transferred.
+"Process the first incomplete task in file_check_db for SOX financial reporting compliance through Task ID SCAN_011. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel, including task completion information. The SOX audit system mandates accurate checksum validation for all files being transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5771,7 +5771,7 @@ Task(
         annotator="0",
         user_id="USER_093",
         instruction=(
-            "Process the first incomplete task in file_check_db for GDPR data protection compliance through Task ID SCAN_012. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through checksums for all transferred files as mandated by the GDPR audit system, along with task completion details in the File Check channel.
+"Process the first incomplete task in file_check_db for GDPR data protection compliance through Task ID SCAN_012. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through checksums for all transferred files as mandated by the GDPR audit system, along with task completion details in the File Check channel."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -5853,7 +5853,7 @@ Task(
         annotator="0",
         user_id="USER_094",
         instruction=(
-            "Process the first incomplete task in file_check_db for FISMA federal information compliance through Task ID SCAN_013. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel with task completion information. The FISMA audit system mandates appropriate checksum validation for all files transferred.
+"Process the first incomplete task in file_check_db for FISMA federal information compliance through Task ID SCAN_013. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel with task completion information. The FISMA audit system mandates appropriate checksum validation for all files transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -6017,7 +6017,7 @@ Task(
         annotator="0",
         user_id="USER_096",
         instruction=(
-            "Process the first incomplete task in file_check_db for COPPA children's privacy compliance through Task ID SCAN_015. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through checksum validation for all files transferred in the COPPA audit system, including task completion information.
+"Process the first incomplete task in file_check_db for COPPA children's privacy compliance through Task ID SCAN_015. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through checksum validation for all files transferred in the COPPA audit system, including task completion information."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -6099,7 +6099,7 @@ Task(
         annotator="0",
         user_id="USER_097",
         instruction=(
-            "Process the first incomplete task in file_check_db for NERC-CIP critical infrastructure compliance through Task ID SCAN_016. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel, ensuring task completion details. The NERC-CIP audit framework mandates accurate checksum validation for all files transferred.
+"Process the first incomplete task in file_check_db for NERC-CIP critical infrastructure compliance through Task ID SCAN_016. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel, ensuring task completion details. The NERC-CIP audit framework mandates accurate checksum validation for all files transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -6181,7 +6181,7 @@ Task(
         annotator="0",
         user_id="USER_098",
         instruction=(
-            "Process the first incomplete task in file_check_db for FedRAMP cloud security compliance through Task ID SCAN_017. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel, including task completion information. The FedRAMP audit system mandates accurate checksum validation for all files transferred.
+"Process the first incomplete task in file_check_db for FedRAMP cloud security compliance through Task ID SCAN_017. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity through the Check channel, including task completion information. The FedRAMP audit system mandates accurate checksum validation for all files transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -6263,7 +6263,7 @@ Task(
         annotator="0",
         user_id="USER_099",
         instruction=(
-            "Process the first incomplete task in file_check_db for NIST cybersecurity framework compliance through Task ID SCAN_018. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity with task completion information. The NIST audit system mandates accurate checksum validation for all files being transferred.
+"Process the first incomplete task in file_check_db for NIST cybersecurity framework compliance through Task ID SCAN_018. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify file integrity with task completion information. The NIST audit system mandates accurate checksum validation for all files being transferred."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),
@@ -6345,7 +6345,7 @@ Task(
         annotator="0",
         user_id="USER_100",
         instruction=(
-            "Process the first incomplete task in file_check_db for SOC 2 Type II compliance through Task ID SCAN_019. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify the file checksum for all transmitted files as required by the SOC 2 audit system, along with task completion information in the Check channel.
+"Process the first incomplete task in file_check_db for SOC 2 Type II compliance through Task ID SCAN_019. Connect to the remote server specified in the database entry, perform a file scan with the given criteria, and document results in file_check_log.json. Upon completion, update the database status and notify the # Verify the file checksum for all transmitted files as required by the SOC 2 audit system, along with task completion information in the Check channel."
         ),
         actions=[
             Action(name="ScanIncompleteTasks", kwargs={}),

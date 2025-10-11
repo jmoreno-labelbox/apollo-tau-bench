@@ -44,7 +44,7 @@ class PostSlackMessageTool(Tool):
                     "properties": {
                         "channel": {
                             "type": "string",
-                            "description": "Slack channel name or ID, e.g. # broad
+"description": "Slack channel name or ID, e.g. #broad"
                         },
                         "message": {
                             "type": "string",

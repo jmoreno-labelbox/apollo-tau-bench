@@ -115,7 +115,7 @@ class CreatePullRequest(Tool):
         add_terminal_message(data, f"Pull request # A new pull request number {new_pr_number} has been generated for {owner}/{repo_name}.", get_current_timestamp())
 
         return json.dumps({
-            "success": f"Pull request # A new pull request number {new_pr_number} has been generated for the repository {owner}/{repo_name}.
+"success": f"Pull request # A new pull request number {new_pr_number} has been generated for the repository {owner}/{repo_name}.",
             "pull_request": {
                 "number": new_pr_number,
                 "title": pr_title,

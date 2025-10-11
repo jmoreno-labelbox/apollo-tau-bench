@@ -2790,11 +2790,11 @@ TASKS = [
                     "# Welcome, Jordan Williams!\n\n"
                     "Role: DevOps Engineer\n"
                     "Start date: 2024-08-19\n\n"
-                    "## Initial Setup
+"## Initial Setup\n"
                     "- Review the attached Company Policies and Benefits Guide.\n"
                     "- Bring a valid photo ID for security badging.\n"
                     "- Your laptop pickup will be coordinated by IT on Day 1.\n\n"
-                    "## Agenda for Day 1
+"## Agenda for Day 1\n"
                     "- Orientation session\n"
                     "- Account setup (SSO, email, Slack)\n"
                     "- Team introductions\n\n"

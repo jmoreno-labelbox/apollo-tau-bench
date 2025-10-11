@@ -34,7 +34,7 @@ class GetPullRequestStatusTool(Tool):
         if not pull_request:
             return json.dumps({
                 "status": "error",
-                "message": f"Pull request # Pull request number {pr_number} does not exist in the repository '{repo}'.
+"message": f"Pull request number {pr_number} does not exist in the repository '{repo}'.",
             }, indent=2)
 
         # Emulate retrieving status, such as checks and mergeability.

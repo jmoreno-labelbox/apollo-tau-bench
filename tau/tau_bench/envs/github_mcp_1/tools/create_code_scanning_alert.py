@@ -86,14 +86,14 @@ class CreateCodeScanningAlert(Tool):
         rec["created_ts"].append(new_ts)
         rec["dismissed_ts_nullables"].append(None)
 
-        add_terminal_message(data, f"Created new alerts bucket and alert #{next_alert_number}" if created_bucket else f"Added alert # f"Next alert number is {next_alert_number}" if created_bucket else f"Alert #{next_alert_number} added to existing bucket", get_current_timestamp()
+add_terminal_message(data, f"Created new alerts bucket and alert #{next_alert_number}" if created_bucket else f"Alert #{next_alert_number} added to existing bucket", get_current_timestamp())
 
-        return json.dumps(
+return json.dumps(
             {
                 "success": (
-                    f"Created new alerts bucket and alert # {subsequent_alert_number}
+f"Created new alerts bucket and alert # {subsequent_alert_number}"
                     if created_bucket else
-                    f"Added alert # Add {next_alert_number} to the current bucket.
+f"Added alert # {next_alert_number} to the current bucket."
                 ),
                 "repo": f"{owner}/{repo_name}",
                 "alert": {
@@ -109,8 +109,8 @@ class CreateCodeScanningAlert(Tool):
             indent=2
         )
 
-    @staticmethod
-    def get_info() -> Dict[str, Any]:
+@staticmethod
+def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {

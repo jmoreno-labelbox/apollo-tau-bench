@@ -262,7 +262,7 @@ TASKS = [
         annotator="1",
         user_id="user_103",
         instruction=(
-            "The goal is to handle a complete account archival for 'William Li' (user_id 'william_li_5688') and address the downstream consequences. The archival policy dictates that all of his 'processed' orders ('#W2611340', '#W3632959') must be cleared by eliminating all items and the primary payment at index 0, then changing their status to 'cancelled'. As this archival process reinstates a 'Smartphone' to stock, you are required to cancel the now-unnecessary pending supply order '#SO9359' for that item and log an 'info' event with the message 'Cancelled: stock returned from customer order #W2611340'. Lastly, you need to cancel a separate pending order '# Finally, you must void the additional pending order '#W9609649' for 'Sofia Hernandez'.
+"The goal is to handle a complete account archival for 'William Li' (user_id 'william_li_5688') and address the downstream consequences. The archival policy dictates that all of his 'processed' orders ('#W2611340', '#W3632959') must be cleared by eliminating all items and the primary payment at index 0, then changing their status to 'cancelled'. As this archival process reinstates a 'Smartphone' to stock, you are required to cancel the now-unnecessary pending supply order '#SO9359' for that item and log an 'info' event with the message 'Cancelled: stock returned from customer order #W2611340'. Lastly, you need to cancel a separate pending order '#W9609649' for 'Sofia Hernandez'."
         ),
         actions=[
             Action(
@@ -302,7 +302,7 @@ TASKS = [
                 kwargs={
                     "supply_order_id": "#SO9359",
                     "event_type": "info",
-                    "message": "Cancelled: stock returned from customer order # W2611340
+"message": "Cancelled: stock returned from customer order # W2611340",
                 },
             ),
             Action(
@@ -901,7 +901,7 @@ TASKS = [
         annotator="1",
         user_id="user_025",
         instruction=(
-            "Coordinate a complete financial reset for the new quarter. Your main goal is to eliminate the payment records at index 0 from all active orders (#W6310710, #W2611340, #W3632959) for customers Mia Martinez and William Li, then transition each of these orders into a 'pending' state for re-evaluation. Finally, you need to reactivate Mia Martinez's dormant order # Process orders W6310710, W2611340, and W3632959 for customers Mia Martinez and William Li, changing their status to 'pending' for further assessment. Additionally, reactivate Mia Martinez's inactive order #W4140680.
+"Coordinate a complete financial reset for the new quarter. Your main goal is to eliminate the payment records at index 0 from all active orders (#W6310710, #W2611340, #W3632959) for customers Mia Martinez and William Li, then transition each of these orders into a 'pending' state for re-evaluation. Finally, you need to reactivate Mia Martinez's dormant order #W4140680."
         ),
         actions=[
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W6310710", "index": 0}),
@@ -984,7 +984,7 @@ TASKS = [
         annotator="1",
         user_id="user_027",
         instruction=(
-            "Coordinate the end-of-quarter account assessment for customers Mia Martinez (user_id 'mia_martinez_3271') and William Li (user_id 'william_li_5688'). Complying with the review guidelines, you need to clear all active orders (#W6310710, #W2611340, #W3632959) by deleting their primary payment records. Following the clearance, revise their statuses as outlined in the EOD strategy: designate orders #W6310710 and #W3632959 as 'pending', and for order #W2611340, designate it as 'processed' before concluding it as 'pending'. Additionally, address the status of Mia Martinez's dormant order # Remove the primary payment records for orders #W6310710, #W2611340, and #W3632959. After this, update their statuses according to the EOD strategy: set orders #W6310710 and #W3632959 to 'pending', and change order #W2611340 to 'processed' before finalizing it as 'pending'. Also, reactivate Mia Martinez's inactive order #W4140680, ensuring it remains in a 'processed' status
+"Coordinate the end-of-quarter account assessment for customers Mia Martinez (user_id 'mia_martinez_3271') and William Li (user_id 'william_li_5688'). Complying with the review guidelines, you need to clear all active orders (#W6310710, #W2611340, #W3632959) by deleting their primary payment records. Following the clearance, revise their statuses as outlined in the EOD strategy: designate orders #W6310710 and #W3632959 as 'pending', and for order #W2611340, designate it as 'processed' before concluding it as 'pending'. Additionally, address the status of Mia Martinez's dormant order #W4140680, ensuring it remains in a 'processed' status."
         ),
         actions=[
             Action(name="ReopenCancelledOrder", kwargs={"order_id": "#W4140680"}),
@@ -1079,7 +1079,7 @@ TASKS = [
         annotator="1",
         user_id="user_031",
         instruction=(
-            "You are required to implement the new financial year-end policy for customers Mia Martinez (user_id 'mia_martinez_3271') and William Li (user_id 'william_li_5688'). This policy calls for a financial reset on all orders currently in 'pending', 'processed', or 'delivered' status. For the reset, you must remove the primary payment record (index 0) from each of the following orders: #W6310710, #W6436609, #W2611340, #W3632959, #W4435622, and #W3638028. Following the reset, ensure orders '#W6310710', '#W6436609', and '#W2611340' are set to a 'pending' state for a final review, while making sure order '# W6310710, #W6436609, #W2611340, #W3632959, #W4435622, and #W3638028. After the reset, set orders '#W6310710', '#W6436609', and '#W2611340' to 'pending' for final review, and mark order '#W3632959' as 'processed'. Leave all other orders unchanged.
+"You are required to implement the new financial year-end policy for customers Mia Martinez (user_id 'mia_martinez_3271') and William Li (user_id 'william_li_5688'). This policy calls for a financial reset on all orders currently in 'pending', 'processed', or 'delivered' status. For the reset, you must remove the primary payment record (index 0) from each of the following orders: #W6310710, #W6436609, #W2611340, #W3632959, #W4435622, and #W3638028. Following the reset, ensure orders '#W6310710', '#W6436609', and '#W2611340' are set to a 'pending' state for a final review, while making sure order '#W3632959' is marked as 'processed'. Leave all other orders unchanged."
         ),
         actions=[
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W6310710", "index": 0}),
@@ -2321,7 +2321,7 @@ TASKS = [
         annotator="1",
         user_id="user_060",
         instruction=(
-            "Address a customer request for 'Olivia Rodriguez' (user_id 'olivia_rodriguez_9753') who seeks to amend her pending order '#W9903153'. Replace the item located at index 3 with a 'Water Bottle' (product '8310926033', item '6469567736'). Following the replacement, ensure the order's finances are fully reconciled, which includes canceling the original payment and implementing a new payment for the adjusted total using her payment method 'credit_card_5869505'. For logistics purposes, consolidate this shipment with her previous order by associating it with the current tracking ID '443521489581'. Conclude by appending an 'info' type event with the note 'Order # W9903153 included in this shipment. Contents confirmed. Update the tracking record and process the revised order.
+"Address a customer request for 'Olivia Rodriguez' (user_id 'olivia_rodriguez_9753') who seeks to amend her pending order '#W9903153'. Replace the item located at index 3 with a 'Water Bottle' (product '8310926033', item '6469567736'). Following the replacement, ensure the order's finances are fully reconciled, which includes canceling the original payment and implementing a new payment for the adjusted total using her payment method 'credit_card_5869505'. For logistics purposes, consolidate this shipment with her previous order by associating it with the current tracking ID '443521489581'. Conclude by appending an 'info' type event with the note 'Order # W9903153 included in this shipment. Contents confirmed. Update the tracking record and process the revised order."
         ),
         actions=[
             Action(
@@ -2363,7 +2363,7 @@ TASKS = [
                 kwargs={
                     "tracking_id": "443521489581",
                     "event_status": "info",
-                    "note": "Order # W9903153 included in this shipment. Contents confirmed.
+"note": "Order # W9903153 included in this shipment. Contents confirmed.",
                 },
             ),
             Action(
@@ -3992,7 +3992,7 @@ TASKS = [
         annotator="1",
         user_id="user_096",
         instruction=(
-            "Your task is to handle a complex customer return and subsequent resale. Start by addressing a return from 'Aarav Lopez' (user_id 'aarav_lopez_9729') for his delivered order '#W5455653'. According to return policy, you must remove the 'DSLR Camera' at index 0, void the original payment at index 0, and apply an adjusted 'payment' of $371.27 using 'credit_card_2690859'. Next, coordinate the fulfillment of the pending order '#W7007896' for 'Ahmad Ahmed' (user_id 'ahmad_ahmed_6232'). To streamline this process, connect Aarav's tracking record ('632894717617') with Yusuf's order, log an 'info' event noting 'Shipment consolidated to include items for order # Process Yusuf's payment of $850.25 using credit card 'credit_card_yusuf_ahmed_7745' and update the order status to 'processed'.
+"Your task is to handle a complex customer return and subsequent resale. Start by addressing a return from 'Aarav Lopez' (user_id 'aarav_lopez_9729') for his delivered order '#W5455653'. According to return policy, you must remove the 'DSLR Camera' at index 0, void the original payment at index 0, and apply an adjusted 'payment' of $371.27 using 'credit_card_2690859'. Next, coordinate the fulfillment of the pending order '#W7007896' for 'Ahmad Ahmed' (user_id 'ahmad_ahmed_6232'). To streamline this process, connect Aarav's tracking record ('632894717617') with Yusuf's order, log an 'info' event noting 'Shipment consolidated to include items for order #W7007896'. Process Yusuf's payment of $850.25 using credit card 'credit_card_yusuf_ahmed_7745' and update the order status to 'processed'."
         ),
         actions=[
             Action(
@@ -4033,7 +4033,7 @@ TASKS = [
                 kwargs={
                     "tracking_id": "632894717617",
                     "event_status": "info",
-                    "note": "Shipment consolidated to include items for order # W7007896.
+"note": "Shipment consolidated to include items for order # W7007896.",
                 },
             ),
             Action(

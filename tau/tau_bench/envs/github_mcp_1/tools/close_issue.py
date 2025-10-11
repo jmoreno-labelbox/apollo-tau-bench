@@ -59,7 +59,7 @@ class CloseIssue(Tool):
             # Response is idempotent if it is already closed.
             return json.dumps(
                 {
-                    "success": f"Issue # The issue number {issue_number} is already resolved for {owner}/{repo_name}.
+"success": f"Issue # {issue_number} is already resolved for {owner}/{repo_name}.",
                     "repo": f"{owner}/{repo_name}",
                     "issue_number": issue_number,
                     "state": "closed",
@@ -75,11 +75,11 @@ class CloseIssue(Tool):
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"Issue # Closed issue {issue_number} for repository {owner}/{repo_name} at {get_current_updated_timestamp()}.
+add_terminal_message(data, f"Issue # Closed issue {issue_number} for repository {owner}/{repo_name} at {get_current_updated_timestamp()}.")
 
-        return json.dumps(
+return json.dumps(
             {
-                "success": f"Issue # Closed issue number {issue_number} for {owner}/{repo_name}.
+"success": f"Issue # Closed issue number {issue_number} for {owner}/{repo_name}.",
                 "repo": f"{owner}/{repo_name}",
                 "issue_number": issue_number,
                 "state": "closed",
@@ -88,8 +88,8 @@ class CloseIssue(Tool):
             indent=2
         )
 
-    @staticmethod
-    def get_info() -> Dict[str, Any]:
+@staticmethod
+def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {

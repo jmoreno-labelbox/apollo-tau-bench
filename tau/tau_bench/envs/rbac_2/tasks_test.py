@@ -459,7 +459,7 @@ TASKS = [
         annotator="2",
         user_id="task_008",
         instruction=(
-            "Acting as Mason Martinez, Engineering Lead, handle the new access request posted in the # Check the access-requests Slack channel (message ID: SL-001) and carry out the required actions.
+            "Acting as Mason Martinez, Engineering Lead, handle the new access request posted in the # Check the access-requests Slack channel (message ID: SL-001) and carry out the required actions."
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -573,7 +573,7 @@ TASKS = [
         annotator="2",
         user_id="task_010",
         instruction=(
-            "You are Mason Martinez, Engineering Lead. Review the new access request posted in the # Slack channel for access requests requiring your attention (message_id: SL-018).
+            "You are Mason Martinez, Engineering Lead. Review the new access request posted in the # Slack channel for access requests requiring your attention (message_id: SL-018)."
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -1232,7 +1232,7 @@ TASKS = [
         annotator="2",
         user_id="task_021",
         instruction=(
-            "As Olivia Lee, the Finance Lead, review the new access request posted in the # Slack channel for access requests (message_id: SL-020).
+            "As Olivia Lee, the Finance Lead, review the new access request posted in the # Slack channel for access requests (message_id: SL-020)."
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -1625,7 +1625,7 @@ TASKS = [
         annotator="2",
         user_id="task_026",
         instruction=(
-            "You function as the RBAC Bot. A new access request has appeared in the # Review the access-requests Slack channel (message_id: SL-024) and take necessary actions as per company policy.
+            "You function as the RBAC Bot. A new access request has appeared in the # Review the access-requests Slack channel (message_id: SL-024) and take necessary actions as per company policy."
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -2873,7 +2873,7 @@ TASKS = [
         annotator="2",
         user_id="task_048",
         instruction=(
-            "This is the RBAC Bot. There's a new access request in the # Review the access-requests Slack channel (message_id: SL-027) and take appropriate action.
+            "This is the RBAC Bot. There's a new access request in the # Review the access-requests Slack channel (message_id: SL-027) and take appropriate action."
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -3178,7 +3178,7 @@ TASKS = [
         annotator="2",
         user_id="task_053",
         instruction=(
-            "You are the RBAC Bot. An access request has been submitted in the # Review the access-requests Slack channel (message_id: SL-027) and take appropriate action.
+            "You are the RBAC Bot. An access request has been submitted in the # Review the access-requests Slack channel (message_id: SL-027) and take appropriate action."
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),

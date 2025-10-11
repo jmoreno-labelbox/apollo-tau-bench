@@ -49,7 +49,7 @@ class ListSlackMessagesTool(Tool):
                     "properties": {
                         "channel": {
                             "type": "string",
-                            "description": "e.g., # "access-requests",
+"description": "e.g., # \"access-requests\"",
                         },
                         "date_from": {
                             "type": "string",

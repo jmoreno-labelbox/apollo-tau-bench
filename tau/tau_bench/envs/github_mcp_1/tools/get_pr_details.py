@@ -55,7 +55,7 @@ class GetPRDetails(Tool):
         pr_numbers: List[int] = rec.get("pr_numbers", [])
         if pr_number not in pr_numbers:
             return json.dumps(
-                {"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."
+{"error": f"PR # {pr_number} does not exist for '{owner}/{repo_name}'."},
                 indent=2
             )
 
