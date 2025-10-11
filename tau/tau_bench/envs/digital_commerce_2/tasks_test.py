@@ -1140,9 +1140,9 @@ instruction="Cancel David Chen’s order # 9010 for 'Ordered By Mistake' (High).
         annotator="v1",
         user_id="task_055",
         instruction=(
-"Replenish one 'USB-C Hub (Deluxe)' from Alice Johnson’s delivered order # 9005; if the exact variant is unavailable in the catalog, use the standard 'USB-C Hub'. Change the order status to Returned and log a low-priority case titled 'Partial Return − 1 item'.")
+            "Replenish one 'USB-C Hub (Deluxe)' from Alice Johnson's delivered order # 9005; if the exact variant is unavailable in the catalog, use the standard 'USB-C Hub'. Change the order status to Returned and log a low-priority case titled 'Partial Return − 1 item'."
         ),
-actions=[
+        actions=[
             Action(name="GetContactByName", kwargs={"first_name": "Maria", "last_name": "Garcia"}),
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9005"}),
             Action(name="GetAllOrderItemsByOrderId", kwargs={"order_id": "9005"}),
@@ -1160,7 +1160,7 @@ actions=[
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"}),
         ],
         outputs=[]
-]
+    ),
 
     Task(
         annotator="v1",
@@ -2109,3 +2109,4 @@ instruction="You annul David Chen’s order # 9010, restock its products from th
     ],
     outputs=[]
 ),
+]

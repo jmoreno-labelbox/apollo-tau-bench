@@ -6,8 +6,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="V5TSK_USR_1",
-        instruction=
-                     (
+        instruction=(
                      "You're Mason Anderson with user_id liam_wilson_6720, a "
                      "premium customer from Milwaukee wanting to place a new "
                      "electronics order. You're interested in purchasing a "
@@ -145,8 +144,8 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "coffee maker", "price_flag": "cheapest"}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "5758737025", "quantity": 1},  # Water bottle costs $45.09.
-                    {"item_id": "1349017811", "quantity": 1}   # Coffee machine priced at $226.05
+                    {"item_id": "5758737025", "quantity": 1},
+                    {"item_id": "1349017811", "quantity": 1}
                 ],
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "mia_martinez_3271"}),
@@ -225,9 +224,9 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "water bottle", "min_price": 45, "max_price": 50, "price_flag": "cheapest", "limit": 3}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "5758737025", "quantity": 1},  # $45.09
-                    {"item_id": "8538875209", "quantity": 1},  # $45.13
-                    {"item_id": "7661609223", "quantity": 1}   # $46.51
+                    {"item_id": "5758737025", "quantity": 1},
+                    {"item_id": "8538875209", "quantity": 1},
+                    {"item_id": "7661609223", "quantity": 1}
                 ]
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "juan_johnson_5229"}),
@@ -278,9 +277,9 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "backpack", "min_price": 200, "max_price": 220, "price_flag": "expensive", "limit": 3}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "8084436579", "quantity": 1},  # $219.43 - Navy color, Large size, Made of Polyester, Features a laptop compartment
-                    {"item_id": "6309044598", "quantity": 1},  # $218.59 - Blue, Medium size, Leather material, with Laptop pocket
-                    {"item_id": "5917587651", "quantity": 1}   # $212.79 - Gray, Medium size, Polyester material, Includes laptop pocket
+                    {"item_id": "8084436579", "quantity": 1},
+                    {"item_id": "6309044598", "quantity": 1},
+                    {"item_id": "5917587651", "quantity": 1}
                 ]
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "isabella_johnson_5265"}),
@@ -302,7 +301,7 @@ TASKS = [
                     {"item_id": "5917587651", "quantity": 1}
                 ],
                 "payment_method_sources": ["credit_card_7971769"],
-                "tax_amount": 52.06,     # 8% sales tax applied to $650.81.
+                "tax_amount": 52.06,
                 "shipping_cost": 16.49
             }),
             Action(name="ProcessPayment", kwargs={
@@ -315,7 +314,7 @@ TASKS = [
     ),
 
     Task(
-    annotator="0",
+        annotator="0",
         user_id="V5TSK_USR_8",
         instruction=(
 "You are Ethan Khan (user_id: noah_khan_3904) residing at 264 Elm Street, Suite 579, San Diego, NV 92117, USA. Order # You created order W4347784, but it needs to be canceled due to changed conditions. Please check the order status, initiate the cancellation, process a refund to your Visa card, and then place a new order for a single budget-friendly water bottle."
@@ -405,8 +404,8 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "yoga mat", "options": {"color": ["blue"]}}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "6164262152", "quantity": 1},  # Rechargeable electric toothbrush priced at $192.15.
-                    {"item_id": "5586947715", "quantity": 1}   # 4mm PVC yoga mat priced at $92.53
+                    {"item_id": "6164262152", "quantity": 1},
+                    {"item_id": "5586947715", "quantity": 1}
                 ]
             }),
             Action(name="GenerateOrderSummary", kwargs={
@@ -498,14 +497,14 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_12",
         instruction=(
-            "You are Daiki Costa (user_id: daiki_costa_2903) located at 713 Park Avenue, Suite 800, San Francisco, NV 94102, USA. You wish to purchase a birthday gift for a friend, targeting a price range of $150-200, ideally an electric toothbrush. Since your friend's favorite color is black, you aim to find a black electric toothbrush. With a gift card balance of $19 (gift_card_2652153), introduce a new payment method using your visa ending in 1234. Investigate your options, verify available choices within your budget, and determine the shipping costs. Once clarified, proceed to create an order."
+"You are Daiki Costa (user_id: daiki_costa_2903) located at 713 Park Avenue, Suite 800, San Francisco, NV 94102, USA. You wish to purchase a birthday gift for a friend, targeting a price range of $150-200, ideally an electric toothbrush. Since your friend's favorite color is black, you aim to find a black electric toothbrush. With a gift card balance of $19 (gift_card_2652153), introduce a new payment method using your visa ending in 1234. Investigate your options, verify available choices within your budget, and determine the shipping costs. Once clarified, proceed to create an order."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Silva", "user_id": "daiki_costa_2903"}),
             Action(name="GetUserOrderHistory", kwargs={"user_id": "daiki_costa_2903"}),
             Action(name="SearchProductsByFilter", kwargs={"category": "electric toothbrush", "min_price": 150, "max_price": 200, "options": {"color": ["black"]}}),
             Action(name="ValidateOrderItems", kwargs={
-                "item_list": [{"item_id": "8098621301", "quantity": 1}]  # Electric toothbrush priced at $183.11.
+                "item_list": [{"item_id": "8098621301", "quantity": 1}]
             }),
             Action(name="AddPaymentMethod", kwargs={
                 "user_id": "daiki_costa_2903",
@@ -528,7 +527,7 @@ TASKS = [
                 "user_id": "daiki_costa_2903",
                 "item_list": [{"item_id": "8098621301", "quantity": 1}],
                 "payment_methods_source": ["gift_card", "credit_card"],
-                "shipping_cost": 11.49,  # cost of shipping for a single item
+                "shipping_cost": 11.49,
             }),
             Action(name="ProcessPayment", kwargs={
                 "user_id": "daiki_costa_2903",
@@ -545,7 +544,7 @@ TASKS = [
                 "items": [{"item_id": "8098621301", "quantity": 1}],
                 "payment_method_sources": ["gift_card", "credit_card"],
                 "tax_amount": 15.37,
-                "shipping_cost": 11.49  # delivery expenses
+                "shipping_cost": 11.49
             }),
         ],
         outputs=[]
@@ -588,8 +587,8 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "yoga mat", "price_flag": "cheapest", "limit": 1}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "2645006275", "quantity": 1},  # Electric toothbrush priced at $183.11
-                    {"item_id": "5586947715", "quantity": 1}   # Cost of yoga mat: $92.53
+                    {"item_id": "2645006275", "quantity": 1},
+                    {"item_id": "5586947715", "quantity": 1}
                 ]
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "william_simpson_2792"}),
@@ -611,7 +610,7 @@ TASKS = [
                 "items": [{"item_id": "2645006275", "quantity": 1}, {"item_id": "5586947715", "quantity": 1}],
                 "payment_method_sources": ["credit_card_2645445"],
                 "tax_amount": 22.05,
-                "shipping_cost": 0.00  # delivery expense
+                "shipping_cost": 0.00
             }),
         ],
         outputs=[]
@@ -669,7 +668,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_18",
         instruction=(
-            "You are Emma Simpson (user_id: emma_simpson_6399) residing at 412 Lakeview Drive, Suite 698, San Antonio, NM 78229, USA. Your aim is to purchase a birthday gift for your friend, focusing on the most economical bluetooth speakers ranging from $100 to $300. Utilize PayPal (paypal_3722088) for payment purposes, ensuring you identify the item with the greatest value within budget, confirm it’s available, and proceed to place the order."
+            "You are Emma Simpson (user_id: emma_simpson_6399) residing at 412 Lakeview Drive, Suite 698, San Antonio, NM 78229, USA. Your aim is to purchase a birthday gift for your friend, focusing on the most economical bluetooth speakers ranging from $100 to $300. Utilize PayPal (paypal_3722088) for payment purposes, ensuring you identify the item with the greatest value within budget, confirm it's available, and proceed to place the order."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Mia", "last_name": "Nguyen", "user_id": "emma_simpson_6399"}),
@@ -688,7 +687,7 @@ TASKS = [
                 ],
                 "payment_methods_source": ["paypal"],
             }),
-                Action(name="CreateOrder", kwargs={
+            Action(name="CreateOrder", kwargs={
                 "user_id": "emma_simpson_6399",
                 "items": [{"item_id": "2635605237", "quantity": 1}],
                 "payment_method_sources": ["paypal"],
@@ -776,7 +775,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_21",
         instruction=(
-            "As a customer service representative, you're responsible for handling an urgent inventory crisis involving Chen Moore (user_id: chen_moore_6080). Chen is in need of a laptop equipped with 32GB RAM, a 256GB SSD, and an Intel i7 processor, but the model is currently listed as unavailable. To address this, confirm Chen's identity and analyze their past purchases, identify the laptop within the $2400–2700 range, modify the system to make it available at $2450.00, check all order details, and finalize the purchase using Chen’s credit card."
+            "As a customer service representative, you're responsible for handling an urgent inventory crisis involving Chen Moore (user_id: chen_moore_6080). Chen is in need of a laptop equipped with 32GB RAM, a 256GB SSD, and an Intel i7 processor, but the model is currently listed as unavailable. To address this, confirm Chen's identity and analyze their past purchases, identify the laptop within the $2400–2700 range, modify the system to make it available at $2450.00, check all order details, and finalize the purchase using Chen's credit card."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Chen", "last_name": "Moore", "user_id": "chen_moore_6080"}),
@@ -846,8 +845,8 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "office chair", "min_price": 100, "max_price":500, "price_flag": "cheapest", "limit": 1}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "5320792178", "quantity": 1},  # table lamp
-                    {"item_id": "4168944673", "quantity": 1}   # seat
+                    {"item_id": "5320792178", "quantity": 1},
+                    {"item_id": "4168944673", "quantity": 1}
                 ]
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "juan_white_5671"}),
@@ -862,7 +861,7 @@ TASKS = [
                 "user_id": "juan_white_5671",
                 "item_list": [{"item_id": "5320792178", "quantity": 1}, {"item_id": "4168944673", "quantity": 1}],
                 "payment_methods_source": ["gift_card_25671"],
-                "shipping_cost": 13.99  # shipping fee for two products
+                "shipping_cost": 13.99
             }),
             Action(name="ProcessPayment", kwargs={
                 "user_id": "juan_white_5671",
@@ -931,7 +930,7 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "t-shirt", "options": {"color": ["blue"], "material": ["cotton"], "size": ["M"]}}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "9612497925", "quantity": 1},  # Tee shirt
+                    {"item_id": "9612497925", "quantity": 1},
                 ]
             }),
             Action(name="GenerateOrderSummary", kwargs={
@@ -1084,7 +1083,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_28",
         instruction=(
-            "Identify yourself as Mason Anderson (user_id: liam_wilson_6720), who is an inventory manager for the retail company. It is necessary for you to assess the supply chain status concerning laptop products (product_id: 4760268021). Verify the product’s status and confirm the supplier’s capacity for it. Upon confirmation, generate a new supply order for the same product with a quantity of 150 units from the identical supplier. After establishing the supply order, adjust the status of the previous supply order to pending and mark the product as unavailable in the system."
+"You are Mason Anderson (user_id: liam_wilson_6720), who is an inventory manager for the retail company. It is necessary for you to assess the supply chain status concerning laptop products (product_id: 4760268021). Verify the product's status and confirm the supplier's capacity for it. Upon confirmation, generate a new supply order for the same product with a quantity of 150 units from the identical supplier. After establishing the supply order, adjust the status of the previous supply order to pending and mark the product as unavailable in the system."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Lucas", "last_name": "Brown", "user_id": "liam_wilson_6720"}),
@@ -2331,7 +2330,7 @@ TASKS = [
             "You are Evelyn Dean (user_id: evelyn_dean_4338). You are in the process of outfitting a new kitchen and intend to purchase an automatic espresso machine along with a 3 piece luggage set for an upcoming trip. Your budget for the luggage is $500, and for the espresso machine, it ranges from $2700 to $2800. Search for these products, verify your identity, confirm their availability, and finalize the purchases using your PayPal account."
         ),
         actions=[
-            Action(name="ValidateUserIdentity", kwargs={"first_name": "Amelia", "last_name": "Kim", "user_id": "evelyn_dean_4338"}),\
+            Action(name="ValidateUserIdentity", kwargs={"first_name": "Amelia", "last_name": "Kim", "user_id": "evelyn_dean_4338"}),
             Action(name="SearchProductsByFilter", kwargs={
                 "category": "espresso machine",
                 "options": {"type": "automatic"},
@@ -3626,7 +3625,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_91",
         instruction=(
-"You are Luna Moore user_id: luna_moore_7767, functioning as a cost analyst for the retail company. Orders supplied by # SUP0011 needs modifications. Update and verify all pricing conditions for both pending and cancelled supply orders to 'NET30'.")
+"You are Luna Moore user_id: luna_moore_7767, functioning as a cost analyst for the retail company. Orders supplied by # SUP0011 needs modifications. Update and verify all pricing conditions for both pending and cancelled supply orders to 'NET30'."
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Harper", "last_name": "Moore", "user_id": "luna_moore_7767"}),
