@@ -1,12 +1,43 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
+
+    # # 20 (alice-w) acme-webapp: note high-severity alerts and tag repo
+    # Task(
+    #     annotator='0',
+    #     user_id="task_20",
+    #     instruction=(
+    #         "As 'app-developer', in the repository 'flutter-finance-app', establish the following final condition with all values exact and case-sensitive: • A branch named 'hotfix-1.2.1' is present. Within this branch, the 'CHANGELOG.md' file includes precisely '## 1.2.1 - hotfix'. • The newest commit on 'hotfix-1.2.1' possesses the message 'Add CHANGELOG for v1.2.1'. • A release is there with the tag 'v1.2.1', titled 'v1.2.1 [task_101]', and has the body 'body-[task_101]'. Additionally, the most recent release corresponds to tag 'v1.2.1'. • An issue exists with the title 'Release v1.2.1 note [task_101]' and body 'body-[task_101]' carrying the label 'release-log'. • The terminal log shows precisely one added entry stating 'Release v1.2.1 created in flutter-finance-app [task_101]'. Produce the latest release tag from 'flutter-finance-app'. Each requirement must be achieved in a fresh database run; employ deterministic values only."
+    #     ),
+    #     actions=[
+    #         Action(name="GetMe", kwargs={"username": "maya-w"}),
+
+    #         # Read: repo context (safe & deterministic)
+    #         Action(name="GetRepository", kwargs={"repo_name": "acme-webapp"}),
+
+    #         # Read: list only HIGH-severity alerts for this repo
+    #         Action(name="ListCodeScanningAlerts", kwargs={"repo_name": "acme-webapp", "severity": "high"}),
+
+    #         # Write: add topic, then verify topics include it
+    #         Action(name="AddRepoTopic", kwargs={"repo_name": "acme-webapp", "topic": "security-audit"}),
+    #         Action(name="ListRepoTopics", kwargs={"repo_name": "acme-webapp"}),
+
+    #         # Write: append terminal confirmation and verify it is last
+    #         Action(name="AppendTerminal", kwargs={"message": "Audit snapshot recorded for acme-webapp (high severity)"}),
+    #         Action(name="ListTerminalLastMessage", kwargs={}),
+    #     ],
+    #     outputs=[
+    #         '"message": "Topic \'security-audit\' added."',
+    #         '"entries": {"printed_ts": "2025-08-21T12:00:00Z", "message": "Audit snapshot recorded for acme-webapp (high severity)"}',
+    #     ],
+    # ),
+    # 28
     Task(
         annotator='0',
         user_id="task_28",
-        instruction=(
-            "You act as 'app-developer'. In 'flutter-finance-app', assess Issue #18 along with PR #18 in conjunction with PR #26. Approve the PR with the comment: 'Please verify rendering on actual devices for iOS 14 and 15,' requesting confirmation for iOS 14/15, and label the issue as 'ios1'. Obtain the latest terminal message, then append 'flutter-finance-app iOS charts fix in validation.'"
-        ),
+    instruction=(
+        "You act as 'app-developer'. In 'flutter-finance-app', assess Issue #18 along with PR #26. Sanction the PR with the comment: 'Please confirm rendering on iOS 14 and 15 real devices.' which solicits validation on iOS 14/15, and mark the issue with 'ios1'. Retrieve the last terminal message, then add 'flutter-finance-app iOS charts fix under validation'."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "app-developer"}),
             Action(name="GetRepository", kwargs={"repo_name": "flutter-finance-app"}),
@@ -32,7 +63,6 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_45",
-<<<<<<< HEAD
     instruction=(
         "You take on the role of 'infra-lead'. Your task is to bring about the following definitive state, with every value exact and adhering to case sensitivity: • A repository titled 'observability-ops' should be in place under your ownership; its visibility set as 'private', which you must switch to 'public', its principal branch being 'main', and it should include the topic 'kubernetes'. • A branch 'feature-initial-config' is present. On that branch, the file 'kubernetes/alertmanager.yaml' is required to contain exactly 'alertmanager: config: placeholder-v1', and the file 'kubernetes/prometheus.yaml' must have exactly 'prometheus: config: placeholder-v1'. • The most recent commit on 'feature-initial-config' includes the message 'Add initial Prometheus/Alertmanager manifests'. • Pull request #1 aims at the base 'main' from the head 'feature-initial-config' with the heading 'Add initial Kubernetes monitoring stack' and content 'Bootstrap Prometheus and Alertmanager manifests.', it is sanctioned, and has been amalgamated. • A release is present on 'observability-ops' tagged as 'v0.1.0', with the headline 'Initial monitoring stack', and description 'First cut of monitoring components.'. • The terminal log must have exactly one additional entry with the note 'observability-ops v0.1.0 released.' Ensure all mandates are met during a new database execution; utilize deterministic values exclusively."
     ),
@@ -40,13 +70,6 @@ TASKS = [
             Action(name="GetMe", kwargs={"username": "infra-lead"}),
 
             # Create as PRIVATE per spec, then switch to PUBLIC once (no redundancy)
-=======
-        instruction=(
-            "You take on the role of 'infra-lead'. Your task is to bring about the following definitive state, with every value exact and adhering to case sensitivity: • A repository titled 'observability-ops' should be in place under your ownership; its visibility set as 'private', which you must switch to 'public', its principal branch being 'main', and it should include the topic 'kubernetes'. • A branch 'feature-initial-config' is present. On that branch, the file 'kubernetes/alertmanager.yaml' is required to contain exactly 'alertmanager: config: placeholder-v1', and the file 'kubernetes/prometheus.yaml' must have exactly 'prometheus: config: placeholder-v1'. • The most recent commit on 'feature-initial-config' includes the message 'Add initial Prometheus/Alertmanager manifests'. • Pull request #1 targets the base 'main' from the head 'feature-initial-config' with the title 'Add initial Kubernetes monitoring stack' and content 'Bootstrap Prometheus and Alertmanager manifests.', it is approved, and has been merged. • A release exists on 'observability-ops' labeled 'v0.1.0', with the title 'Initial monitoring stack', and description 'First version of monitoring components.'. • The terminal log must include precisely one additional entry stating 'observability-ops v0.1.0 released.'."
-        ),
-        actions=[
-            Action(name="GetMe", kwargs={"username": "infra-lead"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateRepository", kwargs={
                 "repo_name": "observability-ops",
                 "visibility": "private",
@@ -60,11 +83,8 @@ TASKS = [
                 "repo_name": "observability-ops",
                 "visibility": "public"
             }),
-<<<<<<< HEAD
 
             # Branch + files + commit
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateBranch", kwargs={
                 "repo_name": "observability-ops",
                 "source_branch": "main",
@@ -87,11 +107,8 @@ TASKS = [
                 "branch": "feature-initial-config",
                 "commit_message": "Add initial Prometheus/Alertmanager manifests"
             }),
-<<<<<<< HEAD
 
             # PR: open → approve → merge
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreatePullRequest", kwargs={
                 "repo_name": "observability-ops",
                 "title": "Add initial Kubernetes monitoring stack",
@@ -108,11 +125,8 @@ TASKS = [
                 "repo_name": "observability-ops",
                 "pr_number": 1
             }),
-<<<<<<< HEAD
 
             # Release + terminal log
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateRelease", kwargs={
                 "repo_name": "observability-ops",
                 "tag": "v0.1.0",
@@ -124,7 +138,6 @@ TASKS = [
             }),
         ],
         outputs=[
-<<<<<<< HEAD
             # creation confirmation
             '"message": "Repository created", "repo_name": "observability-ops"',
             # PR opened confirmation (stable substring)
@@ -134,12 +147,6 @@ TASKS = [
             # release created confirmation
             '"message": "Release created.", "repo_name": "observability-ops", "tag_name": "v0.1.0"',
             # terminal audit line
-=======
-            '"message": "Repository created", "repo_name": "observability-ops"',
-            '"message": "Pull request opened", "title": "Add initial Kubernetes monitoring stack", "pr_number": 1',
-            '"message": "Pull request merged."',
-            '"message": "Release created.", "repo_name": "observability-ops", "tag_name": "v0.1.0"',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"message": "observability-ops v0.1.0 released."',
         ],
     ),
@@ -148,15 +155,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_23",
-<<<<<<< HEAD
     instruction=(
         "You are 'maya-w'. In 'acme-webapp', handle the reconciliation of the code scanning alert that mentions 'feature-auth' using the merged PR #5 from that branch. Check the current branches, details of PR #5, and the altered files. Open an issue with the title 'Reconcile alert ref: feature-auth' and use labels ['investigate','security'] with the description 'Alert points to feature-auth which was merged and branch is missing in current snapshot; verify lineage and fix metadata'. After that, record this terminal entry: 'acme-webapp alert ref reconciliation recorded'."
     ),
-=======
-        instruction=(
-            "You are 'maya-w'. In 'acme-webapp', handle the reconciliation of the code scanning alert that mentions 'feature-auth' using the merged PR #5 from that branch. Check the current branches, details of PR #5 from the specified branch. Review the existing branches, the specifics of PR #5, and the modified files. Create an issue titled 'Reconcile alert ref: feature-auth' and apply the labels ['investigate', 'security'], including the description 'Alert references feature-auth which has been merged, but the branch is absent in the current snapshot; confirm lineage and correct metadata'. Subsequently, document this terminal entry: 'acme-webapp alert ref reconciliation recorded'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="GetRepository", kwargs={"repo_name": "acme-webapp"}),
@@ -182,9 +183,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_38",
-        instruction=(
-            "You are 'maya-w'. In the repository 'acme-webapp', initiate a new issue titled 'Security triage [task_66]' with the contents 'Investigate dependency exposure paths. [task_66]'. This issue should have the label 'triage-urgent', include the precise comment 'Initial triage note recorded. [task_66]', and must be 'closed' as its final status. Confirm the label's assignment, the issue's final state, and provide a search result that verifies the presence of the issue with the label 'triage-urgent'. Additionally, record this in the terminal audit line: 'Issue closed with triage-urgent label in acme-webapp [task_66]'."
-        ),
+    instruction=(
+        "You are 'maya-w'. In the repository 'acme-webapp', initiate a new issue titled 'Security triage [task_66]' with the contents 'Investigate dependency exposure paths. [task_66]'. This issue should have the label 'triage-urgent', include the precise comment 'Initial triage note recorded. [task_66]', and must be 'closed' as its final status. Confirm the label's assignment, the issue's final state, and provide a search result that verifies the presence of the issue with the label 'triage-urgent'. Additionally, record this in the terminal audit line: 'Issue closed with triage-urgent label in acme-webapp [task_66]'."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="CreateIssue", kwargs={
@@ -208,7 +209,6 @@ TASKS = [
                 "issue_number": 1,
                 "state": "closed"
             }),
-<<<<<<< HEAD
 
             # Scope the search deterministically to the repo
             Action(name="SearchIssues", kwargs={"query": "triage-urgent"}),
@@ -219,9 +219,6 @@ TASKS = [
             #     "issue_number": 1
             # }),
 
-=======
-            Action(name="SearchIssues", kwargs={"query": "triage-urgent"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="AppendTerminal", kwargs={
                 "message": "Issue closed with triage-urgent label in acme-webapp [task_66]"
             }),
@@ -229,16 +226,12 @@ TASKS = [
         outputs=[
             '"message": "Label \'triage-urgent\' added."',
             '"state": "closed"',
-<<<<<<< HEAD
             # prove search hit deterministically
             '"results": [1]',
             # from get_issue — the judge wanted these explicitly
             # '"title": "Security triage [task_66]"',
             # '"labels": ["triage-urgent"]',
             # terminal audit line
-=======
-            '"results": [1]',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"message": "Issue closed with triage-urgent label in acme-webapp [task_66]"',
         ],
     ),
@@ -247,22 +240,15 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_04",
-<<<<<<< HEAD
     instruction=(
         "You are user 'maya-w'. Examine the repository 'acme-webapp' for any pending PRs. Provide comments on PR #5 twice using feedbacks 'Looks good overall' and 'Please add more tests', then summarize your actions in the terminal with the message 'Comments added and PR #5 reviewed.'"
     ),
-=======
-        instruction=(
-            "You are user 'maya-w'. Examine the repository 'acme-webapp' for any pending PRs. Provide comments on PR #5 twice using feedbacks 'Looks good overall' and 'Please add more tests', then summarize your actions in the terminal with the message 'Comments added and PR #5 reviewed.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="GetRepository", kwargs={"repo_name": "acme-webapp"}),
             Action(name="ListOpenPullRequests", kwargs={"repo_name": "acme-webapp"}),
             Action(name="CommentOnPullRequest", kwargs={"repo_name": "acme-webapp", "pr_number": 5, "comment": "Looks good overall"}),
             Action(name="CommentOnPullRequest", kwargs={"repo_name": "acme-webapp", "pr_number": 5, "comment": "Please add more tests"}),
-<<<<<<< HEAD
             # Action(name="GetPullRequest", kwargs={"repo_name": "acme-webapp", "pr_number": 5}),
             Action(name="AppendTerminal", kwargs={"message": "Comments added and PR #5 reviewed."}),
         ],
@@ -272,76 +258,52 @@ TASKS = [
     ),
 
     # 36 (alice-w) File CRUD on a branch with soft-delete via empty content (Hard ~8–9 edges)
-=======
-            Action(name="AppendTerminal", kwargs={"message": "Comments added and PR #5 evaluated."}),
-        ],
-        outputs=[
-            '"message": "Comments added and PR #5 evaluated."',
-        ],
-    ),
-
-    # 36
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_36",
-        instruction=(
-            "You are 'maya-w' and required to operate solely through the provided tools. Verify that the final state of the repository 'acme-webapp' meets ALL the acceptance criteria listed below. Consider these as outcomes/specifications—not step-by-step instructions. ACCEPTANCE CRITERIA (all must be satisfied): • A branch named 'file-crud' is present, originating from 'main'. • The file docs/note.txt is present on branch 'file-crud' and its final content is exactly: 'Hello v2'. • During the operation, the content 'Hello v1' was recorded in docs/note.txt and successfully read back once (include the read result in outputs). • The modification is committed with the exact commit message: 'docs(note): update to v2'. • A pull request is made from 'file-crud' into 'main' titled 'File CRUD update' with the body 'Promote CRUD change for docs/note.txt', and the PR indicates docs/note.txt as a modified file."
-        ),
+    instruction=(
+        "You are 'maya-w' and required to operate solely through the provided tools. Verify that the final state of the repository 'acme-webapp' meets ALL the acceptance criteria listed below. Consider these as outcomes/specifications—not step-by-step instructions. ACCEPTANCE CRITERIA (all must be satisfied): • A branch named 'file-crud' is present, originating from 'main'. • The file docs/note.txt is present on branch 'file-crud' and its final content is exactly: 'Hello v2'. • During the operation, the content 'Hello v1' was recorded in docs/note.txt and successfully read back once (include the read result in outputs). • The modification is committed with the exact commit message: 'docs(note): update to v2'. • A pull request is made from 'file-crud' into 'main' titled 'File CRUD update' with the body 'Promote CRUD change for docs/note.txt', and the PR indicates docs/note.txt as a modified file. LITERALS TO USE VERBATIM: - repo: acme-webapp - source branch: main - new branch: file-crud - path: docs/note.txt - v1 content: Hello v1 - v2 content: Hello v2 - commit message: docs(note): update to v2 - PR title: File CRUD update - PR body: Promote CRUD change for docs/note.txt"
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
+
             Action(name="CreateBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "source_branch": "main",
                 "new_branch": "file-crud"
             }),
-<<<<<<< HEAD
 
             # CREATE (v1)
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "file-crud",
                 "path": "docs/note.txt",
                 "content": "Hello v1"
             }),
-<<<<<<< HEAD
 
             # READ (capture v1)
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="GetFileContents", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "file-crud",
                 "path": "docs/note.txt"
             }),
-<<<<<<< HEAD
 
             # UPDATE (v2)
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "file-crud",
                 "path": "docs/note.txt",
                 "content": "Hello v2"
             }),
-<<<<<<< HEAD
 
             # Commit once to reflect the change
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CommitChangesToBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "file-crud",
                 "commit_message": "docs(note): update to v2"
             }),
-<<<<<<< HEAD
 
             # Open a PR to align with domain proposal richness
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreatePullRequest", kwargs={
                 "repo_name": "acme-webapp",
                 "title": "File CRUD update",
@@ -349,82 +311,75 @@ TASKS = [
                 "head": "file-crud",
                 "base": "main"
             }),
-<<<<<<< HEAD
 
             # Verify the PR lists the modified file
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="ListPullRequestFiles", kwargs={
                 "repo_name": "acme-webapp",
                 "pr_number": 1
             }),
         ],
         outputs=[
-<<<<<<< HEAD
             # from create_branch
             '"message": "Branch created"',
             # from get_file_contents (the v1 readback)
             '"path": "docs/note.txt", "content": "Hello v1"',
             # from list_pull_request_files (prove docs/note.txt is in the PR)
-=======
-            '"message": "Branch created"',
-            '"path": "docs/note.txt", "content": "Hello v1"',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"docs/note.txt"',
         ],
     ),
 
-<<<<<<< HEAD
     # 79. Terminal logs → fix script → PR diff verification (12 actions)
-=======
-    # 79
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_79",
-        instruction=(
-            "As a 'infra-lead', it is your role to assess a shell script amendment prior to its integration. Within the public repository 'acme-scripts', monitor modifications on a feature branch 'fix-script' derived from the 'main' branch, focusing on updates made to the script 'scripts/run.sh'. Initially, the script displays 'HELLO', with an adjustment later to also reveal 'WORLD'. During the process, capture a terminal log halfway with the message 'RUN'. After committing changes and initiating a pull request, examine both the file differences and the log results. Refer to these file content details: - Initial: '#!/usr/bin/env bash\\necho HELLO\\n' - Final: '#!/usr/bin/env bash\\necho HELLO\\necho WORLD\\n' - Commit messages: 'feat: add run script' and 'fix: append WORLD echo' - PR title: 'Fix run script', body: 'Append WORLD echo to run.sh' Provide the ultimate terminal log along with the list of modified files in the PR."
-        ),
+    instruction=(
+        "As a 'infra-lead', it is your role to assess a shell script amendment prior to its integration. Within the public repository 'acme-scripts', monitor modifications on a feature branch 'fix-script' derived from the 'main' branch, focusing on updates made to the script 'scripts/run.sh'. Initially, the script displays 'HELLO', with an adjustment later to also reveal 'WORLD'. During the process, capture a terminal log halfway with the message 'RUN'. After committing changes and initiating a pull request, examine both the file differences and the log results. Refer to these file content details: - Initial: '#!/usr/bin/env bash\necho HELLO\n' - Final: '#!/usr/bin/env bash\necho HELLO\necho WORLD\n' - Commit messages: 'feat: add run script' and 'fix: append WORLD echo' - PR title: 'Fix run script', body: 'Append WORLD echo to run.sh' Provide the ultimate terminal log along with the list of modified files in the PR."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "infra-lead"}),
-<<<<<<< HEAD
 
             # ❌ remove default_branch to avoid assuming a value not in instruction
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateRepository", kwargs={
                 "repo_name": "acme-scripts",
                 "visibility": "public"
             }),
+
             Action(name="CreateBranch", kwargs={
                 "repo_name": "acme-scripts",
                 "source_branch": "main",
                 "new_branch": "fix-script"
             }),
+
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "acme-scripts",
                 "branch": "fix-script",
                 "path": "scripts/run.sh",
                 "content": "#!/usr/bin/env bash\necho HELLO\n"
             }),
+
             Action(name="CommitChangesToBranch", kwargs={
                 "repo_name": "acme-scripts",
                 "branch": "fix-script",
                 "commit_message": "feat: add run script"
             }),
+
             Action(name="AppendTerminal", kwargs={"message": "RUN"}),
+
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "acme-scripts",
                 "branch": "fix-script",
                 "path": "scripts/run.sh",
                 "content": "#!/usr/bin/env bash\necho HELLO\necho WORLD\n"
             }),
+
             Action(name="CommitChangesToBranch", kwargs={
                 "repo_name": "acme-scripts",
                 "branch": "fix-script",
                 "commit_message": "fix: append WORLD echo"
             }),
+
             Action(name="InitializePullRequestsBlock", kwargs={"repo_name": "acme-scripts"}),
+
             Action(name="CreatePullRequest", kwargs={
                 "repo_name": "acme-scripts",
                 "title": "Fix run script",
@@ -432,20 +387,18 @@ TASKS = [
                 "head": "fix-script",
                 "base": "main"
             }),
+
             Action(name="ListPullRequestFiles", kwargs={
                 "repo_name": "acme-scripts",
                 "pr_number": 1
             }),
+
             Action(name="ListTerminalLastMessage", kwargs={}),
         ],
         outputs=[
-<<<<<<< HEAD
             # ✅ mirror list_terminal_last_message (timestamp + message)
             '"timestamp": "2025-08-21T12:00:00Z", "message": "RUN"',
             # ✅ mirror list_pull_request_files by using a substring that will appear
-=======
-            '"timestamp": "2025-08-21T12:00:00Z", "message": "RUN"',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"scripts/run.sh"',
         ],
     ),
@@ -454,18 +407,14 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_39",
-        instruction=(
-            "Your task as a 'ui-developer' is to work solely with the tools at your disposal. Confirm that the 'react-dashboard' repository fulfills ALL the acceptance criteria outlined below. These should be viewed as objectives/specifications—not as procedural instructions. ACCEPTANCE CRITERIA (all conditions must be satisfied): • An issue must be present with the title 'Build pipeline audit [task_69]' and the body 'Verify CI stages and artifacts for reproducibility. [task_69]'. • This issue should bear the label 'ci-audit', incorporate the precise comment 'Checklist prepared. [task_69]', and be marked 'closed'. • It should be possible to confirm via a search that an issue with the label 'ci-audit' is available in 'react-dashboard'. • There should be a terminal log stating exactly: 'Issue closed with ci-audit label in react-dashboard [task_69]'."
-        ),
+    instruction=(
+        "Your task as a 'ui-developer' is to work solely with the tools at your disposal. Confirm that the 'react-dashboard' repository fulfills ALL the acceptance criteria outlined below. These should be viewed as objectives/specifications—not as procedural instructions. ACCEPTANCE CRITERIA (all conditions must be satisfied): • An issue must be present with the title 'Build pipeline audit [task_69]' and the body 'Verify CI stages and artifacts for reproducibility. [task_69]'. • This issue should bear the label 'ci-audit', incorporate the precise comment 'Checklist prepared. [task_69]', and be marked 'closed'. • It should be possible to confirm via a search that an issue with the label 'ci-audit' is available in 'react-dashboard'. • There should be a terminal log stating exactly: 'Issue closed with ci-audit label in react-dashboard [task_69]'. LITERALS TO USE VERBATIM: - repo: react-dashboard - issue title: Build pipeline audit [task_69] - issue body: Verify CI stages and artifacts for reproducibility. [task_69] - label: ci-audit - comment: Checklist prepared. [task_69] - terminal message: Issue closed with ci-audit label in react-dashboard [task_69]"
+    ),
         actions=[
-<<<<<<< HEAD
             # Identity
             Action(name="GetMe", kwargs={"username": "ui-developer"}),
 
             # Create deterministic issue (flat row)
-=======
-            Action(name="GetMe", kwargs={"username": "ui-developer"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="CreateIssue",
                 kwargs={
@@ -475,11 +424,8 @@ TASKS = [
                     "labels": []
                 },
             ),
-<<<<<<< HEAD
 
             # Apply label + comment
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AddLabelToIssue",
                 kwargs={"repo_name": "react-dashboard", "issue_number": 1, "label": "ci-audit"},
@@ -492,29 +438,20 @@ TASKS = [
                     "comment": "Checklist prepared. [task_69]"
                 },
             ),
-<<<<<<< HEAD
 
             # Close the issue
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="UpdateIssue",
                 kwargs={"repo_name": "react-dashboard", "issue_number": 1, "state": "closed"},
             ),
-<<<<<<< HEAD
 
             # Deterministic search proof (scoped to repo)
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="SearchIssues",
                 kwargs={"query": "ci-audit"},
             ),
-<<<<<<< HEAD
 
             # Terminal audit
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AppendTerminal",
                 kwargs={"message": "Issue closed with ci-audit label in react-dashboard [task_69]"},
@@ -528,7 +465,6 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 32 (alice-w) acme-webapp: create, label, comment, close an issue; confirm last terminal entry
     Task(
         annotator='0',
@@ -536,15 +472,6 @@ TASKS = [
     instruction=(
         "Operate as 'maya-w' using solely the available tools. Confirm that the final state of the repository 'acme-webapp' meets ALL the acceptance criteria detailed below. Consider these as outcomes/specification—not procedural instructions. ACCEPTANCE CRITERIA (all must be satisfied): • An issue is present titled 'Nightly job failed on main' with the body \"CI job 'nightly-build' failed due to timeout.\". • The issue possesses the label 'ops', includes the precise comment 'Investigating: rerun queued.', and is in the 'closed' state. • The latest terminal log is specifically: 'Issue #1 closed: Nightly job failed on main'. LITERALS TO USE VERBATIM: - repo: acme-webapp - issue title: Nightly job failed on main - issue body: CI job 'nightly-build' failed due to timeout. - label to add: ops - issue comment: Investigating: rerun queued. - terminal message: Issue #1 closed: Nightly job failed on main"
     ),
-=======
-    # 32
-    Task(
-        annotator='0',
-        user_id="task_32",
-        instruction=(
-            "Operate as 'maya-w' using solely the available tools. Confirm that the final state of the repository 'acme-webapp' meets ALL the acceptance criteria detailed below. Consider these as outcomes/specification—not procedural instructions. ACCEPTANCE CRITERIA (all must be satisfied): • An issue is present titled 'Nightly job failed on main' with the body \"CI job 'nightly-build' failed due to timeout.\". • The issue possesses the label 'ops', includes the precise comment 'Investigating: rerun queued.', and is in the 'closed' state. • The latest terminal log is specifically: 'Issue #1 closed: Nightly job failed on main'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="CreateIssue", kwargs={
@@ -573,16 +500,11 @@ TASKS = [
             Action(name="ListTerminalLastMessage", kwargs={}),
         ],
         outputs=[
-<<<<<<< HEAD
             # from create_issue
             '"message": "Issue created", "number": 1',
             # from add_label_to_issue
             '"message": "Label \'ops\' added."',
             # from list_terminal_last_message (uses timestamp + message)
-=======
-            '"message": "Issue created", "number": 1',
-            '"message": "Label \'ops\' added."',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"timestamp": "2025-08-21T12:00:00Z", "message": "Issue #1 closed: Nightly job failed on main"',
         ],
     ),
@@ -591,28 +513,32 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_78",
-        instruction=(
-            "Act as 'security-group' and engage only via the available tools. Verify that the ending state of the repository 'security-scanner' fulfills ALL the acceptance criteria outlined below. These should be seen as outcomes/specification—not step-by-step directives. ACCEPTANCE CRITERIA (all conditions must be met): • A branch named 'sec-checks' has been created, branching from the default branch. • Within that branch, ensure the file '.github/workflows/security.yml' is present and its contents are exactly: on: [push] jobs: scan: runs-on: ubuntu-latest steps: - name: Security scan run: echo SCAN • The commit message is: 'chore: add security workflow'. • A pull request exists with the title 'Add security workflow' and the body 'Adds a basic GitHub Actions scan workflow.' from 'sec-checks' into the default branch. • Outputs should comprise the list of files changed in that pull request and any open code scanning alerts bearing the 'critical' severity."
-        ),
+    instruction=(
+        "Act as 'security-group' and engage only via the available tools. Verify that the ending state of the repository 'security-scanner' fulfills ALL the acceptance criteria outlined below. These should be seen as outcomes/specification—not step-by-step directives. ACCEPTANCE CRITERIA (all conditions must be met): • A branch named 'sec-checks' has been created, branching from the default branch. • Within that branch, ensure the file '.github/workflows/security.yml' is present and its contents are exactly: on: [push] jobs: scan: runs-on: ubuntu-latest steps: - name: Security scan run: echo SCAN • The commit message is: 'chore: add security workflow'. • A pull request exists with the title 'Add security workflow' and the body 'Adds a basic GitHub Actions scan workflow.' from 'sec-checks' into the default branch. • Outputs should comprise the list of files changed in that pull request and any open code scanning alerts bearing the 'critical' severity. LITERALS TO USE VERBATIM: - repo: security-scanner - branch: sec-checks - path: .github/workflows/security.yml - workflow content: on: [push]\njobs:\n scan:\n runs-on: ubuntu-latest\n steps:\n - name: Security scan\n run: echo SCAN - commit message: chore: add security workflow - PR title: Add security workflow - PR body: Adds a basic GitHub Actions scan workflow. - severity: critical"
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "security-group"}),
             Action(name="GetDefaultBranch", kwargs={"repo_name": "security-scanner"}),
+
             Action(name="CreateBranch", kwargs={
                 "repo_name": "security-scanner",
                 "source_branch": "main",
                 "new_branch": "sec-checks"
             }),
+
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "security-scanner",
                 "branch": "sec-checks",
                 "path": ".github/workflows/security.yml",
                 "content": "on: [push]\njobs:\n  scan:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Security scan\n        run: echo SCAN"
             }),
+
             Action(name="CommitChangesToBranch", kwargs={
                 "repo_name": "security-scanner",
                 "branch": "sec-checks",
                 "commit_message": "chore: add security workflow"
             }),
+
             Action(name="CreatePullRequest", kwargs={
                 "repo_name": "security-scanner",
                 "title": "Add security workflow",
@@ -620,23 +546,21 @@ TASKS = [
                 "head": "sec-checks",
                 "base": "main"
             }),
+
             Action(name="ListPullRequestFiles", kwargs={
                 "repo_name": "security-scanner",
                 "pr_number": 1
             }),
+
             Action(name="ListCodeScanningAlerts", kwargs={
                 "repo_name": "security-scanner",
                 "severity": "critical"
             }),
         ],
         outputs=[
-<<<<<<< HEAD
             # changed files list
             '".github/workflows/security.yml"',
             # critical code scanning alert (example shape)
-=======
-            '".github/workflows/security.yml"',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"severity": "critical"',
         ],
     ),
@@ -645,9 +569,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_83",
-        instruction=(
-            "You are maya-w. Within the 'acme-webapp' repository, initiate a branch titled 'feature-codeowners' stemming from the default branch. Introduce a file at the location '.github/CODEOWNERS' with the precise content: * @alice-w src/ @dev-sue tests/ @qa-mike Submit this file with the commit message 'chore: add CODEOWNERS'. Subsequently, set up a pull request to merge 'feature-codeowners' into the default branch with the title 'Add CODEOWNERS' and the body 'CODEOWNERS file added for ownership mapping.'. Add a pull request review comment stating 'Please review CODEOWNERS ownership setup.' Lastly, provide the list of files changed in that PR."
-        ),
+    instruction=(
+        "You are maya-w. Within the 'acme-webapp' repository, initiate a branch titled 'feature-codeowners' stemming from the default branch. Introduce a file at the location '.github/CODEOWNERS' with the precise content: * @alice-w src/ @dev-sue tests/ @qa-mike Submit this file with the commit message 'chore: add CODEOWNERS'. Subsequently, set up a pull request to merge 'feature-codeowners' into the default branch with the title 'Add CODEOWNERS' and the body 'CODEOWNERS file added for ownership mapping.'. Add a pull request review comment stating 'Please review CODEOWNERS ownership setup.' Lastly, provide the list of files changed in that PR."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="GetDefaultBranch", kwargs={"repo_name": "acme-webapp"}),
@@ -698,30 +622,29 @@ TASKS = [
         outputs=['{"files": [".github/CODEOWNERS"]}'],
     ),
 
-<<<<<<< HEAD
     # 40 (alice-w) Create PR -> Withdraw PR by deleting head branch (Hard ~12–13 edges)
-=======
-    # 40
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_40",
-        instruction=(
-            "You are 'maya-w' and must manage tasks solely through the provided tools. Verify that the final repository condition in 'acme-webapp' meets ALL the acceptance criteria outlined below. Consider these as outcomes/specification—not a step-by-step process. ACCEPTANCE CRITERIA (all must be met): • A feature branch called 'temp-pr' is established from the default branch and holds a file located at 'docs/pr_demo.txt' with the content precisely: 'temporary PR'. • A pull request is present titled 'Temp PR demo' with the body 'Demonstration of temporary PR lifecycle.' originating from head 'temp-pr' into the default branch. • The pull request is subsequently canceled by removing its head branch: the branch 'temp-pr' is no longer present. • A terminal log is created containing the message exactly: 'PR Temp PR demo withdrawn in acme-webapp.'. • Return the pull request title in outputs."
-        ),
+    instruction=(
+        "You are 'maya-w' and must manage tasks solely through the provided tools. Verify that the final repository condition in 'acme-webapp' meets ALL the acceptance criteria outlined below. Consider these as outcomes/specification—not a step-by-step process. ACCEPTANCE CRITERIA (all must be met): • A feature branch called 'temp-pr' is established from the default branch and holds a file located at 'docs/pr_demo.txt' with the content precisely: 'temporary PR'. • A pull request is present titled 'Temp PR demo' with the body 'Demonstration of temporary PR lifecycle.' originating from head 'temp-pr' into the default branch. • The pull request is subsequently canceled by removing its head branch: the branch 'temp-pr' is no longer present. • A terminal log is created containing the message exactly: 'PR Temp PR demo withdrawn in acme-webapp.'. • Return the pull request title in outputs. LITERALS TO USE VERBATIM: - repo: acme-webapp - base branch: main - head branch: temp-pr - path: docs/pr_demo.txt - file content: temporary PR - PR title: Temp PR demo - PR body: Demonstration of temporary PR lifecycle. - terminal message: PR Temp PR demo withdrawn in acme-webapp."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
+
             Action(name="CreateBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "source_branch": "main",
                 "new_branch": "temp-pr"
             }),
+
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "temp-pr",
                 "path": "docs/pr_demo.txt",
                 "content": "temporary PR"
             }),
+
             Action(name="CreatePullRequest", kwargs={
                 "repo_name": "acme-webapp",
                 "title": "Temp PR demo",
@@ -729,10 +652,12 @@ TASKS = [
                 "head": "temp-pr",
                 "base": "main"
             }),
+
             Action(name="DeleteBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "temp-pr"
             }),
+
             Action(name="AppendTerminal", kwargs={
                 "message": "PR Temp PR demo withdrawn in acme-webapp."
             }),
@@ -746,18 +671,14 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_43",
-        instruction=(
-            "Act as 'ryan-dev'. Within the 'utils-js' repository, generate a new issue named 'Utilities module audit [task_73]' including the body 'Review currency formatting and TypeScript support. [task_73]'. Ensure the issue bears the label 'module-audit', contains the exact comment 'Audit completed. [task_73]', and its final status is 'closed'. Provide verification of the label application, the issue's concluding status, and a search result entry confirming an issue with the label 'module-audit' is present. Incorporate this terminal audit statement: 'Issue closed with module-audit label in utils-js [task_73]'."
-        ),
+    instruction=(
+        "Act as 'ryan-dev'. Within the 'utils-js' repository, generate a new issue named 'Utilities module audit [task_73]' including the body 'Review currency formatting and TypeScript support. [task_73]'. Ensure the issue bears the label 'module-audit', contains the exact comment 'Audit completed. [task_73]', and its final status is 'closed'. Provide verification of the label application, the issue's concluding status, and a search result entry confirming an issue with the label 'module-audit' is present. Incorporate this terminal audit statement: 'Issue closed with module-audit label in utils-js [task_73]'."
+    ),
         actions=[
-<<<<<<< HEAD
             # Identity
             Action(name="GetMe", kwargs={"username": "ryan-dev"}),
 
             # Create deterministic issue
-=======
-            Action(name="GetMe", kwargs={"username": "ryan-dev"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="CreateIssue",
                 kwargs={
@@ -767,11 +688,8 @@ TASKS = [
                     "labels": []
                 },
             ),
-<<<<<<< HEAD
 
             # Apply label + comment
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AddLabelToIssue",
                 kwargs={"repo_name": "utils-js", "issue_number": 1, "label": "module-audit"},
@@ -784,38 +702,26 @@ TASKS = [
                     "comment": "Audit completed. [task_73]"
                 },
             ),
-<<<<<<< HEAD
 
             # Close the issue
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="UpdateIssue",
                 kwargs={"repo_name": "utils-js", "issue_number": 1, "state": "closed"},
             ),
-<<<<<<< HEAD
 
             # Prove via search (returns issue number(s))
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="SearchIssues",
                 kwargs={"query": "module-audit"},
             ),
-<<<<<<< HEAD
 
             # Fetch full metadata (title + labels) for outputs
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="GetIssue",
                 kwargs={"repo_name": "utils-js", "issue_number": 1},
             ),
-<<<<<<< HEAD
 
             # Terminal audit + verify last entry so output can mirror a tool response
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AppendTerminal",
                 kwargs={"message": "Issue closed with module-audit label in utils-js [task_73]"},
@@ -826,7 +732,6 @@ TASKS = [
             ),
         ],
         outputs=[
-<<<<<<< HEAD
             # label applied
             '"message": "Label \'module-audit\' added."',
             # final state
@@ -837,18 +742,10 @@ TASKS = [
             '"title": "Utilities module audit [task_73]"',
             '"labels": ["module-audit"]',
             # terminal audit line from list_terminal_last_message
-=======
-            '"message": "Label \'module-audit\' added."',
-            '"state": "closed"',
-            '"results": [1]',
-            '"title": "Utilities module audit [task_73]"',
-            '"labels": ["module-audit"]',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"message": "Issue closed with module-audit label in utils-js [task_73]"',
         ],
     ),
 
-<<<<<<< HEAD
     # 82. (ui-team) Create branch->Commit->Raise PR->Reject via validation->Log
     Task(
         annotator='0',
@@ -856,34 +753,29 @@ TASKS = [
     instruction=(
         "Operate as 'design-team' exclusively using the designated tools. Guarantee the ultimate repository state in 'ui-kit' meets ALL acceptance criteria detailed below, treating these as specification outcomes, not procedural steps. ACCEPTANCE CRITERIA (all criteria must be fulfilled): • Existence of a branch named 'feature-validate' that diverges from 'main' by appending a file at path 'docs/validation.md' with content precisely: 'Validation test: head==base should not merge.'. • Presence of a commit on 'feature-validate' with the exact message: 'Add docs/validation.md for merge validation test'. • A pull request #1 present in repository 'ui-kit' titled 'Validate merge blocking when head==base' with body 'This PR intentionally uses the same branch for head and base to verify merge validation.', both head and base on 'feature-validate'. • Rejection of an attempt to merge the pull request, with message 'Pull request rejected.' citing 'head and base branch are the same', alongside a false merged indicator. • An ending entry containing the specific message: 'PR #1 rejected in ui-kit: head equals base (validation).' STRINGS TO USE EXACTLY: - repo: ui-kit - source branch: main - working branch: feature-validate - path: docs/validation.md - file content: Validation test: head==base should not merge. - commit message: Add docs/validation.md for merge validation test - PR number: 1 - PR title: Validate merge blocking when head==base - PR body: This PR intentionally uses the same branch for head and base to verify merge validation. - terminal message: PR #1 rejected in ui-kit: head equals base (validation)."
     ),
-=======
-    # 82
-    Task(
-        annotator='0',
-        user_id="task_82",
-        instruction=(
-            "Operate as 'design-team' exclusively using the designated tools. Guarantee the ultimate repository state in 'ui-kit' meets ALL acceptance criteria detailed below, treating these as specification outcomes, not procedural steps. ACCEPTANCE CRITERIA (all criteria must be fulfilled): • Existence of a branch named 'feature-validate' that diverges from 'main' by appending a file at path 'docs/validation.md' with content precisely: 'Validation test: head==base should not merge.'. • Presence of a commit on 'feature-validate' with the exact message: 'Add docs/validation.md for merge validation test'. • A pull request #1 present in repository 'ui-kit' titled 'Validate merge blocking when head==base' with body 'This PR intentionally uses the same branch for head and base to verify merge validation.', both head and base on 'feature-validate'. • Rejection of an attempt to merge the pull request, with message 'Pull request rejected.' citing 'head and base branch are the same', alongside a false merged indicator. • An ending entry containing the specific message: 'PR #1 rejected in ui-kit: head equals base (validation).'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "design-team"}),
             Action(name="GetRepository", kwargs={"repo_name": "ui-kit"}),
+
             Action(name="CreateBranch", kwargs={
                 "repo_name": "ui-kit",
                 "source_branch": "main",
                 "new_branch": "feature-validate"
             }),
+
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "ui-kit",
                 "branch": "feature-validate",
                 "path": "docs/validation.md",
                 "content": "Validation test: head==base should not merge."
             }),
+
             Action(name="CommitChangesToBranch", kwargs={
                 "repo_name": "ui-kit",
                 "branch": "feature-validate",
                 "commit_message": "Add docs/validation.md for merge validation test"
             }),
+
             Action(name="CreatePullRequest", kwargs={
                 "repo_name": "ui-kit",
                 "title": "Validate merge blocking when head==base",
@@ -891,19 +783,18 @@ TASKS = [
                 "base": "feature-validate",
                 "head": "feature-validate"
             }),
+
             Action(name="MergePullRequest", kwargs={
                 "repo_name": "ui-kit",
                 "pr_number": 1
             }),
+
             Action(name="AppendTerminal", kwargs={
                 "message": "PR #1 rejected in ui-kit: head equals base (validation)."
             }),
         ],
         outputs=[
-<<<<<<< HEAD
             # From merge_pull_request rejection; use boolean "false" to match tool output
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"message": "Pull request rejected."',
             '"reason": "head and base branch are the same"',
             '"merged": "false"',
@@ -914,33 +805,39 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_80",
-        instruction=(
-            "As 'maya-w', work solely utilizing the tools provided. Ensure the ultimate condition of the repository 'acme-webapp' meets ALL acceptance criteria below; these should be viewed as outcomes/specification, not as step-by-step instructions. ACCEPTANCE CRITERIA (all must be fulfilled): • An open issue exists with the title 'Fix crash on startup' and content 'Application crashes due to missing env var check', that tracks the application startup crash. • The default branch contains a branch called 'fix-startup', and 'src/main.py' includes the line: 'assert ENV_VAR is not None'. This change is committed with the message 'fix: guard against missing ENV_VAR'. • A pull request has been initiated from 'fix-startup' to the default branch, titled 'Fix startup crash', with content 'Adds env var guard clause', and this pull request is merged. • Provide the issue metadata and the pull request title in outputs."
-        ),
+    instruction=(
+        "As 'maya-w', work solely utilizing the tools provided. Ensure the ultimate condition of the repository 'acme-webapp' meets ALL acceptance criteria below; these should be viewed as outcomes/specification, not as step-by-step instructions. ACCEPTANCE CRITERIA (all must be fulfilled): • An open issue exists with the title 'Fix crash on startup' and content 'Application crashes due to missing env var check', that tracks the application startup crash. • The default branch contains a branch called 'fix-startup', and 'src/main.py' includes the line: 'assert ENV_VAR is not None'. This change is committed with the message 'fix: guard against missing ENV_VAR'. • A pull request has been initiated from 'fix-startup' to the default branch, titled 'Fix startup crash', with content 'Adds env var guard clause', and this pull request is merged. • Provide the issue metadata and the pull request title in outputs. LITERALS TO USE VERBATIM: - repo: acme-webapp - issue title: Fix crash on startup - issue body: Application crashes due to missing env var check - branch: fix-startup - path: src/main.py - code line: assert ENV_VAR is not None - commit message: fix: guard against missing ENV_VAR - PR title: Fix startup crash - PR body: Adds env var guard clause"
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
+
             Action(name="CreateIssue", kwargs={
                 "repo_name": "acme-webapp",
                 "title": "Fix crash on startup",
                 "body": "Application crashes due to missing env var check"
             }),
+
             Action(name="GetDefaultBranch", kwargs={"repo_name": "acme-webapp"}),
+
             Action(name="CreateBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "source_branch": "main",
                 "new_branch": "fix-startup"
             }),
+
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "fix-startup",
                 "path": "src/main.py",
                 "content": "assert ENV_VAR is not None"
             }),
+
             Action(name="CommitChangesToBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "fix-startup",
                 "commit_message": "fix: guard against missing ENV_VAR"
             }),
+
             Action(name="CreatePullRequest", kwargs={
                 "repo_name": "acme-webapp",
                 "title": "Fix startup crash",
@@ -948,25 +845,20 @@ TASKS = [
                 "head": "fix-startup",
                 "base": "main"
             }),
+
             Action(name="MergePullRequest", kwargs={
                 "repo_name": "acme-webapp",
                 "pr_number": 1
             }),
-<<<<<<< HEAD
 
             # Fetch issue metadata for outputs
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="GetIssue", kwargs={
                 "repo_name": "acme-webapp",
                 "issue_number": 1
             }),
         ],
         outputs=[
-<<<<<<< HEAD
             # Keep outputs as substrings that appear in actual tool responses
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"number": 1',
             '"title": "Fix crash on startup"',
             '"state": "open"',
@@ -978,7 +870,6 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_44",
-<<<<<<< HEAD
     instruction=(
         "Act as 'design-team'. In the 'ui-kit' repository, there needs to be a pull request #11 entitled 'Introduce Theme Provider'. Submit the precise review comment 'Theme reviewed. [task_74]' on it, then approve and merge it. Provide the PR number, its final status 'merged', and a terminal entry that reads 'PR #11 merged with review in ui-kit [task_74]'."
     ),
@@ -990,14 +881,6 @@ TASKS = [
             Action(name="GetPullRequest", kwargs={"repo_name": "ui-kit", "pr_number": 11}),
 
             # Approve review (with the required comment)
-=======
-        instruction=(
-            "Act as 'design-team'. In the 'ui-kit' repository, there needs to be a pull request #11 entitled 'Introduce Theme Provider'. Submit the precise review comment 'Theme reviewed. [task_74]' on it, then approve and merge it. Provide the PR number, its final status 'merged', and a terminal entry that reads 'PR #11 merged with review in ui-kit [task_74]'."
-        ),
-        actions=[
-            Action(name="GetMe", kwargs={"username": "design-team"}),
-            Action(name="GetPullRequest", kwargs={"repo_name": "ui-kit", "pr_number": 11}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="CreatePullRequestReview",
                 kwargs={
@@ -1007,20 +890,14 @@ TASKS = [
                     "comment": "Theme reviewed. [task_74]"
                 },
             ),
-<<<<<<< HEAD
 
             # Merge PR
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="MergePullRequest",
                 kwargs={"repo_name": "ui-kit", "pr_number": 11},
             ),
-<<<<<<< HEAD
 
             # Terminal log
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AppendTerminal",
                 kwargs={"message": "PR #11 merged with review in ui-kit [task_74]"},
@@ -1037,9 +914,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_58",
-        instruction=(
-            "As 'server-main', you're required to finalize tasks on the repository state for 'payments-service', ensuring ALL of the following conditions are met: • There must be a documentation file located at 'docs/RETRY_POLICY.md' on the 'main' branch, containing the PRECISE text 'Retries: up to 2 attempts with exponential backoff starting at 250ms. Idempotency required for POST.'. • This revision should start from a branch named 'feature-retry-policy' and be represented by a commit whose message is EXACTLY 'Add retry policy documentation'. • Ensure the modification is introduced into 'main' through a reviewed pull request titled 'Add retry policy docs'; a review request must be sent to 'qa-erin', and an approving review with the exact comment 'LGTM' should be recorded. • A release tagged as 'v0.3.0', titled 'Retry policy docs', and with the body 'Publish retry policy documentation.' must exist, with the latest release showing tag 'v0.3.0'. • An issue must exist with the title 'Retry policy published' and body 'Docs merged and released as v0.3.0.' carrying the label 'documentation'. • The terminal audit log must contain the EXACT entry 'payments-service retry policy docs published and released as v0.3.0.'."
-        ),
+    instruction=(
+        "As 'server-main', you're required to finalize tasks on the repository state for 'payments-service', ensuring ALL of the following conditions are met: • There must be a documentation file located at 'docs/RETRY_POLICY.md' on the 'main' branch, containing the PRECISE text 'Retries: up to 2 attempts with exponential backoff starting at 250ms. Idempotency required for POST.'. • This revision should start from a branch named 'feature-retry-policy' and be represented by a commit whose message is EXACTLY 'Add retry policy documentation'. • Ensure the modification is introduced into 'main' through a reviewed pull request titled 'Add retry policy docs'; a review request must be sent to 'qa-erin', and an approving review with the exact comment 'LGTM' should be recorded. • A release tagged as 'v0.3.0', titled 'Retry policy docs', and with the body 'Publish retry policy documentation.' must exist, with the latest release showing tag 'v0.3.0'. • An issue must exist with the title 'Retry policy published' and body 'Docs merged and released as v0.3.0.' carrying the label 'documentation'. • The terminal audit log must contain the EXACT entry 'payments-service retry policy docs published and released as v0.3.0.'."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "server-main"}),
             Action(name="GetRepository", kwargs={"repo_name": "payments-service"}),
@@ -1108,15 +985,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_08",
-<<<<<<< HEAD
     instruction=(
         "You hold the role of 'infra-lead'. Within 'k8s-monitoring', confirm the default branch and merely list the commits in branch 'upgrade-prometheus'. Check open alerts by listing them to ensure Alert #45 remains open; subsequently, initiate an issue titled 'Harden TLS for Prometheus scrape' with labels ['security','prometheus'] and body: 'Alert #45 still open after v2.45.0 upgrade; enforce modern ciphers and TLS versions.'. Add to the terminal: 'k8s-monitoring TLS hardening tracked post-upgrade'."
     ),
-=======
-        instruction=(
-            "You hold the role of 'infra-lead'. Within 'k8s-monitoring', confirm the default branch and merely list the commits in branch 'upgrade-prometheus'. Check open alerts by listing them to ensure Alert #45 remains open; subsequently, initiate an issue titled 'Harden TLS for Prometheus scrape' with labels ['security','prometheus'] and body: 'Alert #45 remains active after the v2.45.0 upgrade; implement updated ciphers and TLS versions.'. Append to the terminal: 'k8s-monitoring TLS hardening tracked after upgrade.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "infra-lead"}),
             Action(name="GetRepository", kwargs={"repo_name": "k8s-monitoring"}),
@@ -1126,31 +997,21 @@ TASKS = [
             Action(name="CreateIssue", kwargs={
                 "repo_name": "k8s-monitoring",
                 "title": "Harden TLS for Prometheus scrape",
-<<<<<<< HEAD
                 "body": "Alert #45 still open after v2.45.0 upgrade; enforce modern ciphers and TLS versions.",
-=======
-                "body": "Alert #45 remains active after the v2.45.0 upgrade; implement updated ciphers and TLS versions.",
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
                 "labels": ["security", "prometheus"],
             }),
-            Action(name="AppendTerminal", kwargs={"message": "k8s-monitoring TLS hardening tracked after upgrade"}),
+            Action(name="AppendTerminal", kwargs={"message": "k8s-monitoring TLS hardening tracked post-upgrade"}),
         ],
-        outputs=['"message": "k8s-monitoring TLS hardening tracked after upgrade"'],
+        outputs=['"message": "k8s-monitoring TLS hardening tracked post-upgrade"'],
     ),
 
     # 84
     Task(
         annotator='0',
         user_id="task_84",
-<<<<<<< HEAD
     instruction=(
         "Your task is 'server-main'. Within 'payments-service', synchronize PR #21 with Issue #13 (3DS). Examine the repository, the issue, and the PR, and detail any existing code scanning alerts. Tag Issue #13 with 'needs-tests', comment as follows: 'PR #21 implements 3DS; add unit tests for fallback coverage before merging.', and provide a PR review to 'request_changes' accompanied by the comment: 'Please include unit tests for 3DS fallback flows.'. Conclude with terminal: 'payments-service 3DS alignment and test gating noted'."
     ),
-=======
-        instruction=(
-            "Your task is 'server-main'. Within 'payments-service', synchronize PR #21 with Issue #13 (3DS). Examine the repository, the issue, and the PR, and detail any existing code scanning alerts. Tag Issue #13 with 'needs-tests', comment as follows: 'PR #21 implements 3DS; please add unit tests for fallback coverage prior to merging.' Provide a PR review with 'request_changes' and add the comment: 'Unit tests for 3DS fallback flows are required.' End with: 'payments-service 3DS alignment and test gating acknowledged.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "server-main"}),
             Action(name="GetRepository", kwargs={"repo_name": "payments-service"}),
@@ -1158,18 +1019,14 @@ TASKS = [
             Action(name="GetPullRequest", kwargs={"repo_name": "payments-service", "pr_number": 21}),
             Action(name="ListCodeScanningAlerts", kwargs={"repo_name": "payments-service"}),
             Action(name="AddLabelToIssue", kwargs={"repo_name": "payments-service", "issue_number": 13, "label": "needs-tests"}),
-<<<<<<< HEAD
             Action(name="AddIssueComment", kwargs={"repo_name": "payments-service", "issue_number": 13, "comment": "PR #21 implements 3DS; add unit tests for fallback coverage before merge."}),
-=======
-            Action(name="AddIssueComment", kwargs={"repo_name": "payments-service", "issue_number": 13, "comment": "PR #21 implements 3DS; please add unit tests for fallback coverage prior to merging."}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="CreatePullRequestReview",
                 kwargs={
                     "repo_name": "payments-service",
                     "pr_number": 21,
                     "review_decision": "request_changes",
-                    "comment": "Please include unit tests for 3DS fallback flows.",
+                    "comment": "Please include unit tests for 3DS fallback flows."
                 },
             ),
             Action(name="AppendTerminal", kwargs={"message": "payments-service 3DS alignment and test gating noted"}),
@@ -1181,9 +1038,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_60",
-        instruction=(
-            "Your role is 'design-team'. Make sure that once your task is finalized, the 'ui-kit' repository should uphold ALL the following conditions: • A documentation file is present at 'docs/ACCESSIBILITY.md' containing the EXACT text 'All UI components must meet WCAG 2.1 AA. Provide ARIA labels for interactive elements. Keyboard navigation required.'. • The update starts from a branch known as 'feature-accessibility-docs' and is documented by a commit with the EXACT message 'Add accessibility documentation'. • This update is integrated into 'main' through a reviewed pull request titled 'Accessibility docs'; a review is requested from 'design-lead', and an approval review with the precise comment 'Approved for accessibility' is cataloged. • The repository is tagged with the subject 'accessibility'. • A release is marked with tag 'v2.0.0', title 'Accessibility docs', and a body that states 'Add accessibility documentation.', with the most recent release showing tag 'v2.0.0'. • There exists an issue termed 'Accessibility docs published' with the content 'Docs merged and released as v2.0.0.' tagged 'documentation'. • The terminal audit log has the EXACT note 'ui-kit accessibility docs published and released as v2.0.0.'."
-        ),
+    instruction=(
+        "Your role is 'design-team'. Make sure that once your task is finalized, the 'ui-kit' repository should uphold ALL the following conditions: • A documentation file is present at 'docs/ACCESSIBILITY.md' containing the EXACT text 'All UI components must meet WCAG 2.1 AA. Provide ARIA labels for interactive elements. Keyboard navigation required.'. • The update starts from a branch known as 'feature-accessibility-docs' and is documented by a commit with the EXACT message 'Add accessibility documentation'. • This update is integrated into 'main' through a reviewed pull request titled 'Accessibility docs'; a review is requested from 'design-lead', and an approval review with the precise comment 'Approved for accessibility' is cataloged. • The repository is tagged with the subject 'accessibility'. • A release is marked with tag 'v2.0.0', title 'Accessibility docs', and a body that states 'Add accessibility documentation.', with the most recent release showing tag 'v2.0.0'. • There exists an issue termed 'Accessibility docs published' with the content 'Docs merged and released as v2.0.0.' tagged 'documentation'. • The terminal audit log has the EXACT note 'ui-kit accessibility docs published and released as v2.0.0.'."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "design-team"}),
             Action(name="GetRepository", kwargs={"repo_name": "ui-kit"}),
@@ -1248,7 +1105,6 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 34 (alice-w) acme-webapp: create & triage an issue, then log closure
     Task(
         annotator='0',
@@ -1260,17 +1116,6 @@ TASKS = [
             Action(name="GetMe", kwargs={"username": "maya-w"}),
 
             # Write: create issue, label it, comment, and close it
-=======
-    # 34
-    Task(
-        annotator='0',
-        user_id="task_34",
-        instruction=(
-            "You are 'maya-w' and must function only through the specified tools. YOUR OBJECTIVE • In repository 'acme-webapp', make an issue utilizing the exact title and body literals, apply the exact label literal, insert the exact comment literal, finalize the issue, and confirm the most recent terminal entry is identical to the exact message literal. LITERALS (use verbatim) - repo: acme-webapp - issue title: CI gate: add test matrix - issue body: Add unit + integration test matrix - label to add: ready-for-ci - comment to post: Triage complete: scheduled for CI gate - terminal message: Issue #1 resolved in acme-webapp: CI readiness triage finished"
-        ),
-        actions=[
-            Action(name="GetMe", kwargs={"username": "maya-w"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateIssue", kwargs={
                 "repo_name": "acme-webapp",
                 "title": "CI gate: add test matrix",
@@ -1291,22 +1136,16 @@ TASKS = [
                 "issue_number": 1,
                 "state": "closed"
             }),
-<<<<<<< HEAD
 
             # Write: append terminal confirmation and verify it's the latest
             Action(name="AppendTerminal", kwargs={
                 "message": "Issue #1 closed in acme-webapp: ready-for-ci triage complete"
-=======
-            Action(name="AppendTerminal", kwargs={
-                "message": "Issue #1 resolved in acme-webapp: CI readiness triage finished"
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             }),
             Action(name="ListTerminalLastMessage", kwargs={}),
         ],
         outputs=[
             '"message": "Issue created", "number": 1',
             '"message": "Label \'ready-for-ci\' added."',
-<<<<<<< HEAD
             '"entries": {"printed_ts": "2025-08-21T12:00:00Z", "message": "Issue #1 closed in acme-webapp: ready-for-ci triage complete"}',
         ],
     ),
@@ -1320,33 +1159,15 @@ TASKS = [
     ),
         actions=[
             # Auth & repo context
-=======
-            '"entries": {"printed_ts": "2025-08-21T12:00:00Z", "message": "Issue #1 resolved in acme-webapp: CI readiness triage finished"}',
-        ],
-    ),
-
-    # 91
-    Task(
-        annotator='0',
-        user_id="task_91",
-        instruction=(
-            "You are 'security-group' tasked with working in repository 'security-scanner'. Implement an XSS rule modification ensuring that, once completed, the repository state meets ALL acceptance criteria outlined below, utilizing the exact constants provided. View this as a specification of outcomes and literals, NOT a step-by-step process. ACCEPTANCE CRITERIA (final state must reflect all of these): • A feature branch is created containing a relaxed XSS rule to minimize false positives on template literals. • Close issue number 5. • Merge a pull request (number 1 after reset for this repo) into the default branch. • Ensure a release with the exact tag below is present. • The closed issue comprises the exact post-release comment. CONSTANTS TO USE VERBATIM (all literals must match exactly): - Feature branch name: fix-xss-false-positives - Base branch name: main - File path: rules/xss/relaxed-template-rule.yml - File content (exact; SINGLE trailing newline only): id: xss-template-relaxed severity: medium pattern: disallow-unsafe-innerHTML allow_template_literals: true - Commit message: fix(xss): relax rule for template literals to reduce false positives - Issue to label and close: 5 - Label to add: xss - Pre-PR issue comment: Relaxing XSS rule for template literals; PR will close this issue. - PR title: Relax XSS rule to reduce false positives on template literals - PR body: Closes #5 - Pull request review status: approved - Release version: v1.3.1-xss-fp - Post-release issue note: Resolved in 'v1.3.1-xss-fp' (decreased false positives)"
-        ),
-        actions=[
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="GetMe", kwargs={"username": "security-group"}),
             Action(name="GetRepository", kwargs={"repo_name": "security-scanner"}),
             Action(name="GetDefaultBranch", kwargs={"repo_name": "security-scanner"}),
             Action(name="GetHeadSha", kwargs={"repo_name": "security-scanner", "branch": "main"}),
-<<<<<<< HEAD
 
             # Feature branch
             Action(name="CreateBranch", kwargs={"repo_name": "security-scanner", "new_branch": "fix-xss-false-positives", "source_branch": "main"}),
 
             # Change set on feature branch
-=======
-            Action(name="CreateBranch", kwargs={"repo_name": "security-scanner", "new_branch": "fix-xss-false-positives", "source_branch": "main"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "security-scanner",
                 "branch": "fix-xss-false-positives",
@@ -1358,17 +1179,12 @@ TASKS = [
                 "branch": "fix-xss-false-positives",
                 "commit_message": "fix(xss): relax rule for template literals to reduce false positives",
             }),
-<<<<<<< HEAD
 
             # Work existing issue #5 deterministically
             Action(name="AddLabelToIssue", kwargs={"repo_name": "security-scanner", "issue_number": 5, "label": "xss"}),
             Action(name="AddIssueComment", kwargs={"repo_name": "security-scanner", "issue_number": 5, "comment": "Relaxing XSS rule for template literals; PR will close this issue."}),
 
             # PR from feature → main
-=======
-            Action(name="AddLabelToIssue", kwargs={"repo_name": "security-scanner", "issue_number": 5, "label": "xss"}),
-            Action(name="AddIssueComment", kwargs={"repo_name": "security-scanner", "issue_number": 5, "comment": "Relaxing XSS rule for template literals; PR will close this issue."}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreatePullRequest", kwargs={
                 "repo_name": "security-scanner",
                 "title": "Relax XSS rule to reduce false positives on template literals",
@@ -1378,15 +1194,11 @@ TASKS = [
             }),
             Action(name="CreatePullRequestReview", kwargs={"repo_name": "security-scanner", "pr_number": 1, "review_decision": "approve"}),
             Action(name="MergePullRequest", kwargs={"repo_name": "security-scanner", "pr_number": 1}),
-<<<<<<< HEAD
 
             # Close the issue explicitly
             Action(name="UpdateIssue", kwargs={"repo_name": "security-scanner", "issue_number": 5, "state": "closed"}),
 
             # Release & annotate the issue
-=======
-            Action(name="UpdateIssue", kwargs={"repo_name": "security-scanner", "issue_number": 5, "state": "closed"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateRelease", kwargs={"repo_name": "security-scanner", "tag": "v1.3.1-xss-fp"}),
             Action(name="AddIssueComment", kwargs={"repo_name": "security-scanner", "issue_number": 5, "comment": "Fixed in 'v1.3.1-xss-fp' (reduced false positives)"}),
         ],
@@ -1396,7 +1208,6 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
 
 
 
@@ -1439,15 +1250,12 @@ TASKS = [
 
 
     # 01. (ui-team) Protect main and record an audit entry (no redundant calls)
-=======
-    # 01
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_01",
-        instruction=(
-            "You belong to 'design-team'. Validate that the 'main' branch of 'ui-kit' is safeguarded and verify its current protection status. Document the modification by creating an audit issue titled 'Protect main branch' with body 'Branch protection for main enabled.' and label 'ops', and record the precise terminal entry 'Branch main protection enabled in ui-kit.'."
-        ),
+    instruction=(
+        "You belong to 'design-team'. Validate that the 'main' branch of 'ui-kit' is safeguarded and verify its current protection status. Document the modification by creating an audit issue titled 'Protect main branch' with body 'Branch protection for main enabled.' and label 'ops', and record the precise terminal entry 'Branch main protection enabled in ui-kit.'"
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "design-team"}),
             Action(name="GetRepository", kwargs={"repo_name": "ui-kit"}),
@@ -1470,17 +1278,13 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 02. (security-team) Publish a specific release and confirm; also capture an audit trail
-=======
-    # 02
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_02",
-        instruction=(
-            "You represent 'security-group'. Issue a release in 'security-scanner' with tag 'v0.4.0', title 'Performance release', and body 'Performance optimizations and SARIF format support.' Afterwards, verify the latest release. Register an audit by opening an issue titled 'Release v0.4.0 created' with body 'Release published successfully.' labeled 'release', and enter the exact terminal entry 'security-scanner v0.4.0 released.'."
-        ),
+    instruction=(
+        "You represent 'security-group'. Issue a release in 'security-scanner' with tag 'v0.4.0', title 'Performance release', and body 'Performance optimizations and SARIF format support.' Afterwards, verify the latest release. Register an audit by opening an issue titled 'Release v0.4.0 created' with body 'Release published successfully.' labeled 'release', and enter the exact terminal entry 'security-scanner v0.4.0 released.'"
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "security-group"}),
             Action(name="GetRepository", kwargs={"repo_name": "security-scanner"}),
@@ -1511,17 +1315,13 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 03. (backend-core) Summarize alerts, create a deterministic tracking issue, log, and list by label
-=======
-    # 03
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_03",
-        instruction=(
-            "You are 'server-main'. Generate an auditable security snapshot for 'payments-service' which should achieve the following: • establish a new issue labeled 'Security alerts summary' with the body 'Tracking current code scanning findings and severities.' marked 'security'; • ensure the terminal log includes exactly this entry: {\"message\": \"Alerts retrieved.\", \"repo_name\": \"payments-service\", \"alert_count\": 1, \"alert_numbers\": [7], \"severities\": [\"high\"]} and the results must match the current code scanning alert summary data."
-        ),
+    instruction=(
+        "You are 'server-main'. Generate an auditable security snapshot for 'payments-service' which should achieve the following: • establish a new issue labeled 'Security alerts summary' with the body 'Tracking current code scanning findings and severities.' marked 'security'; • ensure the terminal log includes exactly this entry: {\"message\": \"Alerts retrieved.\", \"repo_name\": \"payments-service\", \"alert_count\": 1, \"alert_numbers\": [7], \"severities\": [\"high\"]} and the results must match the current code scanning alert summary data."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "server-main"}),
             Action(name="GetRepository", kwargs={"repo_name": "payments-service"}),
@@ -1551,9 +1351,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_05",
-        instruction=(
-            "You are 'infra-lead'. Within the 'k8s-monitoring' repository, display all code scanning alerts in the terminal. Subsequently, open an issue titled 'Track code scanning alerts' with the description 'Investigating code scanning alerts for identified issue numbers' and labels ['code-scan', 'security', 'infrastructure']. In conclusion, log a terminal message indicating the issue has been created."
-        ),
+    instruction=(
+        "You are 'infra-lead'. Within the 'k8s-monitoring' repository, display all code scanning alerts in the terminal. Subsequently, open an issue titled 'Track code scanning alerts' with the description 'Investigating code scanning alerts for identified issue numbers' and labels ['code-scan', 'security', 'infrastructure']. In conclusion, log a terminal message indicating the issue has been created."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "infra-lead"}),
             Action(name="GetRepository", kwargs={"repo_name": "k8s-monitoring"}),
@@ -1573,23 +1373,15 @@ TASKS = [
                     "labels": ["code-scan", "security", "infrastructure"],
                 },
             ),
-<<<<<<< HEAD
             # Action(name="GetIssue", kwargs={"repo_name": "k8s-monitoring", "issue_number": 1}),
             Action(
                 name="AppendTerminal",
                 kwargs={
                     "message": "Issue #1 created to track code scanning alerts in k8s-monitoring."
-=======
-            Action(
-                name="AppendTerminal",
-                kwargs={
-                    "message": "Issue #1 created to track code scanning alerts in k8s-monitoring",
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
                 },
             ),
         ],
         outputs=[
-<<<<<<< HEAD
             "'message': '{'message': 'Code alerts retrieved.', 'repo_name': 'k8s-monitoring', 'alert_count': 3, 'alert_numbers': [42, 45, 48], 'severities': ['high', 'medium', 'low']}",
             "Issue #1 created to track code scanning alerts in k8s-monitoring.",
         ],
@@ -1602,20 +1394,6 @@ TASKS = [
     instruction=(
         "As 'infra-lead', oversee the review of all merged pull requests across these repositories: 'acme-webapp', 'utils-js', 'nlp-models', 'security-scanner', 'flutter-finance-app', 'react-dashboard', and 'k8s-monitoring'. For every merged PR, compile the list of modified files and log a terminal audit entry as follows: 'Merged PR #{number} in {repo_name}: {comma-separated list of files}'."
     ),
-=======
-            "'message': '{\"message\": \"Code alerts retrieved.\", \"repo_name\": \"k8s-monitoring\", \"alert_count\": 3, \"alert_numbers\": [42, 45, 48], \"severities\": [\"high\", \"medium\", \"low\"]}'",
-            '"message": "Issue #1 created to track code scanning alerts in k8s-monitoring"',
-        ],
-    ),
-
-    # 06
-    Task(
-        annotator='0',
-        user_id="task_06",
-        instruction=(
-            "As 'infra-lead', oversee the review of all merged pull requests across these repositories: 'acme-webapp', 'utils-js', 'nlp-models', 'security-scanner', 'flutter-finance-app', 'react-dashboard', and 'k8s-monitoring'. For every merged PR, compile the list of modified files and log a terminal audit entry as follows: 'Merged PR #{number} in {repo_name}: {list of files separated by commas}'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "infra-lead"}),
             Action(name="ListPullRequests", kwargs={"repo_name": "acme-webapp"}),
@@ -1646,31 +1424,21 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 07. (backend-core) Collect commit history and author frequencies for payments-service
-=======
-    # 07
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_07",
-        instruction=(
-            "Taking on the role of 'server-main', gather the entire commit history from the 'payments-service' repository and assess commit authors alongside their frequencies. Include the complete record and specifically check the 'main' branch for branch-level statistics. Document the audit by opening an issue named 'Commit authors frequency audit' with the message 'Collected authors and commit counts from full history and main branch.' and the label 'audit', then enter the terminal note 'Authors frequency audit for payments-service completed'."
-        ),
+    instruction=(
+        "Taking on the role of 'server-main', gather the entire commit history from the 'payments-service' repository and assess commit authors alongside their frequencies. Include the complete record and specifically check the 'main' branch for branch-level statistics. Document the audit by opening an issue named 'Commit authors frequency audit' with the message 'Collected authors and commit counts from full history and main branch.' and the label 'audit', then enter the terminal note 'Authors frequency audit for payments-service completed'."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "server-main"}),
-<<<<<<< HEAD
             # Ground repository context owned by server-main
             Action(name="SearchRepositories", kwargs={"owner": "server-main"}),
             # Retrieve commit history (full + per-branch) to derive author frequencies externally
             Action(name="ListCommits", kwargs={"repo_name": "payments-service"}),
             Action(name="ListCommits", kwargs={"repo_name": "payments-service", "branch": "main"}),
             # Record audit artifacts
-=======
-            Action(name="SearchRepositories", kwargs={"owner": "server-main"}),
-            Action(name="ListCommits", kwargs={"repo_name": "payments-service"}),
-            Action(name="ListCommits", kwargs={"repo_name": "payments-service", "branch": "main"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="CreateIssue",
                 kwargs={
@@ -1691,9 +1459,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_09",
-        instruction=(
-            "You are 'intern-emma'. Within 'portfolio-site', initiate a task for an accessibility audit following the last update. Confirm repository contents, and then open an issue titled 'Accessibility audit (WCAG)' with the label 'a11y', including the body 'Run Lighthouse + manual checks for keyboard navigation and color contrast.' Add to terminal: 'portfolio-site accessibility audit opened'."
-        ),
+    instruction=(
+        "You are 'intern-emma'. Within 'portfolio-site', initiate a task for an accessibility audit following the last update. Confirm repository contents, and then open an issue titled 'Accessibility audit (WCAG)' with the label 'a11y', including the body 'Run Lighthouse + manual checks for keyboard navigation and color contrast.' Add to terminal: 'portfolio-site accessibility audit opened'."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "intern-emma"}),
             Action(name="GetRepository", kwargs={"repo_name": "portfolio-site"}),
@@ -1713,15 +1481,12 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_10",
-        instruction=(
-            "You are 'maya-w'. In 'acme-webapp', enumerate current alerts and branches, examine 'feature-update' files, and initiate an issue named 'Post-merge security sweep' with labels ['security','audit'] along with the body: 'Review SQLi alert and ensure tests and sanitization on main.' Add to terminal: 'acme-webapp post-merge security sweep initiated'."
-        ),
+    instruction=(
+        "You are 'maya-w'. In 'acme-webapp', enumerate current alerts and branches, examine 'feature-update' files, and initiate an issue named 'Post-merge security sweep' with labels ['security','audit'] along with the body: 'Review SQLi alert and ensure tests and sanitization on main.' Add to terminal: 'acme-webapp post-merge security sweep initiated'."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
-<<<<<<< HEAD
             # Action(name="GetRepository", kwargs={"repo_name": "acme-webapp"}),
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="ListCodeScanningAlerts", kwargs={"repo_name": "acme-webapp"}),
             Action(name="ListBranches", kwargs={"repo_name": "acme-webapp"}),
             Action(name="ListFiles", kwargs={"repo_name": "acme-webapp", "branch": "feature-update"}),
@@ -1740,15 +1505,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_11",
-<<<<<<< HEAD
     instruction=(
         "Act as 'infra-lead'. In the context of 'k8s-monitoring', verify merged PRs #32 and #34, subsequently outline the commits on 'feature-alertmanager', and place a terminal note stating that upgrade and alerting configuration are verified jointly."
     ),
-=======
-        instruction=(
-            "Act as 'infra-lead'. In the context of 'k8s-monitoring', verify merged PRs #32 and #34, with a final note confirming that upgrade and alerting configuration have been jointly validated."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "infra-lead"}),
             Action(name="GetRepository", kwargs={"repo_name": "k8s-monitoring"}),
@@ -1764,15 +1523,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_12",
-<<<<<<< HEAD
     instruction=(
         "Function as 'ui-developer'. Within 'react-dashboard', enumerate open PRs, examine the conflicted PR #28, and add a comment to Issue #25 with this message: 'Plan: add useEffect cleanup + ws close on unmount; verify heap snapshots.' Add to terminal: 'react-dashboard memory leak investigation planned'."
     ),
-=======
-        instruction=(
-            "Function as 'ui-developer'. Within 'react-dashboard', enumerate open PRs, examine the conflicted PR #28, and comment on Issue #25 with: 'Strategy: implement useEffect cleanup and WebSocket closure on unmount; check heap snapshots.' Update terminal with: 'memory leak investigation for react-dashboard scheduled.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "ui-developer"}),
             Action(name="GetRepository", kwargs={"repo_name": "react-dashboard"}),
@@ -1786,12 +1539,12 @@ TASKS = [
                     "comment": "Plan: add useEffect cleanup + ws close on unmount; verify heap snapshots.",
                 },
             ),
+
             Action(name="AppendTerminal", kwargs={"message": "react-dashboard memory leak investigation planned"}),
         ],
         outputs=['"message": "react-dashboard memory leak investigation planned"'],
     ),
 
-<<<<<<< HEAD
     # 13 (alice-w) Triage a single issue with label + comment and close it
     Task(
         annotator='0',
@@ -1799,15 +1552,6 @@ TASKS = [
     instruction=(
         "You are 'maya-w' managing the repository 'acme-webapp'. Verify that the repository's final state meets ALL acceptance criteria listed below, utilizing the precise literals given. Approach this as outcomes/specification, not detailed guidance. ACCEPTANCE CRITERIA (all must be met in the end): • Issue #3 has the label: triage-urgent • Issue #3 state is exactly: closed • Issue #3 contains the exact new comment: Labels applied: triage-urgent, quality. LITERALS TO USE VERBATIM: - repo: acme-webapp - issue number: 3 - label: triage-urgent - comment: Labels applied: triage-urgent, quality. - closed state literal: closed"
     ),
-=======
-    # 13
-    Task(
-        annotator='0',
-        user_id="task_13",
-        instruction=(
-            "You are 'maya-w' managing the repository 'acme-webapp'. Verify that the repository's final state meets ALL acceptance criteria listed below, utilizing the precise literals given. Approach this as outcomes/specification, not detailed guidance. ACCEPTANCE CRITERIA (all must be met in the end): • Issue #3 has the label: triage-urgent • Issue #3 state is exactly: closed • Issue #3 includes the comment: Labels applied: triage-urgent, quality."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="AddLabelToIssue", kwargs={"repo_name": "acme-webapp", "issue_number": 3, "label": "triage-urgent"}),
@@ -1821,7 +1565,6 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 14 (bob-dev) utils-js: label + comment + close one issue (outputs mirror tool returns)
     Task(
         annotator='0',
@@ -1829,18 +1572,10 @@ TASKS = [
     instruction=(
         "You are 'ryan-dev' overseeing the repository 'utils-js'. Confirm that the final state satisfies ALL acceptance criteria outlined below, approaching this as a specification (not detailed instructions). ACCEPTANCE CRITERIA: • Issue #4 has the label: needs-triage • Issue #4 contains the exact new comment: Triaged and scheduled for next minor. • Issue #4 state is exactly: closed LITERALS TO USE VERBATIM: - repo: utils-js - issue number: 4 - label: needs-triage - comment: Triaged and scheduled for next minor. - closed state literal: closed"
     ),
-=======
-    # 14
-    Task(
-        annotator='0',
-        user_id="task_14",
-        instruction=(
-            "You are 'ryan-dev' overseeing the repository 'utils-js'. Confirm that the final state satisfies ALL acceptance criteria outlined below, approaching this as a specification (not detailed instructions). ACCEPTANCE CRITERIA: • Issue #4 has the label: needs-triage • Issue #4 contains the exact new comment: Triaged and scheduled for next minor. • Issue #4 status is: closed."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "ryan-dev"}),
             Action(name="GetRepository", kwargs={"repo_name": "utils-js"}),
+
             Action(name="AddLabelToIssue", kwargs={"repo_name": "utils-js", "issue_number": 4, "label": "needs-triage"}),
             Action(name="AddIssueComment", kwargs={"repo_name": "utils-js", "issue_number": 4, "comment": "Triaged and scheduled for next minor."}),
             Action(name="UpdateIssue", kwargs={"repo_name": "utils-js", "issue_number": 4, "state": "closed"}),
@@ -1852,7 +1587,6 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 15 (frontend-dev) react-dashboard: label + comment + close one issue (outputs mirror tool returns)
     Task(
         annotator='0',
@@ -1860,18 +1594,10 @@ TASKS = [
     instruction=(
         "As 'ui-developer', you are working in repository 'react-dashboard'. Ensure that the final outcome fulfills ALL acceptance criteria below, treating this as a specification rather than step-by-step guidance. ACCEPTANCE CRITERIA: • Issue #25 must have the label: investigate • Issue #25 should include the precise new comment: Triaged; assigning to next sprint. • Issue #25 should be exactly in the state: closed LITERALS TO USE VERBATIM: - repo: react-dashboard - issue number: 25 - label: investigate - comment: Triaged; assigning to next sprint. - closed state literal: closed"
     ),
-=======
-    # 15
-    Task(
-        annotator='0',
-        user_id="task_15",
-        instruction=(
-            "As 'ui-developer', you are working in repository 'react-dashboard'. Ensure that the final outcome fulfills ALL acceptance criteria below, treating this as a specification rather than step-by-step guidance. ACCEPTANCE CRITERIA: • Issue #25 must have the label: investigate • Issue #25 should include the precise new comment: Triaged; assigning to next sprint. • Issue #25 status must be: closed."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "ui-developer"}),
             Action(name="GetRepository", kwargs={"repo_name": "react-dashboard"}),
+
             Action(name="AddLabelToIssue", kwargs={"repo_name": "react-dashboard", "issue_number": 25, "label": "investigate"}),
             Action(name="AddIssueComment", kwargs={"repo_name": "react-dashboard", "issue_number": 25, "comment": "Triaged; assigning to next sprint."}),
             Action(name="UpdateIssue", kwargs={"repo_name": "react-dashboard", "issue_number": 25, "state": "closed"}),
@@ -1883,7 +1609,6 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 16 (nlp-labs) nlp-models: label + comment + close one issue
     Task(
         annotator='0',
@@ -1891,18 +1616,10 @@ TASKS = [
     instruction=(
         "As a member of 'language-ai', ensure that while working in the repository 'nlp-models', the end state complies with ALL acceptance criteria listed below, using this as a specification instead of step-by-step guidance. ACCEPTANCE CRITERIA: • Issue #12 should bear the label: investigate-oom • Issue #12 is required to contain the exact new comment: Initial triage: OOM under training; mitigation underway. • Issue #12 needs to be in the state exactly as: closed LITERALS TO USE VERBATIM: - repo: nlp-models - issue number: 12 - label: investigate-oom - comment: Initial triage: OOM under training; mitigation underway. - closed state literal: closed"
     ),
-=======
-    # 16
-    Task(
-        annotator='0',
-        user_id="task_16",
-        instruction=(
-            "As a member of 'language-ai', ensure that while working in the repository 'nlp-models', the end state complies with ALL acceptance criteria listed below, using this as a specification instead of step-by-step guidance. ACCEPTANCE CRITERIA: • Issue #12 should bear the label: investigate-oom • Issue #12 is required to contain the exact new comment: Initial triage: OOM under training; mitigation underway. • Issue #12 must be set to the state: closed."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "language-ai"}),
             Action(name="GetRepository", kwargs={"repo_name": "nlp-models"}),
+
             Action(name="AddLabelToIssue", kwargs={"repo_name": "nlp-models", "issue_number": 12, "label": "investigate-oom"}),
             Action(name="AddIssueComment", kwargs={"repo_name": "nlp-models", "issue_number": 12, "comment": "Initial triage: OOM under training; mitigation underway."}),
             Action(name="UpdateIssue", kwargs={"repo_name": "nlp-models", "issue_number": 12, "state": "closed"}),
@@ -1914,23 +1631,21 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 17 (alice-w) acme-webapp: add topic; confirm last terminal entry
-=======
-    # 17
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_17",
-        instruction=(
-            "You are 'maya-w' and need to utilize only the available tools. YOUR GOAL • In the 'acme-webapp' repository, confirm the repository topics contain the precise topic literal below. • Confirm the latest terminal entry matches the message literal below exactly (branch name included). LITERALS (use verbatim) - repo: acme-webapp - topic to add: quality-gates - terminal message: Topic updated: quality-gates added to acme-webapp on branch main"
-        ),
+    instruction=(
+        "You are 'maya-w' and need to utilize only the available tools. YOUR GOAL • In the 'acme-webapp' repository, confirm the repository topics contain the precise topic literal below. • Confirm the latest terminal entry matches the message literal below exactly (branch name included). LITERALS (use verbatim) - repo: acme-webapp - topic to add: quality-gates - terminal message: Topic updated: quality-gates added to acme-webapp on branch main"
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="GetRepository", kwargs={"repo_name": "acme-webapp"}),
             Action(name="GetDefaultBranch", kwargs={"repo_name": "acme-webapp"}),
+
             Action(name="AddRepoTopic", kwargs={"repo_name": "acme-webapp", "topic": "quality-gates"}),
             Action(name="ListRepoTopics", kwargs={"repo_name": "acme-webapp"}),
+
             Action(name="AppendTerminal", kwargs={"message": "Topic updated: quality-gates added to acme-webapp on branch main"}),
             Action(name="ListTerminalLastMessage", kwargs={}),
         ],
@@ -1940,20 +1655,15 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 18 (alice-w) acme-webapp: rename, set private, add topic, verify listings, log confirmation
-=======
-    # 18
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_18",
-        instruction=(
-            "You are 'maya-w' and need to use only the available tools. YOUR GOAL • Change the name of the 'acme-webapp' repository to match the exact new name literal. • Adjust the renamed repository's visibility to the exact value literal. • Incorporate the exact topic literal into the renamed repository and confirm the topics. • Verify that the renamed repository is included in your list of owned repositories. • Ensure the most recent terminal entry corresponds exactly to the message literal. LITERALS (use verbatim) - old repo name: acme-webapp - new repo name: acme-webapp-qa - visibility: private - topic to add: qa-ready - terminal message: Repository acme-webapp renamed to acme-webapp-qa and set private; topic qa-ready added"
-        ),
+    instruction=(
+        "You are 'maya-w' and need to use only the available tools. YOUR GOAL • Change the name of the 'acme-webapp' repository to match the exact new name literal. • Adjust the renamed repository's visibility to the exact value literal. • Incorporate the exact topic literal into the renamed repository and confirm the topics. • Verify that the renamed repository is included in your list of owned repositories. • Ensure the most recent terminal entry corresponds exactly to the message literal. LITERALS (use verbatim) - old repo name: acme-webapp - new repo name: acme-webapp-qa - visibility: private - topic to add: qa-ready - terminal message: Repository acme-webapp renamed to acme-webapp-qa and set private; topic qa-ready added"
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
-<<<<<<< HEAD
 
             # Rename, set visibility, and add topic to the renamed repo
             Action(name="RenameRepository", kwargs={"old_name": "acme-webapp", "new_name": "acme-webapp-qa"}),
@@ -1965,13 +1675,6 @@ TASKS = [
             Action(name="ListRepositories", kwargs={}),
 
             # Write confirmation to terminal and verify last entry
-=======
-            Action(name="RenameRepository", kwargs={"old_name": "acme-webapp", "new_name": "acme-webapp-qa"}),
-            Action(name="SetRepositoryVisibility", kwargs={"repo_name": "acme-webapp-qa", "visibility": "private"}),
-            Action(name="AddRepoTopic", kwargs={"repo_name": "acme-webapp-qa", "topic": "qa-ready"}),
-            Action(name="ListRepoTopics", kwargs={"repo_name": "acme-webapp-qa"}),
-            Action(name="ListRepositories", kwargs={}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="AppendTerminal", kwargs={
                 "message": "Repository acme-webapp renamed to acme-webapp-qa and set private; topic qa-ready added"
             }),
@@ -1985,25 +1688,18 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 19 (alice-w) acme-webapp: enable branch protection and log confirmation
-=======
-    # 19
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_19",
-        instruction=(
-            "You are 'maya-w' and you should operate solely through the available tools. PERFORM THESE ACTIONS • Apply branch protection to the default branch of the repository 'acme-webapp' using the precise rule literal. • Confirm that protection is active for that branch. • Add the specified terminal message literal and make certain it is the most recent entry. LITERALS (use verbatim) - repo: acme-webapp - branch literal: main - protected flag: 'true' - rules object: {\"require_code_owner_reviews\": True} - terminal message: Branch protection enabled on acme-webapp main"
-        ),
+    instruction=(
+        "You are 'maya-w' and you should operate solely through the available tools. PERFORM THESE ACTIONS • Apply branch protection to the default branch of the repository 'acme-webapp' using the precise rule literal. • Confirm that protection is active for that branch. • Add the specified terminal message literal and make certain it is the most recent entry. LITERALS (use verbatim) - repo: acme-webapp - branch literal: main - protected flag: 'true' - rules object: {\"require_code_owner_reviews\": True} - terminal message: Branch protection enabled on acme-webapp main"
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="GetDefaultBranch", kwargs={"repo_name": "acme-webapp"}),
-<<<<<<< HEAD
 
             # ✅ boolean true (not string)
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="SetBranchProtection",
                 kwargs={
@@ -2013,19 +1709,16 @@ TASKS = [
                     "rules": {"require_code_owner_reviews": True},
                 },
             ),
+
             Action(name="GetBranchProtection", kwargs={"repo_name": "acme-webapp", "branch": "main"}),
             Action(name="AppendTerminal", kwargs={"message": "Branch protection enabled on acme-webapp main"}),
             Action(name="ListTerminalLastMessage", kwargs={}),
         ],
         outputs=[
-<<<<<<< HEAD
             # from set_branch_protection
             '"message": "Branch protection enabled."',
 
             # from list_terminal_last_message
-=======
-            '"message": "Branch protection enabled."',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"timestamp": "2025-08-21T12:00:00Z", "message": "Branch protection enabled on acme-webapp main"',
         ],
     ),
@@ -2034,15 +1727,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_21",
-<<<<<<< HEAD
     instruction=(
         "You are 'design-team'. Review the open PRs in 'ui-kit', provide two comments on PR #11 with feedback 'Looks great overall!' and 'Can we optimize the load time?', retrieve details of PR #12, label issue #6 as 'reviewed', and log your review in the terminal."
     ),
-=======
-        instruction=(
-            "You are 'design-team'. Review the open PRs in 'ui-kit', provide two comments on PR #11 with feedback 'Looks great overall!' and 'Can we optimize the load time?', retrieve details of PR #12, label issue #6 as 'reviewed', and log your feedback in the terminal."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "design-team"}),
             Action(name="GetRepository", kwargs={"repo_name": "ui-kit"}),
@@ -2051,17 +1738,10 @@ TASKS = [
             Action(name="CommentOnPullRequest", kwargs={"repo_name": "ui-kit", "pr_number": 11, "comment": "Can we optimize the load time?"}),
             Action(name="GetPullRequest", kwargs={"repo_name": "ui-kit", "pr_number": 12}),
             Action(name="AddLabelToIssue", kwargs={"repo_name": "ui-kit", "issue_number": 6, "label": "reviewed"}),
-<<<<<<< HEAD
             Action(name="AppendTerminal", kwargs={"message": "PR #11 reviewed and issue #6 labeled as reviewed."}),
         ],
         outputs=[
             '"message": "PR #11 reviewed and issue #6 labeled as reviewed."'
-=======
-            Action(name="AppendTerminal", kwargs={"message": "PR #11 reviewed and issue #6 marked as reviewed"}),
-        ],
-        outputs=[
-            '"message": "PR #11 reviewed and issue #6 marked as reviewed"',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         ],
     ),
 
@@ -2069,20 +1749,13 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_22",
-<<<<<<< HEAD
     instruction=(
         "As 'infra-lead', evaluate merged pull requests in 'k8s-monitoring'. For each PR that has been merged, provide the list of altered files and the commit authors. PR #32 was integrated from the branch 'feature-alertmanager', and PR #34 from 'upgrade-prometheus'. In case any PR alters files within the 'config/' folder, create an issue titled 'Audit config changes' with the content 'Merged PRs modified files under config/ directory. Review needed.' Then add to the terminal log exactly: Audit results: PR #32 files: ['kubernetes/alertmanager.yaml', 'config/alertmanager.yml', 'docker-compose.yml'], authors: ['infra-lead'] PR #34 files: ['kubernetes/prometheus.yaml', 'config/prometheus.yml', 'docs/MONITORING.md'], authors: ['infra-lead']"
     ),
-=======
-        instruction=(
-            "As 'infra-lead', evaluate merged pull requests in 'k8s-monitoring'. For each PR that has been merged, provide the list of altered files and the commit authors. PR #32 was integrated from the branch 'feature-alertmanager', and PR #34 from 'upgrade-prometheus'. In case any PR alters files within the 'config/' folder, create an issue titled 'Audit config changes' with the content 'Merged PRs modified files under config/ directory. Review needed.' Then add to the terminal log exactly: Audit results: PR #32 files: ['kubernetes/alertmanager.yaml', 'config/alertmanager.yml', 'docker-compose.yml'], authors: ['infra-lead'] PR #34 files: ['kubernetes/prometheus.yaml', 'config/prometheus.yml', 'docs/MONITORING.md'], authors: ['infra-lead']"
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "infra-lead"}),
             Action(name="GetRepository", kwargs={"repo_name": "k8s-monitoring"}),
             Action(name="ListPullRequests", kwargs={"repo_name": "k8s-monitoring"}),
-<<<<<<< HEAD
             # PR 32
             Action(name="ListPullRequestFiles", kwargs={"repo_name": "k8s-monitoring", "pr_number": 32}),
             Action(name="ListCommits", kwargs={"repo_name": "k8s-monitoring", "branch": "feature-alertmanager"}),
@@ -2092,24 +1765,14 @@ TASKS = [
             Action(name="ListCommits", kwargs={"repo_name": "k8s-monitoring", "branch": "upgrade-prometheus"}),
 
             # ✅ DB-modifying action (if config/ is touched)
-=======
-            Action(name="ListPullRequestFiles", kwargs={"repo_name": "k8s-monitoring", "pr_number": 32}),
-            Action(name="ListCommits", kwargs={"repo_name": "k8s-monitoring", "branch": "feature-alertmanager"}),
-            Action(name="ListPullRequestFiles", kwargs={"repo_name": "k8s-monitoring", "pr_number": 34}),
-            Action(name="ListCommits", kwargs={"repo_name": "k8s-monitoring", "branch": "upgrade-prometheus"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateIssue", kwargs={
                 "repo_name": "k8s-monitoring",
                 "title": "Audit config changes",
                 "body": "Merged PRs modified files under config/ directory. Review needed.",
-<<<<<<< HEAD
                 # "labels": ["audit"]
             }),
 
             # Terminal log using **real values**
-=======
-            }),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="AppendTerminal", kwargs={
                 "message": (
                     "Audit results:\n"
@@ -2130,25 +1793,16 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_24",
-<<<<<<< HEAD
     instruction=(
         "As 'design-team', check that Alert #4 dismissal in 'ui-kit' is consistent with the latest commits on 'feature-theme'. Examine branch commits and the current alerts, inspect Issue #6, and add a PR review comment on PR #11 mentioning the security status. Append terminal: 'ui-kit XSS dismissal validated against feature-theme commits'."
     ),
-=======
-        instruction=(
-            "As 'design-team', check that Alert #4 dismissal in 'ui-kit' is consistent with the latest commits on 'feature-theme'. Examine branch commits and the current alerts, inspect Issue #6, and add a review comment on PR #11 regarding security status. Append terminal: 'ui-kit XSS dismissal confirmed with feature-theme commits'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "design-team"}),
             Action(name="GetRepository", kwargs={"repo_name": "ui-kit"}),
             Action(name="ListCommits", kwargs={"repo_name": "ui-kit", "branch": "feature-theme"}),
             Action(name="ListCodeScanningAlerts", kwargs={"repo_name": "ui-kit"}),
             Action(name="GetIssue", kwargs={"repo_name": "ui-kit", "issue_number": 6}),
-<<<<<<< HEAD
             # Action(name="AddIssueComment", kwargs={"repo_name": "ui-kit", "issue_number": 6, "comment": "Security: Alert #4 dismissed post latest feature-theme commits."}),
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="GetPullRequest", kwargs={"repo_name": "ui-kit", "pr_number": 11}),
             Action(name="CreatePullRequestReview", kwargs={
                 "repo_name": "ui-kit",
@@ -2165,15 +1819,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_25",
-<<<<<<< HEAD
     instruction=(
         "You are 'security-group'. For 'security-scanner', confirm the resolution of Issue #11 through PR #23 and examine the commits on 'perf-optimizations'. Develop a release called 'v0.3.1 Performance optimization' containing the text: 'Implements file system cache; closes #11; ~70% performance gain.'. Append terminal: 'security-scanner perf fix validated and released'."
     ),
-=======
-        instruction=(
-            "You are 'security-group'. For 'security-scanner', confirm the resolution of Issue #11 through PR #23 and examine the commits on 'perf-optimizations'. Develop a release called 'v0.3.1 Performance optimization' containing the text: 'Implements file system cache; closes #11; approximately 70% performance improvement.'. Add terminal note: 'Security scanner performance fix validated and released'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "security-group"}),
             Action(name="GetRepository", kwargs={"repo_name": "security-scanner"}),
@@ -2184,11 +1832,7 @@ TASKS = [
                 "repo_name": "security-scanner",
                 "tag": "v0.3.1",
                 "name": "v0.3.1 Performance optimization",
-<<<<<<< HEAD
                 "body": "Implements file system cache; closes #11; ~70% performance gain.",
-=======
-                "body": "Implements file system cache; closes #11; ~70% perf improvement.",
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             }),
             Action(name="AppendTerminal", kwargs={"message": "security-scanner perf fix validated and released"}),
         ],
@@ -2199,15 +1843,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_26",
-<<<<<<< HEAD
     instruction=(
         "You are 'language-ai'. Within 'nlp-models', ensure that PR #22 was merged for Issue #16 and examine Issue #12 concerning memory. Enumerate commits on the 'exp-transformer' branch to establish investigation context. Subsequently, comment on Issue #12 with: 'Reviewed gradient accumulation commits on exp-transformer for memory tuning direction.' Append terminal: 'nlp-models checkpoint fix verified; memory follow-up noted'"
     ),
-=======
-        instruction=(
-            "You are 'language-ai'. Within 'nlp-models', ensure that PR #22 was merged for Issue #16 and examine Issue #12 concerning memory. Enumerate commits on the 'exp-transformer' branch to establish investigation context. Subsequently, comment on Issue #12 stating: 'Analyzed gradient accumulation commits on exp-transformer for memory optimization guidance.' Add terminal note: 'nlp-models checkpoint fix confirmed; memory follow-up acknowledged.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "language-ai"}),
             Action(name="GetRepository", kwargs={"repo_name": "nlp-models"}),
@@ -2232,15 +1870,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_27",
-<<<<<<< HEAD
     instruction=(
         "Assume the role of 'ui-developer'. For 'react-dashboard', ensure that PR #30 successfully closed Issue #27. Compile a list of open PRs and request changes on PR #28 by commenting: 'Resolve merge conflicts before merge.' Add the label 'investigate' to Issue #25. Append terminal: 'react-dashboard dark mode verified; realtime PR gated'."
     ),
-=======
-        instruction=(
-            "Assume the role of 'ui-developer'. For 'react-dashboard', ensure that PR #30 successfully closed Issue #27. Compile a list of open PRs and request changes on PR #28 by commenting: 'Resolve merge conflicts before merge.' Add the label 'investigate' to Issue #25. Append terminal: 'react-dashboard dark mode confirmed; realtime PR gated.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "ui-developer"}),
             Action(name="GetRepository", kwargs={"repo_name": "react-dashboard"}),
@@ -2258,15 +1890,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_29",
-<<<<<<< HEAD
     instruction=(
         "Serve as 'platform-team'. In the 'infra-terraform' project, review files on the 'feat-alb' branch, refer to Issue #9, and initiate a pull request from 'feat-alb' to 'main' titled 'Increase ALB health check timeout' with the body 'Addresses #9 by increasing target health check thresholds.' Subsequently, comment on Issue #9 saying: 'Opened PR to adjust ALB health check timing and config.' Append terminal: 'infra-terraform PR opened to address ALB health checks'."
     ),
-=======
-        instruction=(
-            "Serve as 'platform-team'. In the 'infra-terraform' project, review files on the 'feat-alb' branch, refer to Issue #9, and initiate a pull request from 'feat-alb' to 'main' titled 'Increase ALB health check timeout' with the body 'Addresses #9 by increasing target health check thresholds.' Subsequently, comment on Issue #9 stating: 'PR created to modify ALB health check duration and configuration.' Add to terminal: 'infra-terraform PR created to improve ALB health checks.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "platform-team"}),
             Action(name="GetRepository", kwargs={"repo_name": "infra-terraform"}),
@@ -2277,11 +1903,7 @@ TASKS = [
                 "head": "feat-alb",
                 "base": "main",
                 "title": "Increase ALB health check timeout",
-<<<<<<< HEAD
                 "body": "Addresses #9 by increasing target health check thresholds."
-=======
-                "body": "Addresses #9 by raising the thresholds for target health checks.",
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             }),
             Action(name="AddIssueComment", kwargs={"repo_name": "infra-terraform", "issue_number": 9, "comment": "Opened PR to adjust ALB health check timing and config."}),
             Action(name="AppendTerminal", kwargs={"message": "infra-terraform PR opened to address ALB health checks"}),
@@ -2293,15 +1915,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_30",
-<<<<<<< HEAD
     instruction=(
         "You are 'ml-engineer'. Within 'ml-pipeline', identify the commits in 'feature-mlflow-tracking' and examine the file content there. Update Issue #31 by adding the comment: 'Next step is drift detection.' Conclude terminal with: 'ml-pipeline MLflow integration reviewed; validation roadmap updated'."
     ),
-=======
-        instruction=(
-            "You are 'ml-engineer'. Within 'ml-pipeline', identify the commits in 'feature-mlflow-tracking' and examine the file content there. Update Issue #31 with the comment: 'Next step is drift detection.' End the terminal with: 'ml-pipeline MLflow integration reviewed; validation roadmap updated.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "ml-engineer"}),
             Action(name="GetRepository", kwargs={"repo_name": "ml-pipeline"}),
@@ -2327,15 +1943,9 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_31",
-<<<<<<< HEAD
     instruction=(
         "You are 'security-group'. Within 'security-scanner', evaluate open PR #25 for SARIF output and enumerate the current alerts. Comment on the PR stating: 'Confirm SARIF schema v2.1.0 and CI upload step.' Then initiate an issue entitled 'SARIF config polish' with the label 'enhancement' and content: 'Tighten schema validation and CI upload parameters.' Finalize terminal with: 'security-scanner SARIF review and config follow-up created'."
     ),
-=======
-        instruction=(
-            "You are 'security-group'. Within 'security-scanner', evaluate open PR #25 and list the existing alerts. Comment on the PR: 'Verify SARIF schema v2.1.0 and CI upload procedure.' Next, open an issue titled 'SARIF configuration refinement' with the label 'enhancement' and the description: 'Refine schema validation and CI upload settings.' Conclude the terminal with: 'Security scanner SARIF review and configuration follow-up initiated.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "security-group"}),
             Action(name="GetRepository", kwargs={"repo_name": "security-scanner"}),
@@ -2357,7 +1967,6 @@ TASKS = [
         outputs=['"message": "security-scanner SARIF review and config follow-up created"'],
     ),
 
-<<<<<<< HEAD
     # 33 (alice-w) acme-webapp: create feature branch, add release notes, commit, and log confirmation
     Task(
         annotator='0',
@@ -2372,18 +1981,6 @@ TASKS = [
             Action(name="GetDefaultBranch", kwargs={"repo_name": "acme-webapp"}),
 
             # Write: create feature branch and add + commit release notes
-=======
-    # 33
-    Task(
-        annotator='0',
-        user_id="task_33",
-        instruction=(
-            "You are 'maya-w' and must function using only the provided tools. YOUR OBJECTIVE • In the 'acme-webapp' repository, formulate a new branch from the literal source branch indicated, incorporate a release-notes file with the exact literal content, perform a commit with the exact literal message, and authenticate the file's presence on the newly created branch. • Verify the latest terminal entry matches the exact literal message outlined below. LITERALS (use verbatim) - repo: acme-webapp - source branch: main - new branch: feature-banners - file path: docs/release-notes.md - file content: ## Release notes\\n- Seed entry\\n - commit message: docs: include release notes seed - terminal message: Release notes committed on feature-banners in acme-webapp"
-        ),
-        actions=[
-            Action(name="GetMe", kwargs={"username": "maya-w"}),
-            Action(name="GetDefaultBranch", kwargs={"repo_name": "acme-webapp"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "source_branch": "main",
@@ -2393,31 +1990,21 @@ TASKS = [
                 "repo_name": "acme-webapp",
                 "branch": "feature-banners",
                 "path": "docs/release-notes.md",
-<<<<<<< HEAD
                 "content": "## Release notes\n- Seed entry\n"
-=======
-                "content": "## Changelog\n- Initial data insertion\n"
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             }),
             Action(name="CommitChangesToBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "feature-banners",
                 "commit_message": "docs: add release notes seed"
             }),
-<<<<<<< HEAD
 
             # Verify: file exists on the new branch
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="ListFiles", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "feature-banners"
             }),
-<<<<<<< HEAD
 
             # Write + verify: terminal confirmation
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="AppendTerminal", kwargs={
                 "message": "Release notes committed on feature-banners in acme-webapp"
             }),
@@ -2430,28 +2017,19 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 35 (frontend-dev) Protect default branch, publish hardening release, and record audit
-=======
-    # 35
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_35",
-        instruction=(
-            "You are 'ui-developer'. You must implement baseline hardening on the default branch of the 'react-dashboard' repository and disseminate that fortified state as a lightweight release. The default branch has to be protected with the attribute set to 'true' and rules precisely as follows: { \"required_reviews\": 1, \"enforce_admins\": true }. Incorporate the repository topic 'security-hardening'. Launch a release with the tag 'task_65-hardened' and body 'Hardening rules applied [task_65]'. Provide the branch protection status and guidelines for the default branch, and include the terminal audit entry: 'Protection enabled and release task_65-hardened published for react-dashboard [task_65]'."
-        ),
+    instruction=(
+        "You are 'ui-developer. You must implement baseline hardening on the default branch of the 'react-dashboard' repository and disseminate that fortified state as a lightweight release. The default branch has to be protected with the attribute set to 'true' and rules precisely as follows: { \"required_reviews\": 1, \"enforce_admins\": true }. Incorporate the repository topic 'security-hardening'. Launch a release with the tag 'task_65-hardened' and body 'Hardening rules applied [task_65]'. Provide the branch protection status and guidelines for the default branch, and include the terminal audit entry: 'Protection enabled and release task_65-hardened published for react-dashboard [task_65]'."
+    ),
         actions=[
-<<<<<<< HEAD
             # Identity & default branch discovery (read-only)
             Action(name="GetMe", kwargs={"username": "ui-developer"}),
             Action(name="GetDefaultBranch", kwargs={"repo_name": "react-dashboard"}),
 
             # Hardening changes (writes)
-=======
-            Action(name="GetMe", kwargs={"username": "ui-developer"}),
-            Action(name="GetDefaultBranch", kwargs={"repo_name": "react-dashboard"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="SetBranchProtection",
                 kwargs={
@@ -2470,87 +2048,62 @@ TASKS = [
                     "body": "Hardening rules applied [task_65]",
                 },
             ),
-<<<<<<< HEAD
 
             # Single verification readback to keep complexity within 13–15
             Action(name="GetBranchProtection", kwargs={"repo_name": "react-dashboard", "branch": "main"}),
 
             # Terminal audit
-=======
-            Action(name="GetBranchProtection", kwargs={"repo_name": "react-dashboard", "branch": "main"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AppendTerminal",
                 kwargs={"message": "Protection enabled and release task_65-hardened published for react-dashboard [task_65]"},
             ),
         ],
         outputs=[
-<<<<<<< HEAD
             # Branch protection object per tool contract (protected is a string in the tool's response)
             '"protected": "true", "rules": {"required_reviews": 1, "enforce_admins": true}',
             # Terminal audit confirmation
-=======
-            '"protected": "true", "rules": {"required_reviews": 1, "enforce_admins": true}',
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             '"message": "Protection enabled and release task_65-hardened published for react-dashboard [task_65]"',
         ],
     ),
 
-<<<<<<< HEAD
     # 37 (alice-w) Branch lifecycle with file ops + audit log (Hard ~13–14 edges)
-=======
-    # 37
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     Task(
         annotator='0',
         user_id="task_37",
-        instruction=(
-            "You are 'maya-w', tasked with operations in 'acme-webapp'. Illustrate the process of managing a short-term working branch. Create a temporary branch named 'temp-branch' based on the repository's default branch. Use this branch to store a transient note at 'docs/tmp.txt' with the content 'temp work'. Verify that the note remains accessible as long as the branch is active, then retire the branch. When retiring the branch, log the action with the message: 'Branch temp-branch deleted in acme-webapp.'. Finally, list the branches left post-retirement. Return: (a) the file content obtained, (b) the audit message, and (c) the final list of branches."
-        ),
+    instruction=(
+        "You are 'maya-w', tasked with operations in 'acme-webapp'. Illustrate the process of managing a short-term working branch. Create a temporary branch named 'temp-branch' based on the repository's default branch. Use this branch to store a transient note at 'docs/tmp.txt' with the content 'temp work'. Verify that the note remains accessible as long as the branch is active, then retire the branch. When retiring the branch, log the action with the message: 'Branch temp-branch deleted in acme-webapp.'. Finally, list the branches left post-retirement. Return: (a) the file content obtained, (b) the audit message, and (c) the final list of branches."
+    ),
         actions=[
             Action(name="GetMe", kwargs={"username": "maya-w"}),
             Action(name="GetDefaultBranch", kwargs={"repo_name": "acme-webapp"}),
-<<<<<<< HEAD
 
             # Create branch
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="CreateBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "source_branch": "main",
                 "new_branch": "temp-branch"
             }),
-<<<<<<< HEAD
 
             # Write file
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="WriteFileToBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "temp-branch",
                 "path": "docs/tmp.txt",
                 "content": "temp work"
             }),
-<<<<<<< HEAD
 
             # Read file
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="GetFileContents", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "temp-branch",
                 "path": "docs/tmp.txt"
             }),
-<<<<<<< HEAD
 
             # Delete branch
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="DeleteBranch", kwargs={
                 "repo_name": "acme-webapp",
                 "branch": "temp-branch"
             }),
-<<<<<<< HEAD
 
             # Audit log
             Action(name="AppendTerminal", kwargs={
@@ -2558,11 +2111,6 @@ TASKS = [
             }),
 
             # List branches
-=======
-            Action(name="AppendTerminal", kwargs={
-                "message": "Branch temp-branch deleted in acme-webapp."
-            }),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(name="ListBranches", kwargs={
                 "repo_name": "acme-webapp"
             }),
@@ -2578,18 +2126,14 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_41",
-        instruction=(
-            "You are 'maya-w'. Within the 'acme-webapp' repository, initiate a new issue titled 'Security audit [task_01]' with the body 'Check SQL injection handling paths. [task_01]'. Ensure the issue has the label 'security-check', contains the comment 'Audit logged. [task_01]', and conclude with the issue state as 'closed'. Provide confirmation that the label was applied, the issue's closure status, and results from a search demonstrating an issue labeled 'security-check' is present. Also, include this final audit message: 'Issue closed with security-check label in acme-webapp [task_01]'."
-        ),
+    instruction=(
+        "You are 'maya-w'. Within the 'acme-webapp' repository, initiate a new issue titled 'Security audit [task_01]' with the body 'Check SQL injection handling paths. [task_01]'. Ensure the issue has the label 'security-check', contains the comment 'Audit logged. [task_01]', and conclude with the issue state as 'closed'. Provide confirmation that the label was applied, the issue's closure status, and results from a search demonstrating an issue labeled 'security-check' is present. Also, include this final audit message: 'Issue closed with security-check label in acme-webapp [task_01]'."
+    ),
         actions=[
-<<<<<<< HEAD
             # Identity
             Action(name="GetMe", kwargs={"username": "maya-w"}),
 
             # Create deterministic issue
-=======
-            Action(name="GetMe", kwargs={"username": "maya-w"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="CreateIssue",
                 kwargs={
@@ -2599,11 +2143,8 @@ TASKS = [
                     "labels": []
                 },
             ),
-<<<<<<< HEAD
 
             # Apply label + comment
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AddLabelToIssue",
                 kwargs={"repo_name": "acme-webapp", "issue_number": 1, "label": "security-check"},
@@ -2616,29 +2157,20 @@ TASKS = [
                     "comment": "Audit logged. [task_01]"
                 },
             ),
-<<<<<<< HEAD
 
             # Close the issue
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="UpdateIssue",
                 kwargs={"repo_name": "acme-webapp", "issue_number": 1, "state": "closed"},
             ),
-<<<<<<< HEAD
 
             # Verify via search
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="SearchIssues",
                 kwargs={"query": "security-check"},
             ),
-<<<<<<< HEAD
 
             # Terminal audit
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AppendTerminal",
                 kwargs={"message": "Issue closed with security-check label in acme-webapp [task_01]"},
@@ -2658,18 +2190,14 @@ TASKS = [
     Task(
         annotator='0',
         user_id="task_42",
-        instruction=(
-            "As 'ui-developer', proceed within the 'react-dashboard' repository to create a new issue titled 'Build pipeline audit [task_72]' including the body 'Verify CI stages and artifacts for reproducibility. [task_72]'. Ensure this issue is marked with the label 'ci-audit', contains the exact comment 'Checklist prepared. [task_72]', and concludes in the 'closed' state. Confirm the presence of the label, the issue's final condition, and provide a search result entry verifying an issue with label 'ci-audit' is present. Incorporate this closing audit line: 'Issue closed with ci-audit label in react-dashboard [task_72]'."
-        ),
+    instruction=(
+        "As 'ui-developer', proceed within the 'react-dashboard' repository to create a new issue titled 'Build pipeline audit [task_72]' including the body 'Verify CI stages and artifacts for reproducibility. [task_72]'. Ensure this issue is marked with the label 'ci-audit', contains the exact comment 'Checklist prepared. [task_72]', and concludes in the 'closed' state. Confirm the presence of the label, the issue's final condition, and provide a search result entry verifying an issue with label 'ci-audit' is present. Incorporate this closing audit line: 'Issue closed with ci-audit label in react-dashboard [task_72]'."
+    ),
         actions=[
-<<<<<<< HEAD
             # Identity
             Action(name="GetMe", kwargs={"username": "ui-developer"}),
 
             # Create deterministic issue (flat row)
-=======
-            Action(name="GetMe", kwargs={"username": "ui-developer"}),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="CreateIssue",
                 kwargs={
@@ -2679,11 +2207,8 @@ TASKS = [
                     "labels": []
                 },
             ),
-<<<<<<< HEAD
 
             # Apply label + comment
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AddLabelToIssue",
                 kwargs={"repo_name": "react-dashboard", "issue_number": 1, "label": "ci-audit"},
@@ -2696,29 +2221,20 @@ TASKS = [
                     "comment": "Checklist prepared. [task_72]"
                 },
             ),
-<<<<<<< HEAD
 
             # Close the issue
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="UpdateIssue",
                 kwargs={"repo_name": "react-dashboard", "issue_number": 1, "state": "closed"},
             ),
-<<<<<<< HEAD
 
             # Verify via search
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="SearchIssues",
                 kwargs={"query": "ci-audit"},
             ),
-<<<<<<< HEAD
 
             # Terminal audit
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
             Action(
                 name="AppendTerminal",
                 kwargs={"message": "Issue closed with ci-audit label in react-dashboard [task_72]"},
@@ -2738,15 +2254,9 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_46",
-<<<<<<< HEAD
     instruction=(
         "You are part of the 'security-group'. Ensure the end state as specified, with precision in all values and case-sensitivity: • You own a repository called 'security-scanner-pro', its visibility set to 'public' and the default branch named 'main'. • Repository topics should include both 'security' and 'sarif'. • A branch named 'feature-sarif' must be established. On this branch, ensure 'src/scanner.py' reads exactly 'print('sarif-v1')' and 'README.md' shows precisely '# security-scanner-pro'. • The most recent commit on 'feature-sarif' should convey the message 'Add SARIF support scaffolding'. • Pull request #1 must alternate from head 'feature-sarif' targeting base 'main', titled 'Add SARIF output support' with the body 'Introduce SARIF output skeleton.', enlisted with requested reviewers 'qa-mike' and 'dev-sue', and processed with approval and merge. • A release for 'security-scanner-pro' should exist bearing tag 'v0.5.0', title 'SARIF support', and body 'Initial SARIF output format release.', with the latest release associated with tag 'v0.5.0'. • There should be an issue titled 'Post-release verification' articulated with body 'Validate SARIF output end-to-end.' and labeled 'release'. • Append a terminal log entry reading 'security-scanner-pro v0.5.0 released.' Fulfill all stipulations within a new database run, utilizing only predictable values."
     ),
-=======
-        instruction=(
-            "You are part of the 'security-group'. Ensure the end state as specified, with precision in all values and case-sensitivity: • You own a repository called 'security-scanner-pro', its visibility set to 'public' and the default branch named 'main'. • Repository topics should include both 'security' and 'sarif'. • A branch named 'feature-sarif' must be established. On this branch, ensure 'src/scanner.py' reads exactly 'print('sarif-v1')' and 'README.md' shows precisely '# security-scanner-pro'. • The most recent commit on 'feature-sarif' should convey the message 'Add SARIF support scaffolding'. • Pull request #1 must switch from head 'feature-sarif' to base 'main', with title 'Add SARIF output support' and body 'Introduce SARIF output skeleton.', including requested reviewers 'qa-mike' and 'dev-sue', and undergo approval and merging. • A release for 'security-scanner-pro' must be created with tag 'v0.5.0', title 'SARIF support', and body 'Initial SARIF output format release.', with the latest release linked to tag 'v0.5.0'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "security-group"}),
             Action(name="CreateRepository", kwargs={"repo_name": "security-scanner-pro", "visibility": "public", "default_branch": "main"}),
@@ -2781,15 +2291,9 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_47",
-<<<<<<< HEAD
     instruction=(
         "Assume the role of 'infra-lead'. Fulfill the following final state, ensuring all values are precise and case-sensitive: • A repository identified as 'k8s-ci-pipelines' is present and owned by you; it's set to 'public' visibility, with 'main' as the default branch. The repository topics must contain 'kubernetes'. • Ensure a branch named 'feature-alerts' is available. Within this branch, the file 'kubernetes/alerts.yaml' holds exactly 'alertmanager: routes: placeholder-v2', and 'docs/alerts.md' has precisely '# Alerts Runbook'. • The latest commit on 'feature-alerts' should bear the message 'Add alert routing and runbook'. • Submit pull request #1 targeting base 'main' from head 'feature-alerts' with title 'Introduce alert routing' and body 'Add Alertmanager routes and docs.', ensuring it is approved and merged. • Enable branch protection on 'main' with rules exactly {'required_reviews': 1}. • An issue titled 'Branch protection enabled on main' must be present with body 'Required reviews set to 1.', and it should be tagged 'security'. • The terminal log should only have one new entry with the message 'k8s-ci-pipelines protection enabled on main.' All these criteria must be met in a clear database scenario; apply only deterministic values."
     ),
-=======
-        instruction=(
-            "Assume the role of 'infra-lead'. Fulfill the following final state, ensuring all values are precise and case-sensitive: • A repository identified as 'k8s-ci-pipelines' is present and owned by you; it's set to 'public' visibility, with 'main' as the default branch. The repository topics must contain 'kubernetes'. • Ensure a branch named 'feature-alerts' is available. Within this branch, the file 'kubernetes/alerts.yaml' holds exactly 'alertmanager: routes: placeholder-v2', and 'docs/alerts.md' has precisely '# Alerts Runbook'. • The latest commit on 'feature-alerts' should bear the message 'Add alert routing and runbook'. • Submit pull request #1 targeting the main branch from the feature-alerts head, with the title 'Introduce alert routing' and body 'Add Alertmanager routes and docs.', ensuring approval and merging. • Activate branch protection on 'main' with the rule {'required_reviews': 1}. • An issue named 'Branch protection enabled on main' must exist with the body 'Required reviews set to 1.' and tagged 'security'. • The terminal log should contain a single new entry stating 'k8s-ci-pipelines protection enabled on main.'."
-        ),
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
         actions=[
             Action(name="GetMe", kwargs={"username": "infra-lead"}),
             Action(name="CreateRepository", kwargs={"repo_name": "k8s-ci-pipelines", "visibility": "public", "default_branch": "main"}),
@@ -2815,7 +2319,6 @@ TASKS = [
         ],
     ),
 
-<<<<<<< HEAD
     # 48
     Task(
         annotator="0",
@@ -4940,13 +4443,10 @@ TASKS = [
 
     ),
 
-=======
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
     # 20
     Task(
         annotator="0",
         user_id="task_20",
-<<<<<<< HEAD
     instruction=(
         "As 'app-developer', in the repository 'flutter-finance-app', establish the following final condition with all values exact and case-sensitive: • A branch named 'hotfix-1.2.1' is present. Within this branch, the 'CHANGELOG.md' file includes precisely '## 1.2.1 - hotfix'. • The newest commit on 'hotfix-1.2.1' possesses the message 'Add CHANGELOG for v1.2.1'. • A release is there with the tag 'v1.2.1', titled 'v1.2.1 [task_101]', and has the body 'body-[task_101]'. Additionally, the most recent release corresponds to tag 'v1.2.1'. • An issue exists with the title 'Release v1.2.1 note [task_101]' and body 'body-[task_101]' carrying the label 'release-log'. • The terminal log shows precisely one added entry stating 'Release v1.2.1 created in flutter-finance-app [task_101]'. Produce the latest release tag from 'flutter-finance-app'. Each requirement must be achieved in a fresh database run; employ deterministic values only."
     ),
@@ -4971,29 +4471,3 @@ TASKS = [
         ],
     )
 ]
-=======
-        instruction=(
-            "As 'app-developer', in the repository 'flutter-finance-app', establish the following final condition with all values exact and case-sensitive: • A branch named 'hotfix-1.2.1' is present. Within this branch, the 'CHANGELOG.md' file includes precisely '## 1.2.1 - hotfix'. • The latest commit on 'hotfix-1.2.1' has the message 'Add CHANGELOG for v1.2.1'. • There is a release tagged 'v1.2.1', named 'v1.2.1 [task_101]', with the description 'body-[task_101]'. Furthermore, the latest release aligns with the tag 'v1.2.1'. • An issue titled 'Release v1.2.1 note [task_101]' exists with body 'body-[task_101]' and label 'release-log'. • The terminal log contains exactly: 'Release v1.2.1 created in flutter-finance-app [task_101]'."
-        ),
-        actions=[
-            Action(name="GetMe", kwargs={"username": "app-developer"}),
-            Action(name="GetRepository", kwargs={"repo_name": "flutter-finance-app"}),
-            Action(name="CreateBranch", kwargs={"repo_name": "flutter-finance-app", "source_branch": "main", "new_branch": "hotfix-1.2.1"}),
-            Action(name="WriteFileToBranch", kwargs={"repo_name": "flutter-finance-app", "branch": "hotfix-1.2.1", "path": "CHANGELOG.md", "content": "## 1.2.1 - patch"}),
-            Action(name="CommitChangesToBranch", kwargs={"repo_name": "flutter-finance-app", "branch": "hotfix-1.2.1", "commit_message": "Add CHANGELOG for v1.2.1"}),
-            Action(name="CreateRelease", kwargs={"repo_name": "flutter-finance-app", "tag": "v1.2.1", "title": "v1.2.1 [task_101]", "body": "body-[task_101]"}),
-            Action(name="GetLatestRelease", kwargs={"repo_name": "flutter-finance-app"}),
-            Action(name="CreateIssue", kwargs={"repo_name": "flutter-finance-app", "title": "Release v1.2.1 note [task_101]", "body": "body-[task_101]", "labels": ["release-log"]}),
-            Action(name="AppendTerminal", kwargs={"message": "Release v1.2.1 created in flutter-finance-app [task_101]"}),
-        ],
-        outputs=[
-            '"message": "Branch created", "new_branch": "hotfix-1.2.1"',
-            '"message": "Committed to branch", "commit_message": "Add CHANGELOG for v1.2.1"',
-            '"message": "Release created.", "repo_name": "flutter-finance-app", "tag_name": "v1.2.1"',
-            '"tag_name": "v1.2.1"',
-            '"labels": ["release-log"]',
-            '"message": "Release v1.2.1 created in flutter-finance-app [task_101]"',
-        ],
-    ),
-]
->>>>>>> 26132ed21abd992b22c3372330f94693b124bf8d
