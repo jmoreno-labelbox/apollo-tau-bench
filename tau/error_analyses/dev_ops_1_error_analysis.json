@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error (`'str' object has no attribute 'get'`) when attempting to process the failed run. This error prevents the agent from retrieving necessary information about the CI event, which is crucial for proceeding with the triage process. The ground truth action sequence involves successfully receiving the CI event and processing it, but the trajectory shows that the environment fails to handle the CI event due to the persistent error, leading to the inability to perform any subsequent actions."
+            "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: \"'str' object has no attribute 'get'\". This indicates that the environment is attempting to access a method or attribute on a string object that does not exist, which is likely due to a misconfiguration or incorrect handling of data types within the environment. This error prevents the execution of any actions, leading to a failure in progressing through the necessary steps to address the CI failure as outlined in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": []

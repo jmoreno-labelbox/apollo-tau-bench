@@ -22,7 +22,7 @@ class CreateReviewSubmission(Tool):
         new_submission_id = submission_id_override if submission_id_override else f"sub_{uuid.uuid4().hex[:4]}"
 
         new_submission = {"submission_id": new_submission_id,"article_id": article_id,"author_user_id": author_user_id,"submission_date": datetime.now().strftime('%Y-%m-%d'),"status": "submitted","assigned_reviewers": []}
-        data['submissions'].append(new_submission)
+        data['submissions'][new_submission['submission_id']] = new_submission
         return json.dumps({"success": True, "submission": new_submission})
 
     @staticmethod

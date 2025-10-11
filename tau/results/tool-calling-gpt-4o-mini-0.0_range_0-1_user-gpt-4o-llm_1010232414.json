@@ -1,0 +1,523 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "ActivatePromotion",
+            "kwargs": {
+              "promotion_id": "PROMO-001"
+            }
+          },
+          {
+            "name": "GetPromotionsByStatus",
+            "kwargs": {
+              "status": "active"
+            }
+          },
+          {
+            "name": "GetProductDetailsBySku",
+            "kwargs": {
+              "sku": "ELEC-4KTV55"
+            }
+          },
+          {
+            "name": "GetInventoryItemBySkuAndStore",
+            "kwargs": {
+              "sku": "ELEC-4KTV55",
+              "store_id": "STORE-001"
+            }
+          },
+          {
+            "name": "UpdatePromotionDetails",
+            "kwargs": {
+              "promotion_id": "PROMO-001",
+              "times_used": 10
+            }
+          }
+        ],
+        "instruction": "Handle marketing management activities. Activate the 'Summer Electronics Sale' (PROMO-001) scheduled to commence on '2025-06-01'. Next, obtain all active promotions to verify the inclusion of 'UltraVision 55\" 4K Smart TV' (SKU: ELEC-4KTV55), and check its current inventory at 'STORE-001'. Lastly, modify the 'times_used' count for PROMO-001 to 10 to initiate usage tracking.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function as a specialized retail assistant, optimized to handle store operations and customer engagements with high efficiency.\",\n    \"Consistently ensure that updates to the inventory, customer, and transaction databases are both precise and uniform.\",\n    \"Prior to completing any sales transaction, verify the availability of the product in the designated store location.\",\n    \"Whenever an inventory adjustment occurs as a result of a sale or return, make sure to update both 'quantity' and 'reserved_quantity' appropriately.\",\n    \"While searching for promotions, include only those that have an 'active' status on the date of the query.\",\n    \"Compute transaction totals, taxes, and discounts accurately using the product's price, quantity, relevant promotions, and applicable tax rates.\",\n    \"Each customer record must contain a membership level, loyalty points, and marketing opt-in status at the time of creation.\",\n    \"Upon creation of a new customer, the email address must adhere to a standardized format derived from the customer's name.\",\n    \"During the activation or deactivation of a promotion, verify that the promotion ID is valid and update the status appropriately.\",\n    \"During promotion detail updates, modify only the designated fields and retain all other fields unchanged.\",\n    \"To apply a discount, first confirm that the product is marked as 'is_discountable', then, if relevant, compute the discount using the promotion's 'discount_value'.\",\n    \"For promotions of type 'fixed_bundle', confirm that every applicable SKU exists within the line items prior to discount application.\",\n    \"In the case of 'bogo_percentage' (Buy One Get One Percentage) promotions, the discount must be applied to the second and any additional items of the identical SKU.\",\n    \"When fetching promotions based on status, return every promotion that corresponds to the specified status.\",\n    \"During the creation of a new promotion, verify that all mandatory fields\u2014including name, type, discount value, applicable SKUs, dates, and status\u2014are supplied.\",\n    \"During customer detail updates, verify that the customer ID is valid and update only the fields that are specified.\",\n    \"To retrieve products based on status, provide all products whose status corresponds to the requested value.\",\n    \"Upon creation of a new promotion, assign it an ID in the sequential format 'PROMO-XXX', with XXX representing a zero-padded number.\",\n    \"Accurately record any modifications to customer records that involve changes in membership level or contact information.\",\n    \"To identify critical or low stock situations during inventory monitoring, reference the 'reorder_level' and 'safety_stock' thresholds specified in the inventory data.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I'm looking to activate a marketing promotion. Could you help me start the 'Summer Electronics Sale' that begins on June 1, 2025?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_name\":\"Summer Electronics Sale\",\"query_date\":\"2025-06-01\"}",
+              "name": "get_promotion_by_name_and_date"
+            },
+            "id": "call_aGFLmOTMTN2tAXGCEkeLZZ63",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_aGFLmOTMTN2tAXGCEkeLZZ63",
+        "name": "get_promotion_by_name_and_date",
+        "content": "Error: module 'datetime' has no attribute 'strptime'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"scheduled\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_N48ecWNA01kJus2wSK3oa5xi",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_N48ecWNA01kJus2wSK3oa5xi",
+        "name": "get_promotions_by_status",
+        "content": "[{\"promotion_id\": \"PROMO-003\", \"name\": \"Buy One Yoga Mat Get 50% Off Second\", \"type\": \"bogo_percentage\", \"discount_value\": 50.0, \"description\": \"Buy one FlexFit Yoga Mat and get 50% off the second mat.\", \"applicable_skus\": [\"SPORT-YOGMAT01\"], \"start_date\": \"2025-06-10\", \"end_date\": \"2025-07-10\", \"status\": \"scheduled\", \"usage_limit\": null, \"times_used\": 0}]"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"planned\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_YVO2pnnkDNVZ2mLOD2ljvhV0",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_YVO2pnnkDNVZ2mLOD2ljvhV0",
+        "name": "get_promotions_by_status",
+        "content": "[{\"promotion_id\": \"PROMO-004\", \"name\": \"Tax-Free Books Weekend\", \"type\": \"tax_free\", \"discount_value\": 0.0, \"description\": \"We pay the sales tax on all books this weekend.\", \"applicable_skus\": [\"BOOK-KDSSTY01\"], \"start_date\": \"2025-09-05\", \"end_date\": \"2025-09-07\", \"status\": \"planned\", \"usage_limit\": null, \"times_used\": 0}, {\"promotion_id\": \"PROMO-007\", \"name\": \"Weekend Flash Sale - Home & Kitchen\", \"type\": \"percentage\", \"discount_value\": 18.0, \"description\": \"Flash sale offering 18% off Home & Kitchen category for 48 hours.\", \"applicable_skus\": [\"HOM-COFMKR12\", \"KITCH-CHEFKNF8\", \"HOME-BTHTWL01\", \"HOME-DESKLMP01\", \"KITCH-FRYPAN10\"], \"start_date\": \"2025-06-14T00:00:00Z\", \"end_date\": \"2025-06-15T23:59:59Z\", \"status\": \"planned\", \"usage_limit\": null, \"times_used\": 0}]"
+      },
+      {
+        "content": "It seems that the promotion \"Summer Electronics Sale\" is not currently listed as either scheduled or planned. If you have the details for this promotion, I can help you create it. Please provide the following information:\n\n1. **Promotion Name**\n2. **Promotion Type** (e.g., percentage, fixed_bundle, bogo_percentage, tax_free)\n3. **Discount Value** (e.g., 10.0 for 10% or $10)\n4. **Description**\n5. **Applicable SKUs** (list of product SKUs the promotion applies to)\n6. **Start Date** (June 1, 2025)\n7. **End Date**\n8. **Initial Status** (e.g., active, scheduled, planned)\n9. **Usage Limit** (if any, or null for unlimited)\n10. **Initial Count of Times Used** (usually 0)\n\nOnce I have this information, I can proceed to create the promotion for you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I apologize for the confusion earlier. Let's begin by setting up the promotion. Here are the details:\n\n1. **Promotion Name**: Summer Electronics Sale\n2. **Promotion Type**: Percentage\n3. **Discount Value**: 20.0\n4. **Description**: Enjoy a 20% discount on select electronics this summer!\n5. **Applicable SKUs**: Include SKU ELEC-4KTV55\n6. **Start Date**: 2025-06-01\n7. **End Date**: 2025-06-30\n8. **Initial Status**: Scheduled\n9. **Usage Limit**: 100 (or specify if you want it different)\n10. **Initial Count of Times Used**: 0\n\nCould you proceed with setting this up?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\":\"Summer Electronics Sale\",\"type\":\"percentage\",\"discount_value\":20.0,\"description\":\"Enjoy a 20% discount on select electronics this summer!\",\"applicable_skus\":[\"ELEC-4KTV55\"],\"start_date\":\"2025-06-01\",\"end_date\":\"2025-06-30\",\"status\":\"scheduled\",\"usage_limit\":100,\"times_used\":0}",
+              "name": "create_promotion"
+            },
+            "id": "call_vSbhnugkTcO28wSU1lunFVnE",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_vSbhnugkTcO28wSU1lunFVnE",
+        "name": "create_promotion",
+        "content": "{\"promotion_id\": \"PROMO-008\"}"
+      },
+      {
+        "content": "The promotion \"Summer Electronics Sale\" has been successfully created with the ID **PROMO-008**. It is scheduled to start on June 1, 2025, and will offer a 20% discount on the specified electronics. If you need any further assistance or modifications, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! Now, could you please fetch all active promotions? I'd like to confirm that the 'UltraVision 55\" 4K Smart TV' (SKU: ELEC-4KTV55) is included."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"active\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_ym5ZxSDKtMnH3kFZhM7VpVsh",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ym5ZxSDKtMnH3kFZhM7VpVsh",
+        "name": "get_promotions_by_status",
+        "content": "Error: 'list' object has no attribute 'values'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"active\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_ebNY2Utzo2OCrgfguExPw1lb",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ebNY2Utzo2OCrgfguExPw1lb",
+        "name": "get_promotions_by_status",
+        "content": "Error: 'list' object has no attribute 'values'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"active\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_Oml8ztrRJTGbRDtC3amvqowb",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Oml8ztrRJTGbRDtC3amvqowb",
+        "name": "get_promotions_by_status",
+        "content": "Error: 'list' object has no attribute 'values'"
+      },
+      {
+        "content": "It seems there is an issue retrieving the active promotions at the moment. However, I can check the details of the promotion \"Summer Electronics Sale\" to confirm that it includes the SKU for the \"UltraVision 55\\\" 4K Smart TV\" (SKU: ELEC-4KTV55).\n\nLet me retrieve the details of that promotion for you.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-008\"}",
+              "name": "get_promotion_by_id"
+            },
+            "id": "call_Eg0v7uCQU75IN43Re8s0V2nE",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Eg0v7uCQU75IN43Re8s0V2nE",
+        "name": "get_promotion_by_id",
+        "content": "Error: 'list' object has no attribute 'values'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"active\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_dVOe9x8eEDSYZWXeJOFBjWHG",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_dVOe9x8eEDSYZWXeJOFBjWHG",
+        "name": "get_promotions_by_status",
+        "content": "Error: 'list' object has no attribute 'values'"
+      },
+      {
+        "content": "It appears that I'm currently unable to retrieve the active promotions or the details of the newly created promotion due to a technical issue. \n\nHowever, I can confirm that the \"Summer Electronics Sale\" promotion you just created includes the SKU **ELEC-4KTV55**. If you need to check for other active promotions or require further assistance, please let me know, and I will do my best to help!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries. Could you then check the current inventory for SKU ELEC-4KTV55 at 'STORE-001'?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"sku\":\"ELEC-4KTV55\",\"store_id\":\"STORE-001\"}",
+              "name": "get_inventory_item_by_sku_and_store"
+            },
+            "id": "call_skOU1pRI7OGejBx7kzu3uIzl",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_skOU1pRI7OGejBx7kzu3uIzl",
+        "name": "get_inventory_item_by_sku_and_store",
+        "content": "{\"id\": \"INV-0001\", \"sku\": \"ELEC-4KTV55\", \"store_id\": \"STORE-001\", \"quantity\": 8, \"reserved_quantity\": 2, \"reorder_level\": 3, \"safety_stock\": 2, \"location\": \"Aisle 05, Bay B\", \"status\": \"in_stock\", \"last_stock_count\": \"2025-05-02\", \"created_at\": \"2024-11-10T09:00:00Z\", \"updated_at\": \"2025-05-02T11:15:00Z\"}"
+      },
+      {
+        "content": "The current inventory details for SKU **ELEC-4KTV55** at **STORE-001** are as follows:\n\n- **Quantity Available**: 8\n- **Reserved Quantity**: 2\n- **Reorder Level**: 3\n- **Safety Stock**: 2\n- **Location**: Aisle 05, Bay B\n- **Status**: In Stock\n- **Last Stock Count Date**: May 2, 2025\n\nIf you need any further assistance or information, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for that information! Lastly, could you help update the 'times_used' count for our newly created promotion, PROMO-008, to 10? This will help us start tracking its usage."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-008\",\"times_used\":10}",
+              "name": "update_promotion_details"
+            },
+            "id": "call_HrPnCrLTFp56oldCUbNrcYTq",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_HrPnCrLTFp56oldCUbNrcYTq",
+        "name": "update_promotion_details",
+        "content": "Error: UpdatePromotionDetails.invoke() got an unexpected keyword argument 'times_used'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-008\",\"times_used\":10}",
+              "name": "update_promotion_details"
+            },
+            "id": "call_CwUVfWVZTxqalsljDKAqxmEc",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_CwUVfWVZTxqalsljDKAqxmEc",
+        "name": "update_promotion_details",
+        "content": "Error: UpdatePromotionDetails.invoke() got an unexpected keyword argument 'times_used'"
+      },
+      {
+        "content": "It seems that the update for the 'times_used' count is not being accepted due to a technical limitation in the update function. \n\nAs an alternative, I can help you with other updates or actions related to the promotion. If you have any other requests or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the update. That's all I needed for now. I appreciate your help!"
+      },
+      {
+        "content": "You're welcome! I'm glad I could assist you. If you have any more questions or need help in the future, don't hesitate to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else in the future, feel free to ask. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance later, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything in the future, just let me know. Have a good day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out. Thank you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out. Thank you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything else, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance later, feel free to reach out. Thank you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to ask. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand your request. If you need anything in the future, feel free to reach out. Thank you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance later, feel free to reach out. Thank you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out. Thank you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything else, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

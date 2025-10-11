@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `search_employees` function without providing the required 'filters' argument. This resulted in continuous errors and prevented the agent from executing the necessary actions to handle Emma Rodriguez's promotion, such as retrieving her employee information, updating her position and compensation, and coordinating the reassignment of Michael Park. The agent failed to follow the ground truth action sequence due to this repeated invocation error."
+            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `update_employee` and `set_compensation` functions without providing the required arguments, specifically the 'updates' and 'compensation' parameters, respectively. This resulted in multiple errors and prevented the successful execution of the necessary actions to handle the promotion, salary increase, and reassignment tasks outlined in the ground truth action sequence. Additionally, the agent failed to retrieve and update the necessary employee information, leading to a failure in completing the task as instructed."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the tool `search_employees.invoke()` was repeatedly called without the required 'filters' argument. In the ground truth action sequence, the correct tool `GetEmployee` is used with the appropriate 'employee_id' argument to retrieve Emma Rodriguez's information. The trajectory fails to provide the necessary argument for the tool, resulting in errors and preventing the successful execution of the task."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant repeatedly attempts to invoke the `update_employee.invoke()` and `set_compensation.invoke()` functions without providing the required 'updates' and 'compensation' arguments, respectively. These errors indicate that the assistant is not correctly using the tool arguments as specified in the ground truth action sequence, where specific updates and compensation details are required for successful execution."
         }
     ]
 }

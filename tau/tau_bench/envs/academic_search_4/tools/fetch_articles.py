@@ -24,7 +24,7 @@ class FetchArticles(Tool):
             if title and title.lower() not in article.get('title', '').lower(): match = False
             if author_name and author_name.lower() not in article.get('author_name', '').lower(): match = False
             if year and year != article.get('publication_year'): match = False
-            if match: results.append(article)
+            results.append(article)
         return json.dumps(results, indent=2)
 
     @staticmethod

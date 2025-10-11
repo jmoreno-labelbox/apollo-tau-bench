@@ -1,0 +1,503 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_01",
+        "actions": [
+          {
+            "name": "CreateBriefingDoc",
+            "kwargs": {
+              "client_id": 16,
+              "broker_id": 8
+            }
+          },
+          {
+            "name": "NewCampaignCreator",
+            "kwargs": {
+              "name": "First\u2011Time Buyer Packet -Client 16 - Aug 2025",
+              "type": "general_update",
+              "created_by": 8
+            }
+          },
+          {
+            "name": "ReadCampaign",
+            "kwargs": {
+              "campaign_id": 9
+            }
+          },
+          {
+            "name": "PersistOutboundEmail",
+            "kwargs": {
+              "client_id": 16,
+              "broker_id": 8,
+              "subject": "Here\u2019s Your Starter Packet",
+              "template_code": "general_update",
+              "body_uri": "https://test.storage.com/details/client_briefing_016_v1.pdf",
+              "campaign_id": 9
+            }
+          },
+          {
+            "name": "ListClientEmails",
+            "kwargs": {
+              "client_id": 16
+            }
+          },
+          {
+            "name": "InsertCalendarEvent",
+            "kwargs": {
+              "broker_id": 8,
+              "client_id": 16,
+              "title": "Packet follow-up",
+              "start_at": "2025-08-21T23:00:00Z",
+              "end_at": "2025-08-21T23:10:00Z",
+              "location": "Phone",
+              "source": "follow_up"
+            }
+          },
+          {
+            "name": "ListClientCalendarEvents",
+            "kwargs": {
+              "client_id": 16
+            }
+          }
+        ],
+        "instruction": "Handle the preparation of a first-time buyer packet for client 16 under broker 8. Desired outcome: a briefing document for client 16 (defaults to 'v1') is created and stored at 'https://test.storage.com/details/client_briefing_016_v1.pdf'; a 'general_update' campaign titled 'First-Time Buyer Packet -Client 16 - Aug 2025' is established; an email to client 16 using template_code 'general_update' with the subject 'Here\u2019s Your Starter Packet' and body_uri 'https://test.storage.com/details/client_briefing_016_v1.pdf' is logged in the campaign; and a reminder hold is scheduled for 2025-08-21 23:00-23:10Z, titled 'Packet follow-up' at 'Phone' (source 'follow_up').",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"When retrieving a property's record together with its latest listing, you are required to use `lookup_property_with_latest_listing`.\",\n    \"To search listings using filters such as price, beds, baths, sqft, WA property_type, utilize `query_active_listings`.\",\n    \"If the search is limited to certain neighborhoods, employ `query_listings_by_neighborhoods`.\",\n    \"Whenever listing details along with property attributes are required, always apply `gather_listings_with_properties`.\",\n    \"Retrieve complete neighborhood details by utilizing `fetch_neighborhood`.\",\n    \"When determining which neighborhoods are adjacent, apply `list_adjacent_neighborhoods`.\",\n    \"To obtain open house information organized by neighborhood, use `open_house_windows_by_neighborhoods`.\",\n    \"Retrieve a client\u2019s stored preferences by using `fetch_client_prefs`.\",\n    \"Fetch broker details by utilizing `fetch_broker_profile`.\",\n    \"Pull a client\u2019s mortgage profile through `retrieve_mortgage_profile`.\",\n    \"When determining estimated mortgage payments for a client, utilize `estimate_mortgage_payment`.\",\n    \"To retrieve the recent sales history of a property, apply `recent_sales_for_property`.\",\n    \"To generate WA modify a comp report\u2014and to persist comparables and documents\u2014employ `create_or_update_comp_report`.\",\n    \"Retrieve a comp report along with its comps and documents by using `read_comp_report_bundle`.\",\n    \"Update the status of a comp report by utilizing `set_comp_report_status`.\",\n    \"Create a new campaign record through the use of `new_campaign_creator`.\",\n    \"Retrieve campaign details by ID using `read_campaign`.\",\n    \"Render the email body for a given client and template combination with `compose_client_email`.\",\n    \"Record a sent email by utilizing `persist_outbound_email`.\",\n    \"Retrieve all emails sent to a client by using `list_client_emails`.\",\n    \"When a batch is requested, utilize `draft_seller_broker_batch` to produce draft outreach emails for seller/broker contacts. Employ `insert_calendar_event` to add a new calendar event.\",\n    \"Obtain all events for a client by using `list_client_calendar_events`.\",\n    \"Retrieve open houses for specified properties by utilizing `open_houses_for_properties`.\",\n    \"Create a client viewing route with designated stops by employing `persist_viewing_route`.\",\n    \"Obtain route details by ID using `read_route`.\",\n    \"Generate a client briefing document by invoking `create_briefing_doc`.\",\n    \"Attach any document to a client by utilizing `link_document_to_client`.\",\n    \"Record every action in audit_events using `append_audit_event`.\",\n    \"Apply `validate_drive_time_hops` to determine whether the route hops comply with the maximum drive time constraint.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hello! I'm looking to prepare a first-time buyer packet for one of our clients. Could you help me with that?"
+      },
+      {
+        "content": "Sure! A first-time buyer packet typically includes essential information and resources to help clients navigate the home-buying process. Here are some components you might consider including:\n\n1. **Home Buying Process Overview**: A step-by-step guide outlining the home buying process from pre-approval to closing.\n\n2. **Mortgage Information**: Details about different types of mortgages, how to get pre-approved, and what to expect in terms of monthly payments.\n\n3. **Budgeting for a Home**: Tips on how to budget for a home purchase, including down payments, closing costs, and ongoing expenses.\n\n4. **Neighborhood Information**: Insights into various neighborhoods, including schools, amenities, and market trends.\n\n5. **Property Listings**: A selection of properties that fit the client's criteria.\n\n6. **Open House Schedule**: Information on upcoming open houses for properties of interest.\n\n7. **Contact Information**: Your contact details and any other relevant professionals (e.g., mortgage brokers, inspectors).\n\n8. **FAQs**: Common questions and answers that first-time buyers may have.\n\nWould you like me to help you gather specific information or create any documents for this packet?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the overview! I actually need to create a specific briefing document for Client 16. Could you assist with how I can make that available at a specific location online?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"client_id\":16,\"broker_id\":1}",
+              "name": "create_briefing_doc"
+            },
+            "id": "call_aYUMOZPlVuWqRZBBkq0OpEkw",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_aYUMOZPlVuWqRZBBkq0OpEkw",
+        "name": "create_briefing_doc",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an error while trying to create the briefing document. Let me try again to generate the document for Client 16. Please hold on for a moment.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"client_id\":16,\"broker_id\":1}",
+              "name": "create_briefing_doc"
+            },
+            "id": "call_b943pxlVZwlrynWwPcOPxu7Q",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_b943pxlVZwlrynWwPcOPxu7Q",
+        "name": "create_briefing_doc",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that there is a persistent issue with creating the briefing document. Unfortunately, I can't generate it at the moment.\n\nHowever, you can create a briefing document manually by compiling the necessary information about the client and the home-buying process. Once you have the document ready, you can upload it to a cloud storage service (like Google Drive, Dropbox, etc.) and share the link with your client.\n\nIf you need help with specific content for the briefing document or any other assistance, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I already have a link for the document at 'https://test.storage.com/details/client_briefing_016_v1.pdf'. Could you guide me on how to set up a campaign for the first-time buyer packet?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\":\"First-Time Buyer Packet for Client 16\",\"type\":\"Email Campaign\",\"created_by\":1}",
+              "name": "new_campaign_creator"
+            },
+            "id": "call_i36MHgEFM5VhiXLKx5bHs3Xh",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_i36MHgEFM5VhiXLKx5bHs3Xh",
+        "name": "new_campaign_creator",
+        "content": "{\n  \"campaign_id\": 9,\n  \"name\": \"First-Time Buyer Packet for Client 16\",\n  \"type\": \"Email Campaign\",\n  \"created_by\": 1,\n  \"created_at\": \"2025-08-20T00:00:00Z\"\n}"
+      },
+      {
+        "content": "I have successfully created a campaign titled \"First-Time Buyer Packet for Client 16.\" The campaign ID is **9**.\n\nNext, you can prepare the email content to share the briefing document link with the client. Would you like assistance in composing the email or any other details related to the campaign?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Actually, I'd like to log an email to Client 16. I'll be using a template and need to include the link to the document in the email. Could you help with that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"template_code\":\"first_time_buyer_packet\",\"client_id\":16,\"subject\":\"Your First-Time Buyer Packet\",\"slug\":\"first_time_buyer_packet\"}",
+              "name": "compose_client_email"
+            },
+            "id": "call_8BVgkSvZC8UHisrnTbDWs0BZ",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_8BVgkSvZC8UHisrnTbDWs0BZ",
+        "name": "compose_client_email",
+        "content": "{\n  \"client_id\": 16,\n  \"subject\": \"Your First-Time Buyer Packet\",\n  \"body_uri\": \"https://test.storage.com/emails/first_time_buyer_packet.html\",\n  \"template_code\": \"first_time_buyer_packet\"\n}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"client_id\":16,\"broker_id\":1,\"subject\":\"Your First-Time Buyer Packet\",\"body_uri\":\"https://test.storage.com/emails/first_time_buyer_packet.html\",\"template_code\":\"first_time_buyer_packet\",\"campaign_id\":9}",
+              "name": "persist_outbound_email"
+            },
+            "id": "call_P6b5HQOS5AczkfbORpKQ5AC1",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_P6b5HQOS5AczkfbORpKQ5AC1",
+        "name": "persist_outbound_email",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an error while trying to log the email to Client 16. Let me try again to persist the outbound email. Please hold on for a moment.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"client_id\":16,\"broker_id\":1,\"subject\":\"Your First-Time Buyer Packet\",\"body_uri\":\"https://test.storage.com/emails/first_time_buyer_packet.html\",\"template_code\":\"first_time_buyer_packet\",\"campaign_id\":9}",
+              "name": "persist_outbound_email"
+            },
+            "id": "call_co3fd0x63XSm8g0moOUvDwZV",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_co3fd0x63XSm8g0moOUvDwZV",
+        "name": "persist_outbound_email",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that there is a recurring issue with logging the outbound email. Unfortunately, I can't persist the email at this moment.\n\nHowever, you can manually log the email by sending it through your email client and noting the details in your records. Here\u2019s a suggested format for the email:\n\n---\n\n**Subject:** Your First-Time Buyer Packet\n\n**Body:**\n\nDear [Client's Name],\n\nI hope this message finds you well! \n\nI am excited to share your First-Time Buyer Packet, which includes valuable information to assist you in your home-buying journey. You can access the document using the link below:\n\n[Your First-Time Buyer Packet](https://test.storage.com/details/client_briefing_016_v1.pdf)\n\nIf you have any questions or need further assistance, please feel free to reach out.\n\nBest regards,\n\n[Your Name]  \n[Your Contact Information]\n\n---\n\nIf you need any further assistance or adjustments, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the format. I also need to ensure a reminder is scheduled for follow-up. Could you help with setting that up?"
+      },
+      {
+        "content": "To set up a reminder for a follow-up, I need the following details:\n\n1. **Date and Time** for the follow-up reminder.\n2. **Title** for the calendar event (e.g., \"Follow-up with Client 16\").\n3. **Location** (if applicable).\n4. **Notes** (if you want to include any specific details).\n\nOnce I have this information, I can help you create the calendar event!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Certainly! The follow-up reminder should be scheduled for August 21, 2025, between 23:00 and 23:10 Zulu Time. The title would be \"Packet follow-up\" and the intended location is \"Phone\". Could you help with setting this up?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"broker_id\":1,\"client_id\":16,\"title\":\"Packet follow-up\",\"start_at\":\"2025-08-21T23:00:00Z\",\"end_at\":\"2025-08-21T23:10:00Z\",\"location\":\"Phone\",\"notes\":\"Follow up with Client 16 regarding the First-Time Buyer Packet.\"}",
+              "name": "insert_calendar_event"
+            },
+            "id": "call_ZGAJhjrgOCiSCRbhmUCt9tos",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ZGAJhjrgOCiSCRbhmUCt9tos",
+        "name": "insert_calendar_event",
+        "content": "Error: InsertCalendarEvent.invoke() missing 1 required positional argument: 'source'"
+      },
+      {
+        "content": "It seems that I need to provide a source for the calendar event. Let me try again to set up the reminder with the required information. Please hold on for a moment.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"broker_id\":1,\"client_id\":16,\"title\":\"Packet follow-up\",\"start_at\":\"2025-08-21T23:00:00Z\",\"end_at\":\"2025-08-21T23:10:00Z\",\"location\":\"Phone\",\"notes\":\"Follow up with Client 16 regarding the First-Time Buyer Packet.\",\"source\":\"Client Follow-up System\"}",
+              "name": "insert_calendar_event"
+            },
+            "id": "call_l5jlgZnA1JzjcDgBnuvBGPEB",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_l5jlgZnA1JzjcDgBnuvBGPEB",
+        "name": "insert_calendar_event",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that there is a persistent issue with scheduling the calendar event. Unfortunately, I can't set up the reminder at this moment.\n\nHowever, you can manually create a calendar event in your preferred calendar application (like Google Calendar, Outlook, etc.) using the following details:\n\n- **Title:** Packet follow-up\n- **Date and Time:** August 21, 2025, from 23:00 to 23:10 Zulu Time\n- **Location:** Phone\n- **Notes:** Follow up with Client 16 regarding the First-Time Buyer Packet.\n\nIf you need any further assistance or adjustments, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you for your guidance. I think that's everything needed for now. ###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! I'm glad I could assist you. If you have any more questions in the future or need further help, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too. Goodbye!"
+      },
+      {
+        "content": "Goodbye! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Take care! See you!"
+      },
+      {
+        "content": "See you! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Bye!"
+      },
+      {
+        "content": "Bye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye!"
+      },
+      {
+        "content": "Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Farewell!"
+      },
+      {
+        "content": "Farewell!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Have a wonderful day too!"
+      },
+      {
+        "content": "Thank you! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Take care!"
+      },
+      {
+        "content": "Thank you! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye!"
+      },
+      {
+        "content": "Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Farewell!"
+      },
+      {
+        "content": "Farewell!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Wishing you a great day as well!"
+      },
+      {
+        "content": "Thank you! I appreciate it! If you need anything in the future, feel free to reach out. Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll definitely reach out if needed. Take care!"
+      },
+      {
+        "content": "You're welcome! Take care, and have a fantastic day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too, take care and have a fantastic day!"
+      },
+      {
+        "content": "Thank you! I appreciate it! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye!"
+      },
+      {
+        "content": "Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Farewell!"
+      }
+    ],
+    "trial": 0
+  }
+]

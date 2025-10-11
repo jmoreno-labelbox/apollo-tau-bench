@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to document the change after removing the Dental Plan (BEN4002) from Michael Park's benefits. The ground truth action sequence includes a \"GetEmployee\" action after updating the benefits to document the change, which the agent did not perform. Instead, the agent attempted to add a performance review note, which was not part of the required actions, leading to errors and failing to document the change as instructed."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `SearchEmployees` action with the correct filters for \"Michael Park\" as instructed by the user. Instead, it attempted to search without providing the necessary filters, resulting in errors. Additionally, the agent did not document the change as requested by the user, failing to complete the task as per the user instruction."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the assistant used the wrong tool argument when attempting to document the change. The ground truth action sequence does not include any action to add a performance review note, whereas the trajectory shows the assistant attempting to use the `add_performance_review` tool, which is incorrect for documenting the change in benefits. The correct action should have been to use a tool or method specifically for documenting changes, not adding a performance review."
+            "description": "The fault in the trajectory is that the assistant used the wrong tool argument when attempting to search for the employee. The user instruction specified the employee's name as \"Michael Park,\" but the assistant incorrectly searched for \"Daniel Kim\" instead. This led to the assistant finding the wrong employee and proceeding with actions based on incorrect information. The ground truth action sequence correctly identifies the employee as \"Daniel Kim\" with the employee ID \"E10002,\" but the trajectory fails to use the correct filters for the employee search, resulting in a mismatch between the intended and executed actions."
         }
     ]
 }

@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error related to the undefined function 'get_current_timestamp', which prevents the execution of several actions such as quarantining inventory, performing a physical count, creating an inventory adjustment, drafting an incident report, notifying the supplier, and calculating financial impact. These errors disrupt the completion of the tasks outlined in the ground truth action sequence."
+            "description": "The environment is responsible for the fault in the trajectory because it repeatedly encountered a technical issue with the system, specifically the error \"name 'get_current_timestamp' is not defined,\" which prevented the completion of several actions. These actions include placing the inventory in quarantine, performing a physical inventory count, creating an incident report, notifying the supplier, and calculating the financial impact. Additionally, there was an error \"'str' object has no attribute 'get'\" when attempting to check the notification status and incident ID. These system errors hindered the agent from executing the necessary actions as outlined in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": []

@@ -1,0 +1,13 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "error": "cannot schedule new futures after shutdown",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n        env=isolated_env,\n        task_index=idx,\n    )\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/base.py\", line 97, in step\n    observation = self.user.step(action.kwargs[\"content\"])\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/user.py\", line 82, in step\n    return self.generate_next_message(self.messages)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/user.py\", line 47, in generate_next_message\n    res = completion(\n        model=self.model, custom_llm_provider=self.provider, messages=messages\n    )\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/venv/lib/python3.13/site-packages/litellm/utils.py\", line 1356, in wrapper\n    raise e\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/venv/lib/python3.13/site-packages/litellm/utils.py\", line 1287, in wrapper\n    executor.submit(\n    ~~~~~~~~~~~~~~~^\n        logging_obj.success_handler,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        end_time,\n        ^^^^^^^^^\n    )\n    ^\n  File \"/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/lib/python3.13/concurrent/futures/thread.py\", line 171, in submit\n    raise RuntimeError('cannot schedule new futures after shutdown')\nRuntimeError: cannot schedule new futures after shutdown\n",
+      "env_name": "career_planner_4"
+    },
+    "traj": [],
+    "trial": 0
+  }
+]

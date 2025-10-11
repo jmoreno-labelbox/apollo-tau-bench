@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the `CreateTransaction` action successfully. The agent encountered an error (\"Error: string indices must be integers\") while attempting to process the transfer of $100 from the checking account to the savings account with the description \"Personal transfer.\" This error prevented the completion of the transaction, which was a required step in the ground truth action sequence. Additionally, the agent did not retrieve the rewards points information for the credit card account, which was part of the user instruction."
+            "description": "The agent is responsible for the fault in the trajectory due to the following reasons:\n\n1. **Incorrect Customer Search**: The agent did not perform the `SearchCustomerByName` action with the correct name \"Kenji Tanaka\". Instead, it used the name \"John Doe\" in the ground truth action sequence, which is incorrect based on the user instruction.\n\n2. **Failure to Retrieve Credit Card Rewards Points**: The agent encountered an error (\"string indices must be integers, not 'str'\") when attempting to retrieve the rewards points for the credit card account. This indicates a failure in executing the `GetAccountDetails` action correctly.\n\n3. **Failure to Process Transfer**: The agent also encountered the same error when attempting to process the transfer of $100 from the checking to the savings account. This indicates a failure in executing the `CreateTransaction` action correctly.\n\nThese errors prevented the agent from completing the tasks as specified in the user instruction."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect use of the tool for creating a transaction. The ground truth specifies using the \"CreateTransaction\" tool with specific arguments: \"source_account_id\", \"destination_account_id\", \"amount\", and \"description\". However, in the trajectory, the tool usage resulted in an error (\"Error: string indices must be integers\"), indicating that the tool was not used correctly, likely due to incorrect or missing arguments. This error prevented the successful execution of the transfer action."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant failed to use the correct arguments for the tools when attempting to retrieve the rewards points and process the transfer. Specifically, the assistant encountered errors (\"Error: string indices must be integers, not 'str'\") when trying to access the credit card account details and when attempting to create the transaction. This indicates that the assistant used incorrect arguments or improperly formatted data when calling these tools, leading to the failure in executing the required actions. In contrast, the ground truth action sequence correctly specifies the necessary arguments for these actions, such as using the correct account IDs and transaction details."
         }
     ]
 }

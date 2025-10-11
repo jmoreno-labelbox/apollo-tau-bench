@@ -16,7 +16,7 @@ class AssignReviewer(Tool):
                     sub['assigned_reviewers'] = [reviewer_user_id]
                 else:
                     if reviewer_user_id not in sub['assigned_reviewers']:
-                        sub['assigned_reviewers'].append(reviewer_user_id)
+                        sub['assigned_reviewers'] = sub.get('assigned_reviewers', []) + [reviewer_user_id]
 
                 sub['status'] = 'under_review'
                 return json.dumps({"success": True, "submission": sub})

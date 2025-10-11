@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly check the inventory for 'Oncology Drug A' at the Charlotte Cold Chain Center. Initially, the agent incorrectly reported that there was no available inventory for 'Oncology Drug A', which led to unnecessary steps and delays in the process. Later, it was revealed that there were actually 400 boxes available, which should have been identified earlier in the process. This discrepancy between the ground truth and the trajectory caused a failure in fulfilling the order promptly."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the \"ShipOutboundOrder\" action. The agent did not proceed with shipping the order from the correct warehouse (WH-06) using the specified air carrier (GPLS) as outlined in the ground truth action sequence. Instead, the agent incorrectly attempted to transfer inventory to another warehouse (WH-05) and did not complete the shipping process, leading to a failure in fulfilling the user instruction. Additionally, the agent did not report the final tracking number after the shipment, which was a required step in the user instruction."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the assistant used the wrong tool argument when attempting to ship the outbound order. In the ground truth action sequence, the `ShipOutboundOrder` action specifies the correct `carrier_scac` as \"GPLS\" (Global Parcel Service). However, in the trajectory, the assistant attempts to use \"Express World Delivery\" (SCAC: EWDL) as the carrier, which is not aligned with the ground truth. This discrepancy in the carrier selection constitutes a \"used_wrong_tool_argument\" fault."
+            "description": "The fault in the trajectory is that the assistant attempted to initiate a warehouse transfer using the `InitiateWarehouseTransfer` tool with incorrect arguments. The tool was invoked with unexpected keyword arguments such as 'sku', 'quantity', and 'from_warehouse_id', which are not valid for this tool. This differs from the ground truth action sequence, where no warehouse transfer was needed because the correct warehouse (WH-06) already had sufficient inventory to fulfill the order. The assistant should have proceeded with creating and shipping the outbound order directly from the correct warehouse without attempting a transfer."
         }
     ]
 }

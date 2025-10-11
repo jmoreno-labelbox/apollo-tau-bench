@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: `'str' object has no attribute 'get'`. This suggests that the environment is attempting to access a method or attribute on a string object that does not exist, likely due to a misconfiguration or incorrect handling of data types within the environment. This prevents the execution of any actions, leading to a failure in progressing through the necessary steps to achieve the user's goal."
+            "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: \"'str' object has no attribute 'get'\". This indicates that the environment is attempting to access a method or attribute on a string object that does not exist, which is likely due to a misconfiguration or bug in the environment's handling of data or API responses. This prevents the execution of any actions, leading to a failure in progressing through the necessary steps to fulfill the user instruction."
         }
     ],
     "fault_type_analysis": []

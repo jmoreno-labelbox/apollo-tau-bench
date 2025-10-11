@@ -1,0 +1,462 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "res_001",
+        "actions": [
+          {
+            "name": "CreateReviewCycle",
+            "kwargs": {
+              "cycle_id": "rev-art_001-20240823-001",
+              "artifact_id": "art_001",
+              "started_at": "2024-08-23T10:00:00Z",
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "rv-001",
+              "recipients": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ]
+            }
+          },
+          {
+            "name": "ExportAssets",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "export_profile": "PNG 2x",
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "en-002"
+            }
+          },
+          {
+            "name": "CreateGmailThread",
+            "kwargs": {
+              "subject": "Design Review Request: 1 frames ready for review",
+              "sender_email": "emma.creative@company.com",
+              "recipients": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ],
+              "labels": [
+                "Design/Needs-Review"
+              ],
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "em-001"
+            }
+          },
+          {
+            "name": "LinkCycleToThread",
+            "kwargs": {
+              "cycle_id": "rev-art_001-20240823-001",
+              "thread_id": "thr_em-001"
+            }
+          },
+          {
+            "name": "AppendGmailMessage",
+            "kwargs": {
+              "thread_id": "thr_em-001",
+              "sender_email": "emma.creative@company.com",
+              "recipients": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ],
+              "body_html": "Hi team, please review the attached design: Homepage Hero Section. Deadline: 2024-08-23T15:00:00Z",
+              "attachments_asset_ids": [
+                "asset_en-002"
+              ],
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "em-002"
+            }
+          },
+          {
+            "name": "GovernanceUpdate",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "add_tags": [
+                "needs-review"
+              ],
+              "remove_tags": [],
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "up-001"
+            }
+          },
+          {
+            "name": "GetReviewCycle",
+            "kwargs": {
+              "cycle_id": "rev-art_001-20240823-001"
+            }
+          },
+          {
+            "name": "RecordAutomationRun",
+            "kwargs": {
+              "task_name": "review_kickoff",
+              "status": "completed",
+              "started_at": "2024-08-23T10:00:00Z",
+              "ended_at": "2024-08-23T10:00:00Z",
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "rl-001"
+            }
+          }
+        ],
+        "instruction": "As the design review coordinator for the Web UX team and with the current time being 2024-08-23T10:00:00Z, initiate an email-based design review for Figma artifact art_001 utilizing the 'PNG 2x' export. Inform recipients ['design-review@company.com','ux-team@company.com'] within a single thread labeled 'Design/Needs-Review' for the day. Ensure identifiers remain consistent and reusable.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"\u00a70.1 This document consists of a list of declarative policies. Every entry is a simple string, without any code or conditional logic.\",\n    \"\u00a70.2 These rules list canonical IDs, templates, and policies to ensure that tools and tasks refer to established values rather than creating new ones.\",\n    \"\u00a70.3 Each action parameter must originate from one of the following sources: (a) these rules, (b) the instruction text, or (c) a previous tool output within the same task.\",\n    \"\u00a71.1 The agent serves as the Design Review Coordinator specifically for the Figma\u2194Gmail workflow.\",\n    \"\u00a71.2 The workflow includes: initiating or reusing review cycles, exporting assets, initiating or reusing email threads, posting messages, mirroring replies to Figma comments, managing approvals, and providing a final status summary.\",\n    \"\u00a71.3 The agent can additionally serve as the Release Publisher for release handoffs conducted via email.\",\n    \"\u00a71.4 The agent can also function as the Accessibility Audit Lead for accessibility reviews performed through email.\",\n    \"\u00a71.5 The agent is permitted to serve as the Design Systems Triage Lead for coordinating design-system issues.\",\n    \"\u00a71.6 The agent is permitted to serve as the Review Program Manager for managing in-flight review coordination and sending reminders.\",\n    \"\u00a71.7 The agent is permitted to serve as the Change Request Lead for conveying requested design changes.\",\n    \"\u00a71.8 The agent is permitted to serve as the Fix Plan Delivery Owner as well.\",\n    \"\u00a71.9 The agent is also authorized to function as the Fix Item Status Updater.\",\n    \"\u00a71.10 The agent is likewise allowed to operate as the Audit Report Generator.\",\n    \"\u00a72.1 Every write operation is both deterministic and idempotent; executing the identical task with the same inputs will generate the same records.\",\n    \"\u00a72.2 Request namespaces generate consistent IDs in the following formats: thr_<request_id>, msg_<request_id>, asset_<request_id>, run_<request_id>.\",\n    \"\u00a72.3 When an entity with the same logical key (cycle, thread, export, message) already exists, it must be reused instead of creating a new duplicate.\",\n    \"\u00a72.4 Avoid generating dynamic timestamps; any required time value must be taken exactly as specified in the instruction.\",\n    \"\u00a73.1 For deterministic grouping, the 'day' is defined as the YYYY-MM-DD extracted from the instruction timestamp.\",\n    \"\u00a73.2 Every operation on the same artifact occurring within the same day must utilize the identical deterministic thread and maintain consistent IDs.\",\n    \"\u00a74.1 The standard export profile to be used for both review and release handoff is 'PNG 2x'.\",\n    \"\u00a74.2 The official review label to apply to Gmail threads is 'Design/Needs-Review'.\",\n    \"\u00a74.3 Permitted canonical review recipients (array) are: ['design-review@company.com', 'ux-team@company.com', 'growth-team@company.com'\n"
+      },
+      {
+        "role": "user",
+        "content": "Hello! I'd like to start an email-based design review for one of our Figma artifacts. Would you assist me in drafting the email to the necessary recipients?"
+      },
+      {
+        "content": "Sure! To draft the email for the design review, I need the following information:\n\n1. **Subject of the email**: What would you like the subject to be?\n2. **Sender's email**: What email address will be sending the email?\n3. **Recipients**: Who should receive this email? (Please provide their email addresses.)\n4. **Body of the email**: What message would you like to include in the email? (You can provide a brief overview of the design artifact and any specific points you want the reviewers to focus on.)\n5. **Timestamp**: When should this email be timestamped? (If you want to use the current time, please let me know.)\n\nOnce I have this information, I can help you draft the email!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure, let's address each point: \n\n1. **Subject of the email**: Let's use \"Design/Needs-Review\"\n2. **Sender's email**: I'm coordinating this, so no need to specify exactly.\n3. **Recipients**: We'll email both 'design-review@company.com' and 'ux-team@company.com'.\n4. **Body of the email**: We'll include details about the design artifact 'art_001' and request feedback on specific points.\n5. **Timestamp**: We can use the current date and time, which is 2024-08-23T10:00:00Z.\n\nShall we go ahead with drafting the body of the email now?"
+      },
+      {
+        "content": "Absolutely! Here\u2019s a draft for the body of the email regarding the design review for the artifact 'art_001':\n\n---\n\n**Subject**: Design/Needs-Review\n\n**To**: design-review@company.com, ux-team@company.com\n\n---\n\nDear Team,\n\nI hope this message finds you well. \n\nI am reaching out to initiate a design review for our Figma artifact identified as 'art_001'. Your feedback is crucial to ensure we are aligned with our design goals and to enhance the overall quality of our work.\n\nPlease focus on the following specific points during your review:\n- Usability and user experience considerations\n- Visual consistency with our design system\n- Any potential accessibility issues\n\nI appreciate your time and insights on this matter. Please provide your feedback by [insert deadline if applicable].\n\nThank you!\n\nBest regards,  \n[Your Name]  \n[Your Position]  \n[Your Contact Information]\n\n---\n\nFeel free to modify any part of the draft or let me know if you would like to add or change anything! Once you're satisfied with the content, I can help you create the email thread.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a great draft! \n\nLet me know if there's anything specific you want to adjust, or I can help you move forward with creating this email thread."
+      },
+      {
+        "content": "The draft looks good as is! If you're ready, I can proceed to create the email thread using the details provided. \n\nHere\u2019s a quick summary of the parameters for creating the email thread:\n\n- **Subject**: \"Design/Needs-Review\"\n- **Sender's email**: (not specified, will use the coordinating email)\n- **Recipients**: ['design-review@company.com', 'ux-team@company.com']\n- **Timestamp**: 2024-08-23T10:00:00Z\n\nShall I go ahead and create the email thread with these details?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Everything seems set for creating the email thread. Please proceed with using the information you've summarized to set it up! Let me know if there's anything else you might need help with."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"subject\":\"Design/Needs-Review\",\"sender_email\":\"\",\"recipients\":[\"design-review@company.com\",\"ux-team@company.com\"],\"labels\":[\"Design/Needs-Review\"],\"timestamp\":\"2024-08-23T10:00:00Z\",\"request_id\":\"req_001\"}",
+              "name": "create_gmail_thread"
+            },
+            "id": "call_uXhTHkOOWi41MTxuWcAkXDm6",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_uXhTHkOOWi41MTxuWcAkXDm6",
+        "name": "create_gmail_thread",
+        "content": "{\n  \"thread_id\": \"thr_req_001\",\n  \"subject\": \"Design/Needs-Review\",\n  \"to\": [\n    \"design-review@company.com\",\n    \"ux-team@company.com\"\n  ],\n  \"current_labels\": [\n    \"Design/Needs-Review\"\n  ],\n  \"sender_email\": \"\",\n  \"day\": \"2024-08-23\"\n}"
+      },
+      {
+        "content": "The email thread has been successfully created! Here are the details:\n\n- **Thread ID**: thr_req_001\n- **Subject**: Design/Needs-Review\n- **Recipients**: design-review@company.com, ux-team@company.com\n- **Labels**: Design/Needs-Review\n- **Timestamp**: 2024-08-23\n\nIf you need to append the message body or perform any other actions related to this thread, just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, the email thread is all set up! If there's anything else related to this design review or other tasks, feel free to ask. "
+      },
+      {
+        "content": "Thank you! If you need any further assistance with the design review, such as sending follow-up messages, managing feedback, or any other tasks, just let me know. I'm here to help!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too have a fantastic day, and don't hesitate to reach out if there's anything else I can assist with in the future. Bye for now!"
+      },
+      {
+        "content": "Thank you! I appreciate it. Have a wonderful day, and take care! Bye for now!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Take care! Bye!"
+      },
+      {
+        "content": "Goodbye! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye! Take care!"
+      },
+      {
+        "content": "Goodbye! Take care! If you need anything in the future, just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Got it! If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance later, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need assistance later, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything else, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need anything, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need assistance later, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need anything, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything else, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything in the future, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need assistance later, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need anything, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything else, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything in the future, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need assistance later, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to correctly execute the `UpdatePromotionDetails` action with the `times_used` parameter. The ground truth action sequence specifies updating the `times_used` count for `PROMO-001` to 10, but the agent encountered an error and incorrectly concluded that the `times_used` field cannot be updated directly. This discrepancy between the expected action and the agent's response led to the fault in the trajectory."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the `UpdatePromotionDetails` action with the correct parameters. The agent attempted to update the `times_used` field for `PROMO-001` but encountered an error due to an unexpected keyword argument. In the ground truth action sequence, the `UpdatePromotionDetails` action is successfully executed with the correct parameters, including `promotion_id` and `times_used`. The agent should have ensured that the action was invoked with the correct parameters to update the `times_used` count to 10 as instructed."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the assistant attempted to update the 'times_used' field for the promotion using the `UpdatePromotionDetails` tool with an incorrect argument. The ground truth action sequence specifies using the `UpdatePromotionDetails` tool with the argument `times_used: 10`, but the trajectory shows an error indicating that 'times_used' is not a valid argument for this tool. This discrepancy indicates that the assistant used the wrong tool argument, leading to the failure in updating the promotion details as intended."
+            "description": "The fault in the trajectory is due to the incorrect use of the `UpdatePromotionDetails` tool. The assistant attempted to update the `times_used` field directly, which resulted in an error because the tool does not accept `times_used` as a valid argument. In the ground truth action sequence, the `UpdatePromotionDetails` tool is correctly used with `promotion_id` and `times_used` as arguments, indicating that the tool should have been able to handle this update if used correctly. The trajectory failed to perform this action as intended, leading to the fault."
         }
     ]
 }

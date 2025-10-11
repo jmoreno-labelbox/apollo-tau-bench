@@ -1,0 +1,446 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "FilterFigmaArtifactsByTags",
+            "kwargs": {
+              "tags": [
+                "needs-review"
+              ]
+            }
+          },
+          {
+            "name": "ExportFigmaArtifactsToAssets",
+            "kwargs": {
+              "artifact_ids": [
+                "art_001",
+                "art_007"
+              ],
+              "export_profile": {
+                "format": "PNG",
+                "scale": "2x"
+              }
+            }
+          },
+          {
+            "name": "CreateGmailThread",
+            "kwargs": {
+              "sender_email": "design-lead@company.com",
+              "recipients_emails": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ],
+              "workflow_type": "review",
+              "current_labels": [
+                "design-review",
+                "figma"
+              ]
+            }
+          },
+          {
+            "name": "CreateReviewCycle",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "status": "NEEDS_REVIEW",
+              "thread_id_nullable": "thread_015"
+            }
+          },
+          {
+            "name": "CreateReviewCycle",
+            "kwargs": {
+              "artifact_id": "art_007",
+              "status": "NEEDS_REVIEW",
+              "thread_id_nullable": "thread_015"
+            }
+          },
+          {
+            "name": "CreateGmailMessage",
+            "kwargs": {
+              "sender_email": "design-lead@company.com",
+              "workflow_type": "review",
+              "thread_id": "thread_015",
+              "attachments_asset_ids": [
+                "asset_art_001_png_2x",
+                "asset_art_007_png_2x"
+              ]
+            }
+          }
+        ],
+        "instruction": "Handle a detailed design review process for artifacts needing feedback. Concentrate on those tagged with 'needs-review' and get them ready for stakeholder evaluation. Export these as PNG at 2x scale for the best review quality. Operate as 'design-lead@company.com' with design-review@company.com and ux-team@company.com as recipients. Utilize 'design-review' and 'figma' labels for organizing threads, and make sure each artifact receives a NEEDS_REVIEW status for proper tracking.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null,
+      "env_name": "figma_gmail_mcp_pipeline_1"
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"WORKFLOW 1a - DESIGN REVIEW STEP 1. Locate figma artifacts with a particular tag Apply filter_figma_artifacts_by_tags, with required kwargs: 'tags': <list_of_tags_to_filter_by> STEP 2. Export the located figma artifacts as assets Invoke export_figma_artifacts_to_assets, with required kwargs: 'artifact_ids': <list_of_artifacts_to_export>, 'export_profile': {'format': <one_of_['PNG', 'JPG', 'SVG', 'PDF'\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I'm currently tasked with preparing some design artifacts for review. Could you guide me on how to approach this?"
+      },
+      {
+        "content": "Certainly! Preparing design artifacts for review typically involves a few key steps. Here's a structured approach you can follow:\n\n### Step 1: Identify Artifacts\n- **Locate the Design Artifacts**: Use tags or specific criteria to filter and find the relevant design artifacts in your design tool (e.g., Figma).\n\n### Step 2: Export Artifacts\n- **Export the Artifacts**: Once you've identified the artifacts, export them in the required formats (e.g., PNG, JPG, SVG, PDF) for sharing with reviewers.\n\n### Step 3: Create Review Cycle\n- **Initiate a Review Cycle**: Create a review cycle for each artifact, specifying the status (e.g., NEEDS_REVIEW) and any relevant details.\n\n### Step 4: Notify Stakeholders\n- **Communicate with Stakeholders**: Send out notifications to stakeholders or team members about the review, including links to the artifacts and any specific feedback requests.\n\n### Step 5: Gather Feedback\n- **Collect Feedback**: After the review, gather feedback from stakeholders and make necessary adjustments to the artifacts.\n\n### Step 6: Finalize Artifacts\n- **Finalize the Artifacts**: Once feedback is incorporated, finalize the artifacts for implementation or further development.\n\n### Tools and Functions\nIf you're using a tool like Figma, you can utilize specific functions to filter artifacts by tags, export them, and create review cycles. If you need assistance with any of these steps, let me know, and I can help you execute them!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! To start, I need to focus on those design artifacts that require feedback. How do I identify which ones need review?"
+      },
+      {
+        "content": "To identify design artifacts that require feedback, you can follow these steps:\n\n1. **Use Tags**: If your design artifacts are tagged appropriately, you can filter them by a specific tag that indicates they need review (e.g., \"NEEDS_REVIEW\").\n\n2. **Search by Status**: If your design system allows for status tracking, you can look for artifacts that are marked with a status indicating they need feedback.\n\n3. **Review Previous Comments**: Check for any artifacts that have comments or notes indicating they require further input.\n\nIf you have specific tags or criteria in mind, please provide them, and I can help you filter the artifacts accordingly!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll go ahead and filter the artifacts using the 'needs-review' tag to find what requires feedback. What's the next step once I have identified them?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"tags\":[\"needs-review\"]}",
+              "name": "filter_figma_artifacts_by_tags"
+            },
+            "id": "call_UOMCN4VHQUAh6YOrGW0hk8sX",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_UOMCN4VHQUAh6YOrGW0hk8sX",
+        "name": "filter_figma_artifacts_by_tags",
+        "content": "{\"artifact_ids\": [\"art_001\", \"art_007\"]}"
+      },
+      {
+        "content": "You've successfully identified the design artifacts that require feedback. The artifacts with the following IDs need review:\n\n- **Artifact ID: art_001**\n- **Artifact ID: art_007**\n\n### Next Steps:\n\n1. **Export the Artifacts**: You will need to export these artifacts as assets. You can choose the format you prefer (e.g., PNG, JPG, SVG, PDF). \n\n2. **Create a Review Cycle**: After exporting, you can create a review cycle for each artifact, setting the status to \"NEEDS_REVIEW.\"\n\nWould you like to proceed with exporting these artifacts? If so, please specify the export format you'd like to use!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll export the artifacts as PNGs for the best review quality. Should they be exported at a specific resolution?"
+      },
+      {
+        "content": "For design artifacts, exporting at a higher resolution is generally recommended to ensure clarity and detail during the review process. Here are some common options:\n\n- **1x**: Standard resolution, suitable for most uses.\n- **2x**: High resolution, ideal for detailed reviews and presentations.\n- **4x**: Very high resolution, useful for large displays or detailed scrutiny.\n\nFor most design reviews, exporting at **2x** resolution is a good balance between quality and file size. Would you like to proceed with exporting the artifacts at 2x resolution in PNG format?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Yes, I'll proceed with exporting the artifacts as PNGs at 2x resolution. Once that's done, what should I do next?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"artifact_ids\":[\"art_001\",\"art_007\"],\"export_profile\":{\"format\":\"PNG\",\"scale\":\"2x\"}}",
+              "name": "export_figma_artifacts_to_assets"
+            },
+            "id": "call_F9hUp87Ug8YO4OudJCc79zLO",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_F9hUp87Ug8YO4OudJCc79zLO",
+        "name": "export_figma_artifacts_to_assets",
+        "content": "{\"exported_asset_ids\": [\"asset_art_001_png_2x\", \"asset_art_007_png_2x\"], \"profile\": {\"format\": \"PNG\", \"scale\": \"2x\"}}"
+      },
+      {
+        "content": "The artifacts have been successfully exported as PNGs at 2x resolution. Here are the exported assets:\n\n- **Artifact 1**: `asset_art_001_png_2x`\n- **Artifact 2**: `asset_art_007_png_2x`\n\n### Next Steps:\n\n1. **Create Review Cycles**: You should create a review cycle for each artifact, setting the status to \"NEEDS_REVIEW.\" This will help track the review process.\n\n2. **Notify Stakeholders**: After creating the review cycles, consider notifying relevant stakeholders about the review, including links to the artifacts and any specific feedback requests.\n\nWould you like to proceed with creating the review cycles for these artifacts? If so, please confirm if you want to use the same status for both, and if you have any specific thread ID or additional details to include!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll create the review cycles for both artifacts and set their status to \"NEEDS_REVIEW.\" Do I need to include any specific details or information in the review threads?"
+      },
+      {
+        "content": "When creating review cycles, it's helpful to include the following details in the review threads:\n\n1. **Artifact Name/Description**: A brief description of what the artifact is and its purpose.\n2. **Specific Feedback Requests**: Any particular areas where you want feedback (e.g., design elements, usability, accessibility).\n3. **Deadline for Feedback**: If applicable, specify a timeline for when you need the feedback.\n4. **Links to the Artifacts**: Include links to the exported assets for easy access.\n\nIf you have any specific details you'd like to include, please provide them. Otherwise, I can proceed to create the review cycles with the basic information. Let me know how you'd like to proceed!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll include a brief description, feedback requests, and links to the exported assets in the review threads. I'll also set a deadline for feedback. Once the review cycles are in place, should I notify stakeholders?"
+      },
+      {
+        "content": "Yes, notifying stakeholders after creating the review cycles is a great idea! It ensures that everyone involved is aware of the review process and can provide their feedback in a timely manner.\n\n### Steps to Notify Stakeholders:\n1. **Create a Gmail Thread**: Set up a thread to inform stakeholders about the review cycles.\n2. **Include Key Information**: In the email, include:\n   - A brief overview of the artifacts.\n   - Links to the exported assets.\n   - The deadline for feedback.\n   - Any specific areas where feedback is particularly needed.\n\nIf you provide the email addresses of the stakeholders and any specific subject line or message content you'd like to include, I can help you create the email thread. Would you like to proceed with that?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Yes, I'll create a Gmail thread using the email addresses design-review@company.com and ux-team@company.com. I'll include a summary of the artifacts, links to the exported assets, and a feedback deadline. Do you have a preferred subject line or message content?"
+      },
+      {
+        "content": "Here's a suggested subject line and message content for your Gmail thread:\n\n### Subject Line:\n**Design Artifacts Review Request**\n\n### Message Content:\n```\nHello Team,\n\nI hope this message finds you well. \n\nI am reaching out to request your feedback on the following design artifacts that are currently under review:\n\n1. **Artifact 1**: [Brief description of Artifact 1]\n   - Link to Asset: [Insert link to asset_art_001_png_2x]\n\n2. **Artifact 2**: [Brief description of Artifact 2]\n   - Link to Asset: [Insert link to asset_art_007_png_2x]\n\n**Feedback Deadline**: [Insert deadline date]\n\nPlease focus on the following areas for feedback:\n- [Specific feedback requests]\n\nYour insights are invaluable, and I appreciate your time in reviewing these artifacts.\n\nThank you!\n\nBest regards,\n[Your Name]\n```\n\nFeel free to customize the descriptions, feedback requests, and your name as needed. If you're ready, I can help you create the Gmail thread with this content! Just let me know if you want to make any changes.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That sounds perfect! I'll go ahead and create the Gmail thread with the provided subject line and message content. Is there anything else you would like to adjust or include before I send it out?"
+      },
+      {
+        "content": "Everything looks great! Just make sure to fill in the placeholders with the specific details, such as the brief descriptions of the artifacts, the links to the exported assets, the feedback deadline, and your name.\n\nIf you're ready to proceed, I can help you create the Gmail thread with the provided subject line and message content. Just let me know, and I'll take care of it!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll fill in the placeholders with the specific details and then send out the email. Once that's done, is there anything else you'd need help with?"
+      },
+      {
+        "content": "Once you've sent out the email, here are a few additional steps you might consider:\n\n1. **Monitor Feedback**: Keep track of the feedback you receive and ensure that you follow up with stakeholders if needed.\n\n2. **Incorporate Feedback**: Once the feedback is collected, make the necessary adjustments to the design artifacts.\n\n3. **Finalize Artifacts**: After incorporating feedback, finalize the artifacts for implementation or further development.\n\n4. **Document the Review Process**: It can be helpful to document the feedback received and any changes made for future reference.\n\nIf you need assistance with any of these steps or anything else, feel free to reach out! Good luck with your design review process!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the guidance! I'll make sure to monitor and document the feedback process, incorporate necessary changes, and finalize the artifacts. If I need further assistance, I'll definitely reach out. Thank you so much! \n\n###STOP### #STOP###"
+      },
+      {
+        "content": "You're very welcome! I'm glad I could assist you. If you have any more questions or need help in the future, don't hesitate to reach out. Good luck with your design review process, and have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll definitely keep that in mind. Have a great day too!"
+      },
+      {
+        "content": "You're welcome! Take care, and have a wonderful day! \ud83d\ude0a",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! \ud83d\ude0a If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You bet! Have an awesome day ahead! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Wishing you an awesome day as well! \ud83d\ude0a If you ever need assistance, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Absolutely, take care and have a fantastic day! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! You too! Have a fantastic day! \ud83d\ude0a",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! \ud83d\ude0a If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks! Have a great day as well! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Have a wonderful day! \ud83d\ude0a",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! \ud83d\ude0a If you need anything, just reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Take care! \ud83d\ude0a",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! \ud83d\ude0a If you need anything in the future, feel free to ask. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks! Have a wonderful day too! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Wishing you a wonderful day as well! \ud83d\ude0a",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! \ud83d\ude0a If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks! Have a great day as well! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Have a fantastic day! \ud83d\ude0a",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! \ud83d\ude0a If you need anything, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Have a great day too! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Wishing you a wonderful day! \ud83d\ude0a",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! \ud83d\ude0a If you need anything else, feel free to ask. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks! You too, have a great day! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Have a fantastic day! \ud83d\ude0a",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! \ud83d\ude0a###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! \ud83d\ude0a If you need anything, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Have a wonderful day too! \ud83d\ude0a###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

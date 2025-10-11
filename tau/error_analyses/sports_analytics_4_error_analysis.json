@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to correctly identify and retrieve the probable pitchers for the opposing team (ID 13) for the game on July 24, 2024. This led to the agent attempting to proceed with creating a pre-series report and video playlist without the necessary insights, resulting in errors. The ground truth action sequence involves generating insights for each pitcher and creating a report and video playlist based on those insights, which the agent did not accomplish. Additionally, the agent encountered repeated errors due to incorrect handling of the PDF generation and playlist creation processes, further deviating from the required actions."
+            "description": "The agent is responsible for the fault because it failed to identify probable pitchers for the opponent team with ID 13, which is a crucial step in generating the per-pitcher insights required for the pre-series scouting package. Consequently, the agent attempted to proceed without these insights, leading to errors in generating the PDF report and other subsequent actions. The ground truth action sequence includes specific steps to gather and process pitcher data, which the agent did not execute, resulting in an incomplete and erroneous trajectory."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to invoke the `Pdf.invoke()` function with an incorrect argument. Specifically, the assistant used the argument `'insights'`, which is not a valid argument for the `Pdf.invoke()` function. In the ground truth action sequence, the correct argument used for generating the PDF report is `'insights_data'`, which is part of the `report` action, not directly in the `makePdf` action. This discrepancy in the argument usage led to errors in the trajectory."
+            "description": "The fault in the trajectory is due to the incorrect use of the \"makePdf\" tool. The error message \"Pdf.invoke() got an unexpected keyword argument 'insights'\" indicates that the tool was invoked with an incorrect argument. In the ground truth action sequence, the \"makePdf\" tool is correctly called with the argument \"insights\" set to \"flags_leverage\". However, in the trajectory, the tool was invoked with an incorrect or unexpected argument, leading to the error. This discrepancy in tool argument usage is the reason for the fault."
         }
     ]
 }

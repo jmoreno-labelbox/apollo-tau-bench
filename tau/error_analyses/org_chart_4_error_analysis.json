@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `AddPerformanceReview` and `UpdateEmployee` actions. The agent encountered errors due to missing required arguments and incorrect handling of data structures, resulting in repeated errors and failure to add the audit note and performance review as specified in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the \"AddPerformanceReview\" action. The agent encountered multiple errors related to the format and parameters required for adding the performance review, which prevented it from recording the audit performance evaluation as specified in the ground truth action sequence. Additionally, the agent did not append the audit note correctly in the \"UpdateEmployee\" action, as it did not include the required updates parameter initially. These failures resulted in the agent not completing the task as instructed."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to invoke the `AddPerformanceReview` and `UpdateEmployee` actions without providing the required arguments. Specifically, the `AddPerformanceReview` action was missing the `performance_review` argument, and the `UpdateEmployee` action was missing the `updates` argument. These errors indicate that the assistant did not correctly construct the input data needed for these actions, leading to invocation errors. In contrast, the ground truth action sequence correctly specifies the necessary arguments for these actions."
+            "description": "The fault in the trajectory is due to the incorrect use of arguments in the `AddPerformanceReview` tool. The assistant attempted to invoke `add_performance_review.invoke()` with an unexpected keyword argument 'employee_id', which is not part of the required parameters for this tool. The correct usage should have included a single 'performance_review' argument containing all necessary details, as shown in the ground truth action sequence. This incorrect argument usage led to the failure in recording the performance evaluation."
         }
     ]
 }

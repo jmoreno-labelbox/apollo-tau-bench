@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to correctly add the TP-Link Kasa HS110 smart plug with the specified ID \"plug_kt_coffee\" and name \"Kitchen Coffee Maker Plug\" to the system. The agent repeatedly encountered errors indicating that the device was not recognized, which prevented it from verifying the plug's state, turning it off if necessary, and setting up the required automation. This failure to properly register and manage the device contrasts with the ground truth action sequence, where the device is successfully added, verified, and scheduled for automation."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute any actions to set up the TP-Link Kasa HS110 smart plug and create the shopping list with a reminder. The ground truth action sequence includes adding the device to the database, managing the room, updating the device state, scheduling updates, adding a custom list, and adding a reminder. However, the trajectory shows that the agent did not perform any of these actions, resulting in no progress towards the user's goal."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to add the device with incorrect parameters. In the ground truth, the device is added with the ID \"plug_kt_coffee\" and the type \"outlet\", whereas in the trajectory, the assistant adds the device without specifying the correct ID and type, leading to errors and the device not being recognized in subsequent steps. This discrepancy in the device ID and type parameters is the functional difference causing the fault."
+            "fault_type": "called_wrong_tool",
+            "description": "The fault in the trajectory is that the agent repeatedly called the wrong tool by retrieving information about various devices, such as lights, curtains, and air purifiers, instead of performing the necessary actions to set up the TP-Link Kasa HS110 smart plug and create a shopping list and reminder as specified in the user instruction. The ground truth action sequence involves adding a device to the database, managing the room, updating the device, adding a custom list, and adding a reminder, none of which were executed in the trajectory."
         }
     ]
 }

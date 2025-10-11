@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly identify and retrieve the Lightning (KC) pitchers with high-grade performance. The agent incorrectly retrieved players who were not pitchers and did not have the correct grades. The ground truth action sequence involved retrieving specific pitcher IDs and their pitches, filtering by high grades, and creating reports and goals for improvement. The trajectory, however, did not perform these actions correctly, leading to an incorrect analysis and recommendations based on inaccurate data."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly identify and retrieve the Lightning (KC) pitchers with high-grade performance for the specified week. Instead of following the ground truth action sequence, which involves fetching team details, player details, and filtering grades, the agent encountered errors related to team identification and bullpen sessions. Additionally, the agent did not create new reports or goals for the correct players, as specified in the ground truth, and instead attempted to set goals for incorrect players without successfully executing the necessary actions."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect use of the \"GetFilteredGradesByPitchIds\" tool. In the ground truth, this tool is used with specific pitch IDs and grades to filter for high-grade performances (A-/A/A+/B-/B/B+). However, in the trajectory, the tool retrieves grades without specifying the correct pitch IDs or filtering for the required grades. This results in the assistant analyzing and reporting on pitches with grades that do not meet the high-grade criteria specified in the user instruction, such as grades \"D\" and \"C+\"."
+            "fault_type": "called_wrong_tool",
+            "description": "The fault in the trajectory is due to the use of the wrong tool, `GetBullpenSessionInfoForPlayer`, instead of the correct sequence of tools to identify high-grade performance pitchers and establish reinforcement targets. The ground truth involves using tools like `GetTeamDetailsByName`, `GetAllPlayersOfTeam`, `GetAllPitchesByPitcherIds`, and `GetFilteredGradesByPitchIds` to gather the necessary data on player performance, which was not done in the trajectory. Instead, the trajectory incorrectly attempted to retrieve bullpen session information, which is not relevant to the task of identifying high-grade performance pitchers."
         }
     ]
 }

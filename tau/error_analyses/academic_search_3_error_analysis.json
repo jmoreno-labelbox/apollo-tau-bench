@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it repeatedly attempted to invoke the `QueryProjects` action without providing the required `project_id` argument. Instead, the agent should have used the `project_name` argument to locate the project, as shown in the ground truth action sequence. This error prevented the agent from progressing with the task of adding the missing citation and completing the other required actions."
+            "description": "The agent is responsible for the fault because it failed to correctly execute the `LinkCitedArticle` action with the specified citation context. Initially, the agent added the citation with an incorrect context: \"Citation added for reference.\" instead of the required \"Citation added during internal audit for contextual completeness.\" Additionally, the agent did not successfully add the research notes to the project's record and Prof. James Wilson's record, as it encountered repeated errors due to missing required arguments for the `QueryProjects` action. These errors prevented the completion of the task as specified in the user instruction."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect use of the `QueryProjects` tool. The assistant attempted to invoke `QueryProjects` with a missing required argument, `project_id`, instead of using the correct argument, `project_name`, as specified in the ground truth action sequence. This resulted in repeated errors and prevented the assistant from proceeding with the task."
+            "description": "The fault in the trajectory is that the \"LinkCitedArticle\" action was executed with the wrong \"citation_context\" argument. The trajectory used \"Citation added for reference.\" instead of the correct context \"Citation added during internal audit for contextual completeness.\" as specified in the ground truth action sequence. This discrepancy in the citation context constitutes a \"used_wrong_tool_argument\" fault."
         }
     ]
 }

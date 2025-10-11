@@ -15,7 +15,7 @@ class AlertUser(Tool):
             return json.dumps({"error": "recipient_user_id and message are required."})
 
         new_notification = {"notification_id": f"notif_{uuid.uuid4().hex[:4]}", "recipient_user_id": recipient_user_id, "sender_user_id": sender_user_id, "message_content": message, "timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'), "status": "unread"}
-        data['notifications'].append(new_notification)
+        data['notifications'][new_notification['notification_id']] = new_notification
         return json.dumps({"success": True, "notification": new_notification})
 
     @staticmethod

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it incorrectly updated the shipment with the carrier \"DFC\" instead of \"GPLS.\" According to the ground truth action sequence, when multiple carriers have identical top ratings, the agent should choose the one with the superior on-time delivery percentage. However, both \"DFC\" and \"GPLS\" had the same rating and on-time delivery percentage, and the ground truth sequence chose \"GPLS\" as the replacement carrier. The agent failed to follow this decision-making process and incorrectly selected \"DFC\" instead."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `UpdateInboundShipment` action. The agent attempted to invoke the `UpdateInboundShipment` tool multiple times but encountered an error due to a missing required positional argument, 'updates'. This prevented the shipment details from being updated with the new carrier, DFC, as specified in the user instruction and ground truth action sequence. The ground truth action sequence successfully updates the shipment with the new carrier details, whereas the trajectory fails to do so due to the repeated invocation errors."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the assistant attempted to update the shipment with the wrong carrier. The user decided to select \"DFC\" as the alternative carrier, but the assistant incorrectly updated the shipment with \"DFC\" instead of \"GPLS\". According to the ground truth, \"GPLS\" should have been selected as the alternative carrier because it has the same top rating as \"DFC\" but was chosen based on the superior on-time delivery percentage or other criteria not explicitly mentioned in the trajectory. This discrepancy indicates the use of the wrong tool argument in the trajectory."
+            "description": "The fault in the trajectory is that the agent attempted to use the \"UpdateInboundShipment\" tool without providing the required 'updates' argument. In the ground truth action sequence, the \"UpdateInboundShipment\" action includes the 'updates' argument with the new carrier details, specifically the 'carrier_name' and 'carrier_scac'. The trajectory, however, shows repeated errors due to the missing 'updates' argument, indicating that the agent did not correctly specify the necessary information to update the shipment with the new carrier details."
         }
     ]
 }

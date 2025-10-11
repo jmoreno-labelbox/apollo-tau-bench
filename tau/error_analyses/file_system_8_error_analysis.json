@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the initial action of scanning for incomplete tasks in the `file_check_db` using the `ScanIncompleteTasks` action. This action is crucial as it retrieves the necessary task details, including the server address and scan criteria, which are required for subsequent steps. Instead, the agent incorrectly requested the user to provide the server address and attempted to proceed without the necessary task details, leading to errors and an inability to perform the required operations."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the necessary actions to process the task as per the ground truth action sequence. Specifically, the agent did not successfully:\n\n1. Scan for incomplete tasks using `ScanIncompleteTasks`.\n2. Establish an SSH connection to the correct server address `server-prod-01.company.com` using `CheckSshConnection`.\n3. Execute the file scan with the correct parameters using `FindAndStatFiles`.\n4. Filter and verify the log file using `FilterFileLog`, `ComputeChecksum`, `CopyFileToHost`, and `VerifyLocalChecksum`.\n5. Perform remote cleanup using `RemoteCleanup`.\n6. Update the task status in the database using `UpdateTaskStatus`.\n7. Log the task completion using `LogTaskCompletion`.\n\nInstead, the agent encountered multiple errors related to accessing task details and executing actions, which prevented it from following the correct sequence of actions to achieve the task's goal."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `FindAndStatFiles` tool with an incorrect argument. The ground truth specifies that the `FindAndStatFiles` tool should be invoked with the arguments `target_directory` and `last_access_days`. However, in the trajectory, the assistant repeatedly encounters an error indicating that the `FindAndStatFilesTool.invoke()` received an unexpected keyword argument 'target_directory'. This suggests that the assistant did not correctly use the tool with the required arguments as specified in the ground truth action sequence."
+            "description": "The fault in the trajectory is due to the incorrect use of the `FindAndStatFiles` tool. In the ground truth action sequence, the `FindAndStatFiles` tool is used with the arguments `target_directory` and `last_access_days`. However, in the trajectory, the assistant attempts to use the `FindAndStatFiles` tool with an incorrect argument, `target_directory`, which results in an error: `FindAndStatFilesTool.invoke() got an unexpected keyword argument 'target_directory'`. This indicates that the tool was invoked with the wrong argument, leading to the failure of the action."
         }
     ]
 }

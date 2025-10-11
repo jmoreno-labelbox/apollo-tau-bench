@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it repeatedly attempted to invoke the `ModifyAssetRequest` function without providing the required 'updates' argument. This resulted in a series of errors and prevented the agent from approving the asset requests as specified in the user instruction. The agent failed to execute the necessary actions to update the asset requests' status to \"Approved,\" which was a critical step in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `ModifyAssetRequest` action without providing the required `updates` argument. This resulted in a series of errors and prevented the agent from successfully approving the asset requests as specified in the user instruction. The ground truth action sequence correctly includes the `updates` argument with the status set to \"Approved,\" which the agent failed to provide."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the tool invocation attempts to use `ModifyAssetRequest.invoke()` without providing the required `updates` argument. The correct tool and argument should have been `UpdateAssetRequest` with the `updates` argument specifying the status change to \"Approved\" for the asset requests `req_201` and `req_202`, as shown in the ground truth action sequence."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the tool invocation for `ModifyAssetRequest` is missing the required 'updates' argument. The ground truth action sequence uses `UpdateAssetRequest` with the 'updates' argument specifying the status change to \"Approved\". The trajectory attempts to use `ModifyAssetRequest` without providing the necessary 'updates' argument, leading to repeated errors."
         }
     ]
 }

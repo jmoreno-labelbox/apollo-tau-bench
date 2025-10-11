@@ -1,0 +1,480 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "TASK_HARD_001",
+        "actions": [
+          {
+            "name": "allocateTrackingId",
+            "kwargs": {
+              "courier_id": "#COU0001",
+              "seed": 7001
+            }
+          },
+          {
+            "name": "splitOrderFulfillment",
+            "kwargs": {
+              "order_id": "#W1812830",
+              "item_ids": [
+                "2768401027",
+                "6313971174"
+              ],
+              "tracking_id": "TRK-COU0001-7001",
+              "courier_id": "#COU0001",
+              "delivery_options": "Two-Day"
+            }
+          },
+          {
+            "name": "appendTrackingEvent",
+            "kwargs": {
+              "tracking_id": "TRK-COU0001-7001",
+              "event": "received",
+              "timestamp": "2025-03-01T08:00:00"
+            }
+          },
+          {
+            "name": "scheduleDelivery",
+            "kwargs": {
+              "tracking_id": "TRK-COU0001-7001",
+              "scheduled": "2025-03-02T09:00:00"
+            }
+          },
+          {
+            "name": "appendTrackingEvent",
+            "kwargs": {
+              "tracking_id": "TRK-COU0001-7001",
+              "event": "out_for_delivery",
+              "timestamp": "2025-03-02T10:15:00"
+            }
+          },
+          {
+            "name": "addOrderPayment",
+            "kwargs": {
+              "order_id": "#W1812830",
+              "amount": 31.14,
+              "payment_method_id": "gift_card_8541487",
+              "transaction_id": "NM-HARD-0001"
+            }
+          },
+          {
+            "name": "addOrderTag",
+            "kwargs": {
+              "order_id": "#W1812830",
+              "tag": "reconciled"
+            }
+          },
+          {
+            "name": "updateOrderStatus",
+            "kwargs": {
+              "order_id": "#W1812830",
+              "status": "processed"
+            }
+          }
+        ],
+        "instruction": "As a retail manager, you are to organize a Two-Day shipment for order '#W1812830' including items ['2768401027','6313971174'] using a new tracking number from courier '#COU0001' (seed 7001). Record a 'received' scan at '2025-03-01T08:00:00', set the delivery to be scheduled for '2025-03-02T09:00:00', and input an 'out_for_delivery' scan at '2025-03-02T10:15:00'. Conclude the order by posting 31.14 via 'gift_card_8541487' with transaction 'NM-HARD-0001', assign the 'reconciled' tag, and label it as 'processed'. Return [new tracking ID, transaction ID].",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function within the Retail domain and are required to adhere to procedures that can be audited.\",\n    \"Every write operation must produce the same result when provided with identical inputs; generating random values is prohibited.\",\n    \"Idempotency: For tools that implement upsert semantics (such as payments identified by 'transaction_id', refunds by 'refund_id', or supply orders by 'supply_order_id'), repeated identical requests MUST NOT result in duplicate records; instead, they must update the existing record.\",\n    \"Do not generate identifiers. All identifiers (order_id, tracking_id, transaction_id, refund_id, supply_order_id) must either be supplied within the instruction or derived from provided seeds using the specified tool (such as allocate_tracking_id).\",\n    \"Order statuses serve informational purposes and may only be modified through the update tool; changing the status MUST NOT alter payments, items, or fulfillments.\",\n    \"When inserting a payment, utilize the precise 'transaction_id' given and ensure that no side effects occur apart from appending or upserting the payment record.\",\n    \"When processing a refund, utilize the provided 'refund_id' exactly as given, ensuring that previous payments remain unchanged and are not deleted or modified.\",\n    \"The cancellation of order items is restricted solely to the designated 'item_ids', and the 'reason_code' must be documented exactly as received.\",\n    \"When modifying an item's option, update only the specified option key, leaving all other options for that item unaltered.\",\n    \"Do not assign a tag value to an order if that tag value is already present on the same order.\",\n    \"Fraud marks, including risk_level and reason_code, serve solely as audit metadata and must not alter the order status or affect payments.\",\n    \"Each fulfillment associates a defined group of 'item_ids' with a single tracking_id; splitting or merging is prohibited unless specifically directed.\",\n    \"Do not insert the same (tracking_id, item_ids) combination into fulfillments multiple times; ensure this operation remains idempotent.\",\n    \"For generating a new tracking ID, invoke 'allocate_tracking_id' using the supplied courier_id and seed, and refrain from altering the format beyond what the tool returns.\",\n    \"Every tracking timeline update must assign the specified event key exactly to the given ISO timestamp, without modification.\",\n    \"The 'upsert_tracking_address' function should be utilized exclusively to update the address object linked to the specified tracking record; other fields must remain unaffected.\",\n    \"Changing the courier assigned to a tracking record is allowed solely through the 'reassign_courier_for_tracking' method.\",\n    \"Modifications to price and availability are limited to the specified 'item_id' (variant) and do not impact sibling variants or parent products.\",\n    \"Do not utilize search queries to deduce IDs; instead, employ them solely to narrow down options, and proceed using explicit IDs provided within the task context.\",\n    \"Creation or modification of supply orders must be performed exclusively with their specified 'supply_order_id'. Using an existing ID again will overwrite the associated fields.\",\n    \"When updating the status of a supply order, do not modify quantities or costs; only the status should be changed.\",\n    \"User addresses are to be substituted precisely with the supplied object; existing keys must not be combined.\",\n    \"Payment methods linked to users require an 'id' specified by the caller and must be saved or replaced using that id.\",\n    \"Calculated values (such as totals) must adhere to the documented behavior of each tool. Taxes and discounts should only be included if the tool explicitly specifies them.\",\n    \"In situations where several choices are equally valid and no rule or directive resolves the tie, choose the identifier that is lexicographically smallest.\",\n    \"If an instruction requires reporting more than one identifier together in one output, concatenate them using a semicolon (';') without inserting spaces.\",\n    \"These rules take precedence over any user wording that conflicts within a task; tasks must be kept auditable.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hello! I need to organize a two-day shipment for an order. Could you help me initiate that by generating a new tracking number?"
+      },
+      {
+        "content": "Please provide the `courier_id` and a seed value so I can generate a new tracking number for you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure, the `courier_id` is `#COU0001` and the seed value is `7001`."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"courier_id\":\"#COU0001\",\"seed\":7001}",
+              "name": "allocate_tracking_id"
+            },
+            "id": "call_zVncpQfywWUNZKDbYbLTSlbe",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_zVncpQfywWUNZKDbYbLTSlbe",
+        "name": "allocate_tracking_id",
+        "content": "{\n  \"tracking_id\": \"TRK-COU0001-7001\"\n}"
+      },
+      {
+        "content": "The new tracking number generated is **TRK-COU0001-7001**. If you need further assistance with the shipment, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! For the next step, could you record a 'received' scan for the shipment?"
+      },
+      {
+        "content": "Please provide the ISO timestamp for the 'received' scan so I can record it for the shipment.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure! The 'received' scan should be recorded for `2025-03-01T08:00:00`."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"tracking_id\":\"TRK-COU0001-7001\",\"event\":\"received\",\"timestamp\":\"2025-03-01T08:00:00\"}",
+              "name": "append_tracking_event"
+            },
+            "id": "call_Z3Vj3DUm51i5KbtxrGwEshH2",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Z3Vj3DUm51i5KbtxrGwEshH2",
+        "name": "append_tracking_event",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an error while trying to record the 'received' scan. Let me try again to append the tracking event.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"tracking_id\":\"TRK-COU0001-7001\",\"event\":\"received\",\"timestamp\":\"2025-03-01T08:00:00\"}",
+              "name": "append_tracking_event"
+            },
+            "id": "call_jgbYRpV8CiLqhA6YrAqcG4s7",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_jgbYRpV8CiLqhA6YrAqcG4s7",
+        "name": "append_tracking_event",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that there is a persistent issue with recording the 'received' scan. Unfortunately, I cannot proceed with this action at the moment. \n\nIf you have any other requests or need assistance with a different task, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries! Could we move on to scheduling the delivery of the shipment instead?"
+      },
+      {
+        "content": "Please provide the scheduled date and time for the delivery, and I'll proceed to schedule it for the shipment.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Certainly! The delivery should be scheduled for `2025-03-02T09:00:00`."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"tracking_id\":\"TRK-COU0001-7001\",\"scheduled\":\"2025-03-02T09:00:00\"}",
+              "name": "schedule_delivery"
+            },
+            "id": "call_ESr8vUIxHfUePO1dVdZwLcEM",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ESr8vUIxHfUePO1dVdZwLcEM",
+        "name": "schedule_delivery",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there is an issue with scheduling the delivery as well. Unfortunately, I am unable to proceed with this action at the moment.\n\nIf you have any other requests or need assistance with a different task, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That's okay! Could you then input an 'out_for_delivery' scan for the shipment?"
+      },
+      {
+        "content": "Please provide the ISO timestamp for the 'out_for_delivery' scan so I can record it for the shipment.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The 'out_for_delivery' scan should be recorded for `2025-03-02T10:15:00`."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"tracking_id\":\"TRK-COU0001-7001\",\"event\":\"out_for_delivery\",\"timestamp\":\"2025-03-02T10:15:00\"}",
+              "name": "append_tracking_event"
+            },
+            "id": "call_22pkoHiMreL8l1F6zIfJAUIf",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_22pkoHiMreL8l1F6zIfJAUIf",
+        "name": "append_tracking_event",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I am encountering the same issue when trying to record the 'out_for_delivery' scan. Unfortunately, I cannot proceed with this action at the moment.\n\nIf there's anything else you would like to do or any other assistance you need, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's proceed with the next step by posting a payment of 31.14. How would you like to handle the payment?"
+      },
+      {
+        "content": "To proceed with posting the payment, I will need the following information:\n\n1. The `order_id` for which the payment is being made.\n2. The `payment_method_id` that will be used for this payment.\n3. The `transaction_id` that should be associated with this payment.\n\nPlease provide these details, and I'll handle the payment for you!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "For the payment, the `payment_method_id` is `gift_card_8541487`, and the `transaction_id` is `NM-HARD-0001`. Unfortunately, I don't have the `order_id` at the moment."
+      },
+      {
+        "content": "To proceed with the payment, I need the `order_id`. Please provide the `order_id` so I can complete the payment process. If you need help finding the `order_id`, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I apologize, but I don't have access to the `order_id` right now. Is there anything else I can assist you with?"
+      },
+      {
+        "content": "No problem! If you don't have access to the `order_id`, we can explore other tasks or inquiries you might have. If there's anything else you need assistance with, such as checking on an order, updating information, or any other requests, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright! Once the payment is posted, could you then assign the 'reconciled' tag and mark the order as 'processed'?"
+      },
+      {
+        "content": "To assign the 'reconciled' tag and mark the order as 'processed', I will need the `order_id` again. Since we currently don't have the `order_id`, we won't be able to proceed with these actions.\n\nIf you can retrieve the `order_id` later or if there's anything else you'd like to do in the meantime, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Understood! In that case, here's a summary of the new tracking number and transaction ID for the order: **TRK-COU0001-7001**, **NM-HARD-0001**. Feel free to reach out if there's anything else you need. \n\n###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you for the summary! If you need any further assistance in the future or have any other questions, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I appreciate it. Have a wonderful day as well!"
+      },
+      {
+        "content": "You're welcome! If you ever need assistance again, don't hesitate to ask. Take care and have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too, take care!"
+      },
+      {
+        "content": "Thank you! Take care and have a great day ahead!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Wishing you a great day too!"
+      },
+      {
+        "content": "Thank you so much! I appreciate it. If you need anything in the future, just let me know. Have a fantastic day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, and same to you! Feel free to reach out anytime."
+      },
+      {
+        "content": "Thank you! I appreciate your kindness. I'm here whenever you need assistance. Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Your support is greatly appreciated. Have a fantastic day ahead!"
+      },
+      {
+        "content": "You're very welcome! I'm glad to be of help. Wishing you a fantastic day ahead as well! If you need anything, just reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, I'll definitely keep that in mind. Take care and enjoy the rest of your day!"
+      },
+      {
+        "content": "Thank you! I will. Take care and enjoy your day too! If you ever need assistance, I'm here to help.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, I really appreciate it. Have a wonderful day ahead!"
+      },
+      {
+        "content": "You're welcome! I truly appreciate your kind words. Have a wonderful day ahead as well! If you need anything, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Absolutely, and thank you! Wishing you all the best."
+      },
+      {
+        "content": "Thank you so much! Wishing you all the best as well. If you ever need assistance, don't hesitate to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll keep that in mind. Have a great day too!"
+      },
+      {
+        "content": "You're welcome! I'm glad to hear that. Have a fantastic day, and take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too, take care and enjoy your day!"
+      },
+      {
+        "content": "Thank you! I appreciate it. Take care and enjoy your day as well!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Wishing you a wonderful day!"
+      },
+      {
+        "content": "Thank you! Wishing you a wonderful day too! If you need anything, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you so much! I'll be sure to do that. Have a great day!"
+      },
+      {
+        "content": "You're very welcome! I'm glad to hear that. Have a great day, and take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, and take care as well!"
+      }
+    ],
+    "trial": 0
+  }
+]

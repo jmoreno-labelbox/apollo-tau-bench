@@ -1,0 +1,457 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_01",
+        "actions": [
+          {
+            "name": "QueryInvoices",
+            "kwargs": {
+              "status": "open",
+              "date_to": "2025-08-23"
+            }
+          },
+          {
+            "name": "DeriveCollectionKpis",
+            "kwargs": {
+              "window_months": 12
+            }
+          },
+          {
+            "name": "RenderAccountsReceivableReport",
+            "kwargs": {
+              "period_label": "2025-08"
+            }
+          },
+          {
+            "name": "CreateDashboardSnapshot",
+            "kwargs": {
+              "snapshot_date": "2025-08-23",
+              "pdf_path": "https://test.storage.com/reports/accounts_receivable_2025-08.pdf"
+            }
+          },
+          {
+            "name": "FetchDashboardSnapshot",
+            "kwargs": {
+              "snapshot_date": "2025-08-23"
+            }
+          }
+        ],
+        "instruction": "Handle the creation of the August 2025 Accounts Receivable report for all outstanding invoices issued up to 2025-08-23, and archive a dashboard snapshot. Utilize the period label '2025-08' and designate the precise PDF location as 'https://test.storage.com/reports/accounts_receivable_2025-08.pdf'. Calculate collection KPIs over a 12-month period. Generate a dashboard snapshot dated '2025-08-23' that points to that identical PDF path. Success is determined by the report path matching that URL and the existence of a snapshot for 2025-08-23 with the precise pdf_path.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You handle invoicing, A/R aging, dashboards, contacts, projects, and audit evidence comprehensively from start to finish.\",\n    \"Divide tasks into the following sequence: read \u2192 compute/transform \u2192 write \u2192 verify.\",\n    \"Each step must involve precisely one tool; combining more than one tool within a single step is not permitted.\",\n    \"Following EVERY write operation, the IMMEDIATE subsequent step must perform its authoritative verification read, with no steps occurring in between.\",\n    \"For sequences involving multiple writes, the required order is: write\u2081 followed by verify\u2081, then write\u2082 followed by verify\u2082, and so on.\",\n    \"STOP and do not continue if the verification read either fails or indicates no change.\",\n    \"Rely solely on values provided by the instruction or previous tool outputs; do not make assumptions.\",\n    \"Always use business-stable identifiers (invoice_number, snapshot_date, publisher_id, consultant_id) as anchors, and only use internal IDs when specifically instructed.\",\n    \"Retain the user's formatting precisely, including IDs, dates, subjects, bodies, URLs, and amounts.\",\n    \"After executing create_invoice_record(...), IMMEDIATELY perform fetch_invoice_record(invoice_number=...) to confirm.\",\n    \"Following create_invoice_lines(invoice_number=..., ...), IMMEDIATELY execute list_invoice_lines_by_invoice(invoice_number=...) for verification.\",\n    \"dispatch_invoice_email(publisher_id=..., consultant_id=..., subject=..., body_text=..., attachment=..., invoice_number=...) \u2192 You must IMMEDIATELY execute fetch_invoice_record(invoice_number=...) and confirm that 'sent_at' is set. No subsequent action (INCLUDING log_invoice_event) is permitted before this fetch occurs.\",\n    \"log_invoice_event(event_type=..., invoice_number=...) \u2192 You must IMMEDIATELY call list_invoice_events(invoice_number=...) for verification.\",\n    \"render_accounts_receivable_report(period_label=YYYY-MM) \u2192 the resulting pdf_path must be considered the authoritative 'https://test.storage.com/reports/accounts_receivable_{period_label}.pdf'.\",\n    \"SHOULD perform a preflight by calling fetch_dashboard_snapshot(snapshot_date=YYYY-MM-DD). If a record is found, DO NOT create a new one; instead, utilize the existing record along with its pdf_path.\",\n    \"If creation occurs without preflight: execute create_dashboard_snapshot(snapshot_date=YYYY-MM-DD, pdf_path=...), then IMMEDIATELY call fetch_dashboard_snapshot(snapshot_date=YYYY-MM-DD). This fulfills the write\u2192verify requirement.\",\n    \"If the fetch operation yields a pdf_path that differs from the one supplied during creation (for example, '/dashboards/\u2026' versus 'https://test.storage.com/reports/accounts_receivable_\u2026.pdf'), consider the pdf_path obtained from FETCH as the authoritative value. Verification is considered successful provided that the snapshot_date matches.\",\n    \"Fetch using snapshot_date as the primary method; fetching by snapshot_id is permitted solely when the instruction explicitly specifies it. Do not combine create-by-date operations with fetch-by-id unless the id originates from a previous step associated with the same date.\",\n    \"After mutate_client_contact(...), IMMEDIATELY execute fetch_client_profile(client_id=...) for verification.\",\n    \"Following mutate_consultant_contact(...), IMMEDIATELY perform fetch_consultant_profile(consultant_id=...) to verify.\",\n    \"add_project_card(...) \u2192 IMMEDIATELY call fetch_project_card(project_id=...) for verification.\",\n    \"Upon request for aging or categorization: execute derive_days_outstanding(...) followed by bucketize_aging(...). Maintain this order without omission or rearrangement.\",\n    \"Summarize receivables by client exclusively after invoices include the 'aging_bucket' attribute.\",\n    \"Window KPIs may utilize query_invoices as the context source when aging is not defined.\",\n    \"Apply query_invoices for context purposes, but refrain from extracting IDs for subsequent writes unless specifically directed. Give priority to identifiers provided through instructions.\",\n    \"Do not presume default IDs such as snapshot_id=1; instead, use snapshot_date for data retrieval.\",\n    \"Use the 'YYYY-MM-DD' format for dates unless a tool indicates a different format. Amounts must remain unaltered, either as originally given or as calculated by the tool.\",\n    \"When exporting A/R, retain the canonical pdf_path format output by the exporter; do not modify it.\",\n    \"Only include a 'notes' entry in log_invoice_event if the instruction specifies the precise string; do not insert arbitrary notes.\",\n    \"Totals, aging, KPIs, and rates must only be calculated using the designated tools; do not perform these computations elsewhere.\",\n    \"Verification reads must occur without delay; postponing a verification read constitutes a violation.\",\n    \"Immediate verification reads serve as proof: use fetch_invoice_record following creates or emails, list_invoice_lines_by_invoice after inserting lines, list_invoice_events after audit log entries, fetch_dashboard_snapshot after inserting snapshots (or for preflight existence), and fetch_*_profile after contact mutations.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "I would like to generate an Accounts Receivable report for August 2025. Could you assist with that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"period_label\":\"2025-08\"}",
+              "name": "render_accounts_receivable_report"
+            },
+            "id": "call_LDZwXrZl17b28McfTZZtIEla",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_LDZwXrZl17b28McfTZZtIEla",
+        "name": "render_accounts_receivable_report",
+        "content": "{\n  \"pdf_path\": \"https://test.storage.com/reports/accounts_receivable_2025-08.pdf\"\n}"
+      },
+      {
+        "content": "The Accounts Receivable report for August 2025 has been generated successfully. You can access it [here](https://test.storage.com/reports/accounts_receivable_2025-08.pdf).",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, thanks! Could you please create a dashboard snapshot for me, based on this report?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"snapshot_date\":\"2025-08-01\"}",
+              "name": "fetch_dashboard_snapshot"
+            },
+            "id": "call_LNEhP3Z4BLx3hQqjj8Whse0n",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_LNEhP3Z4BLx3hQqjj8Whse0n",
+        "name": "fetch_dashboard_snapshot",
+        "content": "Error: FetchDashboardSnapshot.invoke() missing 1 required positional argument: 'snapshot_id'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"snapshot_date\":\"2025-08-01\",\"pdf_path\":\"https://test.storage.com/reports/accounts_receivable_2025-08.pdf\"}",
+              "name": "create_dashboard_snapshot"
+            },
+            "id": "call_l4t5bPoNh78XaH9L714xSJ7V",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_l4t5bPoNh78XaH9L714xSJ7V",
+        "name": "create_dashboard_snapshot",
+        "content": "Error: CreateDashboardSnapshot.invoke() missing 2 required positional arguments: 'ytd_revenue' and 'ytd_tax_reserve'"
+      },
+      {
+        "content": "To create a dashboard snapshot, I need the values for \"ytd_revenue\" and \"ytd_tax_reserve.\" Could you please provide those values?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm unable to remember those values at the moment. Could you proceed with what you have, or provide some other way to retrieve them?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"snapshot_date\":\"2025-07-31\"}",
+              "name": "fetch_dashboard_snapshot"
+            },
+            "id": "call_yvMANttFYX9NiiMzjapaVHjS",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_yvMANttFYX9NiiMzjapaVHjS",
+        "name": "fetch_dashboard_snapshot",
+        "content": "Error: FetchDashboardSnapshot.invoke() missing 1 required positional argument: 'snapshot_id'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"snapshot_date\":\"2025-08-01\"}",
+              "name": "fetch_dashboard_snapshot"
+            },
+            "id": "call_Li33xkyuOuwDVJz9bTfOrixI",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Li33xkyuOuwDVJz9bTfOrixI",
+        "name": "fetch_dashboard_snapshot",
+        "content": "Error: FetchDashboardSnapshot.invoke() missing 1 required positional argument: 'snapshot_id'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"window_months\":1}",
+              "name": "derive_collection_kpis"
+            },
+            "id": "call_PgDvnNELISCowHrJU0jbZK40",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_PgDvnNELISCowHrJU0jbZK40",
+        "name": "derive_collection_kpis",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm unable to retrieve the necessary values for \"ytd_revenue\" and \"ytd_tax_reserve\" at this moment. Unfortunately, without these values, I cannot create the dashboard snapshot.\n\nIf you have access to any previous reports or records that might contain this information, please check there. Alternatively, if you can provide any other details or context, I can assist you further.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it, I'll check for those details and see if I can find what we need. Thanks for letting me know!"
+      },
+      {
+        "content": "You're welcome! If you find the details or need further assistance, feel free to reach out. I'm here to help!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Absolutely, I'll get back to you once I have the information. Thanks for your help!"
+      },
+      {
+        "content": "You're welcome! Take your time, and I'll be here whenever you're ready. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, you too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need assistance in the future, don't hesitate to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, I appreciate it! Take care! ###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Take care, and have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything in the future, feel free to ask. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, and the same to you! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything else, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, I will! Take care as well! ###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, I appreciate it! Take care as well! ###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything else, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, I will! Take care as well! ###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, I appreciate it! Take care as well! ###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything else, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, I will! Take care as well! ###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! ###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

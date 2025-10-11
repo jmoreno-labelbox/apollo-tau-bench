@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the necessary actions to update Emma Rodriguez's employee record. The agent encountered multiple errors, such as missing required arguments for the `find_employees.invoke()` and `update_employee_record.invoke()` functions, and did not proceed with the necessary updates to Emma's position, level, and compensation. Additionally, the agent did not perform the required actions to transfer Michael Park to Emma's department, log a performance review for Amelia, or retrieve the updated records for both employees. These failures prevented the completion of the tasks outlined in the user instruction."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly invoke the necessary tool to retrieve employee information. The agent repeatedly attempted to use `find_employees.invoke()` without providing the required 'filters' argument, leading to a series of errors. This prevented the agent from executing the correct sequence of actions, starting with retrieving Emma Rodriguez's employee record using `GetEmployeeById`, which is essential for proceeding with the promotion and subsequent updates."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the tool invocation attempts to use `find_employees.invoke()` and `update_employee_record.invoke()` without providing the required arguments. Specifically, `find_employees.invoke()` is missing the 'filters' argument, and `update_employee_record.invoke()` is missing the 'updates' argument. These errors prevent the correct retrieval and updating of employee records, which are necessary steps in the ground truth action sequence."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant repeatedly attempted to invoke the `find_employees` tool without providing the required `filters` argument. In the ground truth action sequence, the correct tool `GetEmployeeById` is used with the appropriate `employee_id` argument to retrieve Emma Rodriguez's information. The trajectory's failure to provide the necessary argument resulted in errors and prevented the assistant from proceeding with the promotion task."
         }
     ]
 }

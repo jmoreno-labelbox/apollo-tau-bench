@@ -14,7 +14,7 @@ class PostNewReview(Tool):
             return json.dumps({"error": "submission_id, reviewer_user_id, recommendation, and comments are required."})
 
         new_review = {"review_id": f"rev_{uuid.uuid4().hex[:4]}", "submission_id": submission_id, "reviewer_user_id": reviewer_user_id, "recommendation": recommendation, "review_content": comments, "review_date": datetime.now().strftime('%Y-%m-%d')}
-        data['reviews'].append(new_review)
+        data['reviews'][new_review['review_id']] = new_review
         return json.dumps({"success": True, "review": new_review})
 
     @staticmethod

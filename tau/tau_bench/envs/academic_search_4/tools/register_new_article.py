@@ -26,7 +26,7 @@ class RegisterNewArticle(Tool):
             "status": "draft",
             "full_text": full_text
         }
-        data['articles'].append(new_article)
+        data['articles'][new_article['article_id']] = new_article
         return json.dumps({"success": True, "article": new_article})
 
     @staticmethod

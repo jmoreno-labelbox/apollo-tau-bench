@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The fault in the trajectory is that the agent did not execute any of the actions related to the user instruction. Instead, the agent engaged in an irrelevant conversation about assessing skills for a UX Design Lead role, which is unrelated to the task of processing an article submission. The agent failed to perform actions such as retrieving the paper, creating a submission record, assigning a reviewer, updating the submission status, and displaying the final submission details as specified in the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it completely failed to address the user instruction related to article processing. Instead, the agent engaged in a conversation about banking services, which is unrelated to the task of creating a submission record, assigning a reviewer, and setting the submission's status as specified in the user instruction. The agent did not perform any of the actions in the ground truth action sequence, such as retrieving the paper, finding researcher profiles, creating a submission, or updating the submission status."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "other",
-            "description": "The trajectory contains a fault of type \"other\" because it is entirely unrelated to the user instruction and the ground truth action sequence. The conversation in the trajectory revolves around assessing the skills of individuals for a UX Design Lead role and issues with user authentication, which has no connection to the task of processing an article submission, assigning a reviewer, and setting the submission status as described in the user instruction. The trajectory does not address any part of the intended task, making it functionally irrelevant to the ground truth action sequence."
+            "description": "The trajectory contains a fault of type \"other\" because it is entirely unrelated to the user instruction and the ground truth action sequence. The trajectory involves a conversation about checking account balances, total account amounts, and attempting a transfer, which are banking-related tasks. In contrast, the user instruction and ground truth action sequence pertain to processing an academic article submission, assigning a reviewer, and updating the submission status. There is no overlap or connection between the tasks in the trajectory and the intended actions in the ground truth."
         }
     ]
 }

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to execute the initial action, \"GetHouseholdInventory,\" due to a missing required argument, 'household_id'. This error prevented the agent from proceeding with any subsequent actions, resulting in a cascade of errors and no progress towards completing the user instruction. The agent did not correctly handle the error or attempt to rectify the missing argument, leading to a complete failure in executing the task."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the initial action of checking the household inventory. The agent attempted to use incorrect tools or methods, resulting in errors such as missing required arguments and attribute errors. Specifically, the agent did not use the \"GetHouseholdInventory\" action with the correct \"household_id\" argument, which is necessary to retrieve the inventory information. This failure prevented the agent from progressing through the subsequent steps of the task."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the tool `GetHouseholdProfileTool` instead of the correct tool `GetHouseholdInventory` with the required argument `household_id`. The ground truth action sequence specifies the use of `GetHouseholdInventory` with `household_id` 201, but the trajectory shows an attempt to use a different tool without the correct argument, leading to an error."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use tools with incorrect arguments. Specifically, the assistant tried to invoke `GetHouseholdProfileTool` and `ListHouseholdMembersTool` without providing the required `household_id` argument. Additionally, the assistant repeatedly encountered errors related to using a string object incorrectly, indicating a misuse of tool arguments or a misunderstanding of the tool's expected input format. This differs from the ground truth action sequence, where the correct tool `GetHouseholdInventory` was used with the appropriate `household_id` argument."
         }
     ]
 }

@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it repeatedly retrieved and displayed information for the wrong customer (CUST-5012) instead of the correct customer (CUST-5001) when attempting to update the email and phone number. This error persisted despite the user providing the correct customer ID, leading to a failure in executing the necessary updates as per the user instruction."
+            "description": "The agent is responsible for the fault in the trajectory because it incorrectly updated the email and phone number for the wrong customer. The agent's actions show that it retrieved and updated information for \"CUST-5012\" (Logan Smith) instead of \"CUST-5001\" (Emma Wilson). This error occurred during the \"UpdateCustomerEmail\" and \"UpdateCustomerPhoneNumber\" actions, where the agent used the wrong customer ID, leading to incorrect updates."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the agent used the wrong tool argument when attempting to update the customer details. Specifically, the agent repeatedly used the customer ID \"CUST-5012\" instead of \"CUST-5001\" when trying to update the email and phone number. This resulted in the system returning details for a different customer, Logan Smith, instead of the intended customer, Emma Wilson. The correct customer ID \"CUST-5001\" should have been used for these updates, as specified in the ground truth action sequence."
+            "description": "The fault in the trajectory is that the agent used the wrong tool argument when attempting to update the email and phone number for the customer. Specifically, the agent incorrectly used the customer ID \"CUST-5012\" instead of \"CUST-5001\" in the tool actions for updating the email and phone number. This resulted in the updates being applied to the wrong customer record."
         }
     ]
 }

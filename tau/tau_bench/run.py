@@ -218,7 +218,7 @@ def run(config: RunConfig) -> List[EnvRunResult]:
                 result = EnvRunResult(
                     task_id=idx,
                     reward=res.reward,
-                    info=res.info,
+                    info={**res.info, "env_name": config.env},
                     traj=res.messages,
                     trial=i,
                 )
@@ -226,7 +226,7 @@ def run(config: RunConfig) -> List[EnvRunResult]:
                 result = EnvRunResult(
                     task_id=idx,
                     reward=0.0,
-                    info={"error": str(e), "traceback": traceback.format_exc()},
+                    info={"error": str(e), "traceback": traceback.format_exc(), "env_name": config.env},
                     traj=[],
                     trial=i,
                 )

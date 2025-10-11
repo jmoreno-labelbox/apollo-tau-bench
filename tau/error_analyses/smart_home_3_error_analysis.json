@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it repeatedly attempted to invoke the `MemberManager` tool without providing the required `member_id` argument. This resulted in continuous errors and prevented the agent from retrieving Robert Johnson's member details, which was the first step in the ground truth action sequence. Consequently, the agent failed to proceed with any subsequent actions necessary to set up the morning schedule."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `MemberManager` action to retrieve Robert Johnson's member details. The agent encountered errors due to missing required arguments ('lives_in_house' and 'relation') for the `MemberManager.invoke()` method, which were not needed according to the ground truth action sequence. This prevented the agent from proceeding with the subsequent actions necessary to complete the task."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is due to the incorrect use of the \"MemberManager\" tool. The ground truth action sequence specifies that the \"MemberManager\" should be invoked with the \"action\" set to \"get\" and the \"member_id\" set to \"john_johnson\". However, in the trajectory, the \"MemberManager\" tool is repeatedly invoked without providing the required \"member_id\" argument, leading to errors. This discrepancy indicates the use of the wrong tool argument in the trajectory."
+            "description": "The fault in the trajectory is due to the incorrect use of the `MemberManager` tool. The ground truth action sequence specifies using `MemberManager` with the `action` \"get\" and `member_id` \"john_johnson\". However, in the trajectory, the `MemberManager` tool is invoked incorrectly, resulting in errors about missing required positional arguments: 'lives_in_house' and 'relation'. These arguments are not needed according to the ground truth, indicating that the tool was used with the wrong arguments."
         }
     ]
 }

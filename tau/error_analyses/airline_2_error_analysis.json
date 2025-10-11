@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **Incorrect Airport Code**: The agent incorrectly logged the operational event for DFW instead of LAX, which is the correct airport code as per the user instruction.\n\n2. **Incorrect Delay Duration**: Initially, the agent applied a 30-minute delay instead of the required 120-minute delay for both flights HAT170 and HAT124.\n\n3. **Notification Failure**: The agent failed to send the user notifications for the updated delay times for both flights, which is a crucial part of the protocol.\n\nThese discrepancies between the ground truth action sequence and the trajectory led to the failure in executing the correct protocol as instructed."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to create an operational event to log the SIGMET impact at LAX, which is a crucial step in the ground truth action sequence. Additionally, the agent did not update the flight status for HAT170 and HAT124 to \"delayed\" or send user notifications about the delay, which are necessary actions to manage the situation effectively. The agent also incorrectly referenced the date as October 5, 2023, instead of the correct date, May 22, 2024, leading to confusion and errors in processing the flight information."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to complete the notification step for the updated 120-minute delay for flights HAT170 and HAT124. In the ground truth action sequence, after updating the flight statuses and applying the delays, the agent is supposed to send notifications to the passengers of both flights about the 120-minute delay. However, in the trajectory, the agent encounters errors and fails to send these notifications, leaving the task partially completed."
+            "fault_type": "used_wrong_tool_argument",
+            "description": "The fault in the trajectory is due to the incorrect use of the \"UpdateFlightStatusForDate\" tool. In the ground truth action sequence, the \"UpdateFlightStatusForDate\" tool is used with the argument \"flight_numbers\" set to a list containing the specific flight number (e.g., [\"HAT170\"]). However, in the trajectory, there is no evidence that this tool was correctly used with the specified flight numbers and date. Instead, the trajectory shows errors and empty responses, indicating that the tool was not used correctly or the arguments were not properly set, leading to the failure to update the flight status as required."
         }
     ]
 }

@@ -25,7 +25,7 @@ class CreateNewProject(Tool):
             "end_date": None,
             "linked_articles": linked_article_ids
         }
-        data['projects'].append(new_project)
+        data['projects'][new_project['project_id']] = new_project
         return json.dumps({"success": True, "project": new_project})
 
     @staticmethod

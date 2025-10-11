@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it incorrectly computed the aging of invoices INV009 and INV021. The agent determined that both invoices were in the \"0-30 days\" bucket, with INV009 being 1 day overdue and INV021 being 16 days overdue. However, according to the ground truth, both invoices should have been classified as \"Overdue >60 days,\" requiring a \"second_notice\" action. The agent failed to identify the correct aging status and did not perform the necessary follow-up actions or document them in the invoice audit trail."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to perform the \"ComputeInvoiceAging\" actions for each invoice. The agent should have computed the aging for invoices INV001, INV004, INV009, and INV021 using the date '2024-11-30' to determine their overdue status. Instead, the agent directly provided the overdue details without performing the necessary computations, which is a deviation from the ground truth action sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to correctly compute the aging for invoices INV009 and INV021. According to the ground truth, both invoices should have been classified as \"Overdue >60 days,\" requiring a 'second_notice' action. However, in the trajectory, the agent incorrectly computed the days overdue for INV009 as 1 day and for INV021 as 16 days, placing them in the \"0-30 days\" bucket. Consequently, no follow-up actions were taken, and no audit entries were created for these invoices, which partially completes the goal of handling the accounts receivable aging review."
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to send an 'email_reminder' for invoices that were overdue by 31 to 60 days. The ground truth action sequence does not include any 'email_reminder' actions because the invoices INV009 and INV021 were both overdue by more than 60 days, requiring a 'second_notice'. However, the trajectory indicates that the agent only addressed invoices overdue by more than 60 days and did not check for or send reminders for any invoices that might have been overdue by 31 to 60 days, which is a necessary part of the task as per the user instruction. This omission means the goal was only partially completed."
         }
     ]
 }

@@ -1,0 +1,438 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_700",
+        "actions": [
+          {
+            "name": "CreateRepo",
+            "kwargs": {
+              "name": "blog-lite"
+            }
+          },
+          {
+            "name": "CreateBranch",
+            "kwargs": {
+              "repo": "blog-lite",
+              "branch": "feature-home"
+            }
+          },
+          {
+            "name": "AddCommit",
+            "kwargs": {
+              "repo": "blog-lite",
+              "branch": "feature-home",
+              "message": "setup index"
+            }
+          },
+          {
+            "name": "OpenPr",
+            "kwargs": {
+              "repo": "blog-lite",
+              "head_branch": "feature-home",
+              "base_branch": "main",
+              "title": "Home section"
+            }
+          },
+          {
+            "name": "AddLabel",
+            "kwargs": {
+              "kind": "pr",
+              "repo": "blog-lite",
+              "number": 1,
+              "label": "docs"
+            }
+          },
+          {
+            "name": "ListPrs",
+            "kwargs": {
+              "repo": "blog-lite",
+              "state": "open"
+            }
+          }
+        ],
+        "instruction": "Handle repository 'blog-lite' to ensure that a pull request is open from branch 'feature-home' to 'main', with the label 'docs' attached. Once this condition is fulfilled, list the open pull requests for 'blog-lite'.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"Identity: GitHub MCP agent, variation 7 (tyler). Use only provided tools.\",\n    \"Execute workflows in a single turn, allowing only one tool call per operation.\",\n    \"Always perform authentication before proceeding; do not disclose any secrets.\",\n    \"Operate exclusively on repositories that are owned.\",\n    \"Apply deterministic timestamps and prioritize times reported by the tool.\",\n    \"When the current time is needed, utilize FIXED_NOW.\",\n    \"Avoid creating parameters; instead, obtain them from provided inputs or tool-generated outputs.\",\n    \"New repositories use 'main' as the default branch.\",\n    \"When a repository name conflict occurs, add '_v2' to the name.\",\n    \"Perform feature or bugfix development on branches other than the default, starting from the most recent base.\",\n    \"Perform file write or update operations on the target branch, then confirm success by reading the file afterward.\",\n    \"Use default commit messages in the format: 'Add <filename>' or 'Update <filename>'.\",\n    \"Initiate pull requests from the feature branch to the base branch; the initial state must be open.\",\n    \"Refrain from merging when any required checks are either incomplete or have failed.\",\n    \"Instructions specify intended end-states using second person; the agent is responsible for verifying the existence of referenced repositories (creating them if absent) prior to actions such as transfer, and may include complete object details in reports.\",\n    \"Proceed with merging solely when the item is open, mergeable, and\u2014if applicable\u2014approved; following the merge, remove the source branch.\",\n    \"A title is mandatory for issues; their initial state is open; closing an issue updates its state to closed.\",\n    \"To prevent duplicates, perform a search beforehand when applicable.\",\n    \"Code-scanning alerts can be created, listed, or dismissed if present; dismissing an alert is idempotent.\",\n    \"The 'most recent' refers to the item with the highest item number; give precedence to open items.\",\n    \"Ensure inputs are validated; adhere to permissions; avoid logging secrets.\",\n    \"If a tool error occurs, halt processing and display the error.\",\n    \"Provide precisely what is requested and confirm the results.\",\n    \"Instructions are directed at you (second person). When displaying issues or PRs, it is permissible to return complete object details.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! Could you check if there's an open pull request from the branch 'feature-home' in the 'blog-lite' repository?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"owner\":\"\",\"repo\":\"blog-lite\",\"state\":\"open\"}",
+              "name": "list_prs"
+            },
+            "id": "call_eLJexPFs6oChxm1r8Ie0G0eL",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_eLJexPFs6oChxm1r8Ie0G0eL",
+        "name": "list_prs",
+        "content": "Error: 0"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "list_repos"
+            },
+            "id": "call_uv6MtjkQy6Q2jZ7MtLxEbtiN",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_uv6MtjkQy6Q2jZ7MtLxEbtiN",
+        "name": "list_repos",
+        "content": "Error: 0"
+      },
+      {
+        "content": "It seems that I cannot access any repositories at the moment. Please ensure that you have the necessary permissions or that the repository exists. If you need further assistance, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure, once you've accessed the repository, please confirm if the pull request exists."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "who_am_i"
+            },
+            "id": "call_KtYlBhpeCko7DbSkyh7bxr8q",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_KtYlBhpeCko7DbSkyh7bxr8q",
+        "name": "who_am_i",
+        "content": "Error: 0"
+      },
+      {
+        "content": "I am currently unable to authenticate or access any repositories. Please check your permissions or try again later. If you have any other requests or need assistance, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Okay, once you have access, just let me know if there's a pull request from 'feature-home' to 'main'."
+      },
+      {
+        "content": "Understood! Once I gain access to the repositories, I will check for an open pull request from the 'feature-home' branch to the 'main' branch in the 'blog-lite' repository and inform you of the results.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Perfect! If you find the pull request, could you also tell me if it has the 'docs' label attached to it?"
+      },
+      {
+        "content": "Absolutely! If I find the pull request from the 'feature-home' branch to the 'main' branch in the 'blog-lite' repository, I will also check if it has the 'docs' label attached to it. I'll keep you updated!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, thanks! Once everything is verified, could you let me know what open pull requests exist for 'blog-lite'?"
+      },
+      {
+        "content": "Sure! Once I have access to the 'blog-lite' repository, I will check for any open pull requests and provide you with the details. Thank you for your patience!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No problem, thank you! Let me know if there's anything else I can help with."
+      },
+      {
+        "content": "Thank you for your offer! I appreciate your understanding. If you have any further questions or requests in the future, feel free to reach out. I'll keep you updated once I gain access to the repository and can perform the checks you requested!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else in the future, feel free to ask. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, you too!"
+      },
+      {
+        "content": "You're welcome! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Take care!"
+      },
+      {
+        "content": "Thank you! If you need assistance later, just let me know. Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye!"
+      },
+      {
+        "content": "Goodbye! Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Goodbye!"
+      },
+      {
+        "content": "Thank you! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure thing! Take care!"
+      },
+      {
+        "content": "Thank you! You too! If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll keep that in mind. Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure, I will! Take care!"
+      },
+      {
+        "content": "Thank you! You too! If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll keep that in mind. Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure thing! Take care!"
+      },
+      {
+        "content": "Thank you! You too! If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll keep that in mind. Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure thing! Take care!"
+      },
+      {
+        "content": "Thank you! You too! If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll keep that in mind. Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure thing! Take care!"
+      },
+      {
+        "content": "Thank you! You too! If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll keep that in mind. Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure thing! Take care!"
+      }
+    ],
+    "trial": 0
+  }
+]

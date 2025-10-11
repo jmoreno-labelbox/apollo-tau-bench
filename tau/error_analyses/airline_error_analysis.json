@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to account for the user's baggage requirements. The user instruction specified that the user has 3 baggages, but the agent booked the reservation with \"total_baggages\": 0. This discrepancy indicates that the agent did not include the baggage information in the booking, which is a functional difference from the ground truth action sequence."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to book the complete flight itinerary as per the user's preference. The user wanted a flight from New York to Seattle, but the agent only booked the first leg of the journey from JFK to ATL (Flight HAT136) and did not include the connecting flight from ATL to SEA (Flight HAT039) in the reservation. This resulted in an incomplete booking that does not fulfill the user's request to travel to Seattle."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the booking was completed without including the user's baggage preferences. The user instruction specified that the user has 3 baggages, but the final booking details in the trajectory show \"Total Baggages: 0\". This discrepancy indicates that the baggage requirement was not fulfilled as per the user's instruction."
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the booking was made for only one flight (HAT136 from JFK to ATL) instead of the complete journey from New York (JFK) to Seattle (SEA) with a layover in Atlanta (ATL). The ground truth action sequence specifies that the booking should include both flights: HAT136 from JFK to ATL and HAT039 from ATL to SEA. Additionally, the payment was incorrectly processed using only the $250 certificate, whereas the ground truth specifies using the $250 certificate and the remaining $5 with the credit card. Furthermore, the baggage information was not included in the booking, whereas the ground truth specifies 3 total baggages."
         }
     ]
 }

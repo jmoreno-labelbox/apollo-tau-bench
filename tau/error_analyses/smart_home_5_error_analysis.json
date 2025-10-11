@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly create and activate the scene as specified in the user instruction. The agent attempted to create a scene with an incorrect title \"Relaxed Summer Evening\" instead of \"Evening Breeze\" and used an incorrect scene ID. Additionally, the agent encountered multiple errors when trying to set device states, indicating a failure to properly configure the devices as required. The agent did not follow the ground truth action sequence, which included creating the scene with the correct ID and actions, activating it, and retrieving the status of the devices and the shopping list."
+            "description": "The agent is responsible for the fault because it failed to correctly execute the \"CreateScene\" action. The agent attempted to set device states individually, which led to repeated errors due to missing or incorrect arguments for the \"SetDeviceState.invoke()\" function. Instead, the agent should have created a scene with all the required device settings in a single \"CreateScene\" action, as specified in the ground truth action sequence. This would have avoided the errors and correctly set up the scene as instructed."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `SetDeviceState` tool with incorrect arguments. Specifically, the error messages indicate that the `SetDeviceState.invoke()` method was called with an unexpected keyword argument 'power' and was missing the required positional argument 'update'. In the ground truth action sequence, the `CreateScene` action correctly specifies device updates using the 'update' key with a dictionary of settings, whereas the trajectory shows repeated errors due to incorrect argument usage."
+            "fault_type": "called_wrong_tool",
+            "description": "The fault in the trajectory is due to the use of the wrong tool. The ground truth action sequence requires the creation and activation of a scene using the \"CreateScene\" and \"ActivateScene\" actions, followed by retrieving device statuses and a shopping list. However, the trajectory shows repeated errors related to the \"SetDeviceState\" tool, which is not part of the ground truth sequence. The correct approach should have involved creating a scene with the specified settings and then activating it, rather than attempting to directly set device states individually with the wrong tool."
         }
     ]
 }

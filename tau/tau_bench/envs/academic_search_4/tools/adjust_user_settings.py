@@ -36,7 +36,7 @@ class AdjustUserSettings(Tool):
                 "preferred_email": "", # Presuming a blank default state
                 "ui_theme": ui_theme if ui_theme else "light" # Initial value
             }
-            data['user_preferences'].append(new_pref)
+            data['user_preferences'][new_pref['pref_id']] = new_pref
             pref = new_pref
             pref_found = True
 
